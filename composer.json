@@ -1,0 +1,16 @@
+{
+    "name": "onepoint/dashboard",
+    "description": "Laravel dashboard repository and views",
+    "type": "library",
+    "require": {
+        "laravel/framework": "^6.2"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "onepoint",
+            "email": "qun@onepoint.com.tw"
+        }
+    ],
+    "minimum-stability": "dev"
+}
