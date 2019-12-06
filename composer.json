@@ -12,5 +12,10 @@
             "email": "qun@onepoint.com.tw"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "Onepoint\\Dashboard\\": "src"
+        }
+    },
     "minimum-stability": "dev"
 }
