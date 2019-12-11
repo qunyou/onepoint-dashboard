@@ -1,5 +1,5 @@
 @foreach ($form_array as $item_key => $item_value)
-    @include('shared.' . $item_value['input_type'], ['input_setting' => [
+    @include('dashboard::' . $item_value['input_type'], ['input_setting' => [
         'display_name' => $item_value['display_name'],
         'input_name' => $item_key,
         'input_value' => $item_value['input_value'] ?? old($item_key, optional($form_value)->{$item_key}),

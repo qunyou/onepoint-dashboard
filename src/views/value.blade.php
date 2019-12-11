@@ -1,5 +1,5 @@
-@inject('formPresenter','App\Presenters\FormPresenter')
-@component('shared.components.inputs', $input_array = $formPresenter->setValue($input_setting, 'value'))
+@inject('formPresenter','Onepoint\Dashboard\Presenters\FormPresenter')
+@component('dashboard::components.inputs', $input_array = $formPresenter->setValue($input_setting, 'value'))
     {!! $input_array['prepend_str'] !!}
     @if ($input_array['value_type'] == 'image')
         {!! $input_array['input_value'] !!}

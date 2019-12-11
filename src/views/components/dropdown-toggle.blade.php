@@ -61,16 +61,26 @@
                         <i class="fa fa-recycle"></i>@lang('backend.資源回收')
                     </a>
                     @break
+                @case('版本')
+                    <a class="{{ $link_class_string }}" href="{{ $item['url'] }}">
+                        <i class="fas fa-code-branch"></i>@lang('backend.版本')
+                    </a>
+                    @break
+                @case('使用此版本')
+                    <a class="{{ $link_class_string }}" href="{{ $item['url'] }}">
+                        <i class="fas fa-code-branch"></i>@lang('backend.使用此版本')
+                    </a>
+                    @break
                 @case('關聯')
                     @if (is_array($item))
                         @foreach ($item as $item_key => $item_value)
                             <a class="{{ $link_class_string }}" href="{{ $item_value['url'] }}">
-                                <i class="far fa-image"></i>{{ $item_value['name'] }} <span class="badge badge-primary">{{ $item_value['with_count'] }}</span>
+                                <i class="{{ $item_value['icon'] }}"></i>{{ $item_value['name'] }} <span class="badge badge-primary">{{ $item_value['with_count'] }}</span>
                             </a>
                         @endforeach
                     @else
                         <a class="{{ $link_class_string }}" href="{{ $item['url'] }}">
-                            <i class="far fa-image"></i>{{ $item['name'] }} <span class="badge badge-primary">{{ $item['with_count'] }}</span>
+                            <i class="{{ $item['icon'] }}"></i>{{ $item['name'] }} <span class="badge badge-primary">{{ $item['with_count'] }}</span>
                         </a>
                     @endif
                     @break

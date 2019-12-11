@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace Onepoint\Dashboard\Services;
 
 // use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -60,10 +60,10 @@ class ImageService
             if (!empty($custom_folder)) {
                 $path = $custom_folder . '/' . $path;
             }
-            $file_path = 'storage/' . config('frontend.upload_path') . '/' . $path . $file_name;
+            // $file_path = 'storage/' . config('frontend.upload_path') . '/' . $path . $file_name;
+            $file_path = config('frontend.upload_path') . '/' . $path . $file_name;
             if (Storage::disk('public')->exists($file_path)) {
                 if (is_array($attribute)) {
-                    // $attribute = str_replace("=", '="', http_build_query($attribute, null, '" ', PHP_QUERY_RFC3986)) . '"';
                     $attribute = join(' ', array_map(function($key) use ($attribute) {
                         if(is_bool($attribute[$key])) {
                             return $attribute[$key]?$key:'';
@@ -71,7 +71,7 @@ class ImageService
                         return $key.'="'.$attribute[$key].'"';
                     }, array_keys($attribute)));
                 }
-                return '<img src="' . asset($file_path) . '" ' . $attribute . '>';
+                return '<img src="' . asset('storage/' . $file_path) . '" ' . $attribute . '>';
             }
         }
         if ($default_str === false) {
@@ -80,8 +80,8 @@ class ImageService
         if (!empty($default_str)) {
             return $default_str;
         }
-        if (config('site.upload_image_default_string', false)) {
-            return config('site.upload_image_default_string');
+        if (config('frontend.upload_image_default_string', false)) {
+            return config('frontend.upload_image_default_string');
         }
         return '';
     }
@@ -110,7 +110,6 @@ class ImageService
             $file_size = $file_request->getClientSize();
 
             // 原始圖路徑
-            // $upload_path = storage_path('app/public') . '/' . config('frontend.upload_path') . '/';
             $upload_path = config('frontend.upload_path');
             if (!empty($folder)) {
                 $upload_path .= '/' . $folder;
@@ -139,7 +138,7 @@ class ImageService
                 $img = $img->save($save_path);
                 
                 // 縮圖路徑
-                $image_scale_setting = config('site.image_scale_setting');
+                $image_scale_setting = config('backend.image_scale_setting');
                 foreach ($image_scale_setting as $value) {
 
                     // 指定資料夾
@@ -188,7 +187,7 @@ class ImageService
 
                 // 縮圖路徑
                 if ($resize) {
-                    $image_scale_setting = config('site.image_scale_setting');
+                    $image_scale_setting = config('backend.image_scale_setting');
                     foreach ($image_scale_setting as $value) {
                         $path[] = $upload_path . '/' . $value['path'] . '/' . $file_name;
                     }

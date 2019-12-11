@@ -1,6 +1,6 @@
 @if ($parent_permission)
     <li class="nav-item {{ $active }}">
-        <a class="nav-link" href="{{ count($sub_item) ? '#' . $title : $url }}" @if(count($sub_item)) data-toggle="collapse" aria-expanded="false" aria-controls="{{ $title }}" @endif>
+        <a class="nav-link {{ count($sub_item) ? 'has-sub-caret' : '' }}" href="{{ count($sub_item) ? '#' . $title : $url }}" @if(count($sub_item)) data-toggle="collapse" aria-expanded="false" aria-controls="{{ $title }}" @endif>
             <i class="{{ $icon }}" aria-hidden="true"></i>
             <span>{{ $title }}</span>
         </a>

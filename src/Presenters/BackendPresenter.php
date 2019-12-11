@@ -67,6 +67,7 @@ class BackendPresenter
                     $parent_permission = true;
                 }
             } else {
+                // dd(auth()->user());
                 if (auth()->user()->hasAccess(['read-' . $role_controller_str]) || $this->is_root) {
                     $parent_permission = true;
                 }
@@ -88,7 +89,7 @@ class BackendPresenter
 
                     // 同一個 controller 下的方法都設定 active
                     $controller_name = Str::after(Str::kebab(Str::before($value['action'], 'Controller@')), '\\-');
-                    $act_res = RouteService::is(config('backend.uri') . '/' . $controller_name . '/*');
+                    $act_res = RouteService::is(config('dashboard.uri') . '/' . $controller_name . '/*');
                     if ($act_res) {
                         $parent_show = true;
                         $sub_active = 'active';

@@ -3,6 +3,9 @@
 @foreach (config('backend.navigation_item') as $element)
     @include('dashboard::backend-navi', $backendPresenter->setNavi($element))
 @endforeach
+
+{{ $slot }}
+
 @if (config('frontend.url', false))
     <li class="nav-item">
         <a class="nav-link" href="{{ config('frontend.url') }}">

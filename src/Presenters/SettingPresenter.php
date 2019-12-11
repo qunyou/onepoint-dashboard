@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Presenters;
+namespace Onepoint\Dashboard\Presenters;
 
-use App\Services\ImageService;
-use App\Services\StringService;
+use Onepoint\Dashboard\Services\ImageService;
+use Onepoint\Dashboard\Services\StringService;
 
 /**
  * 設定輔助方法

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Presenters;
+namespace Onepoint\Dashboard\Presenters;
 
 /**
  * 群組輔助方法

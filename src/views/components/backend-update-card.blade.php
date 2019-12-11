@@ -1,4 +1,4 @@
-<form method="post" action="" enctype="multipart/form-data">
+<form id="form-submit" method="post" action="" enctype="multipart/form-data">
     @csrf
     @method('PUT')
     <div class="card card-update">
@@ -22,7 +22,7 @@
             {{ $slot }}
         </div>
         <footer class="card-footer">
-            <button type="submit" class="btn btn-outline-deep-purple waves-effect">
+            <button id="form-button" type="submit" class="btn btn-outline-deep-purple waves-effect">
                 @lang('backend.送出')
             </button>
         </footer>

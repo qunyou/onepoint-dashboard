@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace Onepoint\Dashboard\Services;
 
 // use Request;
 // use Illuminate\Http\Request;

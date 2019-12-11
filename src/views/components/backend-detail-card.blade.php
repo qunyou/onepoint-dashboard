@@ -19,7 +19,7 @@
         {{ $slot }}
     </div>
     <div class="card-footer">
-        @component('shared.components.dropdown-toggle', $dropdown_items)
+        @component('dashboard::components.dropdown-toggle', $dropdown_items)
             <a class="btn btn-outline-deep-purple waves-effect" href="{{ $back_url }}">
                 <i class="fa fa-fw fa-arrow-left"></i> @lang('backend.回列表')
             </a>

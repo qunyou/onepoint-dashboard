@@ -1,0 +1,160 @@
+@inject('path_presenter', 'Onepoint\Dashboard\Presenters\PathPresenter')
+
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="keywords" content="{{ config('backend.meta_keywords', __('backend.網站內容管理系統')) }}" />
+    <meta name="description" content="{{ config('backend.meta_description', __('backend.網站內容管理系統')) }}">
+    <meta name="author" content="Onepoint">
+    @if (config('backend.favicon', false))
+        <link rel="shortcut icon" href="{{ url(config('backend.favicon')) }}" type="image/x-icon">
+        <link rel="icon" href="{{ url(config('backend.favicon')) }}" type="image/x-icon">
+    @endif
+    @section('css')
+        <link rel="stylesheet" href="{{ $path_presenter::backend_assets('css/style.min.css?v=1.0.1') }}" />
+        <link rel="stylesheet" href="{{ $path_presenter::backend_assets('fontawesome/css/all.css') }}" />
+    @show
+
+    {{-- 網頁標題 --}}
+    <title>{{ config('backend.html_page_title', __('backend.網站內容管理系統')) }}</title>
+</head>
+
+<body>
+    <div class="wrapper active" id="wrapper" data-color="{{ config('backend.sidebar.color', 'purple') }}">
+        
+        {{-- 邊欄背景圖 --}}
+        <div class="sidebar" data-image="{{ url(config('backend.sidebar.img', 'assets/dashboard/img/sidebar-1.jpg')) }}">
+            <div class="sidebar-wrapper">
+                
+                {{-- 邊欄標題 --}}
+                <div class="logo">
+                    <a href="{{ url(config('dashboard.uri') . '/dashboard/index') }}" class="simple-text">
+                        {{ config('backend.sidebar.header_text', __('backend.網站內容管理系統')) }}
+                    </a>
+                </div>
+
+                {{-- 主導覽 --}}
+                <ul class="nav">
+                    @component('dashboard::components.backend-sidebar')
+                        @if (config('frontend.url', false))
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ config('frontend.url') }}" target="_blank">
+                                    <i class="fas fa-home" aria-hidden="true"></i>
+                                    <span>@lang('backend.檢視網站')</span>
+                                </a>
+                            </li>
+                        @endif
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url(config('dashboard.uri') . '/user/profile') }}">
+                                <i class="fas fa-lock" aria-hidden="true"></i>
+                                <span>@lang('backend.管理者')</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url(config('dashboard.uri') . '/auth/logout') }}">
+                                <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
+                                <span>@lang('auth.登出')</span>
+                            </a>
+                        </li>
+                    @endcomponent
+                </ul>
+            </div>
+        </div>
+
+        <div class="main-panel">
+            <nav class="navbar navbar-expand-lg navbar-light" color-on-scroll="500">
+                <div id="menu-toggle">
+                    <i class="sidebarExpand fas fa-angle-double-left"></i>
+                </div>
+
+                {{-- 麵包屑清單 --}}
+                @yield('page-header')
+
+                <div class="nav-top ml-auto d-none d-md-block">
+                    <ul class="list-group list-group-horizontal">
+                        
+                        {{-- 語言版本 --}}
+                        @if (config('backend.language', false))
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    @lang('backend.語言')
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    @foreach (config('backend.language') as $language_key => $language_item)
+                                        <a class="dropdown-item" href="?lang={{ $language_key }}">{{ $language_item }}</a>
+                                    @endforeach
+                                </div>
+                            </li>
+                        @endif
+                        @if (config('frontend.url', false))
+                            <li>
+                                <a href="{{ config('frontend.url') }}" target="_blank"><i class="fas fa-home"></i>@lang('backend.檢視網站')</a>
+                            </li>
+                        @endif
+                        <li>
+                            <a href="{{ url(config('dashboard.uri') . '/user/profile') }}"><i class="fas fa-lock"></i>@lang('backend.管理者')</a>
+                        </li>
+                        <li>
+                            <a href="{{ url(config('dashboard.uri') . '/auth/logout') }}"><i class="fas fa-sign-out-alt"></i>@lang('auth.登出')</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="content" id="app">
+                <div class="container-fluid">
+                    @yield('main_block')
+                </div>
+            </div>
+
+            <footer class="footer">
+                <div class="container-fluid">
+                    <p class="copyright float-right">
+                        &copy;
+                        <script>
+                            document.write(new Date().getFullYear())
+                        </script>
+                        {!! config('backend.footer_copyright') !!}
+                    </p>
+                </div>
+            </footer>
+
+        </div>
+    </div>
+</body>
+<script src="{{ $path_presenter::backend_assets('js/jquery-3.3.1.min.js') }}" type="text/javascript"></script>
+<script src="{{ $path_presenter::backend_assets('js/popper.min.js') }}" type="text/javascript"></script>
+<script src="{{ $path_presenter::backend_assets('js/bootstrap.min.js') }}" type="text/javascript"></script>
+<script src="{{ $path_presenter::backend_assets('js/bootstrap-notify.js') }}" type="text/javascript"></script>
+<script src="{{ $path_presenter::backend_assets('js/mdb.min.js?v=1.0.0') }}" type="text/javascript"></script>
+<script src="{{ $path_presenter::backend_assets('js/dashboard.js?v=1.0.0') }}" type="text/javascript"></script>
+<script src="{{ $path_presenter::backend_assets('js/vue.min.js?v=2.6.10') }}" type="text/javascript"></script>
+<script src="{{ $path_presenter::backend_assets('js/moment.min.js') }}" type="text/javascript"></script>
+<script src="{{ $path_presenter::backend_assets('js/axios.min.js') }}" type="text/javascript"></script>
+@yield('js')
+<script>
+@if (session('notify.message', false))
+    $(function(){
+        $.notify({
+            message: '{{ session('notify.message') }}'
+        },{
+            type: '{{ session('notify.type') }}'
+        });
+    });
+@endif
+
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    message: 'Hello Vue!'
+  }
+})
+</script>
+@yield('bottom')
+</html>

@@ -1,0 +1,44 @@
+%card-title {
+    margin-bottom: 0;
+    margin-top: .7rem;
+    font-weight: border;
+    font-size: 1.2rem;
+}
+
+.card-list {
+  .card-title {
+    @extend %card-title;
+  }
+
+  .card-body {
+    padding: 1rem 0 0;
+  }
+
+  .collapse-search {
+    .card {
+      padding: 1rem;
+    }
+  }
+
+  .table th {
+    border-top: none;
+  }
+
+  .table img {
+    max-width: 100px;
+  }
+
+  // .btn-group.float-right {
+  //   min-width: 120px;
+  // }
+}
+
+.card-update {
+  .card-title {
+    @extend %card-title;
+  }
+  .form-group {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 1rem;
+  }
+}

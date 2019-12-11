@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Presenters;
+namespace Onepoint\Dashboard\Presenters;
 
 use Illuminate\Support\Facades\Storage;
-use App\Services\ImageService;
+use Onepoint\Dashboard\Services\ImageService;
 
 /**
  * 表單輔助方法
