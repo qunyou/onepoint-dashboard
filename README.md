@@ -1,12 +1,39 @@
 # 安裝
     composer require onepoint/dashboard
 
+在 config/app.php 的 providers 加上
+
+    Onepoint\Dashboard\DashboardServiceProvider::class,
+
 ## 複製必要檔案至正確目錄
+
     php artisan vendor:publish --force
 
 會出現選項，選擇這個項目
 
 * Provider: Onepoint\Dashboard\DashboardServiceProvider
+
+# 設定檔位置設定
+custom/httpHost.php
+
+    範例名稱為 hiyou，可視情況自行修改
+    $http_host = 'hiyou';
+
+    如果 hiyou 改成 onepoint，這個資料夾
+    custom/hiyou
+    就要改成
+    custom/onepoint
+
+# 資料庫設定
+
+custom/hiyou/baseConfig.php
+
+在這個檔設定資料庫的帳號密碼
+
+建立資料庫後，執行以下指令建立預設的資料表及預設資料
+
+    php artisan migrate
+    php artisan db:seed
 
 # 安裝必要 Package
 
