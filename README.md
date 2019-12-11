@@ -22,12 +22,14 @@
 
 # 後台未登入導向修改
 app/Http/Middleware/Authenticate.php
+
     return route('login');
     修改為
     return route(config('dashboard.uri'));
 
 # 修改 user.php 路徑
 config/auth.php
+
     'model' => App\User::class,
     修改為
     'model' => App\Entities\User::class,
