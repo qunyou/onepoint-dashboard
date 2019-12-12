@@ -45,8 +45,12 @@ class DashboardServiceProvider extends ServiceProvider
         ], 'controllers');
 
         $this->publishes([
-            __DIR__.'/Publishes/views/dashboard' => resource_path('views/dashboard'),
+            __DIR__.'/Publishes/resources/views/dashboard' => resource_path('views/dashboard'),
         ], 'views');
+
+        $this->publishes([
+            __DIR__.'/Publishes/resources/lang' => resource_path('lang'),
+        ], 'lang');
 
         $this->publishes([
             __DIR__.'/Publishes/custom' => base_path('custom'),

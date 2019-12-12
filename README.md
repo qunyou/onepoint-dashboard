@@ -24,6 +24,9 @@ custom/httpHost.php
     就要改成
     custom/onepoint
 
+    修改成實際運作的網址，主要是用來判斷不同網址載入不同設定檔，如果不需要不同網址，可以取消 switch 的判斷
+    case 'hiyou.test':
+
 # 資料庫設定
 
 custom/hiyou/baseConfig.php
