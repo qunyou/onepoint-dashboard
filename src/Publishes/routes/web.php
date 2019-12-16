@@ -9,10 +9,9 @@ include base_path('custom') . '/' . config('http_host') . '/baseConfig.php';
 Route::prefix(config('dashboard.uri'))->group(function () {
 
     // 登入頁
-    Route::get('/', 'AuthController@login')->name(config('dashboard.uri'));
+    Route::get('/', 'AuthController@index')->name(config('dashboard.uri'));
     Route::prefix('auth')->group(function () {
         Route::get('login', 'AuthController@login')->name('login');
-        Route::get('login', 'AuthController@login');
         Route::post('login', 'AuthController@postLogin');
         Route::get('logout', 'AuthController@logout');
         Route::get('reset', 'AuthController@reset');

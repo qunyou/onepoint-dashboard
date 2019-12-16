@@ -33,10 +33,15 @@ custom/hiyou/baseConfig.php
 
 在這個檔設定資料庫的帳號密碼
 
-建立資料庫後，執行以下指令建立預設的資料表及預設資料
+建立資料庫，建立時選擇 utf8mb4 編碼的資料庫
 
-    php artisan migrate
-    php artisan db:seed
+執行以下指令建立預設的資料表及預設資料
+
+    php artisan migrate --seed
+
+清空資料庫，重新建立預設資料
+
+    php artisan migrate:refresh --seed
 
 # 安裝必要 Package
 
@@ -50,28 +55,58 @@ custom/hiyou/baseConfig.php
 #### aliases
     'Image' => Intervention\Image\Facades\Image::class
 
-# 後台未登入導向修改
+# 認證相關設定
+
+## 後台未登入導向修改
 app/Http/Middleware/Authenticate.php
 
     return route('login');
     修改為
     return route(config('dashboard.uri'));
 
-# 修改 user.php 路徑
+## 修改 user.php 路徑
 config/auth.php
 
     'model' => App\User::class,
     修改為
     'model' => App\Entities\User::class,
 
+# 上傳檔案相關設定
+
 ## 建立軟連結
     php artisan storage:link
     在虛擬主機上可以用這個網址來建立(相關的 route 規則要打開)
     http://url/backend/dashboard/storage-link
 
-## 修改設定
+## 修改網址設定
 config/app.php
 
     'url' => env('APP_URL', 'http://localhost'),
     修改為
     'url' => config('app.url'),
+
+# 測試相關設定
+
+## 安裝 dusk
+
+    composer require --dev laravel/dusk
+
+## 設定 dusk
+**注意不要在正式機執行這個指令**
+
+    php artisan dusk:install
+
+## 測試
+
+    php artisan dusk
+    php artisan dusk:fails
+
+## 安裝 chrome 插件
+https://chrome.google.com/webstore/detail/laravel-testtools/ddieaepnbjhgcbddafciempnibnfnakl?hl=en
+
+https://www.jesusamieiro.com/using-laravel-dusk-with-vagrant-homestead/
+$ wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+$ sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
+$ sudo apt-get update && sudo apt-get install -y google-chrome-stable
+
+$ sudo apt-get install -y xvfb

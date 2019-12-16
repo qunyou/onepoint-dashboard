@@ -208,7 +208,10 @@ class BaseRepository
 
             // 產生排序編號
             if (in_array('sort', $this->model->getFillable())) {
-                if (!$id && !isset($datas['sort'])) {
+                if ((!$id && !isset($datas['sort'])) || (!$id && isset($datas['sort']) && is_null($datas['sort']))) {
+                    $datas['sort'] = $this->model->count() + 1;
+                }
+                if ($id && is_null($datas['sort'])) {
                     $datas['sort'] = $this->model->count() + 1;
                 }
             }
@@ -637,7 +640,8 @@ class BaseRepository
 
             // 批次刪除
             if ($delete) {
-                $result['datas_count'] = $this->model->whereIn('id', $checked_id)->delete();
+                // $result['datas_count'] = $this->model->whereIn('id', $checked_id)->delete();
+                $result['datas_count'] = $this->model->destroy($checked_id);
                 $result['batch_method'] = 'delete';
             }
 

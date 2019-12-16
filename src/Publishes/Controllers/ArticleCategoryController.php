@@ -125,7 +125,7 @@ class ArticleCategoryController extends Controller
         }
 
         // 複製
-        if ($this->tpl_data['duplicate']) {
+        if (isset($this->tpl_data['duplicate']) && $this->tpl_data['duplicate']) {
             $page_title = __('backend.複製');
         }
 

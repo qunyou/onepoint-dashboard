@@ -30,7 +30,7 @@ class NewsCategoryController extends Controller
         $this->view_path = config('dashboard.view_path') . '.pages.news-category.';
 
         // 主功能標題
-        $this->tpl_data['page_header'] = __('article.新聞分類');
+        $this->tpl_data['page_header'] = __('news.新聞分類');
         $this->news_category_id = request('news_category_id', false);
         $this->tpl_data['news_category_id'] = $this->news_category_id;
 
@@ -253,7 +253,7 @@ class NewsCategoryController extends Controller
         if ($this->news_category_id) {
             $version_id = request('version_id', 0);
             if ($version_id) {
-                $this->article_category_repository->applyVersion($this->news_category_id, $version_id);
+                $this->news_category_repository->applyVersion($this->news_category_id, $version_id);
             }
         }
         return redirect($this->uri . 'detail?news_category_id=' . $this->role_id);

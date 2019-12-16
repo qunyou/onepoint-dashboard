@@ -322,7 +322,7 @@ class UserController extends Controller
     }
 
     /**
-     * 個人資料維護
+     * 登入者資料維護
      */
     public function profile()
     {
@@ -355,7 +355,7 @@ class UserController extends Controller
         $this->tpl_data['form_array'] = [
             'realname' => [
                 'input_type' => 'text',
-                'display_name' => __('member.姓名'),
+                'display_name' => __('auth.姓名'),
             ],
             'role_id' => [
                 'input_type' => 'checkbox',

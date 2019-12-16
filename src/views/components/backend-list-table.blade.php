@@ -104,7 +104,7 @@
                                         @else
                                         @endif
                                     @else
-                                        <a href="{{ url($uri . 'update?' . $id_string . '=' . $element->id) }}" class="btn btn-outline-deep-purple waves-effect">
+                                        <a href="{{ url($uri . 'update?' . $id_string . '=' . $element->id . ($update_url_append_string ?? '')) }}" class="btn btn-outline-deep-purple waves-effect">
                                             <i class="fas fa-edit"></i>@lang('backend.編輯')
                                         </a>
                                     @endif

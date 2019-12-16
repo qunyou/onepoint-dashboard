@@ -34,7 +34,7 @@ config([
 
     'app.debug' => true,
     'app.name' => '國小課後輔導報名系統',
-    'app.url' => $http_host,
+    'app.url' => $app_url,
     'http_host' => $http_host,
 
     'dashboard' => [

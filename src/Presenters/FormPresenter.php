@@ -97,7 +97,7 @@ class FormPresenter
             
             // 檢查檔案是否存在
             if ($input_setting['value_type'] == 'image' || $input_setting['value_type'] == 'file' || $input_type == 'file') {
-                $file_path = 'storage/' . config('frontend.upload_path') . '/' . $input_setting['upload_path'] . $input_setting['input_value'];
+                $file_path = config('frontend.upload_path') . '/' . $input_setting['upload_path'] . $input_setting['input_value'];
                 if (!empty($input_setting['input_value']) && Storage::disk('public')->has($file_path)) {
 
                     // 判斷檔案類型，決定顯示圖片或文字
@@ -148,6 +148,13 @@ class FormPresenter
             } else {
                 $input_setting['accept'] = '';
             }
+            $file_path = 'storage/' . config('frontend.upload_path') . '/' . $input_setting['upload_path'] . $input_setting['input_value'];
+            if (empty($input_setting['image_string'])) {
+                $input_setting['image_string'] = $input_setting['input_value'];
+                $input_setting['prepend_str'] = '<a href="' . asset($file_path) . '" target="_blank">';
+                $input_setting['depend_str'] = '</a>';
+            }
+            $input_setting['delete_url'] = url()->full() . '&delete_file=true&column=' . $input_setting['input_name'];
         }
         if ($input_type == 'value') {
             $input_setting['input_grid_class'] .= ' pt-2';

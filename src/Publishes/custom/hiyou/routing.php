@@ -1,7 +1,7 @@
 <?php
 // 預設頁
 Route::prefix('dashboard')->group(function () {
-    Route::get('index', 'DashboardController@index');
+    Route::get('index', 'DashboardController@index')->name('dashboard-index');
     Route::get('storage-link', 'DashboardController@storageLink');
 });
 
@@ -101,8 +101,102 @@ Route::prefix('news')->group(function () {
     Route::put('duplicate', 'NewsController@putDuplicate');
     Route::get('detail', 'NewsController@detail');
     Route::get('delete', 'NewsController@delete');
-    Route::get('import', 'NewsController@import');
-    Route::put('import', 'NewsController@putImport');
+});
+
+// 連結分類
+Route::prefix('resource-category')->group(function () {
+    Route::get('index', 'ResourceCategoryController@index');
+    Route::put('index', 'ResourceCategoryController@putIndex');
+    Route::get('update', 'ResourceCategoryController@update');
+    Route::put('update', 'ResourceCategoryController@putUpdate');
+    Route::get('duplicate', 'ResourceCategoryController@duplicate');
+    Route::put('duplicate', 'ResourceCategoryController@putDuplicate');
+    Route::get('detail', 'ResourceCategoryController@detail');
+    Route::get('delete', 'ResourceCategoryController@delete');
+});
+
+// 連結
+Route::prefix('resource')->group(function () {
+    Route::get('index', 'ResourceController@index');
+    Route::put('index', 'ResourceController@putIndex');
+    Route::get('update', 'ResourceController@update');
+    Route::put('update', 'ResourceController@putUpdate');
+    Route::get('duplicate', 'ResourceController@duplicate');
+    Route::put('duplicate', 'ResourceController@putDuplicate');
+    Route::get('detail', 'ResourceController@detail');
+    Route::get('delete', 'ResourceController@delete');
+});
+
+// 下載分類
+Route::prefix('download-category')->group(function () {
+    Route::get('index', 'DownloadCategoryController@index');
+    Route::put('index', 'DownloadCategoryController@putIndex');
+    Route::get('update', 'DownloadCategoryController@update');
+    Route::put('update', 'DownloadCategoryController@putUpdate');
+    Route::get('duplicate', 'DownloadCategoryController@duplicate');
+    Route::put('duplicate', 'DownloadCategoryController@putDuplicate');
+    Route::get('detail', 'DownloadCategoryController@detail');
+    Route::get('delete', 'DownloadCategoryController@delete');
+});
+
+// 下載
+Route::prefix('download')->group(function () {
+    Route::get('index', 'DownloadController@index');
+    Route::put('index', 'DownloadController@putIndex');
+    Route::get('update', 'DownloadController@update');
+    Route::put('update', 'DownloadController@putUpdate');
+    Route::get('duplicate', 'DownloadController@duplicate');
+    Route::put('duplicate', 'DownloadController@putDuplicate');
+    Route::get('detail', 'DownloadController@detail');
+    Route::get('delete', 'DownloadController@delete');
+});
+
+// 相簿分類
+Route::prefix('album-category')->group(function () {
+    Route::get('index', 'AlbumCategoryController@index');
+    Route::put('index', 'AlbumCategoryController@putIndex');
+    Route::get('update', 'AlbumCategoryController@update');
+    Route::put('update', 'AlbumCategoryController@putUpdate');
+    Route::get('duplicate', 'AlbumCategoryController@duplicate');
+    Route::put('duplicate', 'AlbumCategoryController@putDuplicate');
+    Route::get('detail', 'AlbumCategoryController@detail');
+    Route::get('delete', 'AlbumCategoryController@delete');
+});
+
+// 相簿
+Route::prefix('album')->group(function () {
+    Route::get('index', 'AlbumController@index');
+    Route::put('index', 'AlbumController@putIndex');
+    Route::get('update', 'AlbumController@update');
+    Route::put('update', 'AlbumController@putUpdate');
+    Route::get('duplicate', 'AlbumController@duplicate');
+    Route::put('duplicate', 'AlbumController@putDuplicate');
+    Route::get('detail', 'AlbumController@detail');
+    Route::get('delete', 'AlbumController@delete');
+});
+
+// 相片
+Route::prefix('album-image')->group(function () {
+    Route::get('index', 'AlbumImageController@index');
+    Route::put('index', 'AlbumImageController@putIndex');
+    Route::get('update', 'AlbumImageController@update');
+    Route::put('update', 'AlbumImageController@putUpdate');
+    Route::get('duplicate', 'AlbumImageController@duplicate');
+    Route::put('duplicate', 'AlbumImageController@putDuplicate');
+    Route::get('detail', 'AlbumImageController@detail');
+    Route::get('delete', 'AlbumImageController@delete');
+});
+
+// 單頁
+Route::prefix('page')->group(function () {
+    Route::get('index', 'PageController@index');
+    Route::put('index', 'PageController@putIndex');
+    Route::get('update', 'PageController@update');
+    Route::put('update', 'PageController@putUpdate');
+    Route::get('duplicate', 'PageController@duplicate');
+    Route::put('duplicate', 'PageController@putDuplicate');
+    Route::get('detail', 'PageController@detail');
+    Route::get('delete', 'PageController@delete');
 });
 
 // 檢視錯誤訊息
