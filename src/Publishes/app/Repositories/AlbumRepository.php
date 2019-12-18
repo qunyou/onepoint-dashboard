@@ -102,7 +102,7 @@ class AlbumRepository extends BaseRepository
         
         // 建立預設相簿
         if ($query->count() == 0) {
-            $res = $this->model->create(['status' => '啟用', 'album_title' => '預設相簿', 'sort' => 1, 'note' => '系統自動建立']);
+            $res = $this->model->create(['status' => '啟用', 'album_title' => '預設相簿', 'sort' => 1, 'album_title_slug' => '預設相簿', 'note' => '系統自動建立']);
             $query = $this->permissions()->where('status', '啟用')->orderBy('sort')->get();
         }
         foreach ($query as $value) {

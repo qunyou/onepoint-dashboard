@@ -84,7 +84,7 @@ class ResourceCategoryRepository extends BaseRepository
         $query = $this->permissions()->where('status', '啟用')->orderBy('sort')->get();
         // 建立預設分類
         if ($query->count() == 0) {
-            $res = $this->model->create(['status' => '啟用', 'category_name' => '預設分類', 'sort' => 1, 'note' => '系統自動建立']);
+            $res = $this->model->create(['status' => '啟用', 'category_name' => '預設分類', 'category_name_slug' => '預設分類', 'sort' => 1, 'note' => '系統自動建立']);
             $query = $this->permissions()->where('status', '啟用')->orderBy('sort')->get();
         }
         foreach ($query as $value) {
