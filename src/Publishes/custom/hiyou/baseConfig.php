@@ -7,9 +7,9 @@ if (isset($_SERVER['HTTP_HOST'])) {
             $mysql_password = 'secret';
             break;
         default:
-            $mysql_database = 'skjhs';
-            $mysql_username = 'skjhs';
-            $mysql_password = 'lIin^UaJeg&#';
+            $mysql_database = 'hiyou';
+            $mysql_username = 'hiyou';
+            $mysql_password = 'hiyou';
 	}
 } else {
 

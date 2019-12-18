@@ -35,6 +35,10 @@ custom/hiyou/baseConfig.php
 
 建立資料庫，建立時選擇utf8mb4編碼的資料庫
 
+執行以下指令重新產生 Composer 的自動讀取檔案列表，以免執行 seed 指令時找不到檔案
+
+    composer dump-autoload
+
 執行以下指令建立預設的資料表及預設資料
 
     php artisan migrate --seed

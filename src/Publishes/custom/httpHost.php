@@ -2,12 +2,10 @@
 // 判斷載入設定檔路徑
 $http_host = 'hiyou';
 $app_url = 'http://localhost';
-// $app_url = 'hiyou.test';
 if (isset($_SERVER['HTTP_HOST'])) {
     $app_url = $_SERVER['HTTP_HOST'];
     switch ($_SERVER['HTTP_HOST']) {
         case 'hiyou.test':
-        case 'skjhs.onepoint.com.tw':
             $http_host = 'hiyou';
             break;
 
