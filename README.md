@@ -61,13 +61,6 @@ config/database.php
 
 # 認證相關設定
 
-## 後台未登入導向修改
-app/Http/Middleware/Authenticate.php
-
-    return route('login');
-    修改為
-    return route(config('dashboard.uri'));
-
 ## 修改 user.php 路徑
 config/auth.php
 
@@ -88,42 +81,3 @@ config/app.php
     'url' => env('APP_URL', 'http://localhost'),
     修改為
     'url' => config('app.url'),
-
-# 新增中間件並編輯
-
-php artisan make:middleware AuthenticateGuard
-
-# 新增登入檢查規則
-
-app/Http/Kernel.php
-
-在 $routeMiddleware 陣列中加入
-
-    // Guard 登入檢查
-    'auth.guard' => \App\Http\Middleware\AuthenticateGuard::class,
-
-# 測試相關設定
-
-## 安裝 dusk
-
-    composer require --dev laravel/dusk
-
-## 設定 dusk
-**注意不要在正式機執行這個指令**
-
-    php artisan dusk:install
-
-## 測試
-
-    php artisan dusk
-    php artisan dusk:fails
-
-## 安裝 chrome 插件
-https://chrome.google.com/webstore/detail/laravel-testtools/ddieaepnbjhgcbddafciempnibnfnakl?hl=en
-
-https://www.jesusamieiro.com/using-laravel-dusk-with-vagrant-homestead/
-$ wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-$ sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
-$ sudo apt-get update && sudo apt-get install -y google-chrome-stable
-
-$ sudo apt-get install -y xvfb

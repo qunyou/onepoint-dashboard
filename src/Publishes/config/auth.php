@@ -80,11 +80,6 @@ return [
         //     'driver' => 'database',
         //     'table' => 'users',
         // ],
-
-        'readers' => [
-            'driver' => 'eloquent',
-            'model' => Onepoint\Reading\Entities\Reader::class,
-        ],
     ],
 
     /*
@@ -108,12 +103,6 @@ return [
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,
-        ],
-
-        'readers' => [
-            'provider' => 'readers',
-            'table' => 'password_resets',
-            'expire' => 15,
         ],
     ],
 

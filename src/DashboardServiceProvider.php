@@ -40,13 +40,9 @@ class DashboardServiceProvider extends ServiceProvider
             __DIR__.'/Publishes/app/Repositories' => app_path('Repositories'),
         ], 'repositories');
 
-        // $this->publishes([
-        //     __DIR__.'/Publishes/app/Http/Controllers' => app_path('Http/Controllers'),
-        // ], 'controllers');
-
         $this->publishes([
             __DIR__.'/Publishes/app/Http' => app_path('Http'),
-        ],
+        ], 'http');
 
         $this->publishes([
             __DIR__.'/Publishes/resources/views/dashboard' => resource_path('views/dashboard'),
@@ -62,7 +58,7 @@ class DashboardServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__.'/Publishes/config' => base_path('config'),
-        ], 'custom');
+        ], 'config');
 
         $this->publishes([
             __DIR__.'/Publishes/routes' => base_path('routes'),
