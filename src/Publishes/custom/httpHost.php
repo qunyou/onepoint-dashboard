@@ -7,11 +7,12 @@ if (isset($_SERVER['HTTP_HOST'])) {
     $app_url = $_SERVER['HTTP_HOST'];
     switch ($_SERVER['HTTP_HOST']) {
         case 'hiyou.test':
+        case 'skjhs.onepoint.com.tw':
             $http_host = 'hiyou';
             break;
 
         default:
-            // abort(404);
+            abort(404);
     }
 } else {
     

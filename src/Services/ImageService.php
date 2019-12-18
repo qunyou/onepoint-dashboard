@@ -59,12 +59,11 @@ class ImageService
         if (!empty($file_name)) {
             $custom_path = '';
             if (!empty($custom_folder)) {
-                $custom_path = $custom_folder;
+                $custom_path = $custom_folder . '/';
             }
             if (!empty($path)) {
                 $custom_path = $custom_path . '/' . $path;
             }
-            // $file_path = 'storage/' . config('frontend.upload_path') . '/' . $path . $file_name;
             $file_path = config('frontend.upload_path') . '/' . $custom_path . $file_name;
             if (Storage::disk('public')->exists($file_path)) {
                 if (is_array($attribute)) {

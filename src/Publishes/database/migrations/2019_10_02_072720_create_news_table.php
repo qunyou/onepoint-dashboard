@@ -28,7 +28,7 @@ class CreateNewsTable extends Migration
             $table->string('news_title')->nullable()->charset('utf8')->comment('新聞標題');
             $table->string('news_title_slug')->charset('utf8')->comment('新聞標題slug');
             $table->text('summary')->nullable()->charset('utf8')->comment('簡短說明');
-            $table->string('news_content')->nullable()->charset('utf8')->comment('新聞內容');
+            $table->longText('news_content')->nullable()->charset('utf8')->comment('新聞內容');
             $table->dateTime('public_start_at')->nullable()->comment('發佈時間-開始');
             $table->dateTime('public_end_at')->nullable()->comment('發佈時間-結束');
             $table->enum('public_forever', ['啟用', '停用'])->default('啟用')->comment('永久發佈');

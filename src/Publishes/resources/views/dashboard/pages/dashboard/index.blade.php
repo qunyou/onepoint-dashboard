@@ -15,5 +15,4 @@
 @endsection
 
 @section('main_block')
-	test
 @endsection

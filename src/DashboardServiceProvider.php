@@ -23,7 +23,7 @@ class DashboardServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadViewsFrom(__DIR__ . '/views', 'dashboard');
+        $this->loadViewsFrom(__DIR__ . '/resources/views', 'dashboard');
 
         // 發佈至 public 目錄的指令
         // php artisan vendor:publish --tag=public --force
@@ -33,16 +33,20 @@ class DashboardServiceProvider extends ServiceProvider
         ], 'public');
 
         $this->publishes([
-            __DIR__.'/Publishes/Entities' => app_path('Entities'),
+            __DIR__.'/Publishes/app/Entities' => app_path('Entities'),
         ], 'entities');
 
         $this->publishes([
-            __DIR__.'/Publishes/Repositories' => app_path('Repositories'),
+            __DIR__.'/Publishes/app/Repositories' => app_path('Repositories'),
         ], 'repositories');
 
+        // $this->publishes([
+        //     __DIR__.'/Publishes/app/Http/Controllers' => app_path('Http/Controllers'),
+        // ], 'controllers');
+
         $this->publishes([
-            __DIR__.'/Publishes/Controllers' => app_path('Http/Controllers'),
-        ], 'controllers');
+            __DIR__.'/Publishes/app/Http' => app_path('Http'),
+        ],
 
         $this->publishes([
             __DIR__.'/Publishes/resources/views/dashboard' => resource_path('views/dashboard'),
@@ -54,6 +58,10 @@ class DashboardServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__.'/Publishes/custom' => base_path('custom'),
+        ], 'custom');
+
+        $this->publishes([
+            __DIR__.'/Publishes/config' => base_path('config'),
         ], 'custom');
 
         $this->publishes([

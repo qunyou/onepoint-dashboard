@@ -36,7 +36,7 @@
                 'with' => [
                     [
                         'with_count_string' => 'article_count',
-                        'with_name' => __('article.文章分類'),
+                        'with_name' => __('article.文章'),
                         'url' => config('dashboard.uri') . '/article/index?article_category_id=',
                         'icon' => 'fas fa-list'
                     ],

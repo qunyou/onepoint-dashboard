@@ -43,6 +43,10 @@ custom/hiyou/baseConfig.php
 
     php artisan migrate:refresh --seed
 
+config/database.php
+
+    connections.mysql.strict 要改成 false
+
 # 安裝必要 Package
 
 ## 縮圖 Package
@@ -84,6 +88,19 @@ config/app.php
     'url' => env('APP_URL', 'http://localhost'),
     修改為
     'url' => config('app.url'),
+
+# 新增中間件並編輯
+
+php artisan make:middleware AuthenticateGuard
+
+# 新增登入檢查規則
+
+app/Http/Kernel.php
+
+在 $routeMiddleware 陣列中加入
+
+    // Guard 登入檢查
+    'auth.guard' => \App\Http\Middleware\AuthenticateGuard::class,
 
 # 測試相關設定
 

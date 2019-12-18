@@ -197,4 +197,16 @@ class StringService
             return false;
         }
     }
+
+    /**
+     * 取得 youtube 網址 v 的參數
+     */
+    static function getYoutubeCode($str) {
+        $parse_result = parse_url($str);
+        if (isset($parse_result['query'])) {
+            parse_str($parse_result['query'], $output);
+            return $output['v'];
+        }
+        return '';
+    }
 }

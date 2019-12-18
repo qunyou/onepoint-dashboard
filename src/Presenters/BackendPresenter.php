@@ -88,7 +88,8 @@ class BackendPresenter
                     }
 
                     // 同一個 controller 下的方法都設定 active
-                    $controller_name = Str::after(Str::kebab(Str::before($value['action'], 'Controller@')), '\\-');
+                    // $controller_name = Str::after(Str::kebab(Str::before($value['action'], 'Controller@')), '\\-');
+                    $controller_name = Str::after(Str::kebab(Str::before(class_basename($value['action']), 'Controller@')), '\\-');
                     $act_res = RouteService::is(config('dashboard.uri') . '/' . $controller_name . '/*');
                     if ($act_res) {
                         $parent_show = true;

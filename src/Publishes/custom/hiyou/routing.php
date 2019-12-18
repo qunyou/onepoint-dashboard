@@ -201,3 +201,87 @@ Route::prefix('page')->group(function () {
 
 // 檢視錯誤訊息
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
+
+// 單位
+// Route::namespace('Reading')->prefix('department')->group(function () {
+//     Route::get('index', 'DepartmentController@index');
+//     Route::put('index', 'DepartmentController@putIndex');
+//     Route::get('update', 'DepartmentController@update');
+//     Route::put('update', 'DepartmentController@putUpdate');
+//     Route::get('detail', 'DepartmentController@detail');
+//     Route::get('delete', 'DepartmentController@delete');
+// });
+
+// 試卷領域
+// Route::namespace('Reading')->prefix('examination-field')->group(function () {
+//     Route::get('index', 'ExaminationFieldController@index');
+//     Route::put('index', 'ExaminationFieldController@putIndex');
+//     Route::get('update', 'ExaminationFieldController@update');
+//     Route::put('update', 'ExaminationFieldController@putUpdate');
+//     Route::get('detail', 'ExaminationFieldController@detail');
+//     Route::get('delete', 'ExaminationFieldController@delete');
+// });
+
+// IP控管
+// Route::namespace('Reading')->prefix('ip-list')->group(function () {
+//     Route::get('index', 'IpListController@index');
+//     Route::put('index', 'IpListController@putIndex');
+//     Route::get('update', 'IpListController@update');
+//     Route::put('update', 'IpListController@putUpdate');
+//     Route::get('detail', 'IpListController@detail');
+//     Route::get('delete', 'IpListController@delete');
+// });
+
+// 讀者
+// Route::namespace('Reading')->prefix('reader')->group(function () {
+//     Route::get('index', 'ReaderController@index');
+//     Route::put('index', 'ReaderController@putIndex');
+//     Route::get('update', 'ReaderController@update');
+//     Route::put('update', 'ReaderController@putUpdate');
+//     Route::get('detail', 'ReaderController@detail');
+//     Route::get('delete', 'ReaderController@delete');
+// });
+
+// 讀者類型
+// Route::namespace('Reading')->prefix('reader-category')->group(function () {
+//     Route::get('index', 'ReaderCategoryController@index');
+//     Route::put('index', 'ReaderCategoryController@putIndex');
+//     Route::get('update', 'ReaderCategoryController@update');
+//     Route::put('update', 'ReaderCategoryController@putUpdate');
+//     Route::get('detail', 'ReaderCategoryController@detail');
+//     Route::get('delete', 'ReaderCategoryController@delete');
+// });
+
+// 試卷
+// Route::namespace('Reading')->prefix('examination')->group(function () {
+//     Route::get('index', 'ExaminationController@index');
+//     Route::put('index', 'ExaminationController@putIndex');
+//     Route::get('update', 'ExaminationController@update');
+//     Route::put('update', 'ExaminationController@putUpdate');
+//     Route::get('detail', 'ExaminationController@detail');
+//     Route::get('delete', 'ExaminationController@delete');
+// });
+
+// 試題
+// Route::namespace('Reading')->prefix('book-question')->group(function () {
+//     Route::get('index', 'BookQuestionController@index');
+//     Route::put('index', 'BookQuestionController@putIndex');
+//     Route::get('update', 'BookQuestionController@update');
+//     Route::put('update', 'BookQuestionController@putUpdate');
+//     Route::get('detail', 'BookQuestionController@detail');
+//     Route::get('delete', 'BookQuestionController@delete');
+
+//     // 匯入
+//     Route::get('import', 'BookQuestionController@import');
+//     Route::put('import', 'BookQuestionController@putImport');
+// });
+
+// 試卷測驗結果
+// Route::namespace('Reading')->prefix('examination-result')->group(function () {
+//     Route::get('index', 'ExaminationResultController@index');
+//     Route::put('index', 'ExaminationResultController@putIndex');
+//     // Route::get('update', 'ExaminationResultController@update');
+//     // Route::put('update', 'ExaminationResultController@putUpdate');
+//     Route::get('detail', 'ExaminationResultController@detail');
+//     Route::get('delete', 'ExaminationResultController@delete');
+// });

@@ -23,7 +23,10 @@ class CreateRolesTable extends Migration
             $table->bigInteger('sort')->default(0)->comment('排序');
             $table->enum('status', ['啟用', '停用'])->default('啟用')->charset('utf8')->comment('狀態');
             $table->string('role_name')->charset('utf8')->comment('人員群組名稱');
-            $table->jsonb('permissions')->nullable()->comment('權限設定');
+            
+            // 用 jsonb 比較好，舊的資料庫不支援
+            // $table->jsonb('permissions')->nullable()->comment('權限設定');
+            $table->longText('permissions')->nullable()->charset('utf8')->comment('權限設定');
         });
     }
 

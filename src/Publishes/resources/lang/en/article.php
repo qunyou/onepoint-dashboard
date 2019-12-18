@@ -1,8 +1,9 @@
 <?php
 
 return array(
-    '文章管理' => 'Article management',
-    '文章分類' => 'Article Category',
-    '文章列表' => 'Article list',
+    '圖書館簡介' => 'Article',
+    '文章管理' => 'Article',
+    '文章分類' => 'Article Categories',
+    '文章列表' => 'Article List',
     '文章' => 'Article',
 );
