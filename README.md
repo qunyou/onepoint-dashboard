@@ -43,7 +43,7 @@ custom/hiyou/baseConfig.php
 
     php artisan migrate --seed
 
-清空資料庫，重新建立預設資料
+清空資料庫，重新建立預設資料(想要重設資料庫才需要執行的指令)
 
     php artisan migrate:refresh --seed
 
