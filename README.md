@@ -1,5 +1,20 @@
-# 安裝
+# 使用 Composer 安裝
+    執行
     composer require onepoint/dashboard
+
+# 自訂安裝
+    將 packages 資料夾放在網站根目錄
+    在 composer.json 加上
+    "autoload": {
+        "psr-4": {
+            ...
+            "Onepoint\\Dashboard\\": "packages/onepoint/dashboard/src",
+        },
+        ...
+    },
+
+    執行
+    composer dump-autoload
 
 在 config/app.php 的 providers 加上
 
@@ -16,11 +31,11 @@
 # 設定檔位置設定
 custom/httpHost.php
 
-    範例名稱為 hiyou，可視情況自行修改
-    $http_host = 'hiyou';
+    範例名稱為 default，可視情況自行修改
+    $http_host = 'default';
 
-    如果 hiyou 改成 onepoint，這個資料夾
-    custom/hiyou
+    如果 default 改成 onepoint 這個資料夾
+    custom/default
     就要改成
     custom/onepoint
 
@@ -63,6 +78,9 @@ config/database.php
 #### aliases
     'Image' => Intervention\Image\Facades\Image::class
 
+### 執行
+    php artisan vendor:publish --provider="Intervention\Image\ImageServiceProviderLaravelRecent"
+
 ## excel Package
     composer require maatwebsite/excel
 
@@ -76,6 +94,48 @@ config/database.php
 ### 發佈套件檔案至正確目錄
     php artisan vendor:publish --provider="Maatwebsite\Excel\ExcelServiceProvider"
 
+## 檢視 Log Package
+    composer require rap2hpoutre/laravel-log-viewer
+
+### app.php 加入內容
+#### providers
+    Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
+
+## 編輯器檔案管理 Package
+    composer require unisharp/laravel-filemanager:dev-master
+
+### app.php 加入內容
+#### providers
+    UniSharp\LaravelFilemanager\LaravelFilemanagerServiceProvider::class,
+
+### 發佈 Package 必要檔案
+    php artisan vendor:publish --tag=lfm_config
+    php artisan vendor:publish --tag=lfm_public
+    php artisan route:clear
+    php artisan config:clear
+
+### 設定
+config/lfm.php
+
+    'allow_share_folder'       => false,
+
+### 套件還不支援最新版的 Laravel，要做一些修改
+vendor/unisharp/laravel-filemanager/src/Lfm.php
+
+    str_singular
+    修改為
+    Str::singular
+
+vendor/unisharp/laravel-filemanager/src/Middlewares/MultiUser.php
+
+    starts_with
+    修改為
+    Str::startsWith
+
+    camel_case
+    修改為
+    Str::camel
+
 # 認證相關設定
 
 ## 修改 user.php 路徑
@@ -85,6 +145,33 @@ config/auth.php
     修改為
     'model' => App\Entities\User::class,
 
+    如果前台有要做會員登入，在 guards 新增元素
+    'member' => [
+        'driver' => 'session',
+        'provider' => 'members',
+    ],
+
+    在 providers 新增元素
+    'members' => [
+        'driver' => 'eloquent',
+        'model' => Onepoint\Reading\Entities\Member::class,
+    ],
+
+    在 passwords 新增元素
+    'members' => [
+        'provider' => 'members',
+        'table' => 'password_resets',
+        'expire' => 15,
+    ],
+
+    在 app/Http/Kernel.php 增加登入檢查方法
+    protected $routeMiddleware = [
+        ...
+
+        // Guard 登入檢查
+        'auth.guard' => \App\Http\Middleware\AuthenticateGuard::class,
+    ];
+
 # 上傳檔案相關設定
 
 ## 建立軟連結
@@ -92,9 +179,13 @@ config/auth.php
     在虛擬主機上可以用這個網址來建立(相關的 route 規則要打開)
     http://url/backend/dashboard/storage-link
 
-## 修改網址設定
+## 修改設定
 config/app.php
 
     'url' => env('APP_URL', 'http://localhost'),
     修改為
     'url' => config('app.url'),
+
+    'timezone' => 'UTC',
+    修改為
+    'timezone' => 'Asia/Taipei',

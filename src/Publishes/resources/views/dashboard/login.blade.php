@@ -141,7 +141,7 @@
                                             <label>
                                                 <input type="checkbox" name="remember" value="remember-me"> @lang('auth.讓我保持登入')
                                             </label>
-                                            <small class="help text-danger">@lang('auth.公用電腦請勿勾選')</small>
+                                            <p><small class="help text-danger">@lang('auth.公用電腦請勿勾選')</small></p>
                                         </div>
                                     </div>
                                     {{--

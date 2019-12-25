@@ -57,10 +57,6 @@ class DashboardServiceProvider extends ServiceProvider
         ], 'custom');
 
         $this->publishes([
-            __DIR__.'/Publishes/config' => base_path('config'),
-        ], 'config');
-
-        $this->publishes([
             __DIR__.'/Publishes/routes' => base_path('routes'),
         ], 'routes');
 

@@ -1,20 +1,20 @@
 <?php
 if (isset($_SERVER['HTTP_HOST'])) {
     switch ($_SERVER['HTTP_HOST']) {
-        case 'hiyou.test':
-            $mysql_database = 'hiyou';
+        case 'default.test':
+            $mysql_database = 'default';
             $mysql_username = 'homestead';
             $mysql_password = 'secret';
             break;
         default:
-            $mysql_database = 'hiyou';
-            $mysql_username = 'hiyou';
-            $mysql_password = 'hiyou';
+            $mysql_database = 'default';
+            $mysql_username = 'default';
+            $mysql_password = 'default';
 	}
 } else {
 
     // 在 artisan 狀態
-    $mysql_database = 'hiyou';
+    $mysql_database = 'default';
     $mysql_username = 'homestead';
     $mysql_password = 'secret';
 }
@@ -33,7 +33,7 @@ config([
     'database.connections.mysql.password' => $mysql_password,
 
     'app.debug' => true,
-    'app.name' => '國小課後輔導報名系統',
+    'app.name' => '後台管理系統',
     'app.url' => $app_url,
     'http_host' => $http_host,
 
@@ -50,7 +50,7 @@ config([
     'frontend' => [
 
         // 前台網址
-        'url' => 'http://hiyou.test',
+        'url' => 'http://default.test',
 
         // 上傳資料夾
         'upload_path' => 'uploads/' . $http_host,

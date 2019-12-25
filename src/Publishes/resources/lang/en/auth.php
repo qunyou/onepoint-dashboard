@@ -13,6 +13,7 @@ return [
     '密碼確認' => 'Password Confirmation',
     '請再輸入一次密碼' => 'Please re-enter the password',
     '忘記密碼' => 'forget password',
+    '修改密碼' => 'change Password',
     '若不修改密碼請保持密碼欄位空白' => 'If you do not change the password, please leave the password field blank',
     '登入' => 'Sign in',
     '登出' => 'Sign out',
