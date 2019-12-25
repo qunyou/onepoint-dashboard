@@ -63,6 +63,19 @@ config/database.php
 #### aliases
     'Image' => Intervention\Image\Facades\Image::class
 
+## excel Package
+    composer require maatwebsite/excel
+
+### app.php 加入內容
+#### providers
+    Maatwebsite\Excel\ExcelServiceProvider::class,
+
+#### aliases
+    'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+
+### 發佈套件檔案至正確目錄
+    php artisan vendor:publish --provider="Maatwebsite\Excel\ExcelServiceProvider"
+
 # 認證相關設定
 
 ## 修改 user.php 路徑

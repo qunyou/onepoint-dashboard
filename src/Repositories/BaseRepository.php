@@ -2,6 +2,7 @@
 
 namespace Onepoint\Dashboard\Repositories;
 
+use Log;
 use Illuminate\Support\Facades\Storage;
 use Onepoint\Dashboard\Services\BaseService;
 use Onepoint\Dashboard\Services\ImageService;
@@ -45,7 +46,7 @@ class BaseRepository
     public $upload_file_size_column_name;
 
     // 檔案標題欄位名稱
-    public $title_column_name;
+    public $upload_origin_file_column_name;
 
     // 是否檢視刪除資料
     public $trashed = false;
@@ -200,6 +201,7 @@ class BaseRepository
 
             // 檔案上傳
             $res = $this->uploadFile($id);
+            // Log::info('update', ['id' => $id, 'datas' => $datas, 'res' => $res]);
             if ($res) {
                 foreach ($res as $key => $value) {
                     $datas[$key] = $value;
@@ -209,6 +211,9 @@ class BaseRepository
             // 產生排序編號
             if (in_array('sort', $this->model->getFillable())) {
                 if ((!$id && !isset($datas['sort'])) || (!$id && isset($datas['sort']) && is_null($datas['sort']))) {
+                    $datas['sort'] = $this->model->count() + 1;
+                }
+                if ($id && !isset($datas['sort'])) {
                     $datas['sort'] = $this->model->count() + 1;
                 }
                 if ($id && is_null($datas['sort'])) {
@@ -222,6 +227,7 @@ class BaseRepository
                     $this->model->find($id)->update($datas);
                     $debug_str = '更新';
                 } else {
+                    Log::info('update', ['id' => $id, 'datas' => $datas]);
                     $model_res = $this->model->create($datas);
                     $id = $model_res->id;
                     $debug_str = '新增';
@@ -237,6 +243,8 @@ class BaseRepository
             }
             return $id;
         } else {
+
+            Log::info('update', ['id' => $id, 'datas' => $datas]);
 
             // 除錯訊息
             if ($this->debug) {
@@ -260,6 +268,7 @@ class BaseRepository
 
                     // 判斷是否為圖檔
                     if (FileService::isImage($value)) {
+                        
                         $res = ImageService::upload($value, $this->upload_file_name_prefix, $this->upload_file_size_limit, $this->upload_file_resize, $this->upload_file_folder);
                     } else {
                         $res = FileService::upload($value, $this->upload_file_name_prefix);
@@ -282,7 +291,7 @@ class BaseRepository
             if ($this->upload_file_resize) {
                 $res = ImageService::upload($this->upload_file_form_name, $this->upload_file_name_prefix, $this->upload_file_size_limit, $this->upload_file_resize, $this->upload_file_folder);
             } else {
-                $res = FileService::upload($this->upload_file_form_name, $this->upload_file_name_prefix, '', $this->upload_file_folder);
+                $res = FileService::upload($this->upload_file_form_name, $this->upload_file_name_prefix, $this->upload_file_size_limit, $this->upload_file_resize, $this->upload_file_folder);
             }
             if ($res) {
                 if (empty($this->upload_file_column_name)) {
@@ -295,8 +304,8 @@ class BaseRepository
                 }
 
                 // 標題欄位未填，自動以檔名做為標題
-                if (!empty($this->title_column_name) && (!isset($datas[$this->title_column_name]) || empty($datas[$this->title_column_name]))) {
-                    $datas[$this->title_column_name] = $res['origin_name'];
+                if (!empty($this->upload_origin_file_column_name) && (!isset($datas[$this->upload_origin_file_column_name]) || empty($datas[$this->upload_origin_file_column_name]))) {
+                    $datas[$this->upload_origin_file_column_name] = $res['origin_file_name'];
                 }
 
                 // 刪除舊檔
@@ -339,16 +348,16 @@ class BaseRepository
      *
      * $prefix              string              檔名前綴
      * $form_name           string || array     表單名稱
-     * $title_column_name   string              圖片標題欄位名稱
+     * $upload_origin_file_column_name   string              圖片標題欄位名稱
      */
-    public function attach($prefix, $form_name = '', $title_column_name = '', $upload_img = true)
+    public function attach($prefix, $form_name = '', $upload_origin_file_column_name = '', $upload_img = true)
     {
         if (is_array($prefix)) {
             $this->upload_file_form_name = $prefix;
         } else {
             $this->upload_file_name_prefix = $prefix;
             $this->upload_file_form_name = $form_name;
-            $this->title_column_name = $title_column_name;
+            $this->upload_origin_file_column_name = $upload_origin_file_column_name;
         }
         $this->upload_img = $upload_img;
         return $this;

@@ -83,8 +83,8 @@
                                             $button_items['items']['複製'] = ['url' => url($uri . 'duplicate?' . $id_string . '=' . $element->id)];
                                         }
                                     }
-                                    if (isset($preview_url) && !empty($preview_url)) {
-                                        $button_items['items']['預覽'] = ['url' => url($preview_url . $element->id)];
+                                    if (isset($preview_url)) {
+                                        $button_items['items']['預覽'] = ['url' => url($preview_url['url'] . $element->{$preview_url['column']})];
                                     }
                                     if (isset($with)) {
                                         if (is_array($with)) {

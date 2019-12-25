@@ -41,6 +41,11 @@
                         <i class="fas fa-edit"></i>@lang('backend.編輯')
                     </a>
                     @break
+                @case('多檔上傳')
+                    <a class="{{ $link_class_string }}" href="{{ $item['url'] }}">
+                        <i class="fas fa-file-upload"></i>@lang('backend.多檔上傳')
+                    </a>
+                    @break
                 @case('刪除')
                     <a class="{{ $link_class_string }}" href="{{ $item['url'] }}">
                         <i class="fas fa-trash-alt"></i>@lang('backend.刪除')

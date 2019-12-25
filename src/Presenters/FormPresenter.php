@@ -111,7 +111,7 @@ class FormPresenter
                             }
                             break;
                     }
-                    $input_setting['prepend_str'] = '<a href="' . asset($file_path) . '" target="_blank">';
+                    $input_setting['prepend_str'] = '<a href="' . asset('storage/' . $file_path) . '" target="_blank">';
                     $input_setting['depend_str'] = '</a>';
 
                     // 刪除附檔網址

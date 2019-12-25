@@ -2,10 +2,9 @@
 
 namespace Onepoint\Dashboard\Services;
 
-// use Request;
-// use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Image;
 
 class FileService
 {
@@ -44,42 +43,31 @@ class FileService
     /**
      * 上傳檔案
      *
-     * $input_name     String       表單名稱
-     * $prefix         String       上傳後檔案的檔名前綴
-     * $file_name      String       自訂檔名
-     * $folder         String     自訂上傳路徑
+     * $input_name     String      表單名稱
+     * $prefix         String      上傳後檔案的檔名前綴
+     * $size_limit     String      限制上傳大小，單位為 bytes
+     * $resize         String      是否縮圖
+     * $folder         String      自訂上傳路徑
      *
-     * @return Array or false       [origin_name=原始檔名, file_name=上傳後檔名]
+     * @return Array or false
      */
-    public static function upload($input_name, $prefix = '', $file_name = '', $folder = '')
+    public static function upload($input_name, $prefix = '', $size_limit = 0, $resize = true, $folder = '')
     {
         $file_request = request()->file($input_name);
-
-        // 上傳檔案路徑
-        $upload_path = config('frontend.upload_path');
-
-        // 指定資料夾
-        if (!empty($folder)) {
-            $upload_path .= '/' . $folder;
-        }
-
+        
         // 判斷是否多檔上傳
         if (is_array($file_request)) {
             foreach ($file_request as $value) {
-                $arr[] = FileService::exeUpload($value, $prefix, $file_name, $upload_path);
+                $arr[] = FileService::exeUpload($value, $prefix, $size_limit, $resize, $folder);
             }
             return $arr;
         } else {
-            if (request()->hasFile($input_name)) {
-                return FileService::exeUpload($file_request, $prefix, $file_name, $upload_path);
-            } else {
-                return false;
-            }
+            return FileService::exeUpload($input_name, $prefix, $size_limit, $resize, $folder);
         }
     }
 
     /**
-     * 執行上傳
+     * 執行上傳(待刪)
      *
      * $file_request   Object       file request
      * $prefix         String       上傳後檔案的檔名前綴
@@ -88,9 +76,46 @@ class FileService
      *
      * @return Array or false       [origin_name=原始檔名, file_name=上傳後檔名]
      */
-    public static function exeUpload($file_request, $prefix, $file_name, $upload_path)
+    // public static function exeUpload($file_request, $prefix, $file_name, $upload_path)
+    // {
+    //     // $file_request = request()->file($input_name);
+    //     $file_extention = $file_request->getClientOriginalExtension();
+    //     $real_path = $file_request->getRealPath();
+    //     $file_name = $prefix . '-' . Str::random(8) . '.' . $file_extention;
+    //     $origin_file_name = $file_request->getClientOriginalName();
+    //     $origin_name_arr = explode('.', $origin_file_name);
+    //     $origin_name = $origin_name_arr[0];
+    //     $file_size = $file_request->getClientSize();
+
+    //     // 錯誤訊息
+    //     $error_message = $file_request->getErrorMessage();
+    //     $file_request->storeAs('public/' . $upload_path, $file_name);
+    //     return compact('origin_file_name', 'origin_name', 'file_name', 'file_size');
+    // }
+
+    /**
+    * 執行上傳
+    *
+    * $input_name     String      表單名稱或 file request 物件
+    * $prefix         String      上傳後檔案的檔名前綴
+    * $size_limit     String      限制上傳大小，單位為 bytes
+    * $resize         String      是否縮圖
+    * $folder         String      自訂上傳路徑
+    *
+    * @return Array or false
+    */
+    public static function exeUpload($input_name, $prefix = '', $size_limit = 0, $resize = true, $folder = '')
     {
-        // $file_request = request()->file($input_name);
+        if (is_string($input_name)) {
+            if (request()->hasFile($input_name)) {
+                $file_request = request()->file($input_name);
+            } else {
+                return false;
+            }
+        } else {
+            $file_request = $input_name;
+        }
+        
         $file_extention = $file_request->getClientOriginalExtension();
         $real_path = $file_request->getRealPath();
         $file_name = $prefix . '-' . Str::random(8) . '.' . $file_extention;
@@ -99,36 +124,56 @@ class FileService
         $origin_name = $origin_name_arr[0];
         $file_size = $file_request->getClientSize();
 
-        // 錯誤訊息
-        $error_message = $file_request->getErrorMessage();
+        // 原始檔案路徑
+        $upload_path = config('frontend.upload_path');
+        if (!empty($folder)) {
+            $upload_path .= '/' . $folder;
+        }
 
         // 建立資料夾
-        // $exists = Storage::disk('public')->exists($upload_path);
-        // if (!$exists) {
-        //     Storage::disk('public')->makeDirectory($upload_path);
-        // }
+        $exists = Storage::disk('public')->exists($upload_path);
+        if (!$exists) {
+            Storage::disk('public')->makeDirectory($upload_path);
+        }
 
-        // 製作檔名
-        // $new_file_name = '';
-        // if (!empty($file_name)) {
+        // 製作縮圖
+        if ($resize && $file_extention != 'svg') {
 
-        //     // 自訂檔名
-        //     if (!empty($prefix)) {
-        //         $new_file_name .= $prefix . '-';
-        //     }
-        //     $new_file_name .= $file_name;
-        //     $new_file_name .= '.' . $file_request->getClientOriginalExtension();
-        //     $path = $file_request->storeAs($upload_path, $new_file_name);
-        // } else {
-        //     $new_file_name = '';
-        //     $path = $file_request->store($upload_path);
-        //     $new_file_name = basename($path);
-        // }
+            // 上傳準備
+            $img = Image::make($real_path);
+            if ($size_limit > 0) {
+                $size = $img->filesize();
+                if ($size > $size_limit) {
+                    return false;
+                }
+            }
 
-        // // 上傳
-        // return ['origin_name' => $origin_name_arr[0], 'file_name' => $new_file_name, 'file_size' => $new_file_size, 'path' => $path];
+            // 上傳原始圖
+            $save_path = public_path('storage/' . $upload_path . '/' . $file_name);
+            $img = $img->save($save_path);
+            
+            // 縮圖路徑
+            $image_scale_setting = config('backend.image_scale_setting');
+            foreach ($image_scale_setting as $value) {
 
-        $file_request->storeAs('public/' . $upload_path, $file_name);
+                // 指定資料夾
+                if (!empty($value['path'])) {
+                    $thumb_path = $upload_path . '/' . $value['path'];
+
+                    // 建立資料夾
+                    $exists = Storage::disk('public')->exists($thumb_path);
+                    if (!$exists) {
+                        Storage::disk('public')->makeDirectory($thumb_path);
+                    }
+                }
+                $save_path = public_path('storage/' . $thumb_path . '/' . $file_name);
+                $img->resize($value['width'], null, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save($save_path);
+            }
+        } else {
+            $file_request->storeAs('public/' . $upload_path, $file_name);
+        }
         return compact('origin_file_name', 'origin_name', 'file_name', 'file_size');
     }
 
@@ -181,10 +226,14 @@ class FileService
      */
     public static function exists($file_name, $path = '')
     {
-        if (empty($path)) {
-            $path = public_path() . '/' . config('frontend.upload_path') . '/';
+        if (!empty($path)) {
+            $path = $path . '/';
         }
-        return file_exists($path . $file_name);
+        $file_path = config('frontend.upload_path') . '/' . $path . $file_name;
+        if (Storage::disk('public')->exists($file_path)) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -194,13 +243,10 @@ class FileService
      */
     public static function download($file_name, $display_name, $path = '')
     {
-        if (empty($path)) {
-            $path = public_path() . '/' . config('frontend.upload_path') . '/';
+        if (!empty($path)) {
+            $path = $path . '/';
         }
-        if (file_exists($path . $file_name)) {
-            return response()->download($path . $file_name, $display_name);
-        } else {
-            abort(404);
-        }
+        $file_path = 'storage/' . config('frontend.upload_path') . '/' . $path . $file_name;
+        return response()->download($file_path, $display_name);
     }
 }

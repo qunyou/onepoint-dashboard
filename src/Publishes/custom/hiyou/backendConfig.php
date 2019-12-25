@@ -146,5 +146,26 @@ config([
             // 前台預覽網址
             'preview_url' => 'article'
         ],
+
+        /**
+         * 書目
+         */
+        'book' => [
+
+            // 匯入檔
+            'csv_url' => asset('storage/uploads/reading/templates/書目.csv'),
+
+            // 前台預覽網址
+            'preview_url' => 'book'
+        ],
+
+        /**
+         * 試題
+         */
+        'examination' => [
+
+            // 匯入檔
+            'csv_url' => asset('storage/' . config('frontend.upload_path') . '/templates/書目.csv'),
+        ],
     ]
 ]);

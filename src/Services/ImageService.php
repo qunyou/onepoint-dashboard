@@ -2,7 +2,6 @@
 
 namespace Onepoint\Dashboard\Services;
 
-// use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Image;
@@ -90,81 +89,19 @@ class ImageService
     }
 
     /**
-    * 上傳檔案
-    *
-    * $input_name     String      表單名稱
-    * $prefix         String      上傳後檔案的檔名前綴
-    * $size_limit     String      限制上傳大小，單位為 bytes
-    * $resize         String      是否縮圖
-    * $folder         String      自訂上傳路徑
-    *
-    * @return Array or false
-    */
+     * 上傳檔案
+     *
+     * $input_name     String      表單名稱
+     * $prefix         String      上傳後檔案的檔名前綴
+     * $size_limit     String      限制上傳大小，單位為 bytes
+     * $resize         String      是否縮圖
+     * $folder         String      自訂上傳路徑
+     *
+     * @return Array or false
+     */
     public static function upload($input_name, $prefix = '', $size_limit = 0, $resize = true, $folder = '')
     {
-        if (request()->hasFile($input_name)) {
-            $file_request = request()->file($input_name);
-            $file_extention = $file_request->getClientOriginalExtension();
-            $real_path = $file_request->getRealPath();
-            $file_name = $prefix . '-' . Str::random(8) . '.' . $file_extention;
-            $origin_file_name = $file_request->getClientOriginalName();
-            $origin_name_arr = explode('.', $origin_file_name);
-            $origin_name = $origin_name_arr[0];
-            $file_size = $file_request->getClientSize();
-
-            // 原始圖路徑
-            $upload_path = config('frontend.upload_path');
-            if (!empty($folder)) {
-                $upload_path .= '/' . $folder;
-            }
-
-            // 建立資料夾
-            $exists = Storage::disk('public')->exists($upload_path);
-            if (!$exists) {
-                Storage::disk('public')->makeDirectory($upload_path);
-            }
-
-            // 製作縮圖
-            if ($resize && $file_extention != 'svg') {
-
-                // 上傳準備
-                $img = Image::make($real_path);
-                if ($size_limit > 0) {
-                    $size = $img->filesize();
-                    if ($size > $size_limit) {
-                        return false;
-                    }
-                }
-
-                // 上傳原始圖
-                $save_path = public_path('storage/' . $upload_path . '/' . $file_name);
-                $img = $img->save($save_path);
-                
-                // 縮圖路徑
-                $image_scale_setting = config('backend.image_scale_setting');
-                foreach ($image_scale_setting as $value) {
-
-                    // 指定資料夾
-                    if (!empty($value['path'])) {
-                        $thumb_path = $upload_path . '/' . $value['path'];
-
-                        // 建立資料夾
-                        $exists = Storage::disk('public')->exists($thumb_path);
-                        if (!$exists) {
-                            Storage::disk('public')->makeDirectory($thumb_path);
-                        }
-                    }
-                    $save_path = public_path('storage/' . $thumb_path . '/' . $file_name);
-                    $img->resize($value['width'], null, function ($constraint) {
-                        $constraint->aspectRatio();
-                    })->save($save_path);
-                }
-            } else {
-                $file_request->storeAs('public/' . $upload_path, $file_name);
-            }
-            return compact('origin_file_name', 'origin_name', 'file_name', 'file_size');
-        }
-        return false;
+        return FileService::exeUpload($input_name, $prefix, $size_limit, $resize, $folder);
     }
 
     /**

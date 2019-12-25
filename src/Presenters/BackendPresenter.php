@@ -37,10 +37,8 @@ class BackendPresenter
             }
 
             // 同一個 controller 下的方法都設定 active
-            $controller_name = Str::before($element['action'], 'Controller@');
-            $controller_name = Str::after($controller_name, '\\');
-            $controller_name = Str::kebab($controller_name);
-            $act_res = RouteService::is(config('backend.uri') . '/' . $controller_name . '/*');
+            $controller_name = Str::after(Str::kebab(Str::before(class_basename($element['action']), 'Controller@')), '\\-');
+            $act_res = RouteService::is(config('dashboard.uri') . '/' . $controller_name . '/*');
             if ($act_res) {
                 $active = 'active';
             }
@@ -61,13 +59,12 @@ class BackendPresenter
             }
 
             // 權限
-            $role_controller_str = Str::before($element['action'], '@');
+            $role_controller_str = Str::after(Str::before($element['action'], '@'), '\\');
             if ($this->auth_guard) {
                 if (auth()->guard($this->auth_guard)->user()->hasAccess(['read-' . $role_controller_str]) || $this->is_root) {
                     $parent_permission = true;
                 }
             } else {
-                // dd(auth()->user());
                 if (auth()->user()->hasAccess(['read-' . $role_controller_str]) || $this->is_root) {
                     $parent_permission = true;
                 }
@@ -81,7 +78,7 @@ class BackendPresenter
                 $include_url_arr = [];
                 $sub_active = '';
                 if (isset($value['action'])) {
-                    $role_controller_str = Str::before($value['action'], '@');
+                    $role_controller_str = Str::after(Str::before($value['action'], '@'), '\\');
                     $url = action($value['action']);
                     if (url()->current() == $url) {
                         $sub_active = 'active';

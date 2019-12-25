@@ -44,7 +44,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url(config('dashboard.uri') . '/user/profile') }}">
                                 <i class="fas fa-lock" aria-hidden="true"></i>
-                                <span>@lang('backend.管理者')</span>
+                                <span>@lang('auth.修改密碼')</span>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -97,7 +97,7 @@
                             </li>
                         @endif
                         <li>
-                            <a href="{{ url(config('dashboard.uri') . '/user/profile') }}"><i class="fas fa-lock"></i>@lang('backend.管理者')</a>
+                            <a href="{{ url(config('dashboard.uri') . '/user/profile') }}"><i class="fas fa-lock"></i>@lang('auth.修改密碼')</a>
                         </li>
                         <li>
                             <a href="{{ url(config('dashboard.uri') . '/auth/logout') }}"><i class="fas fa-sign-out-alt"></i>@lang('auth.登出')</a>
