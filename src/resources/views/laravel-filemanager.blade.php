@@ -43,7 +43,7 @@
 
         tinyMCE.activeEditor.windowManager.open({
             file : cmsURL,
-            title : '檔案管理',
+            title : 'File manager',
             width : x * 0.8,
             height : y * 0.8,
             resizable : "yes",

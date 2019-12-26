@@ -11,6 +11,8 @@ class HomeController extends Controller
      */
     public function index()
     {
+        // 流量統計
+        // return $this->base_services->agent();
         // return redirect('index');
         return view('welcome');
     }

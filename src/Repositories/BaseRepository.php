@@ -54,6 +54,9 @@ class BaseRepository
     // 是否檢視備份資料
     public $old_version = false;
 
+    // 是否使用版本功能
+    public $use_version = true;
+
     // 除錯
     public $debug;
 
@@ -201,7 +204,6 @@ class BaseRepository
 
             // 檔案上傳
             $res = $this->uploadFile($id);
-            // Log::info('update', ['id' => $id, 'datas' => $datas, 'res' => $res]);
             if ($res) {
                 foreach ($res as $key => $value) {
                     $datas[$key] = $value;
@@ -227,7 +229,6 @@ class BaseRepository
                     $this->model->find($id)->update($datas);
                     $debug_str = '更新';
                 } else {
-                    Log::info('update', ['id' => $id, 'datas' => $datas]);
                     $model_res = $this->model->create($datas);
                     $id = $model_res->id;
                     $debug_str = '新增';
@@ -243,13 +244,7 @@ class BaseRepository
             }
             return $id;
         } else {
-
-            Log::info('update', ['id' => $id, 'datas' => $datas]);
-
-            // 除錯訊息
-            if ($this->debug) {
-                dd('未輸入資料');
-            }
+            Log::info('BaseRepository::executeUpdate', ['id' => $id, 'datas' => $datas, 'request' => request()->all()]);
         }
         return false;
     }
@@ -441,7 +436,9 @@ class BaseRepository
                 $query = $query->whereOldVersion(1)->onlyTrashed();
             }
         } else {
-            $query = $query->whereOldVersion(0);
+            if ($this->use_version) {
+                $query = $query->whereOldVersion(0);
+            }
         }
         if ($paginate) {
             $query = $query->paginate($paginate);

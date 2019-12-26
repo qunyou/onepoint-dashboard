@@ -25,6 +25,11 @@ class BackendPresenter
         $url = '';
         $icon = $element['icon'];
         $title = $element['title'];
+
+        // 語言設定
+        if (isset($element['translation'])) {
+            $title = __($element['translation'] . $element['title']);
+        }
         $sub_item = [];
         $parent_show_string = '';
         $parent_permission = false;
@@ -120,6 +125,11 @@ class BackendPresenter
                     } else {
                         $permission = false;
                     }
+                }
+
+                // 語言設定
+                if (isset($value['translation'])) {
+                    $value['title'] = __($value['translation'] . $value['title']);
                 }
                 $sub_item[] = [
                     'active' => $sub_active,
