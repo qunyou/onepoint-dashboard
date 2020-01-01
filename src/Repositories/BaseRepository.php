@@ -263,9 +263,10 @@ class BaseRepository
 
                     // 判斷是否為圖檔
                     if (FileService::isImage($value)) {
-                        
+                        dd('img', $value);
                         $res = ImageService::upload($value, $this->upload_file_name_prefix, $this->upload_file_size_limit, $this->upload_file_resize, $this->upload_file_folder);
                     } else {
+                        dd('file', $value);
                         $res = FileService::upload($value, $this->upload_file_name_prefix);
                     }
                     if ($res) {
@@ -424,7 +425,7 @@ class BaseRepository
      * $id          Int     目前版本 id
      * $paginate    Int     分頁筆數設定, 值為 0 時不使用分頁功能
      */
-    function fetchList($query, $id, $paginate)
+    function fetchList($query, $id, $paginate, $order_by = 'sort', $power = 'asc')
     {
         if ($this->trashed) {
             $query = $query->onlyTrashed();
@@ -439,6 +440,9 @@ class BaseRepository
             if ($this->use_version) {
                 $query = $query->whereOldVersion(0);
             }
+        }
+        if (!empty($order_by)) {
+            $query = $query->orderBy($order_by, $power);
         }
         if ($paginate) {
             $query = $query->paginate($paginate);

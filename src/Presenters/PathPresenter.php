@@ -2,21 +2,17 @@
 
 namespace Onepoint\Dashboard\Presenters;
 
-use Request;
-
 /**
  * 路徑輔助方法
  */
 class PathPresenter
 {
-    static $assets_path = 'assets';
-
     /**
      * 前台資產路徑
      */
     static function assets($file_path)
     {
-        return url(Self::$assets_path . '/' . config('frontend.assets_frontend_path') . '/' . $file_path);
+        return url(config('frontend.assets_frontend_path') . $file_path);
     }
 
     /**
@@ -24,7 +20,7 @@ class PathPresenter
      */
     static function backend_assets($file_path)
     {
-        return url(Self::$assets_path . '/' . config('dashboard.layout_file') . '/' . $file_path);
+        return url(config('dashboard.layout_file') . $file_path);
     }
 
     /**
@@ -49,9 +45,9 @@ class PathPresenter
     static function upload($upload_path = '')
     {
         if (!empty($upload_path)) {
-            return url(config('frontend.upload_path') . '/' . $upload_path);
+            return url('storage/' . config('frontend.upload_path') . '/' . $upload_path);
         } else {
-            return url(config('frontend.upload_path'));
+            return url('storage/' . config('frontend.upload_path'));
         }
     }
 
@@ -64,7 +60,7 @@ class PathPresenter
         // Request::path()
         // 可用萬用字元判斷網址
         // Request::is('event/detail/*');
-        if (Request::is($pattern)) {
+        if (request()->is($pattern)) {
             return $active_string;
         }
         return '';

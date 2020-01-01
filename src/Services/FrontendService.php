@@ -3,7 +3,7 @@
 namespace Onepoint\Dashboard\Services;
 
 use App\Repositories\SettingRepository;
-use App\Repositories\NaviRepository;
+use Onepoint\Base\Repositories\NaviRepository;
 
 class FrontendService
 {
@@ -31,9 +31,10 @@ class FrontendService
         $navi_repository = new NaviRepository;
 
         // 載入不同的主導覽產生方法
-        if (config('frontend.navi_method', false)) {
-            return $navi_repository->{config('frontend.navi_method')}($navi_category_id, $navi_style);
-        }
-        return false;
+        // if (config('frontend.navi_method', false)) {
+            // return $navi_repository->{config('frontend.navi_method')}($navi_category_id, $navi_style);
+            return $navi_repository->getNavi($navi_category_id, $navi_style);
+        // }
+        // return false;
     }
 }

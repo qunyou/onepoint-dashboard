@@ -71,8 +71,6 @@
                             'input_value' => optional($setting)->description,
                         ]])
 
-                        {{ optional($setting)->type }}
-
                         @switch(optional($setting)->type)
                             @case('num')
                                 {{-- 數字 --}}
@@ -113,7 +111,7 @@
 
                             @case('file_name')
                                 {{-- 檔案上傳 --}}
-                                @include('dashboard::tinymce', ['input_setting' => [
+                                @include('dashboard::file', ['input_setting' => [
                                     'display_name' => __('setting.設定值'),
                                     'input_name' => 'setting_value',
                                     'input_value' => optional($setting)->setting_value,
@@ -132,6 +130,12 @@
                                 ]])
                                 @break
                         @endswitch
+
+                        @include('dashboard::number', ['input_setting' => [
+                            'display_name' => __('backend.排序'),
+                            'input_name' => 'sort',
+                            'input_value' => optional($setting)->sort,
+                        ]])
                     </div>
                     <footer class="card-footer">
                         <button type="submit" class="btn btn-outline-deep-purple waves-effect">

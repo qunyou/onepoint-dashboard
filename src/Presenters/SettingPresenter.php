@@ -17,7 +17,7 @@ class SettingPresenter
     {
         switch ($setting_object->type) {
             case 'file_name':
-                $str = ImageService::origin($setting_object->setting_value);
+                $str = ImageService::origin($setting_object->setting_value, '', '', 'setting');
                 break;
 
             case 'text':

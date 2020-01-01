@@ -38,7 +38,7 @@ config([
     'http_host' => $http_host,
 
     'dashboard' => [
-        'layout_file' => 'dashboard',
+        'layout_file' => 'assets/dashboard/',
         'view_path' => 'dashboard',
         'uri' => 'backend',
 
@@ -54,6 +54,9 @@ config([
 
         // 上傳資料夾
         'upload_path' => 'uploads/' . $http_host,
+
+        // 資源路徑
+        'assets_frontend_path' => 'assets/',
 
         // 無圖片時顯示的字串
         // 'upload_image_default_string' => '',

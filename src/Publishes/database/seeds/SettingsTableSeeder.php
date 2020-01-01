@@ -38,7 +38,7 @@ class SettingsTableSeeder extends Seeder
             'type' => 'editor',
             'title' => '頁尾資訊',
             'description' => '',
-            'setting_key' => '',
+            'setting_key' => 'footer_info',
             'setting_value' => '',
         ]);
         DB::table('settings')->insert([
