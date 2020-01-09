@@ -23,6 +23,9 @@ class Setting extends Model
         // 版本原始id
         'origin_id',
 
+        // 記錄更新人員
+        'update_user_id',
+
         // 狀態 enum('啟用', '停用')
         'status',
 

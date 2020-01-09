@@ -35,5 +35,6 @@ return [
     '女' => 'Female',
     '生日' => 'Birthday',
     '電話' => 'Tel',
+    '手機號碼' => 'Cellphone number',
     '地址' => 'Address',
 ];

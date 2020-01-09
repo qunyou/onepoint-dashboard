@@ -2,7 +2,9 @@
 
 namespace Onepoint\Dashboard\Services;
 
+use Jenssegers\Agent\Agent;
 use Onepoint\Dashboard\Services\RouteService;
+use Onepoint\Base\Entities\BrowserAgent;
 
 class BaseService
 {
@@ -95,16 +97,20 @@ class BaseService
         // $agent->isMobile();
         // $agent->isTablet();
         $ip_info = Self::ipInfo("Visitor", "Location");
-        $datas['ip'] = $ip_info['ip'];
-        $datas['city'] = $ip_info['city'];
-        $datas['state'] = $ip_info['state'];
-        $datas['country'] = $ip_info['country'];
-        $datas['address'] = $ip_info['address'];
-        $datas['country_code'] = $ip_info['country_code'];
-        $datas['continent'] = $ip_info['continent'];
-        $datas['continent_code'] = $ip_info['continent_code'];
-        $datas['url_full'] = url()->full();
-        $datas['url_previous'] = url()->previous();
+        if (is_null($ip_info)) {
+            $datas['ip'] = $_SERVER["REMOTE_ADDR"];
+        } else {
+            $datas['ip'] = $ip_info['ip'];
+            $datas['city'] = $ip_info['city'];
+            $datas['state'] = $ip_info['state'];
+            $datas['country'] = $ip_info['country'];
+            $datas['address'] = $ip_info['address'];
+            $datas['country_code'] = $ip_info['country_code'];
+            $datas['continent'] = $ip_info['continent'];
+            $datas['continent_code'] = $ip_info['continent_code'];
+            $datas['url_full'] = url()->full();
+            $datas['url_previous'] = url()->previous();
+        }
         BrowserAgent::create($datas);
     }
 

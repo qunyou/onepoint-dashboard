@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->softDeletes();
             $table->boolean('old_version')->default(0)->comment('版本備份');
             $table->bigInteger('origin_id')->default(0)->comment('版本原始id');
+            $table->bigInteger('update_user_id')->default(0)->comment('記錄更新人員');
             $table->bigInteger('sort')->default(0)->comment('排序');
             $table->enum('status', ['啟用', '停用'])->default('啟用')->charset('utf8')->comment('狀態');
             $table->text('note')->nullable()->comment('備註')->charset('utf8');

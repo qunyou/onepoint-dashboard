@@ -105,9 +105,9 @@ class FormPresenter
                         case 'image/jpeg':
                         case 'image/png':
                             if ($input_setting['image_thumb']) {
-                                $input_setting['image_string'] = ImageService::thumb($input_setting['input_value'], $input_setting['image_attribute'], $input_setting['image_default_str'],$input_setting['upload_path']);
+                                $input_setting['image_string'] = ImageService::thumb($input_setting['input_value'], $input_setting['image_attribute'], $input_setting['image_default_str'], $input_setting['upload_path']);
                             } else {
-                                $input_setting['image_string'] = ImageService::origin($input_setting['input_value'], $input_setting['image_attribute'], $input_setting['image_default_str'],$input_setting['upload_path']);
+                                $input_setting['image_string'] = ImageService::origin($input_setting['input_value'], $input_setting['image_attribute'], $input_setting['image_default_str'], $input_setting['upload_path']);
                             }
                             break;
                     }

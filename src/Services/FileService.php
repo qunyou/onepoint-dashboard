@@ -67,33 +67,6 @@ class FileService
     }
 
     /**
-     * 執行上傳(待刪)
-     *
-     * $file_request   Object       file request
-     * $prefix         String       上傳後檔案的檔名前綴
-     * $file_name      String       自訂檔名
-     * $upload_path    String       上傳路徑
-     *
-     * @return Array or false       [origin_name=原始檔名, file_name=上傳後檔名]
-     */
-    // public static function exeUpload($file_request, $prefix, $file_name, $upload_path)
-    // {
-    //     // $file_request = request()->file($input_name);
-    //     $file_extention = $file_request->getClientOriginalExtension();
-    //     $real_path = $file_request->getRealPath();
-    //     $file_name = $prefix . '-' . Str::random(8) . '.' . $file_extention;
-    //     $origin_file_name = $file_request->getClientOriginalName();
-    //     $origin_name_arr = explode('.', $origin_file_name);
-    //     $origin_name = $origin_name_arr[0];
-    //     $file_size = $file_request->getClientSize();
-
-    //     // 錯誤訊息
-    //     $error_message = $file_request->getErrorMessage();
-    //     $file_request->storeAs('public/' . $upload_path, $file_name);
-    //     return compact('origin_file_name', 'origin_name', 'file_name', 'file_size');
-    // }
-
-    /**
     * 執行上傳
     *
     * $input_name     String      表單名稱或 file request 物件
@@ -102,7 +75,7 @@ class FileService
     * $resize         String      是否縮圖
     * $folder         String      自訂上傳路徑
     *
-    * @return Array or false
+    * @return Array ['origin_file_name' => '原始檔名', 'origin_name' => '不含副檔名原始檔名', 'file_extention' => '副檔名', 'file_name', 'file_size']
     */
     public static function exeUpload($input_name, $prefix = '', $size_limit = 0, $resize = true, $folder = '')
     {
@@ -149,7 +122,8 @@ class FileService
             }
 
             // 上傳原始圖
-            $save_path = public_path('storage/' . $upload_path . '/' . $file_name);
+            // $save_path = public_path('storage/' . $upload_path . '/' . $file_name);
+            $save_path = storage_path('app/public/' . $upload_path . '/' . $file_name);
             $img = $img->save($save_path);
             
             // 縮圖路徑
@@ -166,7 +140,8 @@ class FileService
                         Storage::disk('public')->makeDirectory($thumb_path);
                     }
                 }
-                $save_path = public_path('storage/' . $thumb_path . '/' . $file_name);
+                // $save_path = public_path('storage/' . $thumb_path . '/' . $file_name);
+                $save_path = storage_path('app/public/' . $thumb_path . '/' . $file_name);
                 $img->resize($value['width'], null, function ($constraint) {
                     $constraint->aspectRatio();
                 })->save($save_path);
@@ -174,7 +149,7 @@ class FileService
         } else {
             $file_request->storeAs('public/' . $upload_path, $file_name);
         }
-        return compact('origin_file_name', 'origin_name', 'file_name', 'file_size');
+        return compact('origin_file_name', 'origin_name', 'file_extention', 'file_name', 'file_size');
     }
 
     /**

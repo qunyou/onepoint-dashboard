@@ -19,7 +19,7 @@
                         @endif
                     @endif
                     <th scope="col"></th>
-                    @if (auth()->user()->hasAccess(['update-' . $permission_controller_string]))
+                    @if (($use_sort ?? true) && auth()->user()->hasAccess(['update-' . $permission_controller_string]))
                         @if (!$version)
                             <th scope="col" class="th_sort_width d-none d-md-table-cell">@lang('backend.排序')</th>
                         @endif
@@ -80,7 +80,10 @@
                                     $button_items['items']['檢視'] = ['url' => url($uri . 'detail?' . $id_string . '=' . $element->id)];
                                     if ($use_duplicate) {
                                         if (auth()->user()->hasAccess(['create-' . $permission_controller_string])) {
-                                            $button_items['items']['複製'] = ['url' => url($uri . 'duplicate?' . $id_string . '=' . $element->id)];
+                                            if (!isset($duplicate_url_suffix)) {
+                                                $duplicate_url_suffix = '';
+                                            }
+                                            $button_items['items']['複製'] = ['url' => url($uri . 'duplicate?' . $id_string . '=' . $element->id . $duplicate_url_suffix)];
                                         }
                                     }
                                     if (isset($preview_url) && !empty($preview_url)) {
@@ -136,7 +139,7 @@
                                 @endcomponent
                             @endif
                         </td>
-                        @if (auth()->user()->hasAccess(['update-' . $permission_controller_string]))
+                        @if (($use_sort ?? true) && auth()->user()->hasAccess(['update-' . $permission_controller_string]))
                             @if (!$version)
                                 <td class="d-none d-md-table-cell">
                                     <input type="text" name="sort[{{ $element->id }}]" class="form-control" value="{{ $element->sort }}" />
@@ -149,7 +152,7 @@
         </tbody>
     </table>
 </div>
-@component('dashboard::components.backend-list-footer', ['trashed' => $trashed, 'version' => $version, 'footer_dropdown_hide' => $footer_dropdown_hide, 'footer_sort_hide' => $footer_sort_hide, 'footer_delete_hide' => $footer_delete_hide])
+@component('dashboard::components.backend-list-footer', ['trashed' => $trashed, 'version' => $version, 'footer_dropdown_hide' => $footer_dropdown_hide, 'footer_sort_hide' => $footer_sort_hide, 'footer_delete_hide' => $footer_delete_hide, 'footer_status_hide' => ($footer_status_hide ?? false), 'use_sort' => ($use_sort ?? true)])
     {!! $list->appends($qs)->links() !!}
     <div class="text-center">
         @lang('backend.共') {{ $list->total() }} @lang('backend.筆資料')

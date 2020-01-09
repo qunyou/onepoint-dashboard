@@ -48,6 +48,12 @@ class BaseRepository
     // 檔案標題欄位名稱
     public $upload_origin_file_column_name;
 
+    // 檔案原始檔名欄位名稱
+    public $upload_file_origin_column_name;
+
+    // 檔案副檔名欄位名稱
+    public $upload_file_extention_column_name;
+
     // 是否檢視刪除資料
     public $trashed = false;
 
@@ -223,6 +229,11 @@ class BaseRepository
                 }
             }
 
+            // 記錄更新人員
+            if (in_array('update_user_id', $this->model->getFillable())) {
+                $datas['update_user_id'] = auth()->id();
+            }
+
             // 更新或新增
             if (count($datas)) {
                 if ($id) {
@@ -263,16 +274,26 @@ class BaseRepository
 
                     // 判斷是否為圖檔
                     if (FileService::isImage($value)) {
-                        dd('img', $value);
                         $res = ImageService::upload($value, $this->upload_file_name_prefix, $this->upload_file_size_limit, $this->upload_file_resize, $this->upload_file_folder);
                     } else {
-                        dd('file', $value);
                         $res = FileService::upload($value, $this->upload_file_name_prefix);
                     }
                     if ($res) {
                         $datas[$value] = $res['file_name'];
+                        
+                        // 檔案大小
                         if (isset($this->upload_file_size_column_name[$key])) {
                             $datas[$this->upload_file_size_column_name[$key]] = $res['file_size'];
+                        }
+
+                        // 不含副檔名原始檔名
+                        if (isset($this->upload_file_origin_column_name[$key])) {
+                            $datas[$this->upload_file_origin_column_name[$key]] = $res['origin_name'];
+                        }
+
+                        // 副檔名
+                        if (isset($this->upload_file_extention_column_name[$key])) {
+                            $datas[$this->upload_file_extention_column_name[$key]] = $res['file_extention'];
                         }
 
                         // 刪除舊檔
@@ -295,8 +316,20 @@ class BaseRepository
                 } else {
                     $datas[$this->upload_file_column_name] = $res['file_name'];
                 }
+
+                // 檔案大小
                 if (!empty($this->upload_file_size_column_name)) {
                     $datas[$this->upload_file_size_column_name] = $res['file_size'];
+                }
+                
+                // 不含副檔名原始檔名
+                if (!empty($this->upload_file_origin_column_name)) {
+                    $datas[$this->upload_file_origin_column_name] = $res['origin_name'];
+                }
+
+                // 副檔名
+                if (!empty($this->upload_file_extention_column_name)) {
+                    $datas[$this->upload_file_extention_column_name] = $res['file_extention'];
                 }
 
                 // 標題欄位未填，自動以檔名做為標題
