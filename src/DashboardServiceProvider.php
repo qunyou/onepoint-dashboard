@@ -24,6 +24,7 @@ class DashboardServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->loadViewsFrom(__DIR__ . '/resources/views', 'dashboard');
+        $this->mergeConfigFrom(__DIR__.'/config/dashboard.php', 'dashboard');
 
         // 發佈至 public 目錄的指令
         // php artisan vendor:publish --tag=public --force

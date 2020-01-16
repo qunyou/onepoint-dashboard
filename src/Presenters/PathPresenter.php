@@ -20,7 +20,7 @@ class PathPresenter
      */
     static function backend_assets($file_path)
     {
-        return url(config('dashboard.layout_file') . $file_path);
+        return url(config('dashboard.assets_dashboard_path') . $file_path);
     }
 
     /**

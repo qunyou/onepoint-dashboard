@@ -77,9 +77,9 @@ class FormPresenter
         // file
         if ($input_type == 'value' || $input_type == 'file') {
             $input_setting['upload_path'] = $input_setting['upload_path'] ?? '';
-            if (!empty($input_setting['upload_path'])) {
-                $input_setting['upload_path'] .= '/';
-            }
+            // if (!empty($input_setting['upload_path'])) {
+            //     $input_setting['upload_path'] .= '/';
+            // }
             $input_setting['image_attribute'] = $input_setting['image_attribute'] ?? '';
             $input_setting['image_default_str'] = $input_setting['image_default_str'] ?? '';
             $input_setting['value_type'] = $input_setting['value_type'] ?? '';
@@ -97,7 +97,7 @@ class FormPresenter
             
             // 檢查檔案是否存在
             if ($input_setting['value_type'] == 'image' || $input_setting['value_type'] == 'file' || $input_type == 'file') {
-                $file_path = config('frontend.upload_path') . '/' . $input_setting['upload_path'] . $input_setting['input_value'];
+                $file_path = config('frontend.upload_path') . '/' . $input_setting['upload_path'] . '/' . $input_setting['input_value'];
                 if (!empty($input_setting['input_value']) && Storage::disk('public')->has($file_path)) {
 
                     // 判斷檔案類型，決定顯示圖片或文字
