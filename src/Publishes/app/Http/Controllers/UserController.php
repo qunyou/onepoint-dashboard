@@ -36,13 +36,8 @@ class UserController extends Controller
 
         // view 路徑
         $this->view_path = config('dashboard.view_path') . '.pages.user.';
-
         $this->user_id = request('user_id', false);
         $this->tpl_data['user_id'] = $this->user_id;
-
-        // 當前分頁
-        $this->page = request('page', 1);
-        $this->tpl_data['page'] = $this->page;
     }
 
     /**

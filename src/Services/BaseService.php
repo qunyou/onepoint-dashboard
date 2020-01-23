@@ -41,6 +41,9 @@ class BaseService
         unset($qs['page']);
         $this->tpl_data['qs'] = $qs;
         $this->tpl_data['query_string'] = http_build_query($qs);
+
+        // 當前分頁
+        $this->tpl_data['page'] = request('page', 1);
     }
 
     /**

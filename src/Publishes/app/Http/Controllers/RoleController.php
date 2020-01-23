@@ -33,14 +33,8 @@ class RoleController extends Controller
 
         // view 路徑
         $this->view_path = config('dashboard.view_path') . '.pages.role.';
-
-        // 主功能標題
         $this->role_id = request('role_id', false);
         $this->tpl_data['role_id'] = $this->role_id;
-
-        // 當前分頁
-        $this->page = request('page', 1);
-        $this->tpl_data['page'] = $this->page;
     }
 
     /**

@@ -19,6 +19,7 @@ class DashboardController extends Controller
         $this->base_services = $base_services;
         $this->tpl_data = $base_services->tpl_data;
         $this->tpl_data['base_services'] = $this->base_services;
+        $this->tpl_data['navigation_item'] = config('backend.navigation_item');
 
         // 預設網址
         $this->uri = config('dashboard.uri') . 'dashboard/';
@@ -26,9 +27,6 @@ class DashboardController extends Controller
 
         // view 路徑
         // $this->view_path = config('backend.view_path') . '.pages.dashboard.';
-
-        // 主功能標題
-        $this->tpl_data['page_header'] = __('backend.預設首頁');
     }
 
     /**
