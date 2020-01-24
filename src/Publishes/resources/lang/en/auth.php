@@ -8,6 +8,7 @@ return [
     '檢視人員' => 'View user',
     '新增人員' => 'Add user',
     '編輯人員' => 'Editor',
+    '更新人員' => 'Updater',
     '帳號' => 'Account',
     '密碼' => 'Password',
     '密碼確認' => 'Password Confirmation',
