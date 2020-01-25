@@ -47,7 +47,7 @@ config([
     ],
 
     // 前台
-    'frontend' => [
+    // 'frontend' => [
 
         // 前台網址
         'url' => 'http://default.test',
@@ -56,9 +56,9 @@ config([
         'upload_path' => 'uploads/' . $http_host,
 
         // 資源路徑
-        'assets_frontend_path' => 'assets/',
+        // 'assets_frontend_path' => 'assets/',
 
         // 無圖片時顯示的字串
         // 'upload_image_default_string' => '',
-    ],
+    // ],
 ]);
