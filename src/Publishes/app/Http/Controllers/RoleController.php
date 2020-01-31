@@ -21,9 +21,11 @@ class RoleController extends Controller
         $this->base_services = $base_services;
         $this->tpl_data = $base_services->tpl_data;
         $this->tpl_data['base_services'] = $this->base_services;
-        $this->role_repository = $role_repository;
-        $this->permission_controller_string = class_basename(get_class($this));
+        $this->permission_controller_string = get_class($this);
         $this->tpl_data['permission_controller_string'] = $this->permission_controller_string;
+        $this->tpl_data['navigation_item'] = config('backend.navigation_item');
+
+        $this->role_repository = $role_repository;
 
         // 預設網址
         $this->uri = config('dashboard.uri') . '/role/';
@@ -31,15 +33,8 @@ class RoleController extends Controller
 
         // view 路徑
         $this->view_path = config('dashboard.view_path') . '.pages.role.';
-
-        // 主功能標題
-        $this->tpl_data['page_header'] = __('auth.人員群組');
         $this->role_id = request('role_id', false);
         $this->tpl_data['role_id'] = $this->role_id;
-
-        // 當前分頁
-        $this->page = request('page', 1);
-        $this->tpl_data['page'] = $this->page;
     }
 
     /**

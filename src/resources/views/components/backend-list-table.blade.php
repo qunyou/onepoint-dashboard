@@ -50,7 +50,9 @@
                                     @case('badges')
                                         {{ $element->{$value[1]} }}<br>
                                         @foreach ($value[2] as $badge_key => $badge_value)
-                                            <span class="{{ $badge_value['class'] }}">{{ $badge_value['badge_title'] }}{{ $element->{$badge_key} }}</span>
+                                            <span class="{{ $badge_value['class'] }}">{{ $badge_value['badge_title'] }}
+                                                {{ $element->{$badge_key} }}
+                                            </span>
                                         @endforeach
                                         @break
                                     @case('image')

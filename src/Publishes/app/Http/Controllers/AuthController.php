@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers;
 
-// use Illuminate\Support\Facades\Auth;
 use Hash;
-// use App\Entities\User;
 use Onepoint\Dashboard\Presenters\PathPresenter;
-// use App\Repositories\UserRepository;
 // use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 
 class AuthController extends Controller
@@ -21,18 +18,6 @@ class AuthController extends Controller
     // public function __construct()
     // {
     //     $this->middleware('guest');
-    // }
-
-    /**
-     * 重導判斷
-     */
-    // public function index(PathPresenter $path_presenter)
-    // {
-    //     if (auth()->check()) {
-    //         return redirect(config('dashboard.uri') . '/' . config('dashboard.login_default_uri', 'dashboard/index'));
-    //     } else {
-    //         return redirect(config('dashboard.uri') . '/auth/login');
-    //     }
     // }
 
     /**

@@ -16,17 +16,34 @@ class BaseService
         // 目前所在方法
         $this->tpl_data['current_class_name'] = RouteService::getCurrentAction()['class_name'];
 
-        // 是否檢視刪除資料
+        // 檢視刪除資料狀態判斷
         $this->tpl_data['trashed'] = request('trashed', false);
+        $this->tpl_data['component_datas']['trashed'] = $this->tpl_data['trashed'];
 
-        // 是否檢視備份資料
+        // 檢視備份資料狀態判斷
         $this->tpl_data['version'] = request('version', false);
+        $this->tpl_data['component_datas']['version'] = $this->tpl_data['version'];
+
+        // 後台右上下拉選單預設值
+        $this->tpl_data['component_datas']['dropdown_items'] = [];
+
+        // 是否使用複製功能
+        $this->tpl_data['component_datas']['use_duplicate'] = true;
+
+        // 是否使用版本功能
+        $this->tpl_data['component_datas']['use_version'] = true;
+
+        // 是否使用排序功能
+        $this->tpl_data['component_datas']['use_sort'] = true;
 
         // 排除分頁 qs
         $qs = $_GET;
         unset($qs['page']);
         $this->tpl_data['qs'] = $qs;
         $this->tpl_data['query_string'] = http_build_query($qs);
+
+        // 當前分頁
+        $this->tpl_data['page'] = request('page', 1);
     }
 
     /**

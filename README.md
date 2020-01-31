@@ -42,11 +42,11 @@ custom/httpHost.php
     custom/onepoint
 
     修改成實際運作的網址，主要是用來判斷不同網址載入不同設定檔，如果不需要不同網址，可以取消 switch 的判斷
-    case 'hiyou.test':
+    case 'default.test':
 
 ## 資料庫設定
 
-custom/hiyou/baseConfig.php
+custom/default/baseConfig.php
 
 在這個檔設定資料庫的帳號密碼
 
@@ -218,7 +218,3 @@ config/filesystems.php
 .env
 
     APP_DEBUG=false
-
-# todo
-
-http://bootstraptour.com/
