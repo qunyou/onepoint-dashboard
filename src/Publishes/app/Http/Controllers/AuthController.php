@@ -26,14 +26,14 @@ class AuthController extends Controller
     /**
      * 重導判斷
      */
-    public function index(PathPresenter $path_presenter)
-    {
-        if (auth()->check()) {
-            return redirect(config('dashboard.uri') . '/' . config('dashboard.login_default_uri', 'dashboard/index'));
-        } else {
-            return redirect(config('dashboard.uri') . '/auth/login');
-        }
-    }
+    // public function index(PathPresenter $path_presenter)
+    // {
+    //     if (auth()->check()) {
+    //         return redirect(config('dashboard.uri') . '/' . config('dashboard.login_default_uri', 'dashboard/index'));
+    //     } else {
+    //         return redirect(config('dashboard.uri') . '/auth/login');
+    //     }
+    // }
 
     /**
      * 登入頁
