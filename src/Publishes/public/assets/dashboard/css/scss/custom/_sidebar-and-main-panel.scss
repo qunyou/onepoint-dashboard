@@ -8,7 +8,7 @@
   #menu-toggle {
     position: fixed;
     left: 0;
-    top: 14px;
+    top: 0;
     z-index: 99;
     border: 1px solid #615e5a;
     color: #fff;
@@ -298,12 +298,14 @@
   }
 
   > .content {
-    padding: 0 5px 20px 5px;
+    padding: 0 1rem 2rem 1rem;
     min-height: calc(100% - 123px);
+    margin-bottom: 5rem;
   }
 
   > .footer {
     border-top: 1px solid #e7e7e7;
+    background-color: #fff;
     .copyright {
       padding: 15px;
       text-align: right;
@@ -314,8 +316,10 @@
   }
 
   .navbar {
-    margin-bottom: 1rem;
     padding-bottom: 0.9rem;
-    background-color: #eee;
+    background-color: #fff;
+    margin: .5rem 0 1rem 0;
+    border-radius: .5rem;
+    box-shadow: 0 4px 20px 0 rgba(0,0,0,.05);
   }
 }

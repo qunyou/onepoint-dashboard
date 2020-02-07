@@ -24,11 +24,7 @@
 
 ### 複製必要檔案至正確目錄
 
-    php artisan vendor:publish --force
-
-會出現選項，選擇這個項目
-
-* Provider: Onepoint\Dashboard\DashboardServiceProvider
+    php artisan vendor:publish --provider="Onepoint\Dashboard\DashboardServiceProvider"
 
 ## 設定檔位置設定
 custom/httpHost.php

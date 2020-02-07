@@ -6,12 +6,18 @@
 }
 
 .card-list {
+  // border-radius: .5rem;
+  // box-shadow: 0 4px 20px 0 rgba(0,0,0,.05);
+  // .card-header,
+  // .card-footer {
+  //   background-color: #fff;
+  // }
   .card-title {
     @extend %card-title;
   }
 
   .card-body {
-    padding: 1rem 0 0;
+    padding: 0;
   }
 
   .collapse-search {
@@ -36,6 +42,13 @@
 .card-update {
   .card-title {
     @extend %card-title;
+  }
+  .form-body {
+    background-color: #fff;
+    border-radius: .5rem;
+    box-shadow: 0 4px 20px 0 rgba(0,0,0,.05);
+    padding: 1rem;
+    margin: 1rem 0;
   }
   .form-group {
     border-bottom: 1px solid #eee;

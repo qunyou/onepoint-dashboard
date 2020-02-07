@@ -1,3 +1,7 @@
+body {
+  background-color: #f8f8f8;
+}
+
 .backend-search-area .col-sm-2 {
   padding-bottom: 20px;
 }
@@ -33,7 +37,7 @@ i[class*="fa"] {
 }
 
 .breadcrumb {
-  padding: .45rem .5rem .45rem 1.7rem;
+  padding: .45rem .5rem .45rem .5rem;
   background-color: transparent;
   .breadcrumb-item {
     a {
@@ -43,9 +47,9 @@ i[class*="fa"] {
   }
 }
 
-.btn {
-  padding: .84rem .8rem;
-}
+// .btn {
+//   padding: .84rem .8rem;
+// }
 
 // 邊欄三角型記號
 .has-sub-caret::after {

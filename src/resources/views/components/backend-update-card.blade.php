@@ -1,8 +1,8 @@
 <form id="form-submit" method="post" action="" enctype="multipart/form-data">
     @csrf
     @method('PUT')
-    <div class="card card-update">
-        <div class="card-header">
+    <div class="card-update">
+        <!-- <div class="card-header"> -->
             <div class="row">
                 <div class="col">
                     <div class="card-title">{{ $page_title }}</div>
@@ -19,11 +19,11 @@
                     @endif
                 </div>
             </div>
-        </div>
-        <div class="card-body">
+        <!-- </div> -->
+        <div class="form-body">
             {{ $slot }}
         </div>
-        <footer class="card-footer">
+        <footer>
             <button id="form-button" type="submit" class="btn btn-outline-deep-purple waves-effect">
                 @lang('backend.送出')
             </button>

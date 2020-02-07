@@ -16,7 +16,7 @@
         <link rel="icon" href="{{ url(config('backend.favicon')) }}" type="image/x-icon">
     @endif
     @section('css')
-        <link rel="stylesheet" href="{{ $path_presenter::backend_assets('css/style.min.css?v=1.0.1') }}" />
+        <link rel="stylesheet" href="{{ $path_presenter::backend_assets('css/style.min.css?v=1.0.5') }}" />
         <link rel="stylesheet" href="{{ $path_presenter::backend_assets('fontawesome/css/all.css') }}" />
     @show
 
@@ -68,44 +68,47 @@
         </div>
 
         <div class="main-panel">
-            <nav class="navbar navbar-expand-lg navbar-light" color-on-scroll="500">
-                <div id="menu-toggle">
-                    <i class="sidebarExpand fas fa-angle-double-left"></i>
-                </div>
+         
+            <div class="container-fluid">
+                <nav class="navbar navbar-expand-lg navbar-light" color-on-scroll="500">
+                    <div id="menu-toggle">
+                        <i class="sidebarExpand fas fa-angle-double-left"></i>
+                    </div>
 
-                {{-- 麵包屑清單 --}}
-                @yield('page-header')
+                    {{-- 麵包屑清單 --}}
+                    @yield('page-header')
 
-                <div class="nav-top ml-auto d-none d-md-block">
-                    <ul class="list-group list-group-horizontal">
-                        
-                        {{-- 語言版本 --}}
-                        @if (config('backend.language', false))
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    {{ config('backend.language')[config('app.locale')] }}
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    @foreach (config('backend.language') as $language_key => $language_item)
-                                        <a class="dropdown-item" href="?lang={{ $language_key }}">{{ $language_item }}</a>
-                                    @endforeach
-                                </div>
-                            </li>
-                        @endif
-                        @if (config('frontend.url', false))
+                    <div class="nav-top ml-auto d-none d-md-block">
+                        <ul class="list-group list-group-horizontal">
+                            
+                            {{-- 語言版本 --}}
+                            @if (config('backend.language', false))
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        {{ config('backend.language')[config('app.locale')] }}
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                        @foreach (config('backend.language') as $language_key => $language_item)
+                                            <a class="dropdown-item" href="?lang={{ $language_key }}">{{ $language_item }}</a>
+                                        @endforeach
+                                    </div>
+                                </li>
+                            @endif
+                            @if (config('frontend.url', false))
+                                <li>
+                                    <a href="{{ config('frontend.url') }}" target="_blank"><i class="fas fa-home"></i>@lang('backend.檢視網站')</a>
+                                </li>
+                            @endif
                             <li>
-                                <a href="{{ config('frontend.url') }}" target="_blank"><i class="fas fa-home"></i>@lang('backend.檢視網站')</a>
+                                <a href="{{ url(config('dashboard.uri') . '/user/profile') }}"><i class="fas fa-lock"></i>@lang('auth.修改密碼')</a>
                             </li>
-                        @endif
-                        <li>
-                            <a href="{{ url(config('dashboard.uri') . '/user/profile') }}"><i class="fas fa-lock"></i>@lang('auth.修改密碼')</a>
-                        </li>
-                        <li>
-                            <a href="{{ url(config('dashboard.uri') . '/auth/logout') }}"><i class="fas fa-sign-out-alt"></i>@lang('auth.登出')</a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
+                            <li>
+                                <a href="{{ url(config('dashboard.uri') . '/auth/logout') }}"><i class="fas fa-sign-out-alt"></i>@lang('auth.登出')</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
 
             <div class="content" id="app">
                 <div class="container-fluid">
@@ -113,7 +116,7 @@
                 </div>
             </div>
 
-            <footer class="footer">
+            <footer class="footer fixed-bottom">
                 <div class="container-fluid">
                     <p class="copyright float-right">
                         &copy;
@@ -132,13 +135,30 @@
 <script src="{{ $path_presenter::backend_assets('js/popper.min.js') }}" type="text/javascript"></script>
 <script src="{{ $path_presenter::backend_assets('js/bootstrap.min.js') }}" type="text/javascript"></script>
 <script src="{{ $path_presenter::backend_assets('js/bootstrap-notify.js') }}" type="text/javascript"></script>
-<script src="{{ $path_presenter::backend_assets('js/mdb.min.js?v=1.0.0') }}" type="text/javascript"></script>
+{{-- <script src="{{ $path_presenter::backend_assets('js/mdb.min.js?v=1.0.0') }}" type="text/javascript"></script> --}}
 <script src="{{ $path_presenter::backend_assets('js/dashboard.js?v=1.0.0') }}" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/TableDnD/0.9.1/jquery.tablednd.js" integrity="sha256-d3rtug+Hg1GZPB7Y/yTcRixO/wlI78+2m08tosoRn7A=" crossorigin="anonymous"></script>
 <script src="{{ $path_presenter::backend_assets('js/vue.min.js?v=2.6.10') }}" type="text/javascript"></script>
 <script src="{{ $path_presenter::backend_assets('js/moment.min.js') }}" type="text/javascript"></script>
 <script src="{{ $path_presenter::backend_assets('js/axios.min.js') }}" type="text/javascript"></script>
 @yield('js')
 <script>
+{{-- 
+$(document).ready(function() {
+    $("#row-table").tableDnD({
+        dragHandle: ".drag",
+        onDrop: function(table, row) {
+            var rows = table.tBodies[0].rows;
+            var debugStr = "Row dropped was "+row.id+". New order: ";
+            for (var i=0; i<rows.length; i++) {
+                debugStr += rows[i].id+" ";
+            }
+            $('#debugArea').html(debugStr);
+        },
+    });
+});
+--}}
+
 @if (session('notify.message', false))
     $(function(){
         $.notify({

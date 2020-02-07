@@ -6,6 +6,18 @@
   width: 90px;
 }
 
+.th_sort_btn_width {
+  width: 60px;
+}
+
+.sort_btn {
+  padding: 0 !important;
+  font-size: 1.6rem;
+  a {
+    color: #7752b3;
+  }
+}
+
 .th_function_btn_width {
   width: 160px;
 }
@@ -22,4 +34,30 @@ tr.text-muted {
 .table-expand {
   color: #5e72e4;
   font-size: 1.2rem;
+}
+
+.card-list {
+  table {
+    border-collapse: separate; 
+    border-spacing: 0 1em;
+    color: #666;
+  }
+  tr {
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 4px 20px 0px;
+    background-color: #fff;
+  }
+  td {
+    border-top: none;
+    padding: 1rem;
+    vertical-align: middle;
+  }
+  thead {
+    tr {
+      box-shadow: none;
+    }
+    th {
+      background-color: #f8f8f8;
+      border-bottom: none;
+    }
+  }
 }
