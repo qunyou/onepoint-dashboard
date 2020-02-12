@@ -761,4 +761,23 @@ class BaseRepository
         session()->flash('notify.message', __('backend.版本還原完成'));
         session()->flash('notify.type', 'success');
     }
+
+    /**
+     * 下上排序修改
+     */
+    public function rearrange()
+    {
+        $method = request('method', false);
+        $position = request('position', false);
+        $sort_array = session('sort_array', false);
+        if ($method && $position !== false && $sort_array) {
+            if ($method == 'down') {
+                $this->model->find($sort_array[$position][0])->update(['sort' => $sort_array[$position][1] + 1]);
+                $this->model->find($sort_array[$position + 1][0])->update(['sort' => $sort_array[$position + 1][1] - 1]);
+            } else {
+                $this->model->find($sort_array[$position][0])->update(['sort' => $sort_array[$position][1] - 1]);
+                $this->model->find($sort_array[$position - 1][0])->update(['sort' => $sort_array[$position - 1][1] + 1]);
+            }
+        }
+    }
 }
