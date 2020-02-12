@@ -1,3 +1,14 @@
+@mixin icon-gradient ($top-color, $bottom-color){
+  background: $top-color;
+  background: -moz-linear-gradient(top,  $top-color 0%, $bottom-color 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,$top-color), color-stop(100%,$bottom-color));
+  background: -webkit-linear-gradient(top,  $top-color 0%,$bottom-color 100%);
+  background: -o-linear-gradient(top,  $top-color 0%,$bottom-color 100%);
+  background: -ms-linear-gradient(top,  $top-color 0%,$bottom-color 100%);
+  background: linear-gradient(to bottom,  $top-color 0%,$bottom-color 100%);
+  background-size: 150% 150%;
+}
+
 .navbar {
   justify-content: left;
 }
@@ -117,7 +128,7 @@
   display: block;
   z-index: 99;
   color: #fff;
-  font-weight: 200;
+  font-weight: normal;
   background-size: cover;
   background-position: center center;
   transition: all 0.4s ease 0s;
@@ -298,7 +309,7 @@
   }
 
   > .content {
-    padding: 0 1rem 2rem 1rem;
+    // padding: 0 1rem 2rem 1rem;
     min-height: calc(100% - 123px);
     margin-bottom: 5rem;
   }
@@ -307,10 +318,9 @@
     border-top: 1px solid #e7e7e7;
     background-color: #fff;
     .copyright {
-      padding: 15px;
-      text-align: right;
+      padding: .5rem 0;
+      text-align: center;
       @media (max-width: 991px) {
-        text-align: center;
       }
     }
   }

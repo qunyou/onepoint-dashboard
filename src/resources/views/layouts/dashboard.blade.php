@@ -16,7 +16,7 @@
         <link rel="icon" href="{{ url(config('backend.favicon')) }}" type="image/x-icon">
     @endif
     @section('css')
-        <link rel="stylesheet" href="{{ $path_presenter::backend_assets('css/style.min.css?v=1.0.5') }}" />
+        <link rel="stylesheet" href="{{ $path_presenter::backend_assets('css/style.min.css?v=1.0.7') }}" />
         <link rel="stylesheet" href="{{ $path_presenter::backend_assets('fontawesome/css/all.css') }}" />
     @show
 
@@ -68,7 +68,7 @@
         </div>
 
         <div class="main-panel">
-         
+
             <div class="container-fluid">
                 <nav class="navbar navbar-expand-lg navbar-light" color-on-scroll="500">
                     <div id="menu-toggle">
@@ -118,13 +118,17 @@
 
             <footer class="footer fixed-bottom">
                 <div class="container-fluid">
-                    <p class="copyright float-right">
+                    <div class="copyright">
                         &copy;
                         <script>
                             document.write(new Date().getFullYear())
                         </script>
                         {!! config('backend.footer_copyright') !!}
-                    </p>
+                        <div class="float-right">
+                            <a href="#"><i class="fas fa-arrow-alt-circle-up fa-lg"></i></a>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
                 </div>
             </footer>
 
@@ -171,10 +175,10 @@ $(document).ready(function() {
 
 
 var app = new Vue({
-  el: '#app',
-  data: {
-    message: 'Hello Vue!'
-  }
+    el: '#app',
+    data: {
+        message: 'Hello Vue!'
+    }
 })
 </script>
 @yield('bottom')
