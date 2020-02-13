@@ -10,24 +10,9 @@
             @if ($input_array['value_type'] == 'boolean')
                 {{ $input_array['input_value'] ? __('backend.是') : __('backend.否') }}
             @else
-                {!! $input_array['input_value'] !!}
+                {{ $input_array['input_value'] }}
             @endif
         @endif
     @endif
     {!! $input_array['depend_str'] !!}
 @endcomponent
-
-{{-- if (!isset($input_array['input_value'])) {
-    $input_array['input_value'] = '';
-} else {
-
-    // 選單類型資料
-    if (isset($option)) {
-
-        // checkbox 的值不好處理，直接用 checkbox 類型的表單來顯示
-        if (isset($option[$input_value])) {
-            $input_value = $option[$input_value];
-        }
-    }
-}
---}}

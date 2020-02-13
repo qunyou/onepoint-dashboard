@@ -71,7 +71,7 @@
                     <tr id="{{ $element->id }}" {!! $element->status == '停用' ? ' class="table-dark"' : '' !!}>
                         @if (auth()->user()->hasAccess(['update-' . $permission_controller_string]))
                             @if (!$version)
-                                <td class="drag d-none d-md-table-cell">
+                                <td class="{{ $use_drag_rearrange ?? true ? 'drag' : '' }} d-none d-md-table-cell">
                                     <input type="checkbox" name="checked_id[]" class="checkbox" value="{{ $element->id }}" />
                                 </td>
                             @endif

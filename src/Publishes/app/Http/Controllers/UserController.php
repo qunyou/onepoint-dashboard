@@ -25,7 +25,7 @@ class UserController extends Controller
         $this->tpl_data = $base_services->tpl_data;
         $this->tpl_data['base_services'] = $this->base_services;
         $this->permission_controller_string = get_class($this);
-        $this->tpl_data['permission_controller_string'] = $this->permission_controller_string;
+        $this->tpl_data['component_datas']['permission_controller_string'] = $this->permission_controller_string;
         $this->tpl_data['navigation_item'] = config('backend.navigation_item');
 
         $this->user_repository = $user_repository;
@@ -33,6 +33,7 @@ class UserController extends Controller
         // 預設網址
         $this->uri = config('dashboard.uri') . '/user/';
         $this->tpl_data['uri'] = $this->uri;
+        $this->tpl_data['component_datas']['uri'] = $this->uri;
 
         // view 路徑
         $this->view_path = config('dashboard.view_path') . '.pages.user.';
@@ -45,45 +46,68 @@ class UserController extends Controller
      */
     public function index()
     {
-        $this->tpl_data['list'] = $this->user_repository->getList($this->user_id, config('backend.paginate'));
-
-        // 樣版資料
+        // 列表標題
         if (!$this->tpl_data['trashed']) {
-            $component_datas['page_title'] = __('backend.列表');
+            $this->tpl_data['component_datas']['page_title'] = __('backend.列表');
         } else {
-            $component_datas['page_title'] = __('backend.資源回收');
+            $this->tpl_data['component_datas']['page_title'] = __('backend.資源回收');
         }
-        $component_datas['back_url'] = url($this->uri . 'index');
-        $this->tpl_data['footer_delete_hide'] = false;
+
+        // 主資料 id query string 字串
+        $this->tpl_data['component_datas']['id_string'] = 'user_id';
+
+        // 回列表網址
+        $this->tpl_data['component_datas']['back_url'] = url($this->uri . 'index');
+
+        // 表格欄位設定
+        $this->tpl_data['component_datas']['th'] = [
+            ['title' => __('auth.姓名'), 'class' => ''],
+            ['title' => __('auth.Email'), 'class' => 'd-none d-xl-table-cell'],
+        ];
+        $this->tpl_data['component_datas']['column'] = [
+            ['type' => 'column', 'class' => '', 'column_name' => 'username'],
+            ['type' => 'column', 'class' => 'd-none d-md-table-cell', 'column_name' => 'email'],
+        ];
+
+        // 是否使用複製功能
+        $this->tpl_data['component_datas']['use_duplicate'] = true;
+
+        // 是否使用版本功能
+        $this->tpl_data['component_datas']['use_version'] = true;
+
+        // 是否使用排序功能
+        $this->tpl_data['component_datas']['use_sort'] = true;
+
+        // 權限設定
+        $this->tpl_data['component_datas']['footer_delete_hide'] = false;
         if (auth()->user()->hasAccess(['create-' . $this->permission_controller_string])) {
-            $component_datas['add_url'] = url($this->uri . 'update');
+            $this->tpl_data['component_datas']['add_url'] = url($this->uri . 'update');
         }
         if (auth()->user()->hasAccess(['update-' . $this->permission_controller_string])) {
-            $this->tpl_data['footer_dropdown_hide'] = false;
-            $this->tpl_data['footer_sort_hide'] = false;
+            $this->tpl_data['component_datas']['footer_dropdown_hide'] = false;
+            $this->tpl_data['component_datas']['footer_sort_hide'] = false;
             if (!auth()->user()->hasAccess(['delete-' . $this->permission_controller_string])) {
-                $this->tpl_data['footer_delete_hide'] = true;
+                $this->tpl_data['component_datas']['footer_delete_hide'] = true;
             }
         } else {
-            $this->tpl_data['footer_dropdown_hide'] = true;
-            $this->tpl_data['footer_sort_hide'] = true;
+            $this->tpl_data['component_datas']['footer_dropdown_hide'] = true;
+            $this->tpl_data['component_datas']['footer_sort_hide'] = true;
         }
-        $this->tpl_data['use_version'] = true;
-        $this->tpl_data['use_duplicate'] = true;
-        $component_datas['trashed'] = $this->tpl_data['trashed'];
-        $component_datas['version'] = $this->tpl_data['version'];
-        $component_datas['qs'] = $this->tpl_data['qs'];
-        $component_datas['dropdown_items'] = [];
-        // if (auth()->user()->hasAccess(['create-' . $this->permission_controller_string])) {
-        //     $component_datas['dropdown_items']['items']['匯入'] = ['url' => url($this->uri . 'index?trashed=true')];
-        // }
+        if (auth()->user()->hasAccess(['create-' . $this->permission_controller_string])) {
+            $this->tpl_data['component_datas']['dropdown_items']['items']['匯入'] = ['url' => url($this->uri . 'import')];
+        }
         if (auth()->user()->hasAccess(['update-' . $this->permission_controller_string])) {
-            $component_datas['dropdown_items']['items']['舊版本'] = ['url' => url($this->uri . 'index?version=true')];
+            $this->tpl_data['component_datas']['dropdown_items']['items']['舊版本'] = ['url' => url($this->uri . 'index?version=true')];
         }
         if (auth()->user()->hasAccess(['delete-' . $this->permission_controller_string])) {
-            $component_datas['dropdown_items']['items']['資源回收'] = ['url' => url($this->uri . 'index?trashed=true')];
+            $this->tpl_data['component_datas']['dropdown_items']['items']['資源回收'] = ['url' => url($this->uri . 'index?trashed=true')];
         }
-        $this->tpl_data['component_datas'] = $component_datas;
+
+        // 列表資料查詢
+        $this->tpl_data['component_datas']['list'] = $this->user_repository->getList($this->user_id, config('backend.paginate'));
+
+        // 預覽按鈕網址
+        // $this->tpl_data['component_datas']['preview_url'] = ['url' => url(config('backend.book.preview_url')) . '/', 'column' => 'book_name_slug'];
         return view($this->view_path . 'index', $this->tpl_data);
     }
 
@@ -314,6 +338,17 @@ class UserController extends Controller
     {
         if ($this->user_id) {
             $this->user_repository->delete($this->user_id);
+        }
+        return redirect($this->uri . 'index');
+    }
+
+    /**
+     * 修改排序
+     */
+    public function rearrange()
+    {
+        if ($this->user_id) {
+            $this->user_repository->rearrange();
         }
         return redirect($this->uri . 'index');
     }

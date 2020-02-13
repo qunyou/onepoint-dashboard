@@ -19,7 +19,7 @@
                 <a href="{{ url($uri . 'detail?user_id=' . $user_id) }}">
                     @lang('auth.檢視人員')
                     @if ($version)
-                         - @lang('backend.版本檢視')
+                        - @lang('backend.版本檢視')
                     @endif
                 </a>
             </li>

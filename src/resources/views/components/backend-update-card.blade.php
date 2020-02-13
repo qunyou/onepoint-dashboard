@@ -2,11 +2,11 @@
     @csrf
     @method('PUT')
     <div class="card-update">
-        <div class="row">
-            <div class="col">
+        <div class="row justify-content-between px-3">
+            <div class="col-5 col-md-auto">
                 <div class="card-title">{{ $page_title }}</div>
             </div>
-            <div class="col">
+            <div class="col-7 col-md-auto">
                 @if ($back_url)
                     <div class="float-right">
                         <div class="btn-group">

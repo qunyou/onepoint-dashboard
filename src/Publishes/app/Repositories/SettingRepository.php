@@ -58,6 +58,15 @@ class SettingRepository extends BaseRepository
     }
 
     /**
+     * 列表
+     */
+    public function getRootList($id = 0, $paginate = 0)
+    {
+        $query = $this->permissions()->orderBy('sort');
+        return $this->fetchList($query, $id, $paginate);
+    }
+
+    /**
      * 單筆資料查詢
      */
     public function getOne($id)
@@ -105,20 +114,21 @@ class SettingRepository extends BaseRepository
         // $this->upload_file_resize = false;
 
         // 表單驗證
-        $rule_array = [
-            'setting_key' => [
-                'required',
-                'max:255',
-                Rule::unique('settings')->ignore($id)->whereNull('deleted_at'),
-            ]
-        ];
-        $custom_name_array = [
-            'setting_key' => __('backend.標題')
-        ];
+        // $rule_array = [
+        //     'setting_key' => [
+        //         'required',
+        //         'max:255',
+        //         Rule::unique('settings')->ignore($id)->whereNull('deleted_at'),
+        //     ]
+        // ];
+        // $custom_name_array = [
+        //     'setting_key' => __('backend.標題')
+        // ];
+        // ->rule($rule_array, $custom_name_array)
         if ($id) {
-            $result = $this->rule($rule_array, $custom_name_array)->replicateUpdate($id);
+            $result = $this->replicateUpdate($id);
         } else {
-            $result = $this->rule($rule_array, $custom_name_array)->update();
+            $result = $this->update();
         }
         if ($result) {
             return $result;

@@ -773,10 +773,16 @@ class BaseRepository
         if ($method && $position !== false && $sort_array) {
             if ($method == 'down') {
                 $this->model->find($sort_array[$position][0])->update(['sort' => $sort_array[$position][1] + 1]);
-                $this->model->find($sort_array[$position + 1][0])->update(['sort' => $sort_array[$position + 1][1] - 1]);
+                if (isset($sort_array[$position + 1])) {
+                    $this->model->find($sort_array[$position + 1][0])->update(['sort' => $sort_array[$position + 1][1] - 1]);
+                }
             } else {
-                $this->model->find($sort_array[$position][0])->update(['sort' => $sort_array[$position][1] - 1]);
-                $this->model->find($sort_array[$position - 1][0])->update(['sort' => $sort_array[$position - 1][1] + 1]);
+                if ($sort_array[$position][1] > 1) {
+                    $this->model->find($sort_array[$position][0])->update(['sort' => $sort_array[$position][1] - 1]);
+                }
+                if (isset($sort_array[$position - 1])) {
+                    $this->model->find($sort_array[$position - 1][0])->update(['sort' => $sort_array[$position - 1][1] + 1]);
+                }
             }
         }
     }

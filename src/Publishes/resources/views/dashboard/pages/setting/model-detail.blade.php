@@ -17,7 +17,7 @@
                 <a href="{{ url($uri . 'detail?setting_id=' . $setting_id) }}">
                     @lang('backend.檢視')
                     @if ($version)
-                         - @lang('backend.版本檢視')
+                        - @lang('backend.版本檢視')
                     @endif
                 </a>
             </li>

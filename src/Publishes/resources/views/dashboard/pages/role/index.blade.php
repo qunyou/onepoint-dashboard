@@ -26,31 +26,6 @@
 @endsection
 
 @section('main_block')
-    @component('dashboard::components.backend-list-card', $component_datas)
-        @if ($list)
-            @component('dashboard::components.backend-list-table', [
-                'permission_controller_string' => $permission_controller_string,
-                'trashed' => $trashed,
-                'version' => $version,
-                'list' => $list,
-                'uri' => $uri,
-                'id_string' => 'role_id',
-                'footer_dropdown_hide' => $footer_dropdown_hide,
-                'footer_sort_hide' => $footer_sort_hide,
-                'footer_delete_hide' => $footer_delete_hide,
-                'qs' => $qs,
-                'use_version' => $use_version ?? false,
-                'use_duplicate' => $use_duplicate ?? false,
-                'column' => [
-                    'role_name',
-                    'status'
-                ],
-            ])
-                @slot('th')
-                    <th scope="col">@lang('auth.群組名稱')</th>
-                    <th scope="col" class="d-none d-md-table-cell">@lang('backend.狀態')</th>
-                @endslot
-            @endcomponent
-        @endif
+    @component('dashboard::components.backend-list', $component_datas)
     @endcomponent
 @endsection

@@ -43,148 +43,130 @@
 @endsection
 
 @section('main_block')
-    <form id="form-submit" method="post" action="" enctype="multipart/form-data">
-        @csrf
-        @method('PUT')
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="row">
-                            <div class="col">
-                                <h4 class="card-title">{{ $page_title }}</h4>
-                            </div>
-                            <div class="col">
-                                <div class="float-right">
-                                    <div class="btn-group">
-                                        <a class="btn btn-outline-deep-purple waves-effect" href="{{ url($uri . 'index') }}"><i class="fa fa-fw fa-arrow-left"></i>{{ trans('backend.回列表') }}</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        @include('dashboard::select', ['input_setting' => [
-                            'display_name' => 'model',
-                            'input_name' => 'model',
-                            'input_value' => old('model', optional($setting)->model),
-                            'option' => config('backend.setting.model'),
-                            'attribute' => 'required',
-                        ]])
+    @component('dashboard::components.backend-update-card', $component_datas)
+        <div class="form-body">
+            @include('dashboard::select', ['input_setting' => [
+                'display_name' => 'model',
+                'input_name' => 'model',
+                'input_value' => old('model', optional($setting)->model),
+                'option' => config('backend.setting.model'),
+                'attribute' => 'required',
+            ]])
 
-                        @include('dashboard::select', ['input_setting' => [
-                            'display_name' => 'type',
-                            'input_name' => 'type',
-                            'input_value' => old('type', optional($setting)->type),
-                            'option' => config('backend.setting.type'),
-                            'attribute' => 'required',
-                        ]])
+            @include('dashboard::select', ['input_setting' => [
+                'display_name' => 'type',
+                'input_name' => 'type',
+                'input_value' => old('type', optional($setting)->type),
+                'option' => config('backend.setting.type'),
+                'attribute' => 'required',
+            ]])
 
-                        @include('dashboard::text', ['input_setting' => [
-                            'display_name' => __('backend.標題'),
-                            'input_name' => 'title',
-                            'input_value' => old('title', optional($setting)->title),
-                            'attribute' => 'required',
-                        ]])
+            @include('dashboard::text', ['input_setting' => [
+                'display_name' => __('backend.標題'),
+                'input_name' => 'title',
+                'input_value' => old('title', optional($setting)->title),
+                'attribute' => 'required',
+            ]])
 
-                        @include('dashboard::textarea', ['input_setting' => [
-                            'display_name' => __('backend.說明'),
-                            'input_name' => 'description',
-                            'input_value' => old('description', optional($setting)->description),
-                        ]])
+            @include('dashboard::textarea', ['input_setting' => [
+                'display_name' => __('backend.說明'),
+                'input_name' => 'description',
+                'input_value' => old('description', optional($setting)->description),
+            ]])
 
-                        @include('dashboard::text', ['input_setting' => [
-                            'display_name' => 'setting_key',
-                            'input_name' => 'setting_key',
-                            'input_value' => old('setting_key', optional($setting)->setting_key),
-                            'attribute' => 'required',
-                        ]])
+            @include('dashboard::text', ['input_setting' => [
+                'display_name' => 'setting_key',
+                'input_name' => 'setting_key',
+                'input_value' => old('setting_key', optional($setting)->setting_key),
+                'attribute' => 'required',
+            ]])
 
-                        @if ($setting_id > 0)
-                            @switch($setting->type)
-                                @case('num')
-                                @case('number')
+            @include('dashboard::text', ['input_setting' => [
+                'display_name' => 'setting_key',
+                'input_name' => 'setting_key',
+                'input_value' => old('setting_key', optional($setting)->setting_key),
+                'attribute' => 'required',
+            ]])
 
-                                    {{-- 數字 --}}
-                                    @include('dashboard::number', ['input_setting' => [
-                                        'display_name' => 'setting_value',
-                                        'input_name' => 'setting_value',
-                                        'input_value' => old('setting_value', optional($setting)->setting_value),
-                                    ]])
-                                    @break
+            @if ($setting_id > 0)
+                @switch(session('inputs.type'))
+                    @case('num')
+                    @case('number')
 
-                                @case('str')
-                                @case('string')
-                                @case('text')
-
-                                    {{-- 文字 --}}
-                                    @include('dashboard::text', ['input_setting' => [
-                                        'display_name' => 'setting_value',
-                                        'input_name' => 'setting_value',
-                                        'input_value' => old('setting_value', optional($setting)->setting_value),
-                                    ]])
-                                    @break
-
-                                @case('textarea')
-
-                                    {{-- 文字區 --}}
-                                    @include('dashboard::textarea', ['input_setting' => [
-                                        'display_name' => 'setting_value',
-                                        'input_name' => 'setting_value',
-                                        'input_value' => old('setting_value', optional($setting)->setting_value),
-                                    ]])
-                                    @break
-
-                                @case('editor')
-
-                                    {{-- 編輯器 --}}
-                                    @include('dashboard::tinymce', ['input_setting' => [
-                                        'display_name' => 'setting_value',
-                                        'input_name' => 'setting_value',
-                                        'input_value' => old('setting_value', optional($setting)->setting_value),
-                                    ]])
-                                    @break
-
-                                @case('file')
-                                @case('file_name')
-
-                                    {{-- 檔案上傳 --}}
-                                    @include('dashboard::file', ['input_setting' => [
-                                        'display_name' => 'setting_value',
-                                        'input_name' => 'setting_value',
-                                        'input_value' => old('setting_value', optional($setting)->setting_value),
-                                    ]])
-                                    @break
-
-                                @case('color')
-
-                                    {{-- 選取顏色 --}}
-                                    @include('dashboard::color', ['input_setting' => [
-                                        'display_name' => 'setting_value',
-                                        'input_name' => 'setting_value',
-                                        'input_value' => old('setting_value', optional($setting)->setting_value),
-                                    ]])
-                                    @break
-                            @endswitch
-                        @else
-                            @include('dashboard::value', ['input_setting' => [
-                                'display_name' => 'setting_value',
-                                'input_name' => 'setting_value',
-                                'input_value' => '新增後再設定設定值',
-                            ]])
-                        @endif
-
+                        {{-- 數字 --}}
                         @include('dashboard::number', ['input_setting' => [
-                            'display_name' => __('backend.排序'),
-                            'input_name' => 'sort',
-                            'input_value' => old('sort', optional($setting)->sort),
+                            'display_name' => 'setting_value',
+                            'input_name' => 'setting_value',
+                            'input_value' => old('setting_value', optional($setting)->setting_value),
                         ]])
-                    </div>
-                    <footer class="card-footer">
-                        <button id="form-button" type="submit" class="btn btn-outline-deep-purple waves-effect">@lang('backend.送出')</button>
-                    </footer>
-                </div>
-            </div>
+                        @break
+
+                    @case('str')
+                    @case('string')
+                    @case('text')
+
+                        {{-- 文字 --}}
+                        @include('dashboard::text', ['input_setting' => [
+                            'display_name' => 'setting_value',
+                            'input_name' => 'setting_value',
+                            'input_value' => old('setting_value', optional($setting)->setting_value),
+                        ]])
+                        @break
+
+                    @case('textarea')
+
+                        {{-- 文字區 --}}
+                        @include('dashboard::textarea', ['input_setting' => [
+                            'display_name' => 'setting_value',
+                            'input_name' => 'setting_value',
+                            'input_value' => old('setting_value', optional($setting)->setting_value),
+                        ]])
+                        @break
+
+                    @case('editor')
+
+                        {{-- 編輯器 --}}
+                        @include('dashboard::tinymce', ['input_setting' => [
+                            'display_name' => 'setting_value',
+                            'input_name' => 'setting_value',
+                            'input_value' => old('setting_value', optional($setting)->setting_value),
+                        ]])
+                        @break
+
+                    @case('file')
+                    @case('file_name')
+
+                        {{-- 檔案上傳 --}}
+                        @include('dashboard::file', ['input_setting' => [
+                            'display_name' => 'setting_value',
+                            'input_name' => 'setting_value',
+                            'input_value' => old('setting_value', optional($setting)->setting_value),
+                        ]])
+                        @break
+
+                    @case('color')
+
+                        {{-- 選取顏色 --}}
+                        @include('dashboard::color', ['input_setting' => [
+                            'display_name' => 'setting_value',
+                            'input_name' => 'setting_value',
+                            'input_value' => old('setting_value', optional($setting)->setting_value),
+                        ]])
+                        @break
+                @endswitch
+            @else
+                @include('dashboard::value', ['input_setting' => [
+                    'display_name' => 'setting_value',
+                    'input_name' => 'setting_value',
+                    'input_value' => '新增後再設定設定值',
+                ]])
+            @endif
+
+            @include('dashboard::number', ['input_setting' => [
+                'display_name' => __('backend.排序'),
+                'input_name' => 'sort',
+                'input_value' => old('sort', optional($setting)->sort),
+            ]])
         </div>
-    </form>
+    @endcomponent
 @endsection
