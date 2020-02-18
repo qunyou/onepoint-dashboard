@@ -49,6 +49,29 @@ class ImageService
     }
 
     /**
+     * 圖片路徑
+     *
+     * $path            String      縮圖路徑
+     * $file_name       String      檔名
+     * $custom_folder   String      資料夾
+     *
+     * @return string
+     */
+    public static function getPath($path, $file_name, $custom_folder = '')
+    {
+        $custom_path = '';
+        if (!empty($custom_folder)) {
+            $custom_path = $custom_folder;
+        }
+        $custom_path = $custom_path . '/' . $path;
+        $file_path = config('frontend.upload_path') . '/' . $custom_path . $file_name;
+        if (Storage::disk('public')->exists($file_path)) {
+            return asset('storage/' . $file_path);
+        }
+        return false;
+    }
+
+    /**
      * 製作圖片 html code
      *
      * @return string
@@ -56,13 +79,7 @@ class ImageService
     public static function showImg($path, $file_name, $attribute = '', $default_str, $custom_folder = '')
     {
         if (!empty($file_name)) {
-            $custom_path = '';
-            if (!empty($custom_folder)) {
-                $custom_path = $custom_folder;
-            }
-            $custom_path = $custom_path . '/' . $path;
-            $file_path = config('frontend.upload_path') . '/' . $custom_path . $file_name;
-            if (Storage::disk('public')->exists($file_path)) {
+            if ($file_path = Self::getPath($path, $file_name, $custom_folder)) {
                 if (is_array($attribute)) {
                     $attribute = join(' ', array_map(function($key) use ($attribute) {
                         if(is_bool($attribute[$key])) {
@@ -71,7 +88,7 @@ class ImageService
                         return $key.'="'.$attribute[$key].'"';
                     }, array_keys($attribute)));
                 }
-                return '<img src="' . asset('storage/' . $file_path) . '" ' . $attribute . '>';
+                return '<img src="' . $file_path . '" ' . $attribute . '>';
             }
         }
         if ($default_str === false) {

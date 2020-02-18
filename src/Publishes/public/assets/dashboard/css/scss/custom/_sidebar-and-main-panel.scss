@@ -317,6 +317,11 @@
   > .footer {
     border-top: 1px solid #e7e7e7;
     background-color: #fff;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
     .copyright {
       padding: .5rem 0;
       text-align: center;

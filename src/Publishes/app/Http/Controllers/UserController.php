@@ -14,8 +14,6 @@ use App\Repositories\RoleRepository;
  */
 class UserController extends Controller
 {
-    public $duplicate = false;
-
     /**
      * 建構子
      */
@@ -254,7 +252,7 @@ class UserController extends Controller
      */
     public function duplicate()
     {
-        $this->duplicate = true;
+        $this->tpl_data['duplicate'] = true;
         return $this->update();
     }
 

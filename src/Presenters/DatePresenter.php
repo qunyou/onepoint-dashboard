@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Presenters;
+namespace Onepoint\Dashboard\Presenters;
 
 /**
  * 日期輔助方法
