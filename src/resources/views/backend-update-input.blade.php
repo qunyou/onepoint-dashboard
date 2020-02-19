@@ -12,5 +12,6 @@
         'image_thumb' => $item_value['image_thumb'] ?? false,
         'multiple' => $item_value['multiple'] ?? false,
         'rows' => $item_value['rows'] ?? 20,
+        'parameter' => $item_value['parameter'] ?? [],
     ]])
 @endforeach

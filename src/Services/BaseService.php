@@ -5,6 +5,7 @@ namespace Onepoint\Dashboard\Services;
 use Jenssegers\Agent\Agent;
 use Onepoint\Dashboard\Services\RouteService;
 use Onepoint\Base\Entities\BrowserAgent;
+use Onepoint\Dashboard\Presenters\FormPresenter;
 
 class BaseService
 {
@@ -13,8 +14,13 @@ class BaseService
      */
     function __construct()
     {
+        $current_action = RouteService::getCurrentAction();
+
         // 目前所在方法
-        $this->tpl_data['current_class_name'] = RouteService::getCurrentAction()['class_name'];
+        $this->tpl_data['current_class_name'] = $current_action['class_name'];
+        if ($current_action['method'] == 'update' || $current_action['method'] == 'detail') {
+            $this->tpl_data['formPresenter'] = new FormPresenter;
+        }
 
         // 檢視刪除資料狀態判斷
         $this->tpl_data['trashed'] = request('trashed', false);

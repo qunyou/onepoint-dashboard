@@ -1,4 +1,3 @@
-@inject('formPresenter','Onepoint\Dashboard\Presenters\FormPresenter')
 @component('dashboard::components.inputs', $input_array = $formPresenter->setValue($input_setting, 'custom'))
     @if (is_array($input_array['input_value']))
         <ul>

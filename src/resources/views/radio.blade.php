@@ -1,4 +1,3 @@
-@inject('formPresenter','Onepoint\Dashboard\Presenters\FormPresenter')
 @component('dashboard::components.inputs', $input_array = $formPresenter->setValue($input_setting, 'radio'))
     @foreach ($input_array['option'] as $key => $element)
         <label class="radio-inline">

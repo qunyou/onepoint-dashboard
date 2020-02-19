@@ -24,6 +24,7 @@ class FormPresenter
         $input_setting['error'] = $input_setting['error'] ?? false;
         $input_setting['help'] = $input_setting['help'] ?? false;
         $input_setting['input_value'] = $input_setting['input_value'] ?? '';
+        // $input_setting['parameter'] = $input_setting['parameter'] ?? [];
         
         // 表單尺寸
         $input_setting['input_size_class'] = $input_setting['input_size_class'] ?? '';

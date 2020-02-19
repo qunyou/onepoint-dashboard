@@ -1,4 +1,3 @@
-@inject('formPresenter','Onepoint\Dashboard\Presenters\FormPresenter')
 @component('dashboard::components.inputs', $input_array = $formPresenter->setValue($input_setting, 'file'))
     <input type="file" class="{{ $input_array['input_size_class'] }}" id="{{ $input_array['input_name'] }}" name="{{ $input_array['input_name'] }}{{ $input_array['multiple'] ? '[]' : '' }}" {!! $input_array['attribute'] !!} {{ $input_array['multiple'] ? 'multiple' : '' }} {!! $input_array['accept'] !!}>
 @endcomponent
