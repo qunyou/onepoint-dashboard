@@ -18,7 +18,7 @@ class BaseService
 
         // 目前所在方法
         $this->tpl_data['current_class_name'] = $current_action['class_name'];
-        if ($current_action['method'] == 'update' || $current_action['method'] == 'detail') {
+        if ($current_action['method'] == 'update' || $current_action['method'] == 'detail' || $current_action['method'] == 'duplicate') {
             $this->tpl_data['formPresenter'] = new FormPresenter;
         }
 
