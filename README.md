@@ -214,3 +214,21 @@ config/filesystems.php
 .env
 
     APP_DEBUG=false
+
+### Homestead 上傳檔案大小修改
+
+預設只能傳小於 1M 的檔案，修改後會比較好測試
+
+    在設定檔中的 http 中加一行上傳檔案大小設定
+    sudo nano /etc/nginx/nginx.conf
+    http {
+        client_max_body_size 100M;
+    }
+
+    預設可上傳 100M, 正常情況不用修改
+    sudo nano /etc/php/7.4/fpm/php.ini
+
+    要修改的項目
+    memory_limit = 128M 
+    post_max_size = 20M
+    upload_max_filesize = 10M

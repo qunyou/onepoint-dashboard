@@ -16,7 +16,7 @@
         <link rel="icon" href="{{ url(config('backend.favicon')) }}" type="image/x-icon">
     @endif
     @section('css')
-        <link rel="stylesheet" href="{{ $path_presenter::backend_assets('css/style.min.css?v=1.1.0') }}" />
+        <link rel="stylesheet" href="{{ $path_presenter::backend_assets('css/style.min.css?v=1.1.2') }}" />
         <link rel="stylesheet" href="{{ $path_presenter::backend_assets('fontawesome/css/all.css') }}" />
     @show
 
@@ -117,21 +117,13 @@
             </div>
 
             <footer class="footer">
-                <div class="container-fluid">
-                    <div class="copyright">
-                        &copy;
-                        <script>
-                            document.write(new Date().getFullYear())
-                        </script>
-                        {!! config('backend.footer_copyright') !!}
-                        <div class="float-right">
-                            <a href="#"><i class="fas fa-arrow-alt-circle-up fa-lg"></i></a>
-                        </div>
-                        <div class="clearfix"></div>
+                <div class="copyright">
+                    <div class="float-right">
+                        <a href="#"><i class="fas fa-arrow-alt-circle-up fa-lg"></i></a>
                     </div>
+                    <div class="clearfix"></div>
                 </div>
             </footer>
-
         </div>
     </div>
 </body>

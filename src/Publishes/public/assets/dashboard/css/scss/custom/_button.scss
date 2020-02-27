@@ -4,6 +4,18 @@
     color: #7752b3;
 }
 
+.top-btn-group {
+    .btn {
+        @include media-breakpoint-down(sm) {
+            display: block;
+            margin-bottom: .5rem;
+        }
+        &.dropdown-toggle {
+            width: 100%;
+        }
+    }
+}
+
 // [data-color="purple"] {
 //     .sidebar:after {
 //       @include icon-gradient($new-dark-blue, $blue-color-bottom);

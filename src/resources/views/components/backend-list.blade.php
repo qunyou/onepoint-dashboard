@@ -2,29 +2,39 @@
 
 <div class="card-list">
     <div class="row justify-content-between px-3">
-        <div class="col-5 col-md-auto">
-            <div class="card-title">
+        <div class="col-12">
+            <div class="card-title mb-4">
                 {{ $page_title }}
                 @if ($version)
                     - @lang('backend.版本檢視')
                 @endif
             </div>
         </div>
-        <div class="col-7 col-md-auto">
+        <div class="col-md-12 top-btn-group">
+            <div class="btn-group d-block d-md-inline-block">
+                <button class="btn btn-outline-deep-purple waves-effect dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    1-50，共 100 筆資料
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a href="{{ url($uri) }}" class="dropdown-item">每頁顯示 50 筆資料</a>
+                    <a href="{{ url($uri) }}" class="dropdown-item">每頁顯示 100 筆資料</a>
+                    <a href="{{ url($uri) }}" class="dropdown-item">每頁顯示 1000 筆資料</a>
+                </div>
+            </div>
             @if (!$trashed && !$version)
                 @if (isset($add_url) || isset($dropdown_items) || isset($button_block))
-                    @component('dashboard::components.dropdown-toggle', $dropdown_items)
+                    @component('dashboard::components.top-btn-group', $dropdown_items)
                         {{ $button_block ?? '' }}
                         @if (isset($add_url))
-                            <a class="btn btn-outline-deep-purple waves-effect" href="{{ $add_url }}">
-                                <i class="fa fa-plus"></i><span class="d-none d-md-inline">@lang('backend.新增')</span>
+                            <a class="btn btn-outline-deep-purple waves-effect d-xs-block" href="{{ $add_url }}">
+                                <i class="fa fa-plus"></i>@lang('backend.新增')
                             </a>
                         @endif
                     @endcomponent
                 @endif
             @else
                 <a class="btn btn-outline-deep-purple waves-effect float-right d-none d-md-inline" href="{{ $back_url }}">
-                    <i class="fa fa-arrow-left"></i><span class="d-none d-md-inline">@lang('backend.回列表')</span>
+                    <i class="fa fa-arrow-left"></i>@lang('backend.回列表')
                 </a>
             @endif
         </div>

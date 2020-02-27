@@ -126,7 +126,7 @@
   left: 0;
   width: 0;
   display: block;
-  z-index: 1;
+  z-index: 2;
   color: #fff;
   font-weight: normal;
   background-size: cover;
@@ -314,18 +314,17 @@
     margin-bottom: 5rem;
   }
 
-  > .footer {
-    border-top: 1px solid #e7e7e7;
-    background-color: #fff;
+  .footer {
     position: fixed;
-    right: 0;
-    bottom: 0;
-    left: 0;
     z-index: 1;
+    bottom: 0;
+    right: 0;
+    left: 0;
     .copyright {
-      padding: .5rem 0;
-      text-align: center;
-      @media (max-width: 991px) {
+      padding: 1rem;
+      i {
+        font-size: 1.6rem;
+        color: #615e5a;
       }
     }
   }
