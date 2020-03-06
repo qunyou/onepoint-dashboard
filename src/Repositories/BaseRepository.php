@@ -478,7 +478,13 @@ class BaseRepository
             $query = $query->orderBy($order_by, $power);
         }
         if ($paginate) {
-            $query = $query->paginate($paginate);
+            
+            // 分頁設定
+            $records_per_page = request('records_per_page', false);
+            if ($records_per_page > 0) {
+                session(['records_per_page' => $records_per_page]);
+            }
+            $query = $query->paginate(session('records_per_page', $paginate));
         } else {
             $query = $query->get();
         }

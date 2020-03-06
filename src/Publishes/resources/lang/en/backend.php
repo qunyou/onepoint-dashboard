@@ -4,8 +4,6 @@ return array(
     '網站內容管理系統' => 'Website CMS',
     '檢視網站' => 'View website',
     '管理者' => 'Manager',
-    '上頁' => 'last page',
-    '下頁' => 'next page',
     '預設首頁' => 'Default homepage',
     '操作說明' => 'Instructions',
     '資源回收' => 'Recycle',
@@ -75,6 +73,7 @@ return array(
     '搜尋' => 'search',
     '多檔上傳' => 'Multi-file upload',
     '列表摘要' => 'List summary',
+    '自訂列表縮圖內容' => '自訂列表縮圖內容',
     '僅供會員檢視' => 'Visible to members only',
     '外連網址' => 'External URL',
 

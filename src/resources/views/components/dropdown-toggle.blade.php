@@ -1,4 +1,4 @@
-<div class="btn-group {{ $btn_align ?? 'dropleft float-right' }}">
+<div class="btn-group dropdown {{ $btn_align ?? 'dropleft float-right' }}">
     {{-- 因為權限限制剩下一個選項時，只顯示單純按鈕，不顯示下拉選單 --}}
     @if (!empty($slot->toHtml()))
         {{ $slot }}
@@ -12,7 +12,7 @@
                 @endphp
             @else
                 <button type="button" class="btn btn-outline-deep-purple dropdown-toggle px-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="sr-only">Toggle Dropdown</span>
+                    <span class="d-none d-md-inline">更多功能</span>
                 </button>
                 <div class="dropdown-menu">
                 @php

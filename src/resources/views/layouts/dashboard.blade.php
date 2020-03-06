@@ -16,7 +16,7 @@
         <link rel="icon" href="{{ url(config('backend.favicon')) }}" type="image/x-icon">
     @endif
     @section('css')
-        <link rel="stylesheet" href="{{ $path_presenter::backend_assets('css/style.min.css?v=1.1.2') }}" />
+        <link rel="stylesheet" href="{{ $path_presenter::backend_assets('css/style.min.css?v=1.1.5') }}" />
         <link rel="stylesheet" href="{{ $path_presenter::backend_assets('fontawesome/css/all.css') }}" />
     @show
 
@@ -164,14 +164,19 @@ $(document).ready(function() {
     });
 @endif
 
-{{--
-var app = new Vue({
+const app = new Vue({
     el: '#app',
     data: {
-        message: 'Hello Vue!'
+        @yield('vuejs_data')
+        result: false
+    },
+    components: {
+        @yield('vuejs_components')
+    },
+    methods: {
+        @yield('vuejs_methods')
     }
 })
---}}
 </script>
 @yield('bottom')
 </html>

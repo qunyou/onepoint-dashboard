@@ -1,3 +1,5 @@
+@inject('path_presenter', 'Onepoint\Dashboard\Presenters\PathPresenter')
+
 @section('js')
     @parent
     <script src="{{ $path_presenter::backend_assets('js/vuejs-datepicker/vuejs-datepicker.min.js') }}" type="text/javascript"></script>

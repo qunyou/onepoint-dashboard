@@ -3,7 +3,7 @@
 <div class="card-list">
     <div class="row justify-content-between px-3">
         <div class="col-12">
-            <div class="card-title mb-4">
+            <div class="card-title">
                 {{ $page_title }}
                 @if ($version)
                     - @lang('backend.版本檢視')
@@ -12,13 +12,15 @@
         </div>
         <div class="col-md-12 top-btn-group">
             <div class="btn-group d-block d-md-inline-block">
+                @if ($list)
                 <button class="btn btn-outline-deep-purple waves-effect dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    1-50，共 100 筆資料
+                    {{ $list->firstItem() }} - {{ $list->count() }}，@lang('pagination.共') {{ $list->total() }} @lang('pagination.筆資料')
                 </button>
+                @endif
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a href="{{ url($uri) }}" class="dropdown-item">每頁顯示 50 筆資料</a>
-                    <a href="{{ url($uri) }}" class="dropdown-item">每頁顯示 100 筆資料</a>
-                    <a href="{{ url($uri) }}" class="dropdown-item">每頁顯示 1000 筆資料</a>
+                    <a href="{{ url($uri . 'index?records_per_page=50') }}" class="dropdown-item">@lang('pagination.每頁顯示') 50 @lang('pagination.筆資料')</a>
+                    <a href="{{ url($uri . 'index?records_per_page=100') }}" class="dropdown-item">@lang('pagination.每頁顯示') 100 @lang('pagination.筆資料')</a>
+                    <a href="{{ url($uri . 'index?records_per_page=1000') }}" class="dropdown-item">@lang('pagination.每頁顯示') 1000 @lang('pagination.筆資料')</a>
                 </div>
             </div>
             @if (!$trashed && !$version)
@@ -263,8 +265,11 @@
                         @endif
                     @endif
                 </div>
-                <div class="col-md-auto pt-2">
+                {{-- <div class="col-md-auto pt-2">
                     {{ $slot }}
+                </div> --}}
+                <div class="col-md-auto pt-2">
+                    {!! $list->appends($qs)->links() !!}
                 </div>
                 <div class="col d-none d-md-inline">
                     @if (!isset($footer_sort_hide) || ($use_sort && isset($footer_sort_hide) && !$footer_sort_hide))
