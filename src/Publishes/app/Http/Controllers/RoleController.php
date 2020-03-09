@@ -100,6 +100,7 @@ class RoleController extends Controller
 
         // 列表資料查詢
         $this->tpl_data['component_datas']['list'] = $this->role_repository->getList($this->role_id, config('backend.paginate'));
+        $this->tpl_data['component_datas']['qs'] = $this->base_services->getQueryString();
 
         // 預覽按鈕網址
         // $this->tpl_data['component_datas']['preview_url'] = ['url' => url(config('backend.book.preview_url')) . '/', 'column' => 'book_name_slug'];

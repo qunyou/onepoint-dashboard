@@ -103,6 +103,7 @@ class UserController extends Controller
 
         // 列表資料查詢
         $this->tpl_data['component_datas']['list'] = $this->user_repository->getList($this->user_id, config('backend.paginate'));
+        $this->tpl_data['component_datas']['qs'] = $this->base_services->getQueryString();
 
         // 預覽按鈕網址
         // $this->tpl_data['component_datas']['preview_url'] = ['url' => url(config('backend.book.preview_url')) . '/', 'column' => 'book_name_slug'];
