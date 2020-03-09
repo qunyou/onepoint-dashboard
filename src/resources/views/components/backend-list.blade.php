@@ -234,7 +234,7 @@
                                     <button class="btn btn-outline-deep-purple waves-effect dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         @lang('backend.選取項目')
                                     </button>
-                                    <div class="dropdown-menu dropdown-menu-right">
+                                    <div class="dropdown-menu">
                                         @if ($trashed)
                                             @if (!isset($footer_status_hide) || (isset($footer_status_hide) && !$footer_status_hide))
                                                 <button type="submit" name="force_delete" value="force_delete" class="dropdown-item">
@@ -286,4 +286,4 @@
         </footer>
     </form>
     @endif
-</div>
+</div

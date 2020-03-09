@@ -126,7 +126,7 @@
   left: 0;
   width: 0;
   display: block;
-  z-index: 99;
+  z-index: 999;
   color: #fff;
   font-weight: normal;
   background-size: cover;
@@ -287,6 +287,12 @@
   width: 100%;
   transition: all 0.4s ease 0s;
 
+  .breadcrumb {
+    padding-top: .3rem;
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+
   .nav-top {
     li {
       list-style: none;
@@ -335,5 +341,8 @@
     margin: .5rem 0 1rem 0;
     border-radius: .5rem;
     box-shadow: 0 4px 20px 0 rgba(0,0,0,.05);
+    // @include media-breakpoint-down(sm) {
+    //   padding-bottom: 0;
+    // }
   }
 }

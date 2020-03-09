@@ -2,6 +2,7 @@
 // 預設頁
 Route::prefix('dashboard')->group(function () {
     Route::get('index', 'DashboardController@index')->name('dashboard-index');
+    Route::get('browser-agent', 'DashboardController@browserAgent')->name('browser-agent');
     Route::get('storage-link', 'DashboardController@storageLink');
 });
 
