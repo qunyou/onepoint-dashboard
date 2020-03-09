@@ -37,4 +37,24 @@ class FrontendService
         // }
         // return false;
     }
+
+    /**
+     * 設定 head 值
+     */
+    public static function getHead($model_detail)
+    {
+        $tpl_data = [];
+        if ($model_detail) {
+            if (!blank($model_detail->html_title)) {
+                $tpl_data['html_title'] = $model_detail->html_title;
+            }
+            if (!blank($model_detail->html_title)) {
+                $tpl_data['meta_keywords'] = $model_detail->meta_keywords;
+            }
+            if (!blank($model_detail->html_title)) {
+                $tpl_data['meta_description'] = $model_detail->meta_description;
+            }
+        }
+        return $tpl_data;
+    }
 }

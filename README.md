@@ -192,6 +192,15 @@ config/auth.php
     在虛擬主機上可以用這個網址來建立(相關的 route 規則要打開)
     http://url/backend/dashboard/storage-link
 
+    預設目錄不是 public 的時候，要修改這個檔案
+    app/Providers/AppServiceProvider.php
+    public function register()
+    {
+        $this->app->bind('path.public', function() {
+            return base_path('../public_html');
+        });
+    }
+
 ### 修改設定
 config/app.php
 

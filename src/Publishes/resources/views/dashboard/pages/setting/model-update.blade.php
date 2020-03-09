@@ -66,6 +66,12 @@
                     </div>
                     <div class="card-body">
                         @include('dashboard::value', ['input_setting' => [
+                            'display_name' => __('backend.標題'),
+                            'input_name' => 'title',
+                            'input_value' => optional($setting)->title,
+                        ]])
+
+                        @include('dashboard::value', ['input_setting' => [
                             'display_name' => __('backend.說明'),
                             'input_name' => 'description',
                             'input_value' => optional($setting)->description,

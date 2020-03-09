@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\SettingRepository;
+use Onepoint\Dashboard\Presenters\FormPresenter;
 use Onepoint\Dashboard\Presenters\PathPresenter;
 use Onepoint\Dashboard\Services\BaseService;
 use Onepoint\Dashboard\Services\ImageService;
@@ -79,6 +80,7 @@ class SettingController extends Controller
         $this->tpl_data['page_title'] = __('backend.編輯');
         $model = request('model', false);
         $this->tpl_data['model'] = $model;
+        $this->tpl_data['formPresenter'] = new FormPresenter;
         if ($this->setting_id && $model) {
             $query = $this->setting_repository->getOne($this->setting_id);
             $this->tpl_data['setting'] = $query;
@@ -126,6 +128,7 @@ class SettingController extends Controller
     {
         $model = request('model', false);
         $this->tpl_data['model'] = $model;
+        $this->tpl_data['formPresenter'] = new FormPresenter;
 
         if ($this->setting_id) {
             $setting = $this->setting_repository->getOne($this->setting_id);
@@ -173,6 +176,7 @@ class SettingController extends Controller
     public function index()
     {
         $this->IsRoot();
+
         // 列表標題
         if (!$this->tpl_data['trashed']) {
             $this->tpl_data['component_datas']['page_title'] = __('backend.列表');

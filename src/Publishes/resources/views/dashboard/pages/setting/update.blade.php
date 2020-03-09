@@ -81,13 +81,6 @@
                 'attribute' => 'required',
             ]])
 
-            @include('dashboard::text', ['input_setting' => [
-                'display_name' => 'setting_key',
-                'input_name' => 'setting_key',
-                'input_value' => old('setting_key', optional($setting)->setting_key),
-                'attribute' => 'required',
-            ]])
-
             @if ($setting_id > 0)
                 @switch(session('inputs.type'))
                     @case('num')

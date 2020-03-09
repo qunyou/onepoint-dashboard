@@ -56,7 +56,7 @@ class SettingsTableSeeder extends Seeder
             'type' => 'str',
             'title' => '網站標題',
             'description' => '瀏覽器分頁所顯示的標題',
-            'setting_key' => 'web_title',
+            'setting_key' => 'html_title',
             'setting_value' => '逸點設計',
         ]);
         DB::table('settings')->insert([
