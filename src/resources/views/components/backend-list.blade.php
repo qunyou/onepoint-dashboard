@@ -101,8 +101,14 @@
                                         @case('badges')
                                             {{ $element->{$value['column_name']} }}<br>
                                             @foreach ($value['set_value'] as $badge_key => $badge_value)
-                                                <span class="{{ $badge_value['class'] }}">{{ $badge_value['badge_title'] }}
-                                                    {{ $element->{$badge_key} }}
+                                                <span class="{{ $badge_value['class'] }}">
+                                                    @if (isset($badge_value['belongsTo']))
+                                                        @if (!is_null($element->{$badge_key}))
+                                                            {{ $badge_value['badge_title'] }}{{ $element->{$badge_key}->{$badge_value['belongsTo']} }}
+                                                        @endif
+                                                    @else
+                                                        {{ $badge_value['badge_title'] }}{{ $element->{$badge_key} }}
+                                                    @endif
                                                 </span>
                                             @endforeach
                                             @break
