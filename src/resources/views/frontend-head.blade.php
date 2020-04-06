@@ -7,8 +7,9 @@
 {{-- <meta http-equiv="x-ua-compatible" content="ie=edge"> --}}
 <meta name="description" content="@yield('meta_description')">
 <meta name="keywords" content="@yield('meta_keywords')">
+
 @if (!empty($favicon))
-    <link rel="shortcut icon" type="image/x-icon" href="{{ $path_presenter->upload($favicon) }}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ $path_presenter->upload('setting/' . $favicon) }}">
 @endif
 
 @if (!empty($og_title))
@@ -22,4 +23,3 @@
         <meta property="og:image" content="{{ $path_presenter->upload($og_image) }}" />
     @endif
 @endif
-{{ $slot }}
