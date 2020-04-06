@@ -96,7 +96,7 @@
                                             {{ $element->{$value['with']}->implode($value['column_name'], ',') }}
                                             @break
                                         @case('belongsTo')
-                                            {{ $element->{$value['with']}->{$value['column_name']} }}
+                                            {{ $element->{$value['with']}->{$value['column_name']} ?? '' }}
                                             @break
                                         @case('badges')
                                             {{ $element->{$value['column_name']} }}<br>

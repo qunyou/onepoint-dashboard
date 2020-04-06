@@ -16,7 +16,7 @@
         <link rel="icon" href="{{ url(config('backend.favicon')) }}" type="image/x-icon">
     @endif
     @section('css')
-        <link rel="stylesheet" href="{{ $path_presenter::backend_assets('css/style.min.css?v=1.1.7') }}" />
+        <link rel="stylesheet" href="{{ $path_presenter::backend_assets('css/style.min.css?v=1.1.8') }}" />
         <link rel="stylesheet" href="{{ $path_presenter::backend_assets('fontawesome/css/all.css') }}" />
     @show
 
