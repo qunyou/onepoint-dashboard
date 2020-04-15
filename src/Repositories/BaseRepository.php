@@ -230,7 +230,7 @@ class BaseRepository
             }
 
             // 記錄更新人員
-            if (in_array('update_user_id', $this->model->getFillable())) {
+            if (auth()->check() && in_array('update_user_id', $this->model->getFillable())) {
                 $datas['update_user_id'] = auth()->id();
             }
 

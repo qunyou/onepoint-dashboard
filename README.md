@@ -1,10 +1,10 @@
 # 後台操作界面及基本權限功能
 
-## 使用 Composer 安裝
+## 使用 Composer 安裝(方法一)
     執行
     composer require onepoint/dashboard
 
-## 自訂安裝
+## 自訂安裝(方法二)
     將 packages 資料夾放在網站根目錄
     在 composer.json 加上
     "autoload": {
@@ -21,6 +21,8 @@
 在 config/app.php 的 providers 加上
 
     Onepoint\Dashboard\DashboardServiceProvider::class,
+
+> 以上兩個方法擇一使用
 
 ### 複製必要檔案至正確目錄
 

@@ -3,7 +3,7 @@
     "description": "Laravel dashboard repository and views",
     "type": "library",
     "require": {
-        "laravel/framework": "^6.2"
+        "laravel/framework": ">=6.2"
     },
     "license": "MIT",
     "authors": [
