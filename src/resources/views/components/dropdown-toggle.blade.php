@@ -90,9 +90,11 @@
                     @endif
                     @break
                 @default
-                    <a class="{{ $link_class_string }}" href="{{ $item['url'] }}">
-                        {!! $item['text'] ?? '' !!}
-                    </a>
+                    @foreach ($item as $item_key => $item_value)
+                        <a class="{{ $link_class_string }}" href="{{ $item_value['url'] }}">
+                            {!! $item_value['text'] ?? '' !!}
+                        </a>
+                    @endforeach
             @endswitch
         @endforeach
         @if (count($items) >= 1)

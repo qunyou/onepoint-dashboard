@@ -6916,7 +6916,7 @@
             text: {
                 formatProgress: "{percent}% of {total_size}",
                 failUpload: "Upload failed",
-                waitingForResponse: "Processing...",
+                waitingForResponse: "上傳中...",
                 paused: "Paused"
             },
             template: "qq-template",
