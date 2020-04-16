@@ -10,12 +10,10 @@ Route::prefix(config('dashboard.uri'))->group(function () {
 
     // 登入頁
     Route::get('/', 'AuthController@login')->name(config('dashboard.uri'));
-    Route::prefix('auth')->group(function () {
-        Route::get('login', 'AuthController@login')->name('login');
-        Route::post('login', 'AuthController@postLogin');
-        Route::get('logout', 'AuthController@logout');
-        Route::get('reset', 'AuthController@reset');
-    });
+    Route::get('login', 'AuthController@login')->name('login');
+    Route::post('login', 'AuthController@postLogin');
+    Route::get('logout', 'AuthController@logout');
+    Route::get('reset', 'AuthController@reset');
 
     // 登入後頁面
     Route::middleware(['auth'])->group(function () {
