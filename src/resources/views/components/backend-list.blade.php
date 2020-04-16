@@ -1,4 +1,5 @@
 @inject('image_service', 'Onepoint\Dashboard\Services\ImageService')
+@inject('str', 'Illuminate\Support\Str')
 
 <div class="card-list">
     <div class="row justify-content-between px-3">
@@ -116,7 +117,11 @@
                                             {!! $image_service->{$value['method']}($element->{$value['column_name']}, '', '', $value['folder_name']) !!}
                                             @break
                                         @default
-                                            {{ $element->{$value['column_name']} }}
+                                            @if (isset($value['str_limit']))
+                                                {{ $str->limit($element->{$value['column_name']}, $value['str_limit']) }}
+                                            @else
+                                                {{ $element->{$value['column_name']} }}
+                                            @endif
                                     @endswitch
                                 </td>
                             {{-- @else
@@ -158,6 +163,12 @@
                                                 }
                                             } else {
                                                 $button_items['items']['關聯'] = ['url' => url($preview_url . $element->id), 'with_count' => $element->$with_count_string, 'name' => $with_name, 'icon' => $icon];
+                                            }
+                                        }
+                                        if (isset($custom_item)) {
+                                            foreach ($custom_item as $custom_item_array) {
+                                                $custom_item_array['url'] .= $element->id;
+                                                $button_items['items']['自訂'][] = $custom_item_array;
                                             }
                                         }
                                         if ($use_version) {

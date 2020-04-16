@@ -3,7 +3,7 @@
 @endif
 @if (!$input_only)
     <div class="form-group row">
-        <label for="{{ $input_name ?? '' }}" class="{{ $header_grid_class }}">{{ $display_name }}</label>
+        <label for="{{ $input_name ?? '' }}" class="{{ $header_grid_class }}">{!! $display_name !!}</label>
         <div class="{{ $input_grid_class }}">
 @endif
 {{ $slot }}

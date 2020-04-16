@@ -22,6 +22,13 @@
 
     {{-- 網頁標題 --}}
     <title>{{ config('backend.html_page_title', __('backend.網站內容管理系統')) }}</title>
+    <style>
+        .input-require {
+            color: #f00;
+            font-size: 2rem;
+            line-height: 1rem;
+        }
+    </style>
 </head>
 
 <body>
