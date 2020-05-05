@@ -53,13 +53,14 @@ class BaseService
     }
 
     /**
-     * 取得不含頁數的QueryString
+     * 取得不含頁數的 QueryString 陣列
      */
     public static function getQueryString()
     {
         $qs = $_GET;
         unset($qs['page']);
-        return http_build_query($qs);
+        return $qs;
+        // return http_build_query($qs);
     }
 
     /**
