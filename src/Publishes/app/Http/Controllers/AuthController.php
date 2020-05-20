@@ -5,20 +5,23 @@ namespace App\Http\Controllers;
 use Hash;
 use Onepoint\Dashboard\Presenters\PathPresenter;
 // use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use App\Traits\ShareMethod;
 
 class AuthController extends Controller
 {
     // use SendsPasswordResetEmails;
+    use ShareMethod;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    // public function __construct()
-    // {
-    //     $this->middleware('guest');
-    // }
+    public function __construct()
+    {
+       // $this->middleware('guest');
+       $this->share();
+    }
 
     /**
      * 登入頁

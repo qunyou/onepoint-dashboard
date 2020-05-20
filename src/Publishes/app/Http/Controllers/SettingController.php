@@ -7,17 +7,21 @@ use Onepoint\Dashboard\Presenters\FormPresenter;
 use Onepoint\Dashboard\Presenters\PathPresenter;
 use Onepoint\Dashboard\Services\BaseService;
 use Onepoint\Dashboard\Services\ImageService;
+use App\Traits\ShareMethod;
 
 /**
  * 網站設定
  */
 class SettingController extends Controller
 {
+    use ShareMethod;
+
     /**
      * 建構子
      */
     public function __construct(BaseService $base_services, ImageService $image_services, SettingRepository $setting_repository, PathPresenter $path_presenter)
     {
+        $this->share();
         $this->base_services = $base_services;
         $this->tpl_data = $base_services->tpl_data;
         $this->tpl_data['base_services'] = $this->base_services;

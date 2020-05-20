@@ -7,6 +7,7 @@ include base_path('custom') . '/' . config('http_host') . '/baseConfig.php';
 
 // 認證
 Route::prefix(config('dashboard.uri'))->group(function () {
+    config(['backend_url_suffix' => request()->segment(1)]);
 
     // 登入頁
     Route::get('/', 'AuthController@login')->name(config('dashboard.uri'));

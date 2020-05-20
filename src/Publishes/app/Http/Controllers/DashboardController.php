@@ -9,17 +9,21 @@ use Onepoint\Base\Entities\BrowserAgent;
 use Onepoint\Base\Entities\InteriorDesign;
 use Onepoint\Dashboard\Presenters\PathPresenter;
 use Onepoint\Dashboard\Services\BaseService;
+use App\Traits\ShareMethod;
 
 /**
  * 登入預設頁
  */
 class DashboardController extends Controller
 {
+    use ShareMethod;
+
     /**
      * 建構子
      */
     public function __construct(BaseService $base_services)
     {
+        $this->share();
         $this->base_services = $base_services;
         $this->tpl_data = $base_services->tpl_data;
         $this->tpl_data['base_services'] = $this->base_services;
@@ -28,9 +32,6 @@ class DashboardController extends Controller
         // 預設網址
         $this->uri = config('dashboard.uri') . 'dashboard/';
         $this->tpl_data['uri'] = $this->uri;
-
-        // view 路徑
-        // $this->view_path = config('backend.view_path') . '.pages.dashboard.';
     }
 
     /**
