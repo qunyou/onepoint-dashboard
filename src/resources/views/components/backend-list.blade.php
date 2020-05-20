@@ -27,7 +27,7 @@
             @if (!$trashed && !$version)
                 @if (isset($add_url) || isset($dropdown_items) || isset($button_block))
                     @component('dashboard::components.top-btn-group', $dropdown_items)
-                        {{ $button_block ?? '' }}
+                        {!! $button_block ?? '' !!}
                         @if (isset($add_url))
                             <a class="btn btn-outline-deep-purple waves-effect d-xs-block" href="{{ $add_url }}">
                                 <i class="fa fa-plus"></i>@lang('backend.新增')
