@@ -116,6 +116,15 @@
                                         @case('image')
                                             {!! $image_service->{$value['method']}($element->{$value['column_name']}, '', '', $value['folder_name']) !!}
                                             @break
+                                        @case('url')
+                                            @php
+                                                $url_string = $value['url'];
+                                                foreach ($value['slash'] as $slash_string) {
+                                                    $url_string .= '/' . $element->{$slash_string};
+                                                }
+                                            @endphp
+                                            <a href="{{ $url_string }}" target="_blank">{{ $url_string }}</a>
+                                            @break
                                         @default
                                             @if (isset($value['str_limit']))
                                                 {{ $str->limit($element->{$value['column_name']}, $value['str_limit']) }}

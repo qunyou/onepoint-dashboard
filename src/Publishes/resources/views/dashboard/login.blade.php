@@ -121,7 +121,7 @@
             <div class="content">
                 <div class="container">
                     <div class="col-md-8 col-lg-4 ml-auto mr-auto">
-                        <form action="{{ url(config('dashboard.uri') . '/auth/login?lang=') . cache('backend_language', 'zh-tw') }}" method="post">
+                        <form action="{{ url(config('dashboard.uri') . '/login?lang=') . cache('backend_language', 'zh-tw') }}" method="post">
                             @csrf
                             <div class="card card-login p-3">
                                 <div class="card-header ">

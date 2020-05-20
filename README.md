@@ -18,13 +18,13 @@
     執行
     composer dump-autoload
 
+> 以上兩個方法擇一使用
+
 在 config/app.php 的 providers 加上
 
     Onepoint\Dashboard\DashboardServiceProvider::class,
 
-> 以上兩個方法擇一使用
-
-### 複製必要檔案至正確目錄
+### 複製必要檔案至正確目錄(檔案很多，執行要花一點時間)
 
     php artisan vendor:publish --provider="Onepoint\Dashboard\DashboardServiceProvider"
 
