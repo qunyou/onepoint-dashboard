@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use Onepoint\Dashboard\Services\BaseService;
 use Onepoint\Dashboard\Presenters\RolePresenter;
 use App\Repositories\RoleRepository;
+use App\Traits\ShareMethod;
 
 /**
  * 群組
  */
 class RoleController extends Controller
 {
+    use ShareMethod;
     public $duplicate = false;
 
     /**
@@ -18,6 +20,7 @@ class RoleController extends Controller
      */
     function __construct(BaseService $base_services, RoleRepository $role_repository)
     {
+        $this->share();
         $this->base_services = $base_services;
         $this->tpl_data = $base_services->tpl_data;
         $this->tpl_data['base_services'] = $this->base_services;

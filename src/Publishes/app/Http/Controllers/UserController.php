@@ -8,17 +8,21 @@ use Cache;
 use Onepoint\Dashboard\Services\BaseService;
 use App\Repositories\UserRepository;
 use App\Repositories\RoleRepository;
+use App\Traits\ShareMethod;
 
 /**
  * 人員
  */
 class UserController extends Controller
 {
+    use ShareMethod;
+
     /**
      * 建構子
      */
     function __construct(BaseService $base_services, UserRepository $user_repository)
     {
+        $this->share();
         $this->base_services = $base_services;
         $this->tpl_data = $base_services->tpl_data;
         $this->tpl_data['base_services'] = $this->base_services;

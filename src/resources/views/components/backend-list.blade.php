@@ -27,7 +27,7 @@
             @if (!$trashed && !$version)
                 @if (isset($add_url) || isset($dropdown_items) || isset($button_block))
                     @component('dashboard::components.top-btn-group', $dropdown_items)
-                        {{ $button_block ?? '' }}
+                        {!! $button_block ?? '' !!}
                         @if (isset($add_url))
                             <a class="btn btn-outline-deep-purple waves-effect d-xs-block" href="{{ $add_url }}">
                                 <i class="fa fa-plus"></i>@lang('backend.新增')
@@ -115,6 +115,15 @@
                                             @break
                                         @case('image')
                                             {!! $image_service->{$value['method']}($element->{$value['column_name']}, '', '', $value['folder_name']) !!}
+                                            @break
+                                        @case('url')
+                                            @php
+                                                $url_string = $value['url'];
+                                                foreach ($value['slash'] as $slash_string) {
+                                                    $url_string .= '/' . $element->{$slash_string};
+                                                }
+                                            @endphp
+                                            <a href="{{ $url_string }}" target="_blank">{{ $url_string }}</a>
                                             @break
                                         @default
                                             @if (isset($value['str_limit']))

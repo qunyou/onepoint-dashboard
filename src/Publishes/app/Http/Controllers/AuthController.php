@@ -2,23 +2,41 @@
 
 namespace App\Http\Controllers;
 
+// use Illuminate\Support\Facades\Auth;
 use Hash;
+// use App\Entities\User;
 use Onepoint\Dashboard\Presenters\PathPresenter;
+// use App\Repositories\UserRepository;
 // use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use App\Traits\ShareMethod;
 
 class AuthController extends Controller
 {
     // use SendsPasswordResetEmails;
+    use ShareMethod;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    // public function __construct()
-    // {
-    //     $this->middleware('guest');
-    // }
+    public function __construct()
+    {
+       // $this->middleware('guest');
+       $this->share();
+    }
+
+    /**
+     * 重導判斷
+     */
+    public function index(PathPresenter $path_presenter)
+    {
+        if (auth()->check()) {
+            return redirect(config('dashboard.uri') . '/' . config('dashboard.login_default_uri', 'dashboard/index'));
+        } else {
+            return redirect(config('dashboard.uri') . '/login');
+        }
+    }
 
     /**
      * 登入頁
