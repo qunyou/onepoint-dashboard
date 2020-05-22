@@ -65,8 +65,10 @@ class ImageService
         }
         $custom_path = $custom_path . '/' . $path;
         $file_path = config('frontend.upload_path') . '/' . $custom_path . $file_name;
-        if (Storage::disk('public')->exists($file_path)) {
-            return asset('storage/' . $file_path);
+        if (!empty($file_name)) {
+            if (Storage::disk('public')->exists($file_path)) {
+                return asset('storage/' . $file_path);
+            }
         }
         return false;
     }

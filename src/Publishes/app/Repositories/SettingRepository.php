@@ -136,4 +136,16 @@ class SettingRepository extends BaseRepository
             return false;
         }
     }
+
+    /**
+     * 單筆資料查詢
+     */
+    public function getSettingValue($setting_key)
+    {
+        $query = $this->model->where('setting_key', $setting_key)->first();
+        if (!is_null($query)) {
+            return $query->setting_value;
+        }
+        return false;
+    }
 }
