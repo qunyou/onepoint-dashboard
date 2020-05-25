@@ -27,7 +27,7 @@
             @if (!$trashed && !$version)
                 @if (isset($add_url) || isset($dropdown_items) || isset($button_block))
                     @component('dashboard::components.top-btn-group', $dropdown_items)
-                        {{ $button_block ?? '' }}
+                        {!! $button_block ?? '' !!}
                         @if (isset($add_url))
                             <a class="btn btn-outline-deep-purple waves-effect d-xs-block" href="{{ $add_url }}">
                                 <i class="fa fa-plus"></i>@lang('backend.新增')
@@ -124,6 +124,16 @@
                                                 }
                                             @endphp
                                             <a href="{{ $url_string }}" target="_blank">{{ $url_string }}</a>
+                                            @break
+                                        @case('serialNumber')
+                                            {{ $list_key + 1 + (request('page', 1) - 1) * config('backend.paginate') }}
+                                            @break
+                                        @case('function')
+                                            @php
+                                                $function_name = explode('@', $value['function_name']);
+                                                $class_name = $function_name[0];
+                                            @endphp
+                                            {{ $class_name::{$function_name[1]}($element) }}
                                             @break
                                         @default
                                             @if (isset($value['str_limit']))
