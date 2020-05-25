@@ -58,6 +58,10 @@ tr.text-muted {
     border-top: none;
     padding: 1rem;
     vertical-align: middle;
+    @include media-breakpoint-down(sm) {
+      display: block;
+      padding: .5rem;
+    }
   }
   thead {
     tr {
@@ -66,6 +70,10 @@ tr.text-muted {
     th {
       background-color: #f8f8f8;
       border-bottom: none;
+      @include media-breakpoint-down(sm) {
+        display: block;
+        padding: .5rem;
+      }
     }
   }
 }
