@@ -94,7 +94,7 @@
                                 <td class="{{ $value['class'] ?? '' }}">
                                     @switch($value['type'])
                                         @case('belongsToMany')
-                                            {{ $element->{$value['with']}->implode($value['column_name'], ',') }}
+                                            {!! $element->{$value['with']}->implode($value['column_name'], $value['delimiter_string'] ?? ',') !!}
                                             @break
                                         @case('belongsTo')
                                             {{ $element->{$value['with']}->{$value['column_name']} ?? '' }}
@@ -129,7 +129,13 @@
                                             @if (isset($value['str_limit']))
                                                 {{ $str->limit($element->{$value['column_name']}, $value['str_limit']) }}
                                             @else
-                                                {{ $element->{$value['column_name']} }}
+                                                @if (is_array($value['column_name']))
+                                                    @foreach ($value['column_name'] as $item)
+                                                        <div>{{ $element->{$item} }}</div>
+                                                    @endforeach
+                                                @else
+                                                    {{ $element->{$value['column_name']} }}
+                                                @endif
                                             @endif
                                     @endswitch
                                 </td>
