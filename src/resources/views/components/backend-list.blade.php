@@ -95,8 +95,12 @@
                                     @switch($value['type'])
                                         @case('belongsToMany')
                                             @if (is_array($value['column_name']))
-                                                @foreach ($value['column_name'] as $item)
-                                                    <div>{!! $element->{$value['with']}->implode($item, $value['delimiter_string'] ?? ',') !!}</div>
+                                                @foreach ($element->{$value['with']} as $with_item)
+                                                    <div>
+                                                        @foreach ($value['column_name'] as $item)
+                                                            {{ $with_item->{$item} }}{!! $value['delimiter_string'] !!}
+                                                        @endforeach
+                                                    </div>
                                                 @endforeach
                                             @else
                                                 {!! $element->{$value['with']}->implode($value['column_name'], $value['delimiter_string'] ?? ',') !!}
