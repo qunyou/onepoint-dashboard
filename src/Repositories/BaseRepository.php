@@ -474,7 +474,11 @@ class BaseRepository
                 $query = $query->whereOldVersion(0);
             }
         }
-        if (!empty($order_by)) {
+        if (is_array($order_by)) {
+            foreach ($order_by as $key => $value) {
+                $query = $query->orderBy($key, $value);
+            }
+        } elseif (!empty($order_by)) {
             $query = $query->orderBy($order_by, $power);
         }
         if ($paginate) {

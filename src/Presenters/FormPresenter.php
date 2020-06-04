@@ -151,7 +151,11 @@ class FormPresenter
             }
             $file_path = 'storage/' . config('frontend.upload_path') . '/' . $input_setting['upload_path'] . $input_setting['input_value'];
             if (empty($input_setting['image_string'])) {
-                $input_setting['image_string'] = $input_setting['input_value'];
+                if (isset($input_setting['file_name_display_value'])) {
+                    $input_setting['image_string'] = $input_setting['file_name_display_value'];
+                } else {
+                    $input_setting['image_string'] = $input_setting['input_value'];
+                }
                 $input_setting['prepend_str'] = '<a href="' . asset($file_path) . '" target="_blank">';
                 $input_setting['depend_str'] = '</a>';
             }

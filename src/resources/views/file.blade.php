@@ -5,7 +5,7 @@
 @if (!blank($input_array['image_string']))
     <div class="form-group row">
         <label class="{{ $input_array['header_grid_class'] }}">
-            {{ $input_array['display_name'] }}@lang('backend.預覽')
+            {{ $input_array['display_name'] }}
         </label>
         <div class="{{ $input_array['input_grid_class'] }}">
             {!! $input_array['prepend_str'] !!}

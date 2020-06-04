@@ -196,6 +196,7 @@
                                                 }
                                             }
                                             if (isset($custom_item)) {
+                                                $button_items['items']['自訂'] = [];
                                                 foreach ($custom_item as $custom_item_array) {
                                                     $custom_item_array['url'] .= $element->id;
                                                     $button_items['items']['自訂'][] = $custom_item_array;
