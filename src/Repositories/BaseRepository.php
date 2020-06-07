@@ -276,7 +276,7 @@ class BaseRepository
                     if (FileService::isImage($value)) {
                         $res = ImageService::upload($value, $this->upload_file_name_prefix, $this->upload_file_size_limit, $this->upload_file_resize, $this->upload_file_folder);
                     } else {
-                        $res = FileService::upload($value, $this->upload_file_name_prefix);
+                        $res = FileService::upload($value, $this->upload_file_name_prefix, 0, false);
                     }
                     if ($res) {
                         $datas[$value] = $res['file_name'];
