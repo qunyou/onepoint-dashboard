@@ -276,7 +276,7 @@ class BaseRepository
                     if (FileService::isImage($value)) {
                         $res = ImageService::upload($value, $this->upload_file_name_prefix, $this->upload_file_size_limit, $this->upload_file_resize, $this->upload_file_folder);
                     } else {
-                        $res = FileService::upload($value, $this->upload_file_name_prefix);
+                        $res = FileService::upload($value, $this->upload_file_name_prefix, 0, false);
                     }
                     if ($res) {
                         $datas[$value] = $res['file_name'];
@@ -474,7 +474,11 @@ class BaseRepository
                 $query = $query->whereOldVersion(0);
             }
         }
-        if (!empty($order_by)) {
+        if (is_array($order_by)) {
+            foreach ($order_by as $key => $value) {
+                $query = $query->orderBy($key, $value);
+            }
+        } elseif (!empty($order_by)) {
             $query = $query->orderBy($order_by, $power);
         }
         if ($paginate) {
@@ -780,7 +784,9 @@ class BaseRepository
             if ($method == 'down') {
                 $this->model->find($sort_array[$position][0])->update(['sort' => $sort_array[$position][1] + 1]);
                 if (isset($sort_array[$position + 1])) {
-                    $this->model->find($sort_array[$position + 1][0])->update(['sort' => $sort_array[$position + 1][1] - 1]);
+                    if ($sort_array[$position + 1][1] > 1) {
+                        $this->model->find($sort_array[$position + 1][0])->update(['sort' => $sort_array[$position + 1][1] - 1]);
+                    }
                 }
             } else {
                 if ($sort_array[$position][1] > 1) {

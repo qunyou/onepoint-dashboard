@@ -4,6 +4,7 @@
         'input_name' => $item_key,
         'input_value' => $item_value['input_value'] ?? old($item_key, optional($form_value)->{$item_key}),
         'upload_path' => $item_value['upload_path'] ?? '',
+        'file_name_display_value' => $item_value['file_name_display_value'] ?? '',
         'value_type' => $item_value['value_type'] ?? '',
         'option' => $item_value['option'] ?? [],
         'attribute' => $item_value['attribute'] ?? [],
