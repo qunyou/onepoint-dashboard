@@ -99,6 +99,9 @@
                                         @case('belongsTo')
                                             {{ $element->{$value['with']}->{$value['column_name']} ?? '' }}
                                             @break
+                                        @case('belongsToSum')
+                                            {{ $element->{$value['with']}->sum($value['column_name']) ?? '' }}
+                                            @break
                                         @case('badges')
                                             {{ $element->{$value['column_name']} }}<br>
                                             @foreach ($value['set_value'] as $badge_key => $badge_value)
