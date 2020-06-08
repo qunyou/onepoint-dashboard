@@ -24,6 +24,9 @@ class DashboardServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->loadViewsFrom(__DIR__ . '/resources/views', 'dashboard');
+        $this->loadRoutesFrom(__DIR__.'/routes/web.php');
+        $this->loadMigrationsFrom(__DIR__.'/database/migrations');
+        $this->loadTranslationsFrom(__DIR__.'/resources/lang', 'dashboard');
         $this->mergeConfigFrom(__DIR__.'/config/dashboard.php', 'dashboard');
 
         // 發佈至 public 目錄的指令
@@ -38,39 +41,11 @@ class DashboardServiceProvider extends ServiceProvider
         ], 'public-vendor');
 
         $this->publishes([
-            __DIR__.'/Publishes/app/Entities' => app_path('Entities'),
-        ], 'entities');
-
-        $this->publishes([
-            __DIR__.'/Publishes/app/Repositories' => app_path('Repositories'),
-        ], 'repositories');
-
-        $this->publishes([
             __DIR__.'/Publishes/app/Http' => app_path('Http'),
         ], 'http');
 
         $this->publishes([
-            __DIR__.'/Publishes/resources/views/dashboard' => resource_path('views/dashboard'),
-        ], 'views');
-
-        $this->publishes([
-            __DIR__.'/Publishes/resources/lang' => resource_path('lang'),
-        ], 'lang');
-
-        $this->publishes([
             __DIR__.'/Publishes/custom' => base_path('custom'),
         ], 'custom');
-
-        $this->publishes([
-            __DIR__.'/Publishes/routes' => base_path('routes'),
-        ], 'routes');
-
-        $this->publishes([
-            __DIR__.'/Publishes/database/migrations' => database_path('migrations'),
-        ], 'migrations');
-
-        $this->publishes([
-            __DIR__.'/Publishes/database/seeds' => database_path('seeds'),
-        ], 'seeds');
     }
 }

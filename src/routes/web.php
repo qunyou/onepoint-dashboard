@@ -6,8 +6,9 @@ include base_path('custom') . '/httpHost.php';
 include base_path('custom') . '/' . config('http_host') . '/baseConfig.php';
 
 // 認證
-Route::prefix(config('dashboard.uri'))->group(function () {
-    config(['backend_url_suffix' => request()->segment(1)]);
+// Route::prefix(config('dashboard.uri'))->group(function () {
+Route::prefix(config('dashboard.uri'))->namespace('Onepoint\Dashboard\Controllers')->middleware(['web'])->group(function () {
+    // config(['backend_url_suffix' => request()->segment(1)]);
 
     // 登入頁
     Route::get('/', 'AuthController@login')->name(config('dashboard.uri'));
@@ -23,9 +24,11 @@ Route::prefix(config('dashboard.uri'))->group(function () {
         include base_path('custom') . '/' . config('http_host') . '/backendConfig.php';
 
         // 載入後端 routes
-        include base_path('custom') . '/' . config('http_host') . '/routing.php';
+        // include base_path('custom') . '/' . config('http_host') . '/routing.php';
+
+        Route::prefix('dashboard')->group(function () {
+            Route::get('index', 'DashboardController@index')->name('dashboard-index');
+            Route::get('storage-link', 'DashboardController@storageLink');
+        });
     });
 });
-
-// 載入前端 routes
-include base_path('custom') . '/' . config('http_host') . '/routingFrontend.php';

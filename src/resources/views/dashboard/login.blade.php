@@ -4,8 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="keywords" content="{{ config('backend.meta_keywords', __('backend.網站內容管理系統')) }}" />
-    <meta name="description" content="{{ config('backend.meta_description', __('backend.網站內容管理系統')) }}">
+    <meta name="keywords" content="{{ config('backend.meta_keywords', __('dashboard::backend.網站內容管理系統')) }}" />
+    <meta name="description" content="{{ config('backend.meta_description', __('dashboard::backend.網站內容管理系統')) }}">
     <meta name="author" content="Onepoint">
     @if (config('backend.favicon', false))
         <link rel="shortcut icon" href="{{ url(config('backend.favicon')) }}" type="image/x-icon">
@@ -112,7 +112,7 @@
     </style>
 
     {{-- 網頁標題 --}}
-    <title>{{ config('backend.html_page_title', __('backend.網站內容管理系統')) }}</title>
+    <title>{{ config('backend.html_page_title', __('dashboard::backend.網站內容管理系統')) }}</title>
 </head>
 
 <body>
@@ -125,23 +125,23 @@
                             @csrf
                             <div class="card card-login p-3">
                                 <div class="card-header ">
-                                    <h3 class="header text-center">@lang('auth.登入')</h3>
+                                    <h3 class="header text-center">@lang('dashboard::auth.登入')</h3>
                                 </div>
                                 <div class="card-body ">
                                     <div class="form-group">
-                                        <label for="inputUsername">@lang('auth.帳號')</label>
-                                        <input type="text" name="username" id="inputUsername" class="form-control form-control-lg" placeholder="@lang('auth.帳號')" required autofocus>
+                                        <label for="inputUsername">@lang('dashboard::auth.帳號')</label>
+                                        <input type="text" name="username" id="inputUsername" class="form-control form-control-lg" placeholder="@lang('dashboard::auth.帳號')" required autofocus>
                                     </div>
                                     <div class="form-group">
-                                        <label for="inputPassword">@lang('auth.密碼')</label>
-                                        <input type="password" name="password" id="inputPassword" class="form-control form-control-lg" placeholder="@lang('auth.密碼')" required>
+                                        <label for="inputPassword">@lang('dashboard::auth.密碼')</label>
+                                        <input type="password" name="password" id="inputPassword" class="form-control form-control-lg" placeholder="@lang('dashboard::auth.密碼')" required>
                                     </div>
                                     <div class="form-group">
                                         <div class="checkbox">
                                             <label>
-                                                <input type="checkbox" name="remember" value="remember-me"> @lang('auth.讓我保持登入')
+                                                <input type="checkbox" name="remember" value="remember-me"> @lang('dashboard::auth.讓我保持登入')
                                             </label>
-                                            <p><small class="help text-danger">@lang('auth.公用電腦請勿勾選')</small></p>
+                                            <p><small class="help text-danger">@lang('dashboard::auth.公用電腦請勿勾選')</small></p>
                                         </div>
                                     </div>
                                     {{--
@@ -150,7 +150,7 @@
                                     </div> --}}
                                 </div>
                                 <div class="ml-auto mr-auto">
-                                    <button class="btn btn-outline-deep-purple waves-effect btn-lg" type="submit">@lang('auth.登入')</button>
+                                    <button class="btn btn-outline-deep-purple waves-effect btn-lg" type="submit">@lang('dashboard::auth.登入')</button>
                                 </div>
                             </div>
                         </form>
@@ -166,7 +166,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">@lang('auth.登入訊息')</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">@lang('dashboard::auth.登入訊息')</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

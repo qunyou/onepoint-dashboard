@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Onepoint\Dashboard\Controllers;
 
+use App\Http\Controllers\Controller;
 use Artisan;
-use Onepoint\Base\Entities\Article;
-use Onepoint\Base\Entities\Blog;
+// use Onepoint\Base\Entities\Article;
+// use Onepoint\Base\Entities\Blog;
 use Onepoint\Base\Entities\BrowserAgent;
-use Onepoint\Base\Entities\InteriorDesign;
+// use Onepoint\Base\Entities\InteriorDesign;
 use Onepoint\Dashboard\Presenters\PathPresenter;
 use Onepoint\Dashboard\Services\BaseService;
-use App\Traits\ShareMethod;
+use Onepoint\Dashboard\Traits\ShareMethod;
 
 /**
  * 登入預設頁
@@ -43,9 +44,9 @@ class DashboardController extends Controller
         $this->tpl_data['page_title'] = trans('backend.預設首頁');
         // $this->tpl_data['browser_agent'] = BrowserAgent::all();
         $this->tpl_data['browser_agent_count'] = BrowserAgent::count();
-        $this->tpl_data['blog_count'] = Blog::count();
-        $this->tpl_data['article_count'] = Article::count();
-        $this->tpl_data['interior_design_count'] = InteriorDesign::count();
+        // $this->tpl_data['blog_count'] = Blog::count();
+        // $this->tpl_data['article_count'] = Article::count();
+        // $this->tpl_data['interior_design_count'] = InteriorDesign::count();
         return view($path_presenter->backend_view('pages.dashboard.index'), $this->tpl_data);
     }
 

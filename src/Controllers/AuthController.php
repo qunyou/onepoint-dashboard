@@ -1,14 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Onepoint\Dashboard\Controllers;
 
-// use Illuminate\Support\Facades\Auth;
-use Hash;
-// use App\Entities\User;
-use Onepoint\Dashboard\Presenters\PathPresenter;
-// use App\Repositories\UserRepository;
+use App\Http\Controllers\Controller;
+use Onepoint\Dashboard\Traits\ShareMethod;
 // use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
-use App\Traits\ShareMethod;
+use Onepoint\Dashboard\Presenters\PathPresenter;
 
 class AuthController extends Controller
 {
@@ -22,8 +19,11 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-       // $this->middleware('guest');
-       $this->share();
+        // $this->middleware('guest');
+        $this->share();
+
+        $this->view_path = 'dashboard::' . config('dashboard.view_path') . '.';
+        $this->uri = config('dashboard.uri') . '/';
     }
 
     /**
@@ -32,9 +32,9 @@ class AuthController extends Controller
     public function index(PathPresenter $path_presenter)
     {
         if (auth()->check()) {
-            return redirect(config('dashboard.uri') . '/' . config('dashboard.login_default_uri', 'dashboard/index'));
+            return redirect($this->uri . config('dashboard.login_default_uri', 'dashboard/index'));
         } else {
-            return redirect(config('dashboard.uri') . '/login');
+            return redirect($this->uri . 'login');
         }
     }
 
@@ -47,7 +47,7 @@ class AuthController extends Controller
             return redirect(config('dashboard.uri') . '/' . config('dashboard.login_default_uri', 'dashboard/index'));
         }
         $tpl_data['path_presenter'] = $path_presenter;
-        return view($path_presenter->backend_view('login'), $tpl_data);
+        return view($this->view_path . 'login', $tpl_data);
     }
 
     /**
