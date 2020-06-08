@@ -109,6 +109,9 @@
                                         @case('belongsTo')
                                             {{ $element->{$value['with']}->{$value['column_name']} ?? '' }}
                                             @break
+                                        @case('belongsToSum')
+                                            {{ $element->{$value['with']}->sum($value['column_name']) ?? '' }}
+                                            @break
                                         @case('badges')
                                             {{ $element->{$value['column_name']} }}<br>
                                             @foreach ($value['set_value'] as $badge_key => $badge_value)
@@ -169,7 +172,11 @@
                                 <td>
                                     @if (auth()->user()->hasAccess(['update-' . $permission_controller_string]) && !$version)
                                         @php
-                                            $button_items['items']['檢視'] = ['url' => url($uri . 'detail?' . $id_string . '=' . $element->id)];
+                                            if (isset($detail_hide) && $detail_hide) {
+                                                $button_items = [];
+                                            } else {
+                                                $button_items['items']['檢視'] = ['url' => url($uri . 'detail?' . $id_string . '=' . $element->id . ($detail_url_append_string ?? ''))];
+                                            }
                                             if ($use_duplicate) {
                                                 if (auth()->user()->hasAccess(['create-' . $permission_controller_string])) {
                                                     if (!isset($duplicate_url_suffix)) {
@@ -192,6 +199,7 @@
                                                 }
                                             }
                                             if (isset($custom_item)) {
+                                                $button_items['items']['自訂'] = [];
                                                 foreach ($custom_item as $custom_item_array) {
                                                     $custom_item_array['url'] .= $element->id;
                                                     $button_items['items']['自訂'][] = $custom_item_array;
@@ -216,10 +224,13 @@
                                                 @else
                                                 @endif
                                             @else
-                                                <a href="{{ url($uri . 'update?' . $id_string . '=' . $element->id . ($update_url_append_string ?? '')) }}" class="btn btn-outline-deep-purple waves-effect text-nowrap">
-                                                    <i class="fas fa-edit"></i>
-                                                    <span class="d-none d-md-inline">@lang('backend.編輯')</span>
-                                                </a>
+                                                @if (isset($update_hide) && $update_hide)
+                                                @else
+                                                    <a href="{{ url($uri . 'update?' . $id_string . '=' . $element->id . ($update_url_append_string ?? '')) }}" class="btn btn-outline-deep-purple waves-effect text-nowrap">
+                                                        <i class="fas fa-edit"></i>
+                                                        <span class="d-none d-md-inline">@lang('backend.編輯')</span>
+                                                    </a>
+                                                @endif
                                             @endif
                                         @endcomponent
                                         
