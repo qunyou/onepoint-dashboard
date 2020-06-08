@@ -51,7 +51,13 @@ class BackendPresenter
             // 其他要設定 active 的功能
             if (isset($element['includes'])) {
                 foreach ($element['includes'] as $include_url) {
-                    $include_url_arr[] = action($include_url);
+                    if (Str::contains($include_url, '@')) {
+                        $include_url_arr[] = action($include_url);
+                    } else {
+                        if (request()->is($include_url)) {
+                            $include_url_arr[] = url()->current();
+                        }
+                    }
                 }
                 if (in_array(url()->current(), $include_url_arr)) {
                     $active = 'active';
@@ -101,7 +107,13 @@ class BackendPresenter
                 // 其他要active的功能
                 if (isset($value['includes'])) {
                     foreach ($value['includes'] as $include_url) {
-                        $include_url_arr[] = action($include_url);
+                        if (Str::contains($include_url, '@')) {
+                            $include_url_arr[] = action($include_url);
+                        } else {
+                            if (request()->is($include_url)) {
+                                $include_url_arr[] = url()->current();
+                            }
+                        }
                     }
                     if (in_array(url()->current(), $include_url_arr)) {
                         $sub_active = 'active';
