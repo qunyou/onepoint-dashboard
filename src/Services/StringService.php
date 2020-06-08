@@ -207,6 +207,10 @@ class StringService
             parse_str($parse_result['query'], $output);
             return $output['v'];
         }
+        if(isset($parse_result['path'])) {
+            $path = explode('/', trim($parse_result['path'], '/'));
+            return $path[count($path)-1];
+        }
         return '';
     }
 }
