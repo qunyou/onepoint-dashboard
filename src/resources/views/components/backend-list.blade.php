@@ -175,7 +175,7 @@
                                             if (isset($detail_hide) && $detail_hide) {
                                                 $button_items = [];
                                             } else {
-                                                $button_items['items']['檢視'] = ['url' => url($uri . 'detail?' . $id_string . '=' . $element->id)];
+                                                $button_items['items']['檢視'] = ['url' => url($uri . 'detail?' . $id_string . '=' . $element->id . ($detail_url_append_string ?? ''))];
                                             }
                                             if ($use_duplicate) {
                                                 if (auth()->user()->hasAccess(['create-' . $permission_controller_string])) {

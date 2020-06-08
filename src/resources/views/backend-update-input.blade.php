@@ -8,6 +8,7 @@
         'value_type' => $item_value['value_type'] ?? '',
         'option' => $item_value['option'] ?? [],
         'attribute' => $item_value['attribute'] ?? [],
+        'hidden' => $item_value['hidden'] ?? [],
         'image_attribute' => $item_value['image_attribute'] ?? '',
         'help' => $item_value['help'] ?? '',
         'image_thumb' => $item_value['image_thumb'] ?? false,
