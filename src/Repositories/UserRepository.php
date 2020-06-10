@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Repositories;
+namespace Onepoint\Dashboard\Repositories;
 
 use Hash;
 use Illuminate\Validation\Rule;
 use Onepoint\Dashboard\Repositories\BaseRepository;
-use App\Entities\User;
-use App\Entities\RoleUser;
+use Onepoint\Dashboard\Entities\User;
+use Onepoint\Dashboard\Entities\RoleUser;
 
 /**
  * 人員

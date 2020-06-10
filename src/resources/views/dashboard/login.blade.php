@@ -175,7 +175,7 @@
                     {{ session('login_message', '') }}
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-deep-purple waves-effect btn-lg" data-dismiss="modal">@lang('backend.關閉')</button>
+                    <button type="button" class="btn btn-outline-deep-purple waves-effect btn-lg" data-dismiss="modal">@lang('dashboard::backend.關閉')</button>
                 </div>
             </div>
         </div>

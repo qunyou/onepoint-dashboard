@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Onepoint\Dashboard\Controllers;
 
-use App\Repositories\SettingRepository;
+use Onepoint\Dashboard\Repositories\SettingRepository;
 use Onepoint\Dashboard\Presenters\FormPresenter;
 use Onepoint\Dashboard\Presenters\PathPresenter;
 use Onepoint\Dashboard\Services\BaseService;
 use Onepoint\Dashboard\Services\ImageService;
-use App\Traits\ShareMethod;
+use Onepoint\Dashboard\Traits\ShareMethod;
 
 /**
  * 網站設定

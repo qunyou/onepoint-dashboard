@@ -31,7 +31,11 @@ class DashboardController extends Controller
         $this->tpl_data['navigation_item'] = config('backend.navigation_item');
 
         // 預設網址
-        $this->uri = config('dashboard.uri') . 'dashboard/';
+        // $this->uri = config('dashboard.uri') . 'dashboard/';
+        // $this->tpl_data['uri'] = $this->uri;
+
+        $this->view_path = 'dashboard::dashboard.pages.dashboard.';
+        $this->uri = config('dashboard.uri') . '/';
         $this->tpl_data['uri'] = $this->uri;
     }
 
@@ -43,11 +47,13 @@ class DashboardController extends Controller
         $this->tpl_data['path_presenter'] = $path_presenter;
         $this->tpl_data['page_title'] = trans('backend.預設首頁');
         // $this->tpl_data['browser_agent'] = BrowserAgent::all();
-        $this->tpl_data['browser_agent_count'] = BrowserAgent::count();
+        // $this->tpl_data['browser_agent_count'] = BrowserAgent::count();
         // $this->tpl_data['blog_count'] = Blog::count();
         // $this->tpl_data['article_count'] = Article::count();
         // $this->tpl_data['interior_design_count'] = InteriorDesign::count();
-        return view($path_presenter->backend_view('pages.dashboard.index'), $this->tpl_data);
+        // return view($path_presenter->backend_view('pages.dashboard.index'), $this->tpl_data);
+
+        return view($this->view_path . 'index', $this->tpl_data);
     }
 
     /**

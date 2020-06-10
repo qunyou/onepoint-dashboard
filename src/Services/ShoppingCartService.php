@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace Onepoint\Dashboard\Services;
 
 use App\Entities\MemberCart;
 use App\Entities\Product;

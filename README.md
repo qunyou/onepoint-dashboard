@@ -54,6 +54,10 @@ custom/default/baseConfig.php
 
     composer dump-autoload
 
+先刪除預設的 user migrate 檔案
+
+    database/migrations/2014_10_12_000000_create_users_table.php
+
 執行以下指令建立預設的資料表及預設資料
 
     php artisan migrate --seed
@@ -158,7 +162,7 @@ config/auth.php
 
     'model' => App\User::class,
     修改為
-    'model' => App\Entities\User::class,
+    'model' => Onepoint\Dashboard\Entities\User::class,
 
     如果前台有要做會員登入，在 guards 新增元素
     'member' => [

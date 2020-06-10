@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Onepoint\Dashboard\Controllers;
 
-use Hash;
+use App\Repositories\RoleRepository;
+use App\Repositories\UserRepository;
 use Auth;
 use Cache;
+use Hash;
 use Onepoint\Dashboard\Services\BaseService;
-use App\Repositories\UserRepository;
-use App\Repositories\RoleRepository;
-use App\Traits\ShareMethod;
+use Onepoint\Dashboard\Traits\ShareMethod;
 
 /**
  * 人員
@@ -20,7 +20,7 @@ class UserController extends Controller
     /**
      * 建構子
      */
-    function __construct(BaseService $base_services, UserRepository $user_repository)
+    public function __construct(BaseService $base_services, UserRepository $user_repository)
     {
         $this->share();
         $this->base_services = $base_services;
@@ -264,7 +264,7 @@ class UserController extends Controller
     /**
      * 複製
      */
-    public function putDuplicate()
+    public function putDuplicate()
     {
         $this->user_id = 0;
         return $this->putUpdate();
@@ -289,7 +289,7 @@ class UserController extends Controller
                 'role_id' => [
                     'input_type' => 'value',
                     'display_name' => __('auth.群組'),
-                    'input_value' => $category_value_str
+                    'input_value' => $category_value_str,
                 ],
                 'username' => [
                     'input_type' => 'value',

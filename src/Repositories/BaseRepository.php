@@ -506,10 +506,12 @@ class BaseRepository
         if ($this->trashed) {
             $query = $query->onlyTrashed();
         }
-        if ($this->old_version) {
-            $query = $query->whereOldVersion(1)->onlyTrashed();
-        } else {
-            $query = $query->whereOldVersion(0);
+        if ($this->use_version) {
+            if ($this->old_version) {
+                $query = $query->whereOldVersion(1)->onlyTrashed();
+            } else {
+                $query = $query->whereOldVersion(0);
+            }
         }
         $query = $query->where('id', $id)->first();
         if (!is_null($query)) {

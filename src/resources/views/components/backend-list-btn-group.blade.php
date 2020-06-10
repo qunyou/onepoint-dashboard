@@ -11,52 +11,52 @@
             @switch($key)
                 @case('檢視')
                     <a class="{{ $link_class_string }}" href="{{ $item['url'] }}">
-                        <i class="fas fa-info"></i>@lang('backend.檢視')
+                        <i class="fas fa-info"></i>@lang('dashboard::backend.檢視')
                     </a>
                     @break
                 @case('預覽')
                     <a class="{{ $link_class_string }}" href="{{ $item['url'] }}" target="_blank">
-                        <i class="fa fa-eye"></i>@lang('backend.預覽')
+                        <i class="fa fa-eye"></i>@lang('dashboard::backend.預覽')
                     </a>
                     @break
                 @case('編輯')
                     <a class="{{ $link_class_string }}" href="{{ $item['url'] }}">
-                        <i class="fas fa-edit"></i>@lang('backend.編輯')
+                        <i class="fas fa-edit"></i>@lang('dashboard::backend.編輯')
                     </a>
                     @break
                 @case('多檔上傳')
                     <a class="{{ $link_class_string }}" href="{{ $item['url'] }}">
-                        <i class="fas fa-file-upload"></i>@lang('backend.多檔上傳')
+                        <i class="fas fa-file-upload"></i>@lang('dashboard::backend.多檔上傳')
                     </a>
                     @break
                 @case('刪除')
                     <a class="{{ $link_class_string }}" href="{{ $item['url'] }}">
-                        <i class="fas fa-trash-alt"></i>@lang('backend.刪除')
+                        <i class="fas fa-trash-alt"></i>@lang('dashboard::backend.刪除')
                     </a>
                     @break
                 @case('複製')
                     <a class="{{ $link_class_string }}" href="{{ $item['url'] }}">
-                        <i class="far fa-copy"></i>@lang('backend.複製')
+                        <i class="far fa-copy"></i>@lang('dashboard::backend.複製')
                     </a>
                     @break
                 @case('匯入')
                     <a class="{{ $link_class_string }}" href="{{ $item['url'] }}">
-                        <i class="fas fa-file-excel"></i>@lang('backend.匯入')
+                        <i class="fas fa-file-excel"></i>@lang('dashboard::backend.匯入')
                     </a>
                     @break
                 @case('資源回收')
                     <a class="{{ $link_class_string }}" href="{{ $item['url'] }}">
-                        <i class="fa fa-recycle"></i>@lang('backend.資源回收')
+                        <i class="fa fa-recycle"></i>@lang('dashboard::backend.資源回收')
                     </a>
                     @break
                 @case('版本')
                     <a class="{{ $link_class_string }}" href="{{ $item['url'] }}">
-                        <i class="fas fa-code-branch"></i>@lang('backend.版本')
+                        <i class="fas fa-code-branch"></i>@lang('dashboard::backend.版本')
                     </a>
                     @break
                 @case('使用此版本')
                     <a class="{{ $link_class_string }}" href="{{ $item['url'] }}">
-                        <i class="fas fa-code-branch"></i>@lang('backend.使用此版本')
+                        <i class="fas fa-code-branch"></i>@lang('dashboard::backend.使用此版本')
                     </a>
                     @break
                 @case('關聯')

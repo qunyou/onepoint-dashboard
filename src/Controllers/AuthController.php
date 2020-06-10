@@ -3,9 +3,9 @@
 namespace Onepoint\Dashboard\Controllers;
 
 use App\Http\Controllers\Controller;
-use Onepoint\Dashboard\Traits\ShareMethod;
-// use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Onepoint\Dashboard\Presenters\PathPresenter;
+// use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use Onepoint\Dashboard\Traits\ShareMethod;
 
 class AuthController extends Controller
 {
