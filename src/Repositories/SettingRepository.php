@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Repositories;
+namespace Onepoint\Dashboard\Repositories;
 
 use Illuminate\Validation\Rule;
 use Onepoint\Dashboard\Repositories\BaseRepository;
-use App\Entities\Setting;
+use Onepoint\Dashboard\Entities\Setting;
 
 /**
  * 網站設定

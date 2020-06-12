@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Onepoint\Dashboard\Controllers;
 
-use Onepoint\Dashboard\Services\BaseService;
+use Onepoint\Dashboard\Repositories\RoleRepository;
 use Onepoint\Dashboard\Presenters\RolePresenter;
-use App\Repositories\RoleRepository;
-use App\Traits\ShareMethod;
+use Onepoint\Dashboard\Services\BaseService;
+use Onepoint\Dashboard\Traits\ShareMethod;
 
 /**
  * 群組
@@ -18,7 +18,7 @@ class RoleController extends Controller
     /**
      * 建構子
      */
-    function __construct(BaseService $base_services, RoleRepository $role_repository)
+    public function __construct(BaseService $base_services, RoleRepository $role_repository)
     {
         $this->share();
         $this->base_services = $base_services;
@@ -130,7 +130,7 @@ class RoleController extends Controller
             case 'force_delete':
                 $back_url_str = 'index?trashed=true';
                 break;
-            default :
+            default:
                 $back_url_str = 'index';
                 break;
         }
@@ -148,7 +148,7 @@ class RoleController extends Controller
         // 權限陣列
         $this->tpl_data['role_permissions_array'] = [];
         if ($this->role_id) {
-            $page_title =__('auth.編輯人員群組');
+            $page_title = __('auth.編輯人員群組');
             $role = $this->role_repository->getOne($this->role_id);
             $this->tpl_data['role'] = $role;
             $this->tpl_data['role_permissions_array'] = $role->permissions;
@@ -190,7 +190,7 @@ class RoleController extends Controller
     /**
      * 複製
      */
-    public function putDuplicate()
+    public function putDuplicate()
     {
         $this->role_id = 0;
         return $this->putUpdate();

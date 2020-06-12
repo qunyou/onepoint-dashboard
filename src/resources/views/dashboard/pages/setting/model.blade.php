@@ -19,7 +19,7 @@
             @if ($version)
                 <li class="breadcrumb-item" aria-current="page">
                     <a href="#">
-                        @lang('backend.版本檢視')
+                        @lang('dashboard::backend.版本檢視')
                     </a>
                 </li>
             @endif
@@ -62,7 +62,7 @@
                             <th scope="col" class="d-none d-md-table-cell">@lang('setting.設定值')</th>
                             <th scope="col"></th>
                             @if (auth()->user()->hasAccess(['update-' . $permission_controller_string]))
-                                <th scope="col" class="th_sort_width d-none d-md-table-cell">@lang('backend.排序')</th>
+                                <th scope="col" class="th_sort_width d-none d-md-table-cell">@lang('dashboard::backend.排序')</th>
                             @endif
                         </tr>
                     </thead>
@@ -81,12 +81,12 @@
                                                 ]
                                             ])
                                             <a class="btn btn-outline-deep-purple waves-effect" href="{{ url($uri . 'model-update?model=' . $element->model . '&setting_id=' . $element->id) }}">
-                                                <i class="fas fa-edit"></i> @lang('backend.編輯')
+                                                <i class="fas fa-edit"></i> @lang('dashboard::backend.編輯')
                                             </a>
                                         @endcomponent
                                     @else
                                         <a class="btn btn-outline-deep-purple waves-effect" href="{{ url($uri . 'model-detail?model=' . $model . '&setting_id=' . $element->id) }}">
-                                            <i class="fas fa-info"></i> @lang('backend.檢視')
+                                            <i class="fas fa-info"></i> @lang('dashboard::backend.檢視')
                                         </a>
                                     @endif
                                 </td>
@@ -106,7 +106,7 @@
                         <div class="col-md-auto">
                             {!! $list->appends($qs)->links() !!}
                             <div class="text-center">
-                                @lang('backend.共') {{ $list->total() }} @lang('backend.筆資料')
+                                @lang('dashboard::backend.共') {{ $list->total() }} @lang('dashboard::backend.筆資料')
                             </div>
                         </div>
                         <div class="col d-none d-md-inline">

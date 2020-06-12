@@ -17,12 +17,12 @@
                 <a href="#">
                     @if ($setting_id)
                         @if (isset($duplicate) && $duplicate)
-                            @lang('backend.複製')
+                            @lang('dashboard::backend.複製')
                         @else
-                            @lang('backend.編輯')
+                            @lang('dashboard::backend.編輯')
                         @endif
                     @else
-                        @lang('backend.新增')
+                        @lang('dashboard::backend.新增')
                     @endif
                 </a>
             </li>
@@ -30,7 +30,7 @@
             @if ($version)
                 <li class="breadcrumb-item" aria-current="page">
                     <a href="#">
-                        @lang('backend.版本檢視')
+                        @lang('dashboard::backend.版本檢視')
                     </a>
                 </li>
             @endif

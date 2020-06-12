@@ -1,6 +1,6 @@
 <?php
 // 預計要加到後台，目前還沒加
-namespace App\Services;
+namespace Onepoint\Dashboard\Services;
 
 // use Cache;
 use Sentinel;

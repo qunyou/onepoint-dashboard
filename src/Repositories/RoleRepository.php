@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Repositories;
+namespace Onepoint\Dashboard\Repositories;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Onepoint\Dashboard\Repositories\BaseRepository;
-use App\Entities\Role;
+use Onepoint\Dashboard\Entities\Role;
 
 /**
  * 群組

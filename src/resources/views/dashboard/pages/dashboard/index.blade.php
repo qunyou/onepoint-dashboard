@@ -35,7 +35,7 @@
                     <h1>{{ $article_count ?? 0 }}</h1>
                 </div>
             </div>
-            <div class="col-md-2">
+            {{-- <div class="col-md-2">
                 <div class="form-body text-center pt-4">
                     <a href="{{ url(config('dashboard.uri') . '/interior-design/index') }}">
                         <i class="fas fa-couch fa-3x"></i>
@@ -52,7 +52,7 @@
                     </a>
                     <h1>{{ $browser_agent_count ?? 0 }}</h1>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 @endsection

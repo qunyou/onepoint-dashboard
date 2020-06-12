@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace Onepoint\Dashboard\Services;
 
 /**
  * 陣列輔助方法

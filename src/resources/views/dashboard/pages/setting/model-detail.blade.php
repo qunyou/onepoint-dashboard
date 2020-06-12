@@ -15,9 +15,9 @@
             </li>
             <li class="breadcrumb-item active" aria-current="page">
                 <a href="{{ url($uri . 'detail?setting_id=' . $setting_id) }}">
-                    @lang('backend.檢視')
+                    @lang('dashboard::backend.檢視')
                     @if ($version)
-                        - @lang('backend.版本檢視')
+                        - @lang('dashboard::backend.版本檢視')
                     @endif
                 </a>
             </li>
@@ -25,7 +25,7 @@
             @if ($version)
                 <li class="breadcrumb-item" aria-current="page">
                     <a href="#">
-                        @lang('backend.版本檢視')
+                        @lang('dashboard::backend.版本檢視')
                     </a>
                 </li>
             @endif

@@ -1,5 +1,5 @@
 <?php
-namespace App\Services;
+namespace Onepoint\Dashboard\Services;
 
 use App\Entities\Order;
 use App\Entities\Vcard\VcardOrder;

@@ -3,9 +3,9 @@
 namespace Onepoint\Dashboard\Controllers;
 
 use App\Http\Controllers\Controller;
-use Onepoint\Dashboard\Traits\ShareMethod;
-// use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Onepoint\Dashboard\Presenters\PathPresenter;
+// use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use Onepoint\Dashboard\Traits\ShareMethod;
 
 class AuthController extends Controller
 {
@@ -74,7 +74,7 @@ class AuthController extends Controller
             return redirect(config('dashboard.uri') . '/' . config('dashboard.login_default_uri', 'dashboard/index'));
         }
         session()->flash('login_message', '帳號密碼錯誤');
-        return redirect(config('dashboard.uri') . '/auth/login');
+        return redirect(config('dashboard.uri'));
     }
 
     /**

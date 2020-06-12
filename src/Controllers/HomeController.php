@@ -1,5 +1,6 @@
 <?php
-namespace App\Http\Controllers;
+
+namespace Onepoint\Dashboard\Controllers;
 
 /**
  * 首頁

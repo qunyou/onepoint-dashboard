@@ -7,7 +7,7 @@
             <div class="card-title">
                 {{ $page_title }}
                 @if ($version)
-                    - @lang('backend.版本檢視')
+                    - @lang('dashboard::backend.版本檢視')
                 @endif
             </div>
         </div>
@@ -15,13 +15,13 @@
             <div class="btn-group d-block d-md-inline-block">
                 @if ($list)
                 <button class="btn btn-outline-deep-purple waves-effect dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{ $list->firstItem() }} - {{ $list->count() }}，@lang('pagination.共') {{ $list->total() }} @lang('pagination.筆資料')
+                    {{ $list->firstItem() }} - {{ $list->count() }}，@lang('dashboard::pagination.共') {{ $list->total() }} @lang('dashboard::pagination.筆資料')
                 </button>
                 @endif
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a href="{{ url($uri . 'index?records_per_page=50') }}" class="dropdown-item">@lang('pagination.每頁顯示') 50 @lang('pagination.筆資料')</a>
-                    <a href="{{ url($uri . 'index?records_per_page=100') }}" class="dropdown-item">@lang('pagination.每頁顯示') 100 @lang('pagination.筆資料')</a>
-                    <a href="{{ url($uri . 'index?records_per_page=1000') }}" class="dropdown-item">@lang('pagination.每頁顯示') 1000 @lang('pagination.筆資料')</a>
+                    <a href="{{ url($uri . 'index?records_per_page=50') }}" class="dropdown-item">@lang('dashboard::pagination.每頁顯示') 50 @lang('dashboard::pagination.筆資料')</a>
+                    <a href="{{ url($uri . 'index?records_per_page=100') }}" class="dropdown-item">@lang('dashboard::pagination.每頁顯示') 100 @lang('dashboard::pagination.筆資料')</a>
+                    <a href="{{ url($uri . 'index?records_per_page=1000') }}" class="dropdown-item">@lang('dashboard::pagination.每頁顯示') 1000 @lang('dashboard::pagination.筆資料')</a>
                 </div>
             </div>
             @if (!$trashed && !$version)
@@ -30,14 +30,14 @@
                         {!! $button_block ?? '' !!}
                         @if (isset($add_url))
                             <a class="btn btn-outline-deep-purple waves-effect d-xs-block" href="{{ $add_url }}">
-                                <i class="fa fa-plus"></i>@lang('backend.新增')
+                                <i class="fa fa-plus"></i>@lang('dashboard::backend.新增')
                             </a>
                         @endif
                     @endcomponent
                 @endif
             @else
                 <a class="btn btn-outline-deep-purple waves-effect float-right d-none d-md-inline" href="{{ $back_url }}">
-                    <i class="fa fa-arrow-left"></i>@lang('backend.回列表')
+                    <i class="fa fa-arrow-left"></i>@lang('dashboard::backend.回列表')
                 </a>
             @endif
         </div>
@@ -55,7 +55,7 @@
                         @if (auth()->user()->hasAccess(['update-' . $permission_controller_string]))
                             @if (!$version)
                                 <th class="check_all_width d-none d-md-table-cell">
-                                    <input type="checkbox" name="select_all" id="select_all" value="" data-toggle="tooltip" data-original-title="@lang('backend.全選')" />
+                                    <input type="checkbox" name="select_all" id="select_all" value="" data-toggle="tooltip" data-original-title="@lang('dashboard::backend.全選')" />
                                 </th>
                             @endif
                         @endif
@@ -65,7 +65,7 @@
                         @if (!$trashed)
                             @if (auth()->user()->hasAccess(['update-' . $permission_controller_string]))
                                 @if ($version)
-                                    <th class="d-none d-md-table-cell">@lang('backend.版本時間')</th>
+                                    <th class="d-none d-md-table-cell">@lang('dashboard::backend.版本時間')</th>
                                 @endif
                             @endif
                             <th scope="col"></th>
@@ -74,7 +74,7 @@
                                     @if ($use_rearrange ?? true)
                                         <th scope="col" class="th_sort_btn_width d-none d-md-table-cell"></th>
                                     @endif
-                                    <th scope="col" class="th_sort_width d-none d-md-table-cell">@lang('backend.排序')</th>
+                                    <th scope="col" class="th_sort_width d-none d-md-table-cell">@lang('dashboard::backend.排序')</th>
                                 @endif
                             @endif
                         @endif
@@ -228,7 +228,7 @@
                                                 @else
                                                     <a href="{{ url($uri . 'update?' . $id_string . '=' . $element->id . ($update_url_append_string ?? '')) }}" class="btn btn-outline-deep-purple waves-effect text-nowrap">
                                                         <i class="fas fa-edit"></i>
-                                                        <span class="d-none d-md-inline">@lang('backend.編輯')</span>
+                                                        <span class="d-none d-md-inline">@lang('dashboard::backend.編輯')</span>
                                                     </a>
                                                 @endif
                                             @endif
@@ -251,7 +251,7 @@
                                             @else
                                                 <a href="{{ url($uri . 'update?' . $id_string . '=' . $element->id . ($update_url_append_string ?? '')) }}" class="btn btn-outline-deep-purple waves-effect">
                                                     <i class="fas fa-edit"></i>
-                                                    <span class="d-none d-md-inline">@lang('backend.編輯')</span>
+                                                    <span class="d-none d-md-inline">@lang('dashboard::backend.編輯')</span>
                                                 </a>
                                             @endif
                                         @endcomponent --}}
@@ -265,11 +265,11 @@
                                         @component('dashboard::components.dropdown-toggle', $button_items)
                                             @if ($version)
                                                 <a href="{{ url($uri . 'apply-version?' . $id_string . '=' . $element->origin_id . '&version_id=' . $element->id) }}" class="btn btn-outline-deep-purple waves-effect">
-                                                    <i class="fas fa-code-branch"></i>@lang('backend.使用此版本')
+                                                    <i class="fas fa-code-branch"></i>@lang('dashboard::backend.使用此版本')
                                                 </a>
                                             @else
                                                 <a href="{{ url($uri . 'detail?' . $id_string . '=' . $element->id) }}" class="btn btn-outline-deep-purple waves-effect">
-                                                    <i class="fas fa-info"></i>@lang('backend.檢視')
+                                                    <i class="fas fa-info"></i>@lang('dashboard::backend.檢視')
                                                 </a>
                                             @endif
                                         @endcomponent
@@ -309,30 +309,30 @@
                             <div class="btn-group">
                                 <div class="dropdown">
                                     <button class="btn btn-outline-deep-purple waves-effect dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        @lang('backend.選取項目')
+                                        @lang('dashboard::backend.選取項目')
                                     </button>
                                     <div class="dropdown-menu">
                                         @if ($trashed)
                                             @if (!isset($footer_status_hide) || (isset($footer_status_hide) && !$footer_status_hide))
                                                 <button type="submit" name="force_delete" value="force_delete" class="dropdown-item">
-                                                    <i class="fa fa-trash"></i>@lang('backend.永久刪除')
+                                                    <i class="fa fa-trash"></i>@lang('dashboard::backend.永久刪除')
                                                 </button>
                                                 <button type="submit" name="restore" value="restore" class="dropdown-item">
-                                                    <i class="fa fa-recycle"></i>@lang('backend.還原')
+                                                    <i class="fa fa-recycle"></i>@lang('dashboard::backend.還原')
                                                 </button>
                                             @endif
                                         @else
                                             @if (!isset($footer_status_hide) || (isset($footer_status_hide) && !$footer_status_hide))
                                                 <button type="submit" name="status_enable" value="status_enable" class="dropdown-item">
-                                                    <i class="fas fa-eye"></i>@lang('backend.啟用')
+                                                    <i class="fas fa-eye"></i>@lang('dashboard::backend.啟用')
                                                 </button>
                                                 <button type="submit" name="status_disable" value="status_disable" class="dropdown-item">
-                                                    <i class="fas fa-eye-slash"></i>@lang('backend.停用')
+                                                    <i class="fas fa-eye-slash"></i>@lang('dashboard::backend.停用')
                                                 </button>
                                             @endif
                                             @if (!isset($footer_delete_hide) || (isset($footer_delete_hide) && !$footer_delete_hide))
                                                 <button type="submit" name="delete" value="delete" class="dropdown-item">
-                                                    <i class="fa fa-trash"></i>@lang('backend.刪除')
+                                                    <i class="fa fa-trash"></i>@lang('dashboard::backend.刪除')
                                                 </button>
                                             @endif
                                         @endif
@@ -353,7 +353,7 @@
                         @if (!$trashed && !$version)
                             <div class="btn-group float-right">
                                 <button type="submit" name="set_sort" value="set_sort" class="btn btn-outline-deep-purple waves-effect">
-                                    <i class="fa fa-sort"></i>@lang('backend.修改排序')
+                                    <i class="fa fa-sort"></i>@lang('dashboard::backend.修改排序')
                                 </button>
                             </div>
                         @endif

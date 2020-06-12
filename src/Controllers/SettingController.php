@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Onepoint\Dashboard\Controllers;
 
-use App\Repositories\SettingRepository;
+use App\Http\Controllers\Controller;
+use Onepoint\Dashboard\Repositories\SettingRepository;
 use Onepoint\Dashboard\Presenters\FormPresenter;
 use Onepoint\Dashboard\Presenters\PathPresenter;
 use Onepoint\Dashboard\Services\BaseService;
 use Onepoint\Dashboard\Services\ImageService;
-use App\Traits\ShareMethod;
+use Onepoint\Dashboard\Traits\ShareMethod;
 
 /**
  * 網站設定
@@ -39,7 +40,9 @@ class SettingController extends Controller
         $this->tpl_data['component_datas']['uri'] = $this->uri;
 
         // view 路徑
-        $this->view_path = config('dashboard.view_path') . '.pages.setting.';
+        // $this->view_path = config('dashboard.view_path') . '.pages.setting.';
+        $this->view_path = 'dashboard::' . config('dashboard.view_path') . '.pages.setting.';
+
         $this->setting_id = request('setting_id', false);
         $this->tpl_data['setting_id'] = $this->setting_id;
 

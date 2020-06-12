@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entities;
+namespace Onepoint\Dashboard\Entities;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -62,7 +62,7 @@ class User extends Authenticatable
 
     public function roles()
     {
-        return $this->belongsToMany(Role::class, 'role_users');
+        return $this->belongsToMany(Onepoint\Dashboard\Entities\Role::class, 'role_users');
     }
 
     /**

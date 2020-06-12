@@ -19,7 +19,7 @@
             @if ($version)
                 <li class="breadcrumb-item" aria-current="page">
                     <a href="#">
-                        @lang('backend.版本檢視')
+                        @lang('dashboard::backend.版本檢視')
                     </a>
                 </li>
             @endif

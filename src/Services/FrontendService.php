@@ -2,7 +2,7 @@
 
 namespace Onepoint\Dashboard\Services;
 
-use App\Repositories\SettingRepository;
+use Onepoint\Dashboard\Repositories\SettingRepository;
 use Onepoint\Base\Repositories\NaviRepository;
 
 class FrontendService

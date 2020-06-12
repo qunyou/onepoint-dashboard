@@ -8,8 +8,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
-    <meta name="keywords" content="{{ config('backend.meta_keywords', __('backend.網站內容管理系統')) }}" />
-    <meta name="description" content="{{ config('backend.meta_description', __('backend.網站內容管理系統')) }}">
+    <meta name="keywords" content="{{ config('backend.meta_keywords', __('dashboard::backend.網站內容管理系統')) }}" />
+    <meta name="description" content="{{ config('backend.meta_description', __('dashboard::backend.網站內容管理系統')) }}">
     <meta name="author" content="Onepoint">
     @if (config('backend.favicon', false))
         <link rel="shortcut icon" href="{{ url(config('backend.favicon')) }}" type="image/x-icon">
@@ -22,7 +22,7 @@
     @show
 
     {{-- 網頁標題 --}}
-    <title>{{ config('backend.html_page_title', __('backend.網站內容管理系統')) }}</title>
+    <title>@lang('dashboard::backend.網站內容管理系統')</title>
     <style>
         .input-require {
             color: #f00;
@@ -42,7 +42,7 @@
                 {{-- 邊欄標題 --}}
                 <div class="logo">
                     <a href="{{ url(config('dashboard.uri') . '/dashboard/index') }}" class="simple-text">
-                        {{ config('backend.sidebar.header_text', __('backend.網站內容管理系統')) }}
+                        @lang('dashboard::backend.網站內容管理系統')
                     </a>
                 </div>
 
@@ -52,20 +52,20 @@
                         {{-- <li class="nav-item">
                             <a class="nav-link" href="{{ url(config('dashboard.uri') . '/user/profile') }}">
                                 <i class="fas fa-lock" aria-hidden="true"></i>
-                                <span>@lang('auth.修改密碼')</span>
+                                <span>@lang('dashboard::auth.修改密碼')</span>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url(config('dashboard.uri') . '/auth/logout') }}">
                                 <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
-                                <span>@lang('auth.登出')</span>
+                                <span>@lang('dashboard::auth.登出')</span>
                             </a>
                         </li>
                         @if (config('frontend.url', false))
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ config('frontend.url') }}" target="_blank">
                                     <i class="fas fa-home" aria-hidden="true"></i>
-                                    <span>@lang('backend.檢視網站')</span>
+                                    <span>@lang('dashboard::backend.檢視網站')</span>
                                 </a>
                             </li>
                         @endif
@@ -104,14 +104,14 @@
                             @endif
                             @if (config('frontend.url', false))
                                 <li>
-                                    <a href="{{ config('frontend.url') }}" target="_blank"><i class="fas fa-home"></i>@lang('backend.檢視網站')</a>
+                                    <a href="{{ config('frontend.url') }}" target="_blank"><i class="fas fa-home"></i>@lang('dashboard::backend.檢視網站')</a>
                                 </li>
                             @endif
                             <li>
-                                <a href="{{ url(config('dashboard.uri') . '/user/profile') }}"><i class="fas fa-lock"></i>@lang('auth.修改密碼')</a>
+                                <a href="{{ url(config('dashboard.uri') . '/user/profile') }}"><i class="fas fa-lock"></i>@lang('dashboard::auth.修改密碼')</a>
                             </li>
                             <li>
-                                <a href="{{ url(config('dashboard.uri') . '/auth/logout') }}"><i class="fas fa-sign-out-alt"></i>@lang('auth.登出')</a>
+                                <a href="{{ url(config('dashboard.uri') . '/auth/logout') }}"><i class="fas fa-sign-out-alt"></i>@lang('dashboard::auth.登出')</a>
                             </li>
                         </ul>
                     </div>
