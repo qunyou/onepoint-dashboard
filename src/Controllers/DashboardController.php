@@ -72,8 +72,12 @@ class DashboardController extends Controller
      */
     public function storageLink()
     {
-        // dd(storage_path());
-        // symlink('/home/t4zwwng5q1en/public_html/skjhs.onepoint.com.tw/public', '/home/t4zwwng5q1en/public_html/skjhs.onepoint.com.tw/storage');
+        // 顯示正確的路徑
+        // dd(storage_path('app/public'), public_path('storage'));
+        // symlink(public_path('storage'), storage_path('app/public'));
+        // ln -sr /home/vagrant/code/popupasia.com/private/storage/app/public /home/vagrant/code/popupasia.com/storage
+        
+        // 正常的目錄配置可使用此方法
         Artisan::call('storage:link');
     }
 }

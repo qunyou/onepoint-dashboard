@@ -10,7 +10,7 @@
             </li>
             <li class="breadcrumb-item" aria-current="page">
                 <a href="{{ url(config('dashboard.uri') . '/setting/index') }}">
-                    @lang('setting.網站設定')
+                    @lang('dashboard::setting.網站設定')
                 </a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">

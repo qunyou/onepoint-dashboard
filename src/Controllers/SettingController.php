@@ -58,9 +58,9 @@ class SettingController extends Controller
         $this->tpl_data['model'] = request('model', 'global');
         $this->tpl_data['list'] = $this->setting_repository->getList(false, $this->tpl_data['model']);
         if (isset(config('site.setting.model')[$this->tpl_data['model']])) {
-            $this->tpl_data['page_title'] = config('site.setting.model')[$this->tpl_data['model']] . __('backend.列表');
+            $this->tpl_data['page_title'] = config('site.setting.model')[$this->tpl_data['model']] . __('dashboard::backend.列表');
         } else {
-            $this->tpl_data['page_title'] = __('backend.列表');
+            $this->tpl_data['page_title'] = __('dashboard::backend.列表');
         }
         return view($this->view_path . 'model', $this->tpl_data);
     }
@@ -84,7 +84,7 @@ class SettingController extends Controller
      */
     public function modelUpdate()
     {
-        $this->tpl_data['page_title'] = __('backend.編輯');
+        $this->tpl_data['page_title'] = __('dashboard::backend.編輯');
         $model = request('model', false);
         $this->tpl_data['model'] = $model;
         $this->tpl_data['formPresenter'] = new FormPresenter;
@@ -118,11 +118,11 @@ class SettingController extends Controller
         $model = request('model', false);
         $res = $this->setting_repository->setUpdate($this->setting_id);
         if ($res) {
-            session()->flash('notify.message', __('backend.資料編輯完成'));
+            session()->flash('notify.message', __('dashboard::backend.資料編輯完成'));
             session()->flash('notify.type', 'success');
             return redirect($this->uri . 'model-detail?model=' . $model . '&setting_id=' . $res);
         } else {
-            session()->flash('notify.message', __('backend.資料編輯失敗'));
+            session()->flash('notify.message', __('dashboard::backend.資料編輯失敗'));
             session()->flash('notify.type', 'danger');
             return redirect($this->uri . 'model-update?model=' . $model . '&setting_id=' . $this->setting_id)->withInput();
         }
@@ -145,11 +145,11 @@ class SettingController extends Controller
             $this->tpl_data['form_array'] = [
                 'description' => [
                     'input_type' => 'value',
-                    'display_name' => __('backend.說明'),
+                    'display_name' => __('dashboard::backend.說明'),
                 ],
                 'title' => [
                     'input_type' => 'value',
-                    'display_name' => __('backend.標題'),
+                    'display_name' => __('dashboard::backend.標題'),
                 ],
                 'setting_value' => [
                     'input_type' => 'value',
@@ -158,7 +158,7 @@ class SettingController extends Controller
             ];
 
             // 樣版資料
-            $component_datas['page_title'] = __('backend.檢視');
+            $component_datas['page_title'] = __('dashboard::backend.檢視');
             $component_datas['back_url'] = url($this->uri . 'model');
             $component_datas['dropdown_items']['btn_align'] = 'float-left';
             if (auth()->user()->hasAccess(['update-' . $this->permission_controller_string])) {
@@ -186,9 +186,9 @@ class SettingController extends Controller
 
         // 列表標題
         if (!$this->tpl_data['trashed']) {
-            $this->tpl_data['component_datas']['page_title'] = __('backend.列表');
+            $this->tpl_data['component_datas']['page_title'] = __('dashboard::backend.列表');
         } else {
-            $this->tpl_data['component_datas']['page_title'] = __('backend.資源回收');
+            $this->tpl_data['component_datas']['page_title'] = __('dashboard::backend.資源回收');
         }
 
         // 主資料 id query string 字串
@@ -199,7 +199,7 @@ class SettingController extends Controller
 
         // 表格欄位設定
         $this->tpl_data['component_datas']['th'] = [
-            ['title' => __('backend.標題'), 'class' => ''],
+            ['title' => __('dashboard::backend.標題'), 'class' => ''],
         ];
         $this->tpl_data['component_datas']['column'] = [
             ['type' => 'column', 'class' => '', 'column_name' => 'title'],
@@ -264,7 +264,7 @@ class SettingController extends Controller
         $this->IsRoot();
         $this->tpl_data['setting'] = false;
         if ($this->setting_id) {
-            $page_title = __('backend.編輯');
+            $page_title = __('dashboard::backend.編輯');
             $query = $this->setting_repository->getOne($this->setting_id);
             $this->tpl_data['setting'] = $query;
 
@@ -276,7 +276,7 @@ class SettingController extends Controller
                 $query = $this->setting_repository->getOne($this->setting_id);
             }
         } else {
-            $page_title = __('backend.新增');
+            $page_title = __('dashboard::backend.新增');
         }
 
         // 樣版資料
@@ -294,11 +294,11 @@ class SettingController extends Controller
         $this->IsRoot();
         $res = $this->setting_repository->setUpdate($this->setting_id);
         if ($res) {
-            session()->flash('notify.message', __('backend.資料編輯完成'));
+            session()->flash('notify.message', __('dashboard::backend.資料編輯完成'));
             session()->flash('notify.type', 'success');
             return redirect($this->uri . 'detail?setting_id=' . $res);
         } else {
-            session()->flash('notify.message', __('backend.資料編輯失敗'));
+            session()->flash('notify.message', __('dashboard::backend.資料編輯失敗'));
             session()->flash('notify.type', 'danger');
             return redirect($this->uri . 'update?setting_id=' . $this->setting_id)->withInput();
         }
@@ -343,22 +343,22 @@ class SettingController extends Controller
                 ],
                 'sort' => [
                     'input_type' => 'value',
-                    'display_name' => __('backend.排序'),
+                    'display_name' => __('dashboard::backend.排序'),
                 ],
                 'status' => [
                     'input_type' => 'value',
-                    'display_name' => __('backend.狀態'),
+                    'display_name' => __('dashboard::backend.狀態'),
                 ],
                 'note' => [
                     'input_type' => 'value',
-                    'display_name' => __('backend.備註'),
+                    'display_name' => __('dashboard::backend.備註'),
                 ],
             ];
 
             // 樣版資料
             $component_datas['page_title'] = __('auth.檢視人員群組');
             if ($this->tpl_data['version']) {
-                $component_datas['page_title'] .= ' -' . __('backend.版本檢視');
+                $component_datas['page_title'] .= ' -' . __('dashboard::backend.版本檢視');
             }
             if ($this->tpl_data['version']) {
                 $component_datas['back_url'] = url($this->uri . 'index?setting_id=' . request('origin_id') . '&version=true');

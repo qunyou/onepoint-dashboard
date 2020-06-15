@@ -12,7 +12,7 @@
             {!! $input_array['image_string'] !!}
             {!! $input_array['depend_str'] !!}
             <a class="btn btn-primary" href="{{ $input_array['delete_url'] }}">
-                @lang('backend.刪除')
+                @lang('dashboard::backend.刪除')
             </a>
         </div>
     </div>

@@ -12,7 +12,7 @@
             </li>
             <li class="breadcrumb-item" aria-current="page">
                 <a href="{{ url(config('dashboard.uri') . '/setting/index') }}">
-                    @lang('setting.網站設定')
+                    @lang('dashboard::setting.網站設定')
                 </a>
             </li>
 
@@ -32,7 +32,7 @@
         @slot('search_block')
             <div class="dropdown">
                 <button class="btn btn-outline-deep-purple waves-effect dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    @lang('setting.項目類別')
+                    @lang('dashboard::setting.項目類別')
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     @foreach (config('backend.setting.model') as $setting_model => $setting_title)

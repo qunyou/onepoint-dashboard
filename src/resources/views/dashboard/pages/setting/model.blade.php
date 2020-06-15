@@ -12,7 +12,7 @@
             </li>
             <li class="breadcrumb-item" aria-current="page">
                 <a href="{{ url(config('dashboard.uri') . '/setting/model') }}">
-                    @lang('setting.網站設定')
+                    @lang('dashboard::setting.網站設定')
                 </a>
             </li>
 
@@ -37,7 +37,7 @@
                 @if (count(config('backend.setting.model')) > 1)
                     <div class="dropdown">
                         <button class="btn btn-outline-deep-purple waves-effect dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            @lang('setting.項目類別')
+                            @lang('dashboard::setting.項目類別')
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             @foreach (config('backend.setting.model') as $setting_model => $setting_title)
@@ -58,8 +58,8 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th scope="col">@lang('setting.項目')</th>
-                            <th scope="col" class="d-none d-md-table-cell">@lang('setting.設定值')</th>
+                            <th scope="col">@lang('dashboard::setting.項目')</th>
+                            <th scope="col" class="d-none d-md-table-cell">@lang('dashboard::setting.設定值')</th>
                             <th scope="col"></th>
                             @if (auth()->user()->hasAccess(['update-' . $permission_controller_string]))
                                 <th scope="col" class="th_sort_width d-none d-md-table-cell">@lang('dashboard::backend.排序')</th>

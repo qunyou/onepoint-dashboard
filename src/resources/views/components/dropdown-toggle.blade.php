@@ -12,7 +12,7 @@
                 @endphp
             @else
                 <button type="button" class="btn btn-outline-deep-purple dropdown-toggle px-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="d-none d-md-inline">@lang('dashboard::backend.更多功能')</span>
+                    <span class="d-none d-md-inline">@lang('dashboard::backend.功能')</span>
                 </button>
                 <div class="dropdown-menu">
                 @php

@@ -1,7 +1,7 @@
 @component('dashboard::components.inputs', $input_array = $formPresenter->setValue($input_setting, 'value'))
     {!! $input_array['prepend_str'] !!}
     @if ($input_array['input_value'] === '啟用' || $input_array['input_value'] === '停用')
-        {{ __('backend.' . $input_array['input_value']) }}
+        {{ __('dashboard::backend.' . $input_array['input_value']) }}
     @else
         @switch($input_array['value_type'])
             @case('image')
@@ -9,7 +9,7 @@
                 {!! $input_array['input_value'] !!}
                 @break
             @case('boolean')
-                {{ $input_array['input_value'] ? __('backend.是') : __('backend.否') }}
+                {{ $input_array['input_value'] ? __('dashboard::backend.是') : __('dashboard::backend.否') }}
                 @break
             @case('integer')
                 {{ number_format($input_array['input_value'], $input_array['parameter']['decimals'] ?? 0) }}

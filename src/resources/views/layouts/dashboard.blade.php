@@ -56,7 +56,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url(config('dashboard.uri') . '/auth/logout') }}">
+                            <a class="nav-link" href="{{ url(config('dashboard.uri') . '/logout') }}">
                                 <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
                                 <span>@lang('dashboard::auth.登出')</span>
                             </a>
@@ -107,11 +107,13 @@
                                     <a href="{{ config('frontend.url') }}" target="_blank"><i class="fas fa-home"></i>@lang('dashboard::backend.檢視網站')</a>
                                 </li>
                             @endif
+                            {{--
                             <li>
                                 <a href="{{ url(config('dashboard.uri') . '/user/profile') }}"><i class="fas fa-lock"></i>@lang('dashboard::auth.修改密碼')</a>
                             </li>
+                            --}}
                             <li>
-                                <a href="{{ url(config('dashboard.uri') . '/auth/logout') }}"><i class="fas fa-sign-out-alt"></i>@lang('dashboard::auth.登出')</a>
+                                <a href="{{ url(config('dashboard.uri') . '/logout') }}"><i class="fas fa-sign-out-alt"></i>@lang('dashboard::auth.登出')</a>
                             </li>
                         </ul>
                     </div>

@@ -204,6 +204,9 @@ config/auth.php
     {
         $this->app->bind('path.public', function() {
             return base_path('../public_html');
+
+            主程式放在 public 底下的 private 時使用的方法
+            return $_SERVER['DOCUMENT_ROOT'];
         });
     }
 

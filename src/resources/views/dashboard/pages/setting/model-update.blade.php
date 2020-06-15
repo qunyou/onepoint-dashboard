@@ -10,7 +10,7 @@
             </li>
             <li class="breadcrumb-item" aria-current="page">
                 <a href="{{ url(config('dashboard.uri') . '/setting/index') }}">
-                    @lang('setting.網站設定')
+                    @lang('dashboard::setting.網站設定')
                 </a>
             </li>
             <li class="breadcrumb-item" aria-current="page">
@@ -58,7 +58,7 @@
                             <div class="col">
                                 <div class="float-right">
                                     <div class="btn-group">
-                                        <a class="btn btn-outline-deep-purple waves-effect" href="{{ url($uri . 'model?model=' . $model) }}"><i class="fa fa-fw fa-arrow-left"></i>{{ __('backend.回列表') }}</a>
+                                        <a class="btn btn-outline-deep-purple waves-effect" href="{{ url($uri . 'model?model=' . $model) }}"><i class="fa fa-fw fa-arrow-left"></i>{{ __('dashboard::backend.回列表') }}</a>
                                     </div>
                                 </div>
                             </div>
@@ -66,13 +66,13 @@
                     </div>
                     <div class="card-body">
                         @include('dashboard::value', ['input_setting' => [
-                            'display_name' => __('backend.標題'),
+                            'display_name' => __('dashboard::backend.標題'),
                             'input_name' => 'title',
                             'input_value' => optional($setting)->title,
                         ]])
 
                         @include('dashboard::value', ['input_setting' => [
-                            'display_name' => __('backend.說明'),
+                            'display_name' => __('dashboard::backend.說明'),
                             'input_name' => 'description',
                             'input_value' => optional($setting)->description,
                         ]])
@@ -81,7 +81,7 @@
                             @case('num')
                                 {{-- 數字 --}}
                                 @include('dashboard::number', ['input_setting' => [
-                                    'display_name' => __('setting.設定值'),
+                                    'display_name' => __('dashboard::setting.設定值'),
                                     'input_name' => 'setting_value',
                                     'input_value' => optional($setting)->setting_value,
                                 ]])
@@ -90,7 +90,7 @@
                             @case('str')
                                 {{-- 文字 --}}
                                 @include('dashboard::text', ['input_setting' => [
-                                    'display_name' => __('setting.設定值'),
+                                    'display_name' => __('dashboard::setting.設定值'),
                                     'input_name' => 'setting_value',
                                     'input_value' => optional($setting)->setting_value,
                                 ]])
@@ -99,7 +99,7 @@
                             @case('text')
                                 {{-- 文字區 --}}
                                 @include('dashboard::textarea', ['input_setting' => [
-                                    'display_name' => __('setting.設定值'),
+                                    'display_name' => __('dashboard::setting.設定值'),
                                     'input_name' => 'setting_value',
                                     'input_value' => optional($setting)->setting_value,
                                     'rows' => 10
@@ -109,7 +109,7 @@
                             @case('editor')
                                 {{-- 編輯器 --}}
                                 @include('dashboard::tinymce', ['input_setting' => [
-                                    'display_name' => __('setting.設定值'),
+                                    'display_name' => __('dashboard::setting.設定值'),
                                     'input_name' => 'setting_value',
                                     'input_value' => optional($setting)->setting_value,
                                 ]])
@@ -118,7 +118,7 @@
                             @case('file_name')
                                 {{-- 檔案上傳 --}}
                                 @include('dashboard::file', ['input_setting' => [
-                                    'display_name' => __('setting.設定值'),
+                                    'display_name' => __('dashboard::setting.設定值'),
                                     'input_name' => 'setting_value',
                                     'input_value' => optional($setting)->setting_value,
                                     'image_thumb' => false,
@@ -130,7 +130,7 @@
                             @case('color')
                                 {{-- 色彩 --}}
                                 @include('dashboard::color', ['input_setting' => [
-                                    'display_name' => __('setting.設定值'),
+                                    'display_name' => __('dashboard::setting.設定值'),
                                     'input_name' => 'setting_value',
                                     'input_value' => optional($setting)->setting_value,
                                 ]])
@@ -138,14 +138,14 @@
                         @endswitch
 
                         @include('dashboard::number', ['input_setting' => [
-                            'display_name' => __('backend.排序'),
+                            'display_name' => __('dashboard::backend.排序'),
                             'input_name' => 'sort',
                             'input_value' => optional($setting)->sort,
                         ]])
                     </div>
                     <footer class="card-footer">
                         <button type="submit" class="btn btn-outline-deep-purple waves-effect">
-                            {{__('backend.送出') }}
+                            {{__('dashboard::backend.送出') }}
                         </button>
                     </footer>
                 </div>
