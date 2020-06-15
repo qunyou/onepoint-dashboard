@@ -95,7 +95,7 @@ class FileService
         $origin_file_name = $file_request->getClientOriginalName();
         $origin_name_arr = explode('.', $origin_file_name);
         $origin_name = $origin_name_arr[0];
-        $file_size = $file_request->getClientSize();
+        $file_size = $file_request->getSize();
 
         // 原始檔案路徑
         $upload_path = config('frontend.upload_path');
