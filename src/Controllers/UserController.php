@@ -2,8 +2,8 @@
 
 namespace Onepoint\Dashboard\Controllers;
 
-use App\Repositories\RoleRepository;
-use App\Repositories\UserRepository;
+use Onepoint\Dashboard\Repositories\RoleRepository;
+use Onepoint\Dashboard\Repositories\UserRepository;
 use Auth;
 use Cache;
 use Hash;
@@ -119,26 +119,12 @@ class UserController extends Controller
      */
     public function putIndex()
     {
-        return $this->batch();
-    }
-
-    /**
-     * 批次處理
-     */
-    public function batch()
-    {
+        $settings['file_field'] = 'file_name';
+        $settings['folder'] = 'slider';
+        $settings['image_scale'] = true;
         $settings['use_version'] = true;
-        $result = $this->user_repository->batch($settings);
-        switch ($result['batch_method']) {
-            case 'restore':
-            case 'force_delete':
-                $back_url_str = 'index?trashed=true';
-                break;
-            default:
-                $back_url_str = 'index';
-                break;
-        }
-        return redirect($this->uri . $back_url_str);
+        $settings['result'] = $this->slider_repository->batch($settings);
+        return $this->batch($settings);
     }
 
     /**

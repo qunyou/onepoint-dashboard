@@ -36,6 +36,7 @@ config([
     'app.name' => '後台管理系統',
     'app.url' => $app_url,
     'http_host' => $http_host,
+    'today' => date('Y-m-d'),
 
     'dashboard' => [
         'layout_file' => 'assets/dashboard/',
@@ -50,7 +51,7 @@ config([
     // 'frontend' => [
 
         // 前台網址
-        'url' => 'http://default.test',
+        // 'url' => $app_url,
 
         // 上傳資料夾
         'upload_path' => 'uploads/' . $http_host,
