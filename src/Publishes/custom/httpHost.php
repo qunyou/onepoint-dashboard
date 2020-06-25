@@ -6,7 +6,12 @@ $app_url = 'http://default.test';
 // 單元測試時要用這個設定
 // $app_url = 'http://localhost';
 if (isset($_SERVER['HTTP_HOST'])) {
-    $app_url = $_SERVER['HTTP_HOST'];
+    if (request()->isSecure()) {
+        $ssl_protocol = 'https://';
+    } else {
+        $ssl_protocol = 'http://';
+    }
+    $app_url = $ssl_protocol . $_SERVER['HTTP_HOST'];
     switch ($_SERVER['HTTP_HOST']) {
         case 'default.test':
             $http_host = 'default';
@@ -21,3 +26,4 @@ if (isset($_SERVER['HTTP_HOST'])) {
     $http_host = 'default';
 }
 config(['http_host' => $http_host]);
+config(['filesystems.disks.public.url' => $app_url . '/storage']);

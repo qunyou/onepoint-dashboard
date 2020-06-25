@@ -106,7 +106,7 @@ config/database.php
     Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
 
 ### 編輯器檔案管理 Package
-    composer require unisharp/laravel-filemanager:dev-master
+    composer require unisharp/laravel-filemanager
 
 #### app.php 加入內容
 ##### providers
@@ -117,43 +117,6 @@ config/database.php
     php artisan vendor:publish --tag=lfm_public
     php artisan route:clear
     php artisan config:clear
-
-#### 設定
-config/lfm.php
-
-    'allow_share_folder'       => false,
-
-#### 套件還不支援最新版的 Laravel，要做一些修改
-vendor/unisharp/laravel-filemanager/src/Lfm.php
-
-    上方加入
-    use Illuminate\Support\Str;
-
-    str_singular
-    修改為
-    Str::singular
-
-vendor/unisharp/laravel-filemanager/src/LfmItem.php
-
-    上方加入
-    use Illuminate\Support\Str;
-
-    starts_with
-    修改為
-    Str::startsWith
-
-    camel_case
-    修改為
-    Str::camel
-
-vendor/unisharp/laravel-filemanager/src/Middlewares/MultiUser.php
-
-    上方加入
-    use Illuminate\Support\Str;
-
-    starts_with
-    修改為
-    Str::startsWith
 
 ## 認證相關設定
 
