@@ -173,6 +173,12 @@ config/auth.php
         });
     }
 
+    public function boot()
+    {
+        // 強制使用 https
+        \URL::forceScheme('https');
+    }
+
 ### 修改設定
 config/app.php
 
