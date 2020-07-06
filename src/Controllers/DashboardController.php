@@ -48,8 +48,8 @@ class DashboardController extends Controller
         $this->tpl_data['page_title'] = trans('backend.預設首頁');
         // $this->tpl_data['browser_agent'] = BrowserAgent::all();
         // $this->tpl_data['browser_agent_count'] = BrowserAgent::count();
-        $this->tpl_data['blog_count'] = Blog::count();
-        $this->tpl_data['article_count'] = Article::count();
+        // $this->tpl_data['blog_count'] = Blog::count();
+        // $this->tpl_data['article_count'] = Article::count();
         // $this->tpl_data['interior_design_count'] = InteriorDesign::count();
         return view($this->view_path . 'index', $this->tpl_data);
     }

@@ -50,6 +50,7 @@ class BackendPresenter
 
             // 其他要設定 active 的功能
             if (isset($element['includes'])) {
+                $include_url_arr = [];
                 foreach ($element['includes'] as $include_url) {
                     if (Str::contains($include_url, '@')) {
                         $include_url_arr[] = action($include_url);
