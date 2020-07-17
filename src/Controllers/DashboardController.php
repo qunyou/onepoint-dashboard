@@ -46,8 +46,22 @@ class DashboardController extends Controller
     {
         $this->tpl_data['path_presenter'] = $path_presenter;
         $this->tpl_data['page_title'] = trans('backend.預設首頁');
-        // $this->tpl_data['browser_agent'] = BrowserAgent::all();
-        // $this->tpl_data['browser_agent_count'] = BrowserAgent::count();
+
+        // 總造訪人次
+        $this->tpl_data['all_visitor'] = BrowserAgent::distinct('ip')->count('ip');
+        
+        // 本週不重複造訪人次
+        // $start = date('Y-m-d',strtotime('last week'));
+        $this_week = date('Y-m-d', strtotime('this week'));
+        $today = date('Y-m-d');
+        $this->tpl_data['this_week_visitor'] = BrowserAgent::whereBetween('created_at', [$this_week, $today])->distinct('ip')->count('ip');
+
+        // 總瀏覽數
+        $this->tpl_data['all_pages'] = BrowserAgent::count();
+
+        // 本週瀏覽數
+        $this->tpl_data['this_week_pages'] = BrowserAgent::whereBetween('created_at', [$this_week, $today])->count();
+        
         // $this->tpl_data['blog_count'] = Blog::count();
         // $this->tpl_data['article_count'] = Article::count();
         // $this->tpl_data['interior_design_count'] = InteriorDesign::count();
