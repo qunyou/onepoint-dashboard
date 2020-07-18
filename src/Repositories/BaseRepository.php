@@ -111,12 +111,16 @@ class BaseRepository
     public function replicateUpdate($id, $manually = false)
     {
         $q = $this->model->find($id);
-        $newVersion = $q->replicate();
-        $newVersion->old_version = 1;
-        $newVersion->origin_id = $id;
-        $newVersion->save();
-        $newVersion->delete();
-        return $this->executeUpdate($id, $this->makeUpdateData($manually));
+        if (!is_null($q)) {
+            $newVersion = $q->replicate();
+            $newVersion->old_version = 1;
+            $newVersion->origin_id = $id;
+            $newVersion->save();
+            $newVersion->delete();
+            return $this->executeUpdate($id, $this->makeUpdateData($manually));
+        } else {
+            dd('BaseRepository::replicateUpdate $id error');
+        }
     }
 
     /**
@@ -235,7 +239,7 @@ class BaseRepository
             if (auth()->check() && in_array('update_user_id', $this->model->getFillable())) {
                 $datas['update_user_id'] = auth()->id();
             }
-
+            
             // 更新或新增
             if (count($datas)) {
                 if ($id) {
