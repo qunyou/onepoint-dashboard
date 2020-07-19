@@ -33,14 +33,14 @@ config([
             'header_text' => __('dashbaord::backend.網站內容管理系統')
         ],
         'navigation_item' => [
-            ['title' => __('auth.權限管理'), 'icon' => 'fas fa-user-lock', 'sub' => [
-                ['title' => __('auth.人員管理'), 'action' => 'UserController@index'],
-                ['title' => __('auth.人員群組'), 'action' => 'RoleController@index'],
+            ['title' => '權限管理', 'translation' => 'dashboard::auth.', 'icon' => 'fas fa-user-lock', 'sub' => [
+                ['title' => '人員管理', 'translation' => 'dashboard::auth.', 'action' => '\Onepoint\Dashboard\Controllers\UserController@index'],
+                ['title' => '人員群組', 'translation' => 'dashboard::auth.', 'action' => '\Onepoint\Dashboard\Controllers\RoleController@index'],
             ]],
-            ['title' => __('setting.網站設定'), 'icon' => 'fas fa-cogs', 'action' => 'SettingController@model', 'method' => 'model', 'includes' => [
-                'SettingController@index',
-                'SettingController@update',
-                'SettingController@detail',
+            ['title' => '網站設定', 'translation' => 'dashboard::setting.', 'icon' => 'fas fa-cogs', 'action' => '\Onepoint\Dashboard\Controllers\SettingController@model', 'method' => 'model', 'includes' => [
+                '\Onepoint\Dashboard\Controllers\SettingController@index',
+                '\Onepoint\Dashboard\Controllers\SettingController@update',
+                '\Onepoint\Dashboard\Controllers\SettingController@detail',
             ]]
         ],
 

@@ -1,5 +1,4 @@
 <?php
-
 return [
     'assets_dashboard_path' => 'assets/dashboard/',
     'layout_file' => 'dashboard',

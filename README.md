@@ -26,6 +26,11 @@
 
 ### 複製必要檔案至正確目錄(檔案很多，執行要花一點時間)
 
+    先刪除以下檔案
+    database/migrations/2014_10_12_000000_create_users_table.php
+    packages/onepoint/dashboard/src/Publishes/database/seeds/DatabaseSeeder.php
+
+    執行
     php artisan vendor:publish --provider="Onepoint\Dashboard\DashboardServiceProvider"
 
 ## 設定檔位置設定
@@ -40,7 +45,18 @@ custom/httpHost.php
     custom/onepoint
 
     修改成實際運作的網址，主要是用來判斷不同網址載入不同設定檔，如果不需要不同網址，可以取消 switch 的判斷
+    如果網址是 6k6.test
+    就要將
     case 'default.test':
+    改成
+    case '6k6.test':
+    如果沒有取消 switch 的判斷，目前的網址不包含在 case 中，就會顯示 404 頁面
+
+## 引入設定檔
+
+    將以下內容放在 config/app.php 的第一行
+    // 依網址判斷資料庫、資料夾等設定，產生 config('http_host') 設定值
+    include base_path('custom') . '/httpHost.php';
 
 ## 資料庫設定
 
@@ -58,7 +74,7 @@ custom/default/baseConfig.php
 
     database/migrations/2014_10_12_000000_create_users_table.php
 
-執行以下指令建立預設的資料表及預設資料
+執行以下指令建立預設的資料表及預設資料，執行前先修改 .env 中的資料庫帳號密碼，在 artisan 中不會去讀取 custom/default/baseConfig.php 設定的資料庫帳號密碼。
 
     php artisan migrate --seed
 
@@ -117,6 +133,16 @@ config/database.php
     php artisan vendor:publish --tag=lfm_public
     php artisan route:clear
     php artisan config:clear
+
+#### 流量統計套件
+    composer require jenssegers/agent
+
+#### app.php 加入內容
+##### providers
+    Jenssegers\Agent\AgentServiceProvider::class,
+
+##### aliases
+    'Agent' => Jenssegers\Agent\Facades\Agent::class,
 
 ## 認證相關設定
 

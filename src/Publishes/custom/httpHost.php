@@ -1,10 +1,9 @@
 <?php
 // 判斷載入設定檔路徑
 $http_host = 'default';
-$app_url = 'http://default.test';
 
 // 單元測試時要用這個設定
-// $app_url = 'http://localhost';
+$app_url = 'http://default.test';
 if (isset($_SERVER['HTTP_HOST'])) {
     if (request()->isSecure()) {
         $ssl_protocol = 'https://';
@@ -27,3 +26,6 @@ if (isset($_SERVER['HTTP_HOST'])) {
 }
 config(['http_host' => $http_host]);
 config(['filesystems.disks.public.url' => $app_url . '/storage']);
+
+// 載入共用設定
+include base_path('custom') . '/' . config('http_host') . '/baseConfig.php';

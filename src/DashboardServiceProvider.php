@@ -25,7 +25,7 @@ class DashboardServiceProvider extends ServiceProvider
     {
         $this->loadViewsFrom(__DIR__ . '/resources/views', 'dashboard');
         $this->loadRoutesFrom(__DIR__.'/routes/web.php');
-        $this->loadMigrationsFrom(__DIR__.'/database/migrations');
+        // $this->loadMigrationsFrom(__DIR__.'/database/migrations');
         $this->loadTranslationsFrom(__DIR__.'/resources/lang', 'dashboard');
         $this->mergeConfigFrom(__DIR__.'/config/dashboard.php', 'dashboard');
 
@@ -46,6 +46,10 @@ class DashboardServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__.'/Publishes/custom' => base_path('custom'),
+        ], 'custom');
+
+        $this->publishes([
+            __DIR__.'/Publishes/database' => base_path('database'),
         ], 'custom');
     }
 }
