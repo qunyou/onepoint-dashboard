@@ -2,9 +2,6 @@
 // 依網址判斷資料庫、資料夾等設定，產生 config('http_host') 設定值
 include base_path('custom') . '/httpHost.php';
 
-// 載入共用設定
-include base_path('custom') . '/' . config('http_host') . '/baseConfig.php';
-
 // 認證
 // Route::prefix(config('dashboard.uri'))->group(function () {
 Route::prefix(config('dashboard.uri'))->namespace('Onepoint\Dashboard\Controllers')->middleware(['web'])->group(function () {
