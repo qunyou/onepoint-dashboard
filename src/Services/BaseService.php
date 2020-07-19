@@ -83,7 +83,6 @@ class BaseService
 
         // Replace all separator characters and whitespace by a single separator
         $title = preg_replace('!['.preg_quote($separator).'\s]+!u', $separator, $title);
-
         return trim($title, $separator);
     }
 
