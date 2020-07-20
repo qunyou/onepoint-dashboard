@@ -153,7 +153,7 @@ class SettingController extends Controller
                 ],
                 'setting_value' => [
                     'input_type' => 'value',
-                    'display_name' => __('setting.設定值'),
+                    'display_name' => __('dashboard::setting.設定值'),
                 ],
             ];
 
