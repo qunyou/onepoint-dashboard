@@ -745,7 +745,7 @@ class BaseRepository
                     }
                 }
             }
-            session()->flash('notify.message', __('backend.修改排序完成'));
+            session()->flash('notify.message', __('dashboard::backend.修改排序完成'));
             session()->flash('notify.type', 'success');
             // $result['datas_count'] = count($set_sort);
             $result['batch_method'] = 'set_sort';

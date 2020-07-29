@@ -26,6 +26,7 @@ class UserController extends Controller
         $this->base_services = $base_services;
         $this->tpl_data = $base_services->tpl_data;
         $this->tpl_data['base_services'] = $this->base_services;
+        // $this->tpl_data['path_presenter'] = $path_presenter;
         $this->permission_controller_string = get_class($this);
         $this->tpl_data['component_datas']['permission_controller_string'] = $this->permission_controller_string;
         $this->tpl_data['navigation_item'] = config('backend.navigation_item');
@@ -38,7 +39,8 @@ class UserController extends Controller
         $this->tpl_data['component_datas']['uri'] = $this->uri;
 
         // view 路徑
-        $this->view_path = config('dashboard.view_path') . '.pages.user.';
+        $this->view_path = 'dashboard::' . config('dashboard.view_path') . '.pages.user.';
+
         $this->user_id = request('user_id', false);
         $this->tpl_data['user_id'] = $this->user_id;
     }
@@ -50,9 +52,9 @@ class UserController extends Controller
     {
         // 列表標題
         if (!$this->tpl_data['trashed']) {
-            $this->tpl_data['component_datas']['page_title'] = __('backend.列表');
+            $this->tpl_data['component_datas']['page_title'] = __('dashboard::backend.列表');
         } else {
-            $this->tpl_data['component_datas']['page_title'] = __('backend.資源回收');
+            $this->tpl_data['component_datas']['page_title'] = __('dashboard::backend.資源回收');
         }
 
         // 主資料 id query string 字串
@@ -63,8 +65,8 @@ class UserController extends Controller
 
         // 表格欄位設定
         $this->tpl_data['component_datas']['th'] = [
-            ['title' => __('auth.姓名'), 'class' => ''],
-            ['title' => __('auth.Email'), 'class' => 'd-none d-xl-table-cell'],
+            ['title' => __('dashboard::auth.姓名'), 'class' => ''],
+            ['title' => __('dashboard::auth.Email'), 'class' => 'd-none d-xl-table-cell'],
         ];
         $this->tpl_data['component_datas']['column'] = [
             ['type' => 'column', 'class' => '', 'column_name' => 'username'],
@@ -72,13 +74,13 @@ class UserController extends Controller
         ];
 
         // 是否使用複製功能
-        $this->tpl_data['component_datas']['use_duplicate'] = true;
+        $this->tpl_data['component_datas']['use_duplicate'] = false;
 
         // 是否使用版本功能
-        $this->tpl_data['component_datas']['use_version'] = true;
+        $this->tpl_data['component_datas']['use_version'] = false;
 
         // 是否使用排序功能
-        $this->tpl_data['component_datas']['use_sort'] = true;
+        $this->tpl_data['component_datas']['use_sort'] = false;
 
         // 權限設定
         $this->tpl_data['component_datas']['footer_delete_hide'] = false;
@@ -138,7 +140,7 @@ class UserController extends Controller
 
         // 分類值陣列
         if ($this->user_id) {
-            $page_title = __('backend.編輯');
+            $page_title = __('dashboard::backend.編輯');
             $user = $this->user_repository->getOne($this->user_id);
             $this->tpl_data['user'] = $user;
             $role_id = 0;
@@ -149,13 +151,13 @@ class UserController extends Controller
             // 複製
             if (isset($this->tpl_data['duplicate']) && $this->tpl_data['duplicate']) {
                 $password_help = '';
-                $page_title = __('backend.複製');
+                $page_title = __('dashboard::backend.複製');
                 $this->tpl_data['duplicate'] = true;
             } else {
-                $password_help = __('auth.若不修改密碼請保持密碼欄位空白');
+                $password_help = __('dashboard::auth.若不修改密碼請保持密碼欄位空白');
             }
         } else {
-            $page_title = __('backend.新增');
+            $page_title = __('dashboard::backend.新增');
             $password_help = '';
         }
 
@@ -166,11 +168,11 @@ class UserController extends Controller
         $this->tpl_data['form_array'] = [
             'realname' => [
                 'input_type' => 'text',
-                'display_name' => __('auth.姓名'),
+                'display_name' => __('dashboard::auth.姓名'),
             ],
             'role_id' => [
                 'input_type' => 'checkbox',
-                'display_name' => __('auth.群組'),
+                'display_name' => __('dashboard::auth.群組'),
                 'input_value' => $category_id_array,
                 'option' => $category_select_item,
                 // 'attribute' => ['multiple' => 'multiple', 'size' => 5],
@@ -178,38 +180,38 @@ class UserController extends Controller
             ],
             'username' => [
                 'input_type' => 'text',
-                'display_name' => __('auth.帳號'),
+                'display_name' => __('dashboard::auth.帳號'),
             ],
             'email' => [
                 'input_type' => 'text',
-                'display_name' => __('auth.Email'),
+                'display_name' => __('dashboard::auth.Email'),
             ],
             'password' => [
                 'input_type' => 'password',
                 'input_value' => '',
-                'display_name' => __('auth.密碼'),
+                'display_name' => __('dashboard::auth.密碼'),
                 'help' => $password_help,
                 'attribute' => ['autocomplete' => 'off'],
             ],
             'password_confirmation' => [
                 'input_type' => 'password',
                 'input_value' => '',
-                'display_name' => __('auth.密碼確認'),
-                'help' => __('auth.請再輸入一次密碼'),
+                'display_name' => __('dashboard::auth.密碼確認'),
+                'help' => __('dashboard::auth.請再輸入一次密碼'),
                 'attribute' => ['autocomplete' => 'off'],
             ],
             'sort' => [
                 'input_type' => 'number',
-                'display_name' => __('backend.排序'),
+                'display_name' => __('dashboard::backend.排序'),
             ],
             'status' => [
                 'input_type' => 'select',
-                'display_name' => __('backend.狀態'),
+                'display_name' => __('dashboard::backend.狀態'),
                 'option' => config('backend.status_item'),
             ],
             'note' => [
                 'input_type' => 'textarea',
-                'display_name' => __('backend.備註'),
+                'display_name' => __('dashboard::backend.備註'),
                 'rows' => 5,
             ],
         ];
@@ -228,11 +230,11 @@ class UserController extends Controller
     {
         $res = $this->user_repository->setUpdate($this->user_id, false);
         if ($res) {
-            session()->flash('notify.message', __('backend.資料編輯完成'));
+            session()->flash('notify.message', __('dashboard::backend.資料編輯完成'));
             session()->flash('notify.type', 'success');
             return redirect($this->uri . 'detail?user_id=' . $res);
         } else {
-            session()->flash('notify.message', __('backend.資料編輯失敗'));
+            session()->flash('notify.message', __('dashboard::backend.資料編輯失敗'));
             session()->flash('notify.type', 'danger');
             return redirect($this->uri . 'update?user_id=' . $this->user_id);
         }
@@ -270,37 +272,37 @@ class UserController extends Controller
             $this->tpl_data['form_array'] = [
                 'realname' => [
                     'input_type' => 'value',
-                    'display_name' => __('auth.姓名'),
+                    'display_name' => __('dashboard::auth.姓名'),
                 ],
                 'role_id' => [
                     'input_type' => 'value',
-                    'display_name' => __('auth.群組'),
+                    'display_name' => __('dashboard::auth.群組'),
                     'input_value' => $category_value_str,
                 ],
                 'username' => [
                     'input_type' => 'value',
-                    'display_name' => __('auth.帳號'),
+                    'display_name' => __('dashboard::auth.帳號'),
                 ],
                 'email' => [
                     'input_type' => 'value',
-                    'display_name' => __('auth.Email'),
+                    'display_name' => __('dashboard::auth.Email'),
                 ],
                 'sort' => [
                     'input_type' => 'value',
-                    'display_name' => __('backend.排序'),
+                    'display_name' => __('dashboard::backend.排序'),
                 ],
                 'status' => [
                     'input_type' => 'value',
-                    'display_name' => __('backend.狀態'),
+                    'display_name' => __('dashboard::backend.狀態'),
                 ],
                 'note' => [
                     'input_type' => 'value',
-                    'display_name' => __('backend.備註'),
+                    'display_name' => __('dashboard::backend.備註'),
                 ],
             ];
 
             // 樣版資料
-            $component_datas['page_title'] = __('backend.檢視');
+            $component_datas['page_title'] = __('dashboard::backend.檢視');
             $component_datas['back_url'] = url($this->uri . 'index');
             $component_datas['dropdown_items']['btn_align'] = 'float-left';
             if (auth()->user()->hasAccess(['update-' . $this->permission_controller_string])) {
@@ -353,7 +355,7 @@ class UserController extends Controller
 
         // 分類值陣列
         if (Auth::id()) {
-            $page_title = __('backend.編輯');
+            $page_title = __('dashboard::backend.編輯');
             $user = $this->user_repository->getOne(Auth::id());
             $this->tpl_data['user'] = $user;
             $role_id = 0;
@@ -363,7 +365,7 @@ class UserController extends Controller
             if ($this->duplicate) {
                 $password_help = '';
             } else {
-                $password_help = __('auth.若不修改密碼請保持密碼欄位空白');
+                $password_help = __('dashboard::auth.若不修改密碼請保持密碼欄位空白');
             }
         } else {
             exit;
@@ -376,11 +378,11 @@ class UserController extends Controller
         $this->tpl_data['form_array'] = [
             'realname' => [
                 'input_type' => 'text',
-                'display_name' => __('auth.姓名'),
+                'display_name' => __('dashboard::auth.姓名'),
             ],
             'role_id' => [
                 'input_type' => 'checkbox',
-                'display_name' => __('auth.群組'),
+                'display_name' => __('dashboard::auth.群組'),
                 'input_value' => $category_id_array,
                 'option' => $category_select_item,
                 // 'attribute' => ['multiple' => 'multiple', 'size' => 5],
@@ -388,38 +390,38 @@ class UserController extends Controller
             ],
             'username' => [
                 'input_type' => 'text',
-                'display_name' => __('auth.帳號'),
+                'display_name' => __('dashboard::auth.帳號'),
             ],
             'email' => [
                 'input_type' => 'text',
-                'display_name' => __('auth.Email'),
+                'display_name' => __('dashboard::auth.Email'),
             ],
             'password' => [
                 'input_type' => 'password',
                 'input_value' => '',
-                'display_name' => __('auth.密碼'),
+                'display_name' => __('dashboard::auth.密碼'),
                 'help' => $password_help,
                 'attribute' => ['autocomplete' => 'off'],
             ],
             'password_confirmation' => [
                 'input_type' => 'password',
                 'input_value' => '',
-                'display_name' => __('auth.密碼確認'),
-                'help' => __('auth.請再輸入一次密碼'),
+                'display_name' => __('dashboard::auth.密碼確認'),
+                'help' => __('dashboard::auth.請再輸入一次密碼'),
                 'attribute' => ['autocomplete' => 'off'],
             ],
             'sort' => [
                 'input_type' => 'number',
-                'display_name' => __('backend.排序'),
+                'display_name' => __('dashboard::backend.排序'),
             ],
             'status' => [
                 'input_type' => 'select',
-                'display_name' => __('backend.狀態'),
+                'display_name' => __('dashboard::backend.狀態'),
                 'option' => config('backend.status_item'),
             ],
             'note' => [
                 'input_type' => 'textarea',
-                'display_name' => __('backend.備註'),
+                'display_name' => __('dashboard::backend.備註'),
                 'rows' => 5,
             ],
         ];

@@ -10,14 +10,14 @@
             </li>
             <li class="breadcrumb-item" aria-current="page">
                 <a href="{{ url(config('dashboard.uri') . '/user/index') }}">
-                    @lang('auth.人員管理')
+                    @lang('dashboard::auth.人員管理')
                 </a>
             </li>
 
             @if ($version)
                 <li class="breadcrumb-item" aria-current="page">
                     <a href="#">
-                        @lang('dashboard.版本檢視')
+                        @lang('dashboard::dashboard.版本檢視')
                     </a>
                 </li>
             @endif

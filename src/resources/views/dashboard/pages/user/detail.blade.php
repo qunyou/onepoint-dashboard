@@ -12,14 +12,14 @@
             </li>
             <li class="breadcrumb-item" aria-current="page">
                 <a href="{{ url(config('dashboard.uri') . '/user/index') }}">
-                    @lang('auth.人員管理')
+                    @lang('dashboard::auth.人員管理')
                 </a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
                 <a href="{{ url($uri . 'detail?user_id=' . $user_id) }}">
-                    @lang('auth.檢視人員')
+                    @lang('dashboard::auth.檢視人員')
                     @if ($version)
-                        - @lang('backend.版本檢視')
+                        @lang('dashboard::backend.版本檢視')
                     @endif
                 </a>
             </li>

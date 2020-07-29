@@ -62,7 +62,7 @@ class User extends Authenticatable
 
     public function roles()
     {
-        return $this->belongsToMany(Onepoint\Dashboard\Entities\Role::class, 'role_users');
+        return $this->belongsToMany('Onepoint\Dashboard\Entities\Role', 'role_users');
     }
 
     /**

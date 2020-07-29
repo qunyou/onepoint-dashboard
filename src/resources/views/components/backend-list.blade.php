@@ -30,7 +30,7 @@
                         {!! $button_block ?? '' !!}
                         @if (isset($add_url))
                             <a class="btn btn-outline-deep-purple waves-effect d-xs-block" href="{{ $add_url }}">
-                                <i class="fa fa-plus"></i>@lang('dashboard::backend.新增')
+                                {!! $add_btn_string ?? '<i class="fa fa-plus"></i>' . __('dashboard::backend.新增') !!}
                             </a>
                         @endif
                     @endcomponent
@@ -103,7 +103,13 @@
                                                     </div>
                                                 @endforeach
                                             @else
-                                                {!! $element->{$value['with']}->implode($value['column_name'], $value['delimiter_string'] ?? ',') !!}
+                                                @if (isset($value['url']))
+                                                    @foreach ($element->{$value['with']} as $item)
+                                                        <a href="{{ $value['url'] . $item->id }}">{{ $item->{$value['column_name']} }}</a>
+                                                    @endforeach
+                                                @else
+                                                    {!! $element->{$value['with']}->implode($value['column_name'], $value['delimiter_string'] ?? ',') !!}
+                                                @endif
                                             @endif
                                             @break
                                         @case('belongsTo')
