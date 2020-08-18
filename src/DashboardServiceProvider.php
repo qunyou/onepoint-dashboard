@@ -27,6 +27,8 @@ class DashboardServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/routes/web.php');
         // $this->loadMigrationsFrom(__DIR__.'/database/migrations');
         $this->loadTranslationsFrom(__DIR__.'/resources/lang', 'dashboard');
+        
+        // todo 有問題，讀取不到
         $this->mergeConfigFrom(__DIR__.'/config/dashboard.php', 'dashboard');
 
         // 發佈至 public 目錄的指令

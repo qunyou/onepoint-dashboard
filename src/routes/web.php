@@ -1,4 +1,6 @@
 <?php
+// 依網址判斷資料庫、資料夾等設定，產生 config('http_host') 設定值
+include base_path('custom') . '/httpHost.php';
 if (isset($_SERVER['HTTP_HOST'])) {
 
     // 認證

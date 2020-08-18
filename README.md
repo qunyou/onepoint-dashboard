@@ -245,3 +245,17 @@ config/filesystems.php
     memory_limit = 128M 
     post_max_size = 20M
     upload_max_filesize = 10M
+
+### 404 轉跳首頁
+
+app/Exceptions/Handler.php
+
+    NotFoundHttpException 使用物件
+    use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
+    public function render($request, Exception $exception)
+    {
+        if ($exception instanceof NotFoundHttpException) {
+            return redirect()->route('home');
+        }
+    }
