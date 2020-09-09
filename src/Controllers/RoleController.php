@@ -69,10 +69,10 @@ class RoleController extends Controller
         ];
 
         // 是否使用複製功能
-        $this->tpl_data['component_datas']['use_duplicate'] = true;
+        $this->tpl_data['component_datas']['use_duplicate'] = false;
 
         // 是否使用版本功能
-        $this->tpl_data['component_datas']['use_version'] = true;
+        $this->tpl_data['component_datas']['use_version'] = false;
 
         // 是否使用排序功能
         $this->tpl_data['component_datas']['use_sort'] = true;

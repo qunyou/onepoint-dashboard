@@ -27,6 +27,7 @@ class User extends Authenticatable
      *
      * @var array
      */
+    // ALTER TABLE `users` ADD `update_user_id` INT NOT NULL DEFAULT '0' AFTER `origin_id`;
     protected $fillable = [
         'realname', 'username', 'email', 'password', 'status', 'sort', 'note', 'old_version', 'origin_id', 'update_user_id'
     ];

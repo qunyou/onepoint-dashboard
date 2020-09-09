@@ -7,18 +7,21 @@
                 <div class="card-title">{{ $page_title }}</div>
             </div>
             <div class="col-md-12 top-btn-group">
-                @if ($back_url)
+                {{-- @if ($back_url)
                     <a class="btn btn-outline-deep-purple waves-effect d-xs-block" href="{{ $back_url }}">
                         <i class="fa fa-fw fa-arrow-left"></i>@lang('dashboard::backend.回列表')
                     </a>
-                @endif
+                @endif --}}
+                {{ $top_btn ?? '' }}
             </div>
         </div>
         {{ $slot }}
-        <footer>
-            <button id="form-button" type="submit" class="btn btn-outline-deep-purple waves-effect">
-                @lang('dashboard::backend.送出')
-            </button>
-        </footer>
+        @if (isset($footer_hide) ? !$footer_hide : true)
+            <footer>
+                <button id="form-button" type="submit" class="btn btn-outline-deep-purple waves-effect">
+                    @lang('dashboard::backend.送出')
+                </button>
+            </footer>
+        @endif
     </div>
 </form>

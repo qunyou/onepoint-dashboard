@@ -55,12 +55,22 @@ class BaseService
     /**
      * 取得不含頁數的 QueryString 陣列
      */
-    public static function getQueryString()
+    public static function getQueryString($include_page = false, $toString = false, $exclude = [])
     {
         $qs = $_GET;
-        unset($qs['page']);
-        return $qs;
-        // return http_build_query($qs);
+        if (!$include_page) {
+            unset($qs['page']);
+        }
+        if (count($exclude)) {
+            foreach ($exclude as $item) {
+                unset($qs[$item]);
+            }
+        }
+        if ($toString) {
+            return http_build_query($qs);
+        } else {
+            return $qs;
+        }
     }
 
     /**

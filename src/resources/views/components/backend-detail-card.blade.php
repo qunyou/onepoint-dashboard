@@ -5,17 +5,20 @@
         </div>
         <div class="col-md-12 top-btn-group">
             @component('dashboard::components.top-btn-group', $dropdown_items)
-                {{ $button_block ?? '' }}
-                <a class="btn btn-outline-deep-purple waves-effect d-xs-block" href="{{ $back_url }}">
-                    <i class="fa fa-fw fa-arrow-left"></i>@lang('dashboard::backend.回列表')
-                </a>
+                {{-- {{ $button_block ?? '' }} --}}
+                {{-- @if ($back_url)
+                    <a class="btn btn-outline-deep-purple waves-effect d-xs-block" href="{{ $back_url }}">
+                        <i class="fa fa-fw fa-arrow-left"></i>@lang('dashboard::backend.回列表')
+                    </a>
+                @endif --}}
+                {{ $top_btn ?? '' }}
             @endcomponent
         </div>
     </div>
     <div class="form-body">
         {{ $slot }}
     </div>
-    <footer>
+    {{-- <footer>
         <div class="row">
             <div class="col-md-12 top-btn-group">
                 <a class="btn btn-outline-deep-purple waves-effect d-xs-block" href="{{ $back_url }}">
@@ -23,5 +26,5 @@
                 </a>
             </div>
         </div>
-    </footer>
+    </footer> --}}
 </div>

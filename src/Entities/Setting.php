@@ -23,6 +23,7 @@ class Setting extends Model
         // 版本原始id
         'origin_id',
 
+        // ALTER TABLE `settings` ADD `update_user_id` INT NOT NULL DEFAULT '0' AFTER `origin_id`;
         // 記錄更新人員
         'update_user_id',
 

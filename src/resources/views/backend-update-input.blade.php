@@ -2,7 +2,7 @@
     @include('dashboard::' . $item_value['input_type'], ['input_setting' => [
         'display_name' => $item_value['display_name'],
         'input_name' => $item_key,
-        'input_value' => $item_value['input_value'] ?? old($item_key, optional($form_value)->{$item_key}),
+        'input_value' => $item_value['input_value'] ?? old($item_key, isset($form_value) ? optional($form_value)->{$item_key} : ''),
         'upload_path' => $item_value['upload_path'] ?? '',
         'file_name_display_value' => $item_value['file_name_display_value'] ?? '',
         'value_type' => $item_value['value_type'] ?? '',

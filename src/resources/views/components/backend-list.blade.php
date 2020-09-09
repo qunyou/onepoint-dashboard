@@ -1,4 +1,5 @@
 @inject('image_service', 'Onepoint\Dashboard\Services\ImageService')
+@inject('base_service', 'Onepoint\Dashboard\Services\BaseService')
 @inject('str', 'Illuminate\Support\Str')
 
 <div class="card-list">
@@ -181,7 +182,7 @@
                                             if (isset($detail_hide) && $detail_hide) {
                                                 $button_items = [];
                                             } else {
-                                                $button_items['items']['檢視'] = ['url' => url($uri . 'detail?' . $id_string . '=' . $element->id . ($detail_url_append_string ?? ''))];
+                                                $button_items['items']['檢視'] = ['url' => url($uri . 'detail?' . $id_string . '=' . $element->id . '&' . $base_service->getQueryString(true, true))];
                                             }
                                             if ($use_duplicate) {
                                                 if (auth()->user()->hasAccess(['create-' . $permission_controller_string])) {
@@ -232,7 +233,8 @@
                                             @else
                                                 @if (isset($update_hide) && $update_hide)
                                                 @else
-                                                    <a href="{{ url($uri . 'update?' . $id_string . '=' . $element->id . ($update_url_append_string ?? '')) }}" class="btn btn-outline-deep-purple waves-effect text-nowrap">
+                                                    {{-- <a href="{{ url($uri . 'update?' . $id_string . '=' . $element->id . ($update_url_append_string ?? '')) }}" class="btn btn-outline-deep-purple waves-effect text-nowrap"> --}}
+                                                    <a href="{{ url($uri . 'update?' . $id_string . '=' . $element->id . '&' . $base_service->getQueryString(true, true)) }}" class="btn btn-outline-deep-purple waves-effect text-nowrap">
                                                         <i class="fas fa-edit"></i>
                                                         <span class="d-none d-md-inline">@lang('dashboard::backend.編輯')</span>
                                                     </a>
@@ -352,7 +354,7 @@
                     {{ $slot }}
                 </div> --}}
                 <div class="col-md-auto pt-2">
-                    {!! $list->appends($qs)->links() !!}
+                    {!! $list->appends($base_service->getQueryString())->links() !!}
                 </div>
                 <div class="col d-none d-md-inline">
                     @if (!isset($footer_sort_hide) || ($use_sort && isset($footer_sort_hide) && !$footer_sort_hide))
