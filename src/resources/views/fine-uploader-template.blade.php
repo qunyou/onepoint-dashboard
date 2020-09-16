@@ -28,8 +28,8 @@
                 <span class="qq-upload-spinner-selector qq-upload-spinner"></span>
                 <img class="qq-thumbnail-selector" qq-max-size="100" qq-server-scale>
                 <span class="qq-upload-file-selector qq-upload-file"></span>
-                <span class="qq-edit-filename-icon-selector qq-edit-filename-icon" aria-label="Edit filename"></span>
-                <input class="qq-edit-filename-selector qq-edit-filename" tabindex="0" type="text">
+                {{-- <span class="qq-edit-filename-icon-selector qq-edit-filename-icon" aria-label="Edit filename"></span> --}}
+                {{-- <input class="qq-edit-filename-selector qq-edit-filename" tabindex="0" type="text"> --}}
                 <span class="qq-upload-size-selector qq-upload-size"></span>
                 <button type="button" class="qq-btn qq-upload-cancel-selector qq-upload-cancel">取消</button>
                 <button type="button" class="qq-btn qq-upload-retry-selector qq-upload-retry">重試</button>
