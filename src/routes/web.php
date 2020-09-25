@@ -80,7 +80,7 @@ if (isset($_SERVER['HTTP_HOST'])) {
             });
 
             // 檢視錯誤訊息
-            Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
+            // Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
         });
     });
 }
