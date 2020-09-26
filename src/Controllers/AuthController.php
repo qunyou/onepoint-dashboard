@@ -32,7 +32,7 @@ class AuthController extends Controller
     public function index(PathPresenter $path_presenter)
     {
         if (auth()->check()) {
-            return redirect($this->uri . config('dashboard.login_default_uri', 'dashboard/index'));
+            return redirect(config('dashboard.login_default_uri', 'dashboard/index'));
         } else {
             return redirect($this->uri . 'login');
         }
