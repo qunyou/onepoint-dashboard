@@ -6,6 +6,7 @@
         @switch($input_array['value_type'])
             @case('image')
             @case('file')
+            @case('raw_html')
                 {!! $input_array['input_value'] !!}
                 @break
             @case('boolean')

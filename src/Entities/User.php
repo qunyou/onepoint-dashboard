@@ -29,7 +29,22 @@ class User extends Authenticatable
      */
     // ALTER TABLE `users` ADD `update_user_id` INT NOT NULL DEFAULT '0' AFTER `origin_id`;
     protected $fillable = [
-        'realname', 'username', 'email', 'password', 'status', 'sort', 'note', 'old_version', 'origin_id', 'update_user_id'
+        // 'realname', 'username', 'email', 'password', 'status', 'sort', 'note', 'old_version', 'origin_id', 'update_user_id'
+        'enable',
+        'username',
+        'realname',
+        'password',
+        'email',
+        'confirmation_code',
+        'gender',
+        'tel',
+        'state',
+        'zipcode',
+        'county',
+        'district',
+        'address',
+		'remember_token',
+		'confirmed'
     ];
 
     /**
@@ -72,7 +87,7 @@ class User extends Authenticatable
     public function hasAccess(array $permissions) : bool
     {
         // check if the permission is available in any role
-        return true;
+        // return true;
         foreach ($this->roles as $role) {
             if($role->hasAccess($permissions)) {
                 return true;

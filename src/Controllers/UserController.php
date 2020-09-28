@@ -20,12 +20,12 @@ class UserController extends Controller
     /**
      * 建構子
      */
-    public function __construct(BaseService $base_services, UserRepository $user_repository)
+    public function __construct(BaseService $base_service, UserRepository $user_repository)
     {
         $this->share();
-        $this->base_services = $base_services;
-        $this->tpl_data = $base_services->tpl_data;
-        $this->tpl_data['base_services'] = $this->base_services;
+        $this->base_service = $base_service;
+        $this->tpl_data = $base_service->tpl_data;
+        $this->tpl_data['base_service'] = $this->base_service;
         // $this->tpl_data['path_presenter'] = $path_presenter;
         $this->permission_controller_string = get_class($this);
         $this->tpl_data['component_datas']['permission_controller_string'] = $this->permission_controller_string;
@@ -109,7 +109,7 @@ class UserController extends Controller
 
         // 列表資料查詢
         $this->tpl_data['component_datas']['list'] = $this->user_repository->getList($this->user_id, config('backend.paginate'));
-        $this->tpl_data['component_datas']['qs'] = $this->base_services->getQueryString();
+        $this->tpl_data['component_datas']['qs'] = $this->base_service->getQueryString();
 
         // 預覽按鈕網址
         // $this->tpl_data['component_datas']['preview_url'] = ['url' => url(config('backend.book.preview_url')) . '/', 'column' => 'book_name_slug'];
@@ -230,13 +230,17 @@ class UserController extends Controller
     {
         $res = $this->user_repository->setUpdate($this->user_id, false);
         if ($res) {
-            session()->flash('notify.message', __('dashboard::backend.資料編輯完成'));
+            session()->flash('notify.message', '資料編輯完成');
             session()->flash('notify.type', 'success');
-            return redirect($this->uri . 'detail?user_id=' . $res);
+            if ($this->user_id) {
+                return redirect($this->uri . 'update?' . $this->base_service->getQueryString(true, true));
+            } else {
+                return redirect($this->uri . 'update?user_id=' . $res . '&' . $this->base_service->getQueryString(true, true));
+            }
         } else {
             session()->flash('notify.message', __('dashboard::backend.資料編輯失敗'));
             session()->flash('notify.type', 'danger');
-            return redirect($this->uri . 'update?user_id=' . $this->user_id);
+            return redirect($this->uri . 'update?' . $this->base_service->getQueryString(true, true))->withInput();
         }
     }
 
