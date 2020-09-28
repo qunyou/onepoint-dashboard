@@ -88,11 +88,11 @@ class DashboardController extends Controller
     public function storageLink()
     {
         // 顯示正確的路徑
-        // dd(storage_path('app/public'), public_path('storage'));
+        dd(storage_path('app/public'), public_path('storage'));
         // symlink(public_path('storage'), storage_path('app/public'));
         // ln -sr /home/vagrant/code/popupasia.com/private/storage/app/public /home/vagrant/code/popupasia.com/storage
         
         // 正常的目錄配置可使用此方法
-        Artisan::call('storage:link');
+        // Artisan::call('storage:link');
     }
 }

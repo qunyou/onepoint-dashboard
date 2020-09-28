@@ -187,15 +187,21 @@ config/auth.php
     在虛擬主機上可以用這個網址來建立(相關的 route 規則要打開)
     http://url/backend/dashboard/storage-link
 
+    主程式放在 public 底下的 private 時使用的方法 storage:link 要使用這個方法
+    ln -s private/storage/app/public storage
+
     預設目錄不是 public 的時候，要修改這個檔案
     app/Providers/AppServiceProvider.php
     public function register()
     {
+        public 改名為 public_html 的方法
         $this->app->bind('path.public', function() {
             return base_path('../public_html');
+        });
 
-            主程式放在 public 底下的 private 時使用的方法
-            return $_SERVER['DOCUMENT_ROOT'];
+        主程式放在 public 底下的 private 時使用的方法
+        $this->app->bind('path.public', function() {
+            return base_path('../public_html');
         });
     }
 
@@ -219,6 +225,7 @@ config/app.php
 config/filesystems.php
 
     'public' => [
+        storage_path('app/public')
         'url' => env('APP_URL').'/storage',
         修改為
         'url' => config('app.url').'/storage',

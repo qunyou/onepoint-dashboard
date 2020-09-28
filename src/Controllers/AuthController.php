@@ -5,12 +5,12 @@ namespace Onepoint\Dashboard\Controllers;
 use App\Http\Controllers\Controller;
 use Onepoint\Dashboard\Presenters\PathPresenter;
 // use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
-use Onepoint\Dashboard\Traits\ShareMethod;
+// use Onepoint\Dashboard\Traits\ShareMethod;
 
 class AuthController extends Controller
 {
     // use SendsPasswordResetEmails;
-    use ShareMethod;
+    // use ShareMethod;
 
     /**
      * Create a new controller instance.
@@ -20,7 +20,7 @@ class AuthController extends Controller
     public function __construct()
     {
         // $this->middleware('guest');
-        $this->share();
+        // $this->share();
 
         $this->view_path = 'dashboard::' . config('dashboard.view_path') . '.';
         $this->uri = config('dashboard.uri') . '/';
@@ -44,7 +44,7 @@ class AuthController extends Controller
     public function login(PathPresenter $path_presenter)
     {
         if (auth()->check()) {
-            return redirect(config('dashboard.uri') . '/' . config('dashboard.login_default_uri', 'dashboard/index'));
+            return redirect(config('dashboard.login_default_uri', 'dashboard/index'));
         }
         $tpl_data['path_presenter'] = $path_presenter;
         return view($this->view_path . 'login', $tpl_data);
@@ -71,7 +71,7 @@ class AuthController extends Controller
             $remember = true;
         }
         if (auth()->attempt($credentials, $remember)) {
-            return redirect(config('dashboard.uri') . '/' . config('dashboard.login_default_uri', 'dashboard/index'));
+            return redirect(config('dashboard.login_default_uri', 'dashboard/index'));
         }
         session()->flash('login_message', '帳號密碼錯誤');
         return redirect(config('dashboard.uri'));

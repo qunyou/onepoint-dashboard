@@ -16,6 +16,8 @@
         <link rel="icon" href="{{ url(config('backend.favicon')) }}" type="image/x-icon">
     @endif
     @section('css')
+        {{-- todo 暫時先這樣用 --}}
+        {{-- <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet"> --}}
         <link rel="stylesheet" href="{{ $path_presenter::backend_assets('css/uikit.min.css') }}" />
         <link rel="stylesheet" href="{{ $path_presenter::backend_assets('css/style.min.css?v=1.1.9') }}" />
         <link rel="stylesheet" href="{{ $path_presenter::backend_assets('fontawesome/css/all.css') }}" />
@@ -104,7 +106,7 @@
                             @endif
                             @if (config('app.url', false))
                                 <li>
-                                    <a href="{{ config('app.url') }}" target="_blank"><i class="fas fa-home"></i>@lang('dashboard::backend.檢視網站')</a>
+                                    <a href="{{ url(config('frontend.url')) }}" target="_blank"><i class="fas fa-home"></i>@lang('dashboard::backend.檢視網站')</a>
                                 </li>
                             @endif
                             {{--
