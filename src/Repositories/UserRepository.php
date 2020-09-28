@@ -55,6 +55,7 @@ class UserRepository extends BaseRepository
      */
     public function setUpdate($id = 0, $datas = [])
     {
+        $role_id = request('role_id', false);
         $datas['password'] = request('password', '');
 
         // 表單驗證

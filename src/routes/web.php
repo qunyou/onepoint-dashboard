@@ -3,10 +3,21 @@
 include base_path('custom') . '/httpHost.php';
 if (isset($_SERVER['HTTP_HOST'])) {
 
+    // 查詢分站網址後綴
+    // use Onepoint\Reading\Entities\Site;
+    // $query = Site::where('suffix_url', request()->segment(1))->first();
+    // if (!is_null($query)) {
+    //     config(['suffix_url' => $query->suffix_url . '/']);
+    // }
+
+    // 加入網址後綴
+    if (!empty(config('suffix_url', ''))) {
+        config(['dashboard.uri' => config('suffix_url') . config('dashboard.uri')]);
+        config(['dashboard.login_default_uri' => config('suffix_url') . config('dashboard.login_default_uri')]);
+    }
+
     // 認證
-    // Route::prefix(config('dashboard.uri'))->group(function () {
     Route::prefix(config('dashboard.uri'))->namespace('Onepoint\Dashboard\Controllers')->middleware(['web'])->group(function () {
-        // config(['backend_url_suffix' => request()->segment(1)]);
 
         // 登入頁
         Route::get('/', 'AuthController@login')->name(config('dashboard.uri'));
@@ -80,7 +91,7 @@ if (isset($_SERVER['HTTP_HOST'])) {
             });
 
             // 檢視錯誤訊息
-            Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
+            // Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
         });
     });
 }
