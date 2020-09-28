@@ -1,3 +1,5 @@
+@inject('formPresenter', 'Onepoint\Dashboard\Presenters\FormPresenter')
+
 @foreach ($form_array as $item_key => $item_value)
     @include('dashboard::' . $item_value['input_type'], ['input_setting' => [
         'display_name' => $item_value['display_name'],
@@ -15,5 +17,6 @@
         'multiple' => $item_value['multiple'] ?? false,
         'rows' => $item_value['rows'] ?? 20,
         'parameter' => $item_value['parameter'] ?? [],
+        'formPresenter' => $formPresenter,
     ]])
 @endforeach
