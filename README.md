@@ -144,6 +144,13 @@ config/database.php
 ##### aliases
     'Agent' => Jenssegers\Agent\Facades\Agent::class,
 
+#### google analytics 套件
+    composer require spatie/laravel-analytics
+    php artisan vendor:publish --provider="Spatie\Analytics\AnalyticsServiceProvider"
+    在 google api https://console.developers.google.com/apis 取得金鑰及 json 檔
+    在 google analytics 管理裡的「資料檢視設定」取得 view id(資料檢視 ID)
+    在 google analytics 管理裡的「查看使用者管理」新增 google api 新增的 email
+
 ## 認證相關設定
 
 ### 修改 user.php 路徑

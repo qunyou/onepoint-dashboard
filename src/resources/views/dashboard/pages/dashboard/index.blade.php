@@ -15,6 +15,32 @@
 @endsection
 
 @section('main_block')
+    
+    @if (isset($analytics_page_view_seven_days))
+    <div class="card-update">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-body text-center pt-4">
+                    <a href="#">
+                        <i class="fas fa-chart-bar"></i>
+                        <p class="mt-3">最近7日 page views</p>
+                    </a>
+                    <h1>{{ $analytics_page_view_seven_days }}</h1>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-body text-center pt-4">
+                    <a href="#">
+                        <i class="fas fa-chart-bar"></i>
+                        <p class="mt-3">最近6個月 page views</p>
+                    </a>
+                    <h1>{{ $analytics_page_view_six_months }}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
+    
     @if (isset($show_index_count) && $show_index_count)
         <div class="card-update">
             <div class="row">

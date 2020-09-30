@@ -2,8 +2,8 @@
 
 namespace Onepoint\Dashboard\Controllers;
 
-// use Analytics;
-// use Spatie\Analytics\Period;
+use Analytics;
+use Spatie\Analytics\Period;
 use App\Http\Controllers\Controller;
 use Artisan;
 use Onepoint\Base\Entities\Article;
@@ -46,14 +46,15 @@ class DashboardController extends Controller
      */
     public function index(PathPresenter $path_presenter)
     {
-        //retrieve visitors and pageview data for the current day and the last seven days
-        // $analyticsData = Analytics::fetchVisitorsAndPageViews(Period::days(7));
-        // dd($analyticsData);
+        // retrieve visitors and pageview data for the current day and the last seven days
+        $analytics_page_view_seven_days = Analytics::fetchVisitorsAndPageViews(Period::days(7));
+        $this->tpl_data['analytics_page_view_seven_days'] = $analytics_page_view_seven_days;
 
-        //retrieve visitors and pageviews since the 6 months ago
-        // $analyticsData = Analytics::fetchVisitorsAndPageViews(Period::months(6));
+        // retrieve visitors and pageviews since the 6 months ago
+        $analytics_page_view_six_months = Analytics::fetchVisitorsAndPageViews(Period::months(6));
+        $this->tpl_data['analytics_page_view_six_months'] = $analytics_page_view_six_months;
 
-        //retrieve sessions and pageviews with yearMonth dimension since 1 year ago 
+        // retrieve sessions and pageviews with yearMonth dimension since 1 year ago 
         // $analyticsData = Analytics::performQuery(
         //     Period::years(1),
         //     'ga:sessions',
