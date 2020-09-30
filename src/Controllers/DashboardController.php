@@ -2,6 +2,8 @@
 
 namespace Onepoint\Dashboard\Controllers;
 
+// use Analytics;
+// use Spatie\Analytics\Period;
 use App\Http\Controllers\Controller;
 use Artisan;
 use Onepoint\Base\Entities\Article;
@@ -44,6 +46,23 @@ class DashboardController extends Controller
      */
     public function index(PathPresenter $path_presenter)
     {
+        //retrieve visitors and pageview data for the current day and the last seven days
+        // $analyticsData = Analytics::fetchVisitorsAndPageViews(Period::days(7));
+        // dd($analyticsData);
+
+        //retrieve visitors and pageviews since the 6 months ago
+        // $analyticsData = Analytics::fetchVisitorsAndPageViews(Period::months(6));
+
+        //retrieve sessions and pageviews with yearMonth dimension since 1 year ago 
+        // $analyticsData = Analytics::performQuery(
+        //     Period::years(1),
+        //     'ga:sessions',
+        //     [
+        //         'metrics' => 'ga:sessions, ga:pageviews',
+        //         'dimensions' => 'ga:yearMonth'
+        //     ]
+        // );
+
         $this->tpl_data['path_presenter'] = $path_presenter;
         $this->tpl_data['page_title'] = trans('backend.預設首頁');
         if (config('backend.use_browser_agent', false)) {
@@ -88,11 +107,11 @@ class DashboardController extends Controller
     public function storageLink()
     {
         // 顯示正確的路徑
-        // dd(storage_path('app/public'), public_path('storage'));
+        dd(storage_path('app/public'), public_path('storage'));
         // symlink(public_path('storage'), storage_path('app/public'));
         // ln -sr /home/vagrant/code/popupasia.com/private/storage/app/public /home/vagrant/code/popupasia.com/storage
         
         // 正常的目錄配置可使用此方法
-        Artisan::call('storage:link');
+        // Artisan::call('storage:link');
     }
 }

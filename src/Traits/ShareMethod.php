@@ -13,5 +13,4 @@ trait ShareMethod
         }
         config(['dashboard.uri' => $this->backend_url_suffix . config('dashboard.uri')]);
     }
-
 }
