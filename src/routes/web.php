@@ -13,7 +13,7 @@ if (isset($_SERVER['HTTP_HOST'])) {
     // 加入網址後綴
     if (!empty(config('suffix_url', ''))) {
         config(['dashboard.uri' => config('suffix_url') . config('dashboard.uri')]);
-        config(['dashboard.login_default_uri' => config('dashboard.uri') . '/' . config('dashboard.login_default_uri')]);
+        config(['dashboard.login_default_uri' => config('suffix_url') . config('dashboard.login_default_uri')]);
     }
 
     // 認證
