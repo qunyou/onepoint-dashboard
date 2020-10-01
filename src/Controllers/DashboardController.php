@@ -51,8 +51,32 @@ class DashboardController extends Controller
         $this->tpl_data['analytics_page_view_seven_days'] = $analytics_page_view_seven_days;
 
         // retrieve visitors and pageviews since the 6 months ago
-        $analytics_page_view_six_months = Analytics::fetchVisitorsAndPageViews(Period::months(6));
-        $this->tpl_data['analytics_page_view_six_months'] = $analytics_page_view_six_months;
+        // $analytics_page_view_six_months = Analytics::fetchVisitorsAndPageViews(Period::months(6));
+        // $this->tpl_data['analytics_page_view_six_months'] = $analytics_page_view_six_months;
+
+        // Total visitors and pageviews
+        $analytics_total_visitor = Analytics::fetchTotalVisitorsAndPageViews(Period::days(7));
+        $this->tpl_data['analytics_total_visitor'] = $analytics_total_visitor;
+        
+        // Most visited pages
+        $analytics_most_visited_pages = Analytics::fetchMostVisitedPages(Period::days(7), 20);
+        $this->tpl_data['analytics_most_visited_pages'] = $analytics_most_visited_pages;
+
+        // Top referrers
+        // url, pageViews
+        $analytics_top_referrers = Analytics::fetchTopReferrers(Period::days(7), 20);
+        $this->tpl_data['analytics_top_referrers'] = $analytics_top_referrers;
+
+        // User Types
+        // type, sessions
+        $analytics_user_types = Analytics::fetchUserTypes(Period::days(7));
+        $this->tpl_data['analytics_user_types'] = $analytics_user_types;
+
+        // top browsers
+        // browser, sessions
+        $analytics_top_browsers = Analytics::fetchTopBrowsers(Period::days(7), 20);
+        $this->tpl_data['analytics_top_browsers'] = $analytics_top_browsers;
+        // dd($analytics_top_browsers);
 
         // retrieve sessions and pageviews with yearMonth dimension since 1 year ago 
         // $analyticsData = Analytics::performQuery(

@@ -19,23 +19,128 @@
     @if (isset($analytics_page_view_seven_days))
     <div class="card-update">
         <div class="row">
-            <div class="col-md-2">
-                <div class="form-body text-center pt-4">
-                    <a href="#">
-                        <i class="fas fa-chart-bar"></i>
-                        <p class="mt-3">最近7日 page views</p>
-                    </a>
-                    <h1>{{ $analytics_page_view_seven_days }}</h1>
-                </div>
+            <div class="col-md-4 mb-3">
+                <h4>一週造訪人數及頁面造訪數</h4>
+                <table class="table">
+                    <tr>
+                        <th>date</th>
+                        <th>visitors</th>
+                        <th>pageViews</th>
+                    </tr>
+                    @foreach ($analytics_total_visitor as $item)
+                    <tr>
+                        <td>{{ $item['date']->format('Y-m-d') }}</td>
+                        <td>{{ $item['visitors'] }}</td>
+                        <td>{{ $item['pageViews'] }}</td>
+                    </tr>
+                    @endforeach
+                </table>
             </div>
-            <div class="col-md-2">
-                <div class="form-body text-center pt-4">
-                    <a href="#">
-                        <i class="fas fa-chart-bar"></i>
-                        <p class="mt-3">最近6個月 page views</p>
-                    </a>
-                    <h1>{{ $analytics_page_view_six_months }}</h1>
-                </div>
+
+            <div class="col-md-4 mb-3">
+                <h4>一週各頁造訪次數</h4>
+                <table class="table">
+                    <tr>
+                        <th>date</th>
+                        <th>pageTitle</th>
+                        <th>visitors</th>
+                        <th>pageViews</th>
+                    </tr>
+                    @foreach ($analytics_page_view_seven_days as $item)
+                    <tr>
+                        <td>{{ $item['date']->format('Y-m-d') }}</td>
+                        <td>{{ $item['pageTitle'] }}</td>
+                        <td>{{ $item['visitors'] }}</td>
+                        <td>{{ $item['pageViews'] }}</td>
+                    </tr>
+                    @endforeach
+                </table>
+            </div>
+
+            {{-- <div class="col-md-4 mb-3">
+                <h4>最近6個月 page views</h4>
+                <table class="table">
+                    <tr>
+                        <th>date</th>
+                        <th>pageTitle</th>
+                        <th>visitors</th>
+                        <th>pageViews</th>
+                    </tr>
+                    @foreach ($analytics_page_view_six_months as $item)
+                    <tr>
+                        <td>{{ $item['date']->format('Y-m-d') }}</td>
+                        <td>{{ $item['pageTitle'] }}</td>
+                        <td>{{ $item['visitors'] }}</td>
+                        <td>{{ $item['pageViews'] }}</td>
+                    </tr>
+                    @endforeach
+                </table>
+            </div> --}}
+
+            <div class="col-md-4 mb-3">
+                <h4>一週各頁最高造訪數</h4>
+                <table class="table">
+                    <tr>
+                        <th>url</th>
+                        <th>pageTitle</th>
+                        <th>pageViews</th>
+                    </tr>
+                    @foreach ($analytics_most_visited_pages as $item)
+                    <tr>
+                        <td>{{ $item['url'] }}</td>
+                        <td>{{ $item['pageTitle'] }}</td>
+                        <td>{{ $item['pageViews'] }}</td>
+                    </tr>
+                    @endforeach
+                </table>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <h4>一週來源網址統計</h4>
+                <table class="table">
+                    <tr>
+                        <th>url</th>
+                        <th>pageViews</th>
+                    </tr>
+                    @foreach ($analytics_top_referrers as $item)
+                    <tr>
+                        <td>{{ $item['url'] }}</td>
+                        <td>{{ $item['pageViews'] }}</td>
+                    </tr>
+                    @endforeach
+                </table>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <h3>一週造訪者類型</h3>
+                <table class="table">
+                    <tr>
+                        <th>type</th>
+                        <th>sessions</th>
+                    </tr>
+                    @foreach ($analytics_user_types as $item)
+                    <tr>
+                        <td>{{ $item['type'] }}</td>
+                        <td>{{ $item['sessions'] }}</td>
+                    </tr>
+                    @endforeach
+                </table>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <h4>一週瀏覽器造訪數</h4>
+                <table class="table">
+                    <tr>
+                        <th>browser</th>
+                        <th>sessions</th>
+                    </tr>
+                    @foreach ($analytics_top_browsers as $item)
+                    <tr>
+                        <td>{{ $item['browser'] }}</td>
+                        <td>{{ $item['sessions'] }}</td>
+                    </tr>
+                    @endforeach
+                </table>
             </div>
         </div>
     </div>
