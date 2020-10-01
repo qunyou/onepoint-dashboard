@@ -16,7 +16,7 @@
 
 @section('main_block')
     
-    @if (isset($analytics_page_view_seven_days))
+    @if (isset($analytics_visitor_pageviews))
     <div class="card-update">
         <div class="row">
             <div class="col-md-4 mb-3">
@@ -46,7 +46,7 @@
                         <th>visitors</th>
                         <th>pageViews</th>
                     </tr>
-                    @foreach ($analytics_page_view_seven_days as $item)
+                    @foreach ($analytics_visitor_pageviews as $item)
                     <tr>
                         <td>{{ $item['date']->format('Y-m-d') }}</td>
                         <td>{{ $item['pageTitle'] }}</td>

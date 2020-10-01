@@ -3,16 +3,12 @@
 namespace Onepoint\Dashboard\Controllers;
 
 use Analytics;
-use Spatie\Analytics\Period;
 use App\Http\Controllers\Controller;
-use Artisan;
-use Onepoint\Base\Entities\Article;
-use Onepoint\Base\Entities\Blog;
 use Onepoint\Base\Entities\BrowserAgent;
-// use Onepoint\Base\Entities\InteriorDesign;
 use Onepoint\Dashboard\Presenters\PathPresenter;
 use Onepoint\Dashboard\Services\BaseService;
 use Onepoint\Dashboard\Traits\ShareMethod;
+use Spatie\Analytics\Period;
 
 /**
  * 登入預設頁
@@ -46,9 +42,9 @@ class DashboardController extends Controller
      */
     public function index(PathPresenter $path_presenter)
     {
-        // retrieve visitors and pageview data for the current day and the last seven days
-        $analytics_page_view_seven_days = Analytics::fetchVisitorsAndPageViews(Period::days(7));
-        $this->tpl_data['analytics_page_view_seven_days'] = $analytics_page_view_seven_days;
+        // Visitors And PageViews
+        $analytics_visitor_pageviews = Analytics::fetchVisitorsAndPageViews(Period::days(7));
+        $this->tpl_data['analytics_visitor_pageviews'] = $analytics_visitor_pageviews;
 
         // retrieve visitors and pageviews since the 6 months ago
         // $analytics_page_view_six_months = Analytics::fetchVisitorsAndPageViews(Period::months(6));
@@ -57,7 +53,7 @@ class DashboardController extends Controller
         // Total visitors and pageviews
         $analytics_total_visitor = Analytics::fetchTotalVisitorsAndPageViews(Period::days(7));
         $this->tpl_data['analytics_total_visitor'] = $analytics_total_visitor;
-        
+
         // Most visited pages
         $analytics_most_visited_pages = Analytics::fetchMostVisitedPages(Period::days(7), 20);
         $this->tpl_data['analytics_most_visited_pages'] = $analytics_most_visited_pages;
@@ -78,7 +74,7 @@ class DashboardController extends Controller
         $this->tpl_data['analytics_top_browsers'] = $analytics_top_browsers;
         // dd($analytics_top_browsers);
 
-        // retrieve sessions and pageviews with yearMonth dimension since 1 year ago 
+        //retrieve sessions and pageviews with yearMonth dimension since 1 year ago
         // $analyticsData = Analytics::performQuery(
         //     Period::years(1),
         //     'ga:sessions',
@@ -94,16 +90,16 @@ class DashboardController extends Controller
 
             // 總造訪人次
             $this->tpl_data['all_visitor'] = BrowserAgent::distinct('ip')->count('ip');
-            
+
             // 本週不重複造訪人次
             // $start = date('Y-m-d',strtotime('last week'));
             $this_week = date('Y-m-d', strtotime('this week'));
             $today = date('Y-m-d');
             $this->tpl_data['this_week_visitor'] = BrowserAgent::whereBetween('created_at', [$this_week, $today])->distinct('ip')->count('ip');
-    
+
             // 總瀏覽數
             $this->tpl_data['all_pages'] = BrowserAgent::count();
-    
+
             // 本週瀏覽數
             $this->tpl_data['this_week_pages'] = BrowserAgent::whereBetween('created_at', [$this_week, $today])->count();
         }
@@ -135,7 +131,7 @@ class DashboardController extends Controller
         dd(storage_path('app/public'), public_path('storage'));
         // symlink(public_path('storage'), storage_path('app/public'));
         // ln -sr /home/vagrant/code/popupasia.com/private/storage/app/public /home/vagrant/code/popupasia.com/storage
-        
+
         // 正常的目錄配置可使用此方法
         // Artisan::call('storage:link');
     }
