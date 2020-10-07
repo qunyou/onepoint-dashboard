@@ -12,6 +12,7 @@
                 @endif
             </div>
         </div>
+        @isset($list)
         <div class="col-md-12 top-btn-group">
             <div class="btn-group d-block d-md-inline-block">
                 @if ($list)
@@ -42,10 +43,11 @@
                 </a>
             @endif
         </div>
+        @endisset
     </div>
 
     {{ $search_block ?? '' }}
-    @if ($list)
+    @if (isset($list) && $list)
     <form action="" method="post">
         @csrf
         @method('PUT')
