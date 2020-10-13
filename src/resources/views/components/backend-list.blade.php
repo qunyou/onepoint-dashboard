@@ -161,6 +161,9 @@
                                             @endphp
                                             <a href="{{ $url_string }}" target="_blank">{{ $url_string }}</a>
                                             @break
+                                        @case('boolean')
+                                            {{ $element->{$value['column_name']} == 1 ? '是' : '否' }}
+                                            @break
                                         @case('serialNumber')
                                             {{ $list_key + 1 + (request('page', 1) - 1) * config('backend.paginate') }}
                                             @break

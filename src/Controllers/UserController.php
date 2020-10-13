@@ -67,10 +67,12 @@ class UserController extends Controller
         $this->tpl_data['component_datas']['th'] = [
             ['title' => __('dashboard::auth.姓名'), 'class' => ''],
             ['title' => __('dashboard::auth.Email'), 'class' => 'd-none d-xl-table-cell'],
+            ['title' => __('dashboard::auth.權限'), 'class' => 'd-none d-xl-table-cell'],
         ];
         $this->tpl_data['component_datas']['column'] = [
             ['type' => 'column', 'class' => '', 'column_name' => 'username'],
             ['type' => 'column', 'class' => 'd-none d-md-table-cell', 'column_name' => 'email'],
+            ['type' => 'belongsToMany', 'class' => 'd-none d-xl-table-cell', 'with' => 'roles', 'column_name' => 'role_name'],
         ];
 
         // 是否使用複製功能
@@ -217,9 +219,9 @@ class UserController extends Controller
         ];
 
         // 樣版資料
-        $component_datas['page_title'] = $page_title;
-        $component_datas['back_url'] = url($this->uri . 'index');
-        $this->tpl_data['component_datas'] = $component_datas;
+        $this->tpl_data['component_datas']['page_title'] = $page_title;
+        $this->tpl_data['component_datas']['back_url'] = url($this->uri . 'index');
+        $this->tpl_data['component_datas']['footer_hide'] = true;
         return view($this->view_path . 'update', $this->tpl_data);
     }
 

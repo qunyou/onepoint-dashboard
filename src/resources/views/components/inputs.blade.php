@@ -2,7 +2,7 @@
     <div style="display: none">
 @endif
 @if (!$input_only)
-    <div class="form-group row">
+    <div class="form-group row" {!! $row_attribute !!}>
         <label for="{{ $input_name ?? '' }}" class="{{ $header_grid_class }}">{!! $display_name !!}</label>
         <div class="{{ $input_grid_class }}">
 @endif

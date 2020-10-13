@@ -10,6 +10,7 @@
         'value_type' => $item_value['value_type'] ?? '',
         'option' => $item_value['option'] ?? [],
         'attribute' => $item_value['attribute'] ?? [],
+        'row_attribute' => $item_value['row_attribute'] ?? [],
         'hidden' => $item_value['hidden'] ?? [],
         'image_attribute' => $item_value['image_attribute'] ?? '',
         'help' => $item_value['help'] ?? '',
