@@ -42,47 +42,50 @@ class DashboardController extends Controller
      */
     public function index(PathPresenter $path_presenter)
     {
-        // Visitors And PageViews
-        $analytics_visitor_pageviews = Analytics::fetchVisitorsAndPageViews(Period::days(7));
-        $this->tpl_data['analytics_visitor_pageviews'] = $analytics_visitor_pageviews;
+        if (config('analytics.enable', false)) {
 
-        // retrieve visitors and pageviews since the 6 months ago
-        // $analytics_page_view_six_months = Analytics::fetchVisitorsAndPageViews(Period::months(6));
-        // $this->tpl_data['analytics_page_view_six_months'] = $analytics_page_view_six_months;
-
-        // Total visitors and pageviews
-        $analytics_total_visitor = Analytics::fetchTotalVisitorsAndPageViews(Period::days(7));
-        $this->tpl_data['analytics_total_visitor'] = $analytics_total_visitor;
-
-        // Most visited pages
-        $analytics_most_visited_pages = Analytics::fetchMostVisitedPages(Period::days(7), 20);
-        $this->tpl_data['analytics_most_visited_pages'] = $analytics_most_visited_pages;
-
-        // Top referrers
-        // url, pageViews
-        $analytics_top_referrers = Analytics::fetchTopReferrers(Period::days(7), 20);
-        $this->tpl_data['analytics_top_referrers'] = $analytics_top_referrers;
-
-        // User Types
-        // type, sessions
-        $analytics_user_types = Analytics::fetchUserTypes(Period::days(7));
-        $this->tpl_data['analytics_user_types'] = $analytics_user_types;
-
-        // top browsers
-        // browser, sessions
-        $analytics_top_browsers = Analytics::fetchTopBrowsers(Period::days(7), 20);
-        $this->tpl_data['analytics_top_browsers'] = $analytics_top_browsers;
-        // dd($analytics_top_browsers);
-
-        //retrieve sessions and pageviews with yearMonth dimension since 1 year ago
-        // $analyticsData = Analytics::performQuery(
-        //     Period::years(1),
-        //     'ga:sessions',
-        //     [
-        //         'metrics' => 'ga:sessions, ga:pageviews',
-        //         'dimensions' => 'ga:yearMonth'
-        //     ]
-        // );
+            // Visitors And PageViews
+            $analytics_visitor_pageviews = Analytics::fetchVisitorsAndPageViews(Period::days(7));
+            $this->tpl_data['analytics_visitor_pageviews'] = $analytics_visitor_pageviews;
+    
+            // retrieve visitors and pageviews since the 6 months ago
+            // $analytics_page_view_six_months = Analytics::fetchVisitorsAndPageViews(Period::months(6));
+            // $this->tpl_data['analytics_page_view_six_months'] = $analytics_page_view_six_months;
+    
+            // Total visitors and pageviews
+            $analytics_total_visitor = Analytics::fetchTotalVisitorsAndPageViews(Period::days(7));
+            $this->tpl_data['analytics_total_visitor'] = $analytics_total_visitor;
+    
+            // Most visited pages
+            $analytics_most_visited_pages = Analytics::fetchMostVisitedPages(Period::days(7), 20);
+            $this->tpl_data['analytics_most_visited_pages'] = $analytics_most_visited_pages;
+    
+            // Top referrers
+            // url, pageViews
+            $analytics_top_referrers = Analytics::fetchTopReferrers(Period::days(7), 20);
+            $this->tpl_data['analytics_top_referrers'] = $analytics_top_referrers;
+    
+            // User Types
+            // type, sessions
+            $analytics_user_types = Analytics::fetchUserTypes(Period::days(7));
+            $this->tpl_data['analytics_user_types'] = $analytics_user_types;
+    
+            // top browsers
+            // browser, sessions
+            $analytics_top_browsers = Analytics::fetchTopBrowsers(Period::days(7), 20);
+            $this->tpl_data['analytics_top_browsers'] = $analytics_top_browsers;
+            // dd($analytics_top_browsers);
+    
+            //retrieve sessions and pageviews with yearMonth dimension since 1 year ago
+            // $analyticsData = Analytics::performQuery(
+            //     Period::years(1),
+            //     'ga:sessions',
+            //     [
+            //         'metrics' => 'ga:sessions, ga:pageviews',
+            //         'dimensions' => 'ga:yearMonth'
+            //     ]
+            // );
+        }
 
         $this->tpl_data['path_presenter'] = $path_presenter;
         $this->tpl_data['page_title'] = trans('backend.預設首頁');

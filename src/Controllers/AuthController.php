@@ -75,6 +75,7 @@ class AuthController extends Controller
             return redirect(config('dashboard.uri') . '/' . config('dashboard.login_default_uri', 'dashboard/index'));
         }
         session()->flash('login_message', '帳號密碼錯誤');
+        dd(config('dashboard.uri'), 'err');
         return redirect(config('dashboard.uri'));
     }
 
