@@ -45,6 +45,13 @@
     @component('dashboard::components.backend-update-card', $component_datas)
         <div class="form-body">
             @include('dashboard::backend-update-input', ['form_array' => $form_array, 'form_value' => $user ?? ''])
+
+            <footer>
+                <button id="form-button" type="submit" class="btn btn-outline-deep-purple waves-effect">
+                    @lang('dashboard::backend.送出')
+                </button>
+                <a href="{{ url($uri . 'index?' . $base_service->getQueryString(true, true, ['user_id'])) }}" class="btn btn-outline-deep-purple waves-effect">回上頁</a>
+            </footer>
         </div>
     @endcomponent
 @endsection

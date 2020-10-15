@@ -86,6 +86,13 @@
                     @endif
                 @endforeach
             </ul>
+
+            <footer class="mt-2">
+                <button id="form-button" type="submit" class="btn btn-outline-deep-purple waves-effect">
+                    @lang('dashboard::backend.送出')
+                </button>
+                <a href="{{ url($uri . 'index?' . $base_service->getQueryString(true, true, ['role_id'])) }}" class="btn btn-outline-deep-purple waves-effect">回上頁</a>
+            </footer>
         </div>
     @endcomponent
 @endsection

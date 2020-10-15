@@ -95,3 +95,7 @@ if (isset($_SERVER['HTTP_HOST'])) {
         });
     });
 }
+
+// Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+//     \UniSharp\LaravelFilemanager\Lfm::routes();
+// });

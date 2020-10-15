@@ -24,6 +24,7 @@ class FormPresenter
         $input_setting['error'] = $input_setting['error'] ?? false;
         $input_setting['help'] = $input_setting['help'] ?? false;
         $input_setting['input_value'] = $input_setting['input_value'] ?? '';
+        $input_setting['row_attribute'] = $input_setting['row_attribute'] ?? [];
         // $input_setting['parameter'] = $input_setting['parameter'] ?? [];
         
         // 表單尺寸
@@ -45,6 +46,19 @@ class FormPresenter
             // $input_setting['attribute'] = str_replace("=", '="', http_build_query($input_setting['attribute'], null, '" ', PHP_QUERY_RFC3986)).'"';
             $attribute = $input_setting['attribute'];
             $input_setting['attribute'] = join(' ', array_map(function($key) use ($attribute) {
+                if(is_bool($attribute[$key])) {
+                    return $attribute[$key]?$key:'';
+                }
+                return $key.'="'.$attribute[$key].'"';
+            }, array_keys($attribute)));
+        }
+
+        // 表單上層 row 屬性
+        $input_setting['row_attribute'] = $input_setting['row_attribute'] ?? '';
+        if (is_array($input_setting['row_attribute'])) {
+            // $input_setting['attribute'] = str_replace("=", '="', http_build_query($input_setting['attribute'], null, '" ', PHP_QUERY_RFC3986)).'"';
+            $attribute = $input_setting['row_attribute'];
+            $input_setting['row_attribute'] = join(' ', array_map(function($key) use ($attribute) {
                 if(is_bool($attribute[$key])) {
                     return $attribute[$key]?$key:'';
                 }

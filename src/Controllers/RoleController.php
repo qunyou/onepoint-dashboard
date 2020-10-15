@@ -18,12 +18,12 @@ class RoleController extends Controller
     /**
      * 建構子
      */
-    public function __construct(BaseService $base_services, RoleRepository $role_repository)
+    public function __construct(BaseService $base_service, RoleRepository $role_repository)
     {
         $this->share();
-        $this->base_services = $base_services;
-        $this->tpl_data = $base_services->tpl_data;
-        $this->tpl_data['base_services'] = $this->base_services;
+        $this->base_service = $base_service;
+        $this->tpl_data = $base_service->tpl_data;
+        $this->tpl_data['base_service'] = $this->base_service;
         // $this->tpl_data['path_presenter'] = $path_presenter;
         $this->permission_controller_string = get_class($this);
         $this->tpl_data['component_datas']['permission_controller_string'] = $this->permission_controller_string;
@@ -104,7 +104,7 @@ class RoleController extends Controller
 
         // 列表資料查詢
         $this->tpl_data['component_datas']['list'] = $this->role_repository->getList($this->role_id, config('backend.paginate'));
-        $this->tpl_data['component_datas']['qs'] = $this->base_services->getQueryString();
+        $this->tpl_data['component_datas']['qs'] = $this->base_service->getQueryString();
 
         // 預覽按鈕網址
         // $this->tpl_data['component_datas']['preview_url'] = ['url' => url(config('backend.book.preview_url')) . '/', 'column' => 'book_name_slug'];
@@ -145,9 +145,9 @@ class RoleController extends Controller
         }
 
         // 樣版資料
-        $component_datas['page_title'] = $page_title;
-        $component_datas['back_url'] = url($this->uri . 'index');
-        $this->tpl_data['component_datas'] = $component_datas;
+        $this->tpl_data['component_datas']['page_title'] = $page_title;
+        $this->tpl_data['component_datas']['back_url'] = url($this->uri . 'index');
+        $this->tpl_data['component_datas']['footer_hide'] = true;
         return view($this->view_path . 'update', $this->tpl_data);
     }
 
@@ -160,7 +160,7 @@ class RoleController extends Controller
         if ($role_id) {
             return redirect($this->uri . 'index?role_id=' . $role_id);
         } else {
-            $this->base_services->rememberInputs();
+            $this->base_service->rememberInputs();
             return redirect($this->uri . 'update?role_id=' . $this->role_id);
         }
     }

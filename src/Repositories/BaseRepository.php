@@ -238,7 +238,7 @@ class BaseRepository
             if (auth()->check() && in_array('update_user_id', $this->model->getFillable())) {
                 $datas['update_user_id'] = auth()->id();
             }
-            
+
             // 更新或新增
             if (count($datas)) {
                 if ($id) {

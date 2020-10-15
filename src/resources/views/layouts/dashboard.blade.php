@@ -104,7 +104,7 @@
                             @endif
                             @if (config('app.url', false))
                                 <li>
-                                    <a href="{{ config('app.url') }}" target="_blank"><i class="fas fa-home"></i>@lang('dashboard::backend.檢視網站')</a>
+                                    <a href="{{ config('frontend.url') }}" target="_blank"><i class="fas fa-home"></i>@lang('dashboard::backend.檢視網站')</a>
                                 </li>
                             @endif
                             {{--

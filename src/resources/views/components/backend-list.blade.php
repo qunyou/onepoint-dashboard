@@ -13,6 +13,7 @@
             </div>
         </div>
         <div class="col-md-12 top-btn-group">
+            @isset($list)
             <div class="btn-group d-block d-md-inline-block">
                 @if ($list)
                 <button class="btn btn-outline-deep-purple waves-effect dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -25,6 +26,7 @@
                     <a href="{{ url($uri . 'index?records_per_page=1000') }}" class="dropdown-item">@lang('dashboard::pagination.每頁顯示') 1000 @lang('dashboard::pagination.筆資料')</a>
                 </div>
             </div>
+            @endisset
             @if (!$trashed && !$version)
                 @if (isset($add_url) || isset($dropdown_items) || isset($button_block))
                     @component('dashboard::components.top-btn-group', $dropdown_items)
@@ -44,8 +46,8 @@
         </div>
     </div>
 
-    {{ $search_block ?? '' }}
-    @if ($list)
+    {!! $search_block ?? '' !!}
+    @if (isset($list) && $list)
     <form action="" method="post">
         @csrf
         @method('PUT')
@@ -158,6 +160,9 @@
                                                 }
                                             @endphp
                                             <a href="{{ $url_string }}" target="_blank">{{ $url_string }}</a>
+                                            @break
+                                        @case('boolean')
+                                            {{ $element->{$value['column_name']} == 1 ? '是' : '否' }}
                                             @break
                                         @case('serialNumber')
                                             {{ $list_key + 1 + (request('page', 1) - 1) * config('backend.paginate') }}
