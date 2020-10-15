@@ -96,7 +96,6 @@ class BaseRepository
      */
     public function update($id = 0, $manually = false)
     {
-        // 測試
         return $this->executeUpdate($id, $this->makeUpdateData($manually));
     }
 
@@ -239,7 +238,7 @@ class BaseRepository
             if (auth()->check() && in_array('update_user_id', $this->model->getFillable())) {
                 $datas['update_user_id'] = auth()->id();
             }
-            
+
             // 更新或新增
             if (count($datas)) {
                 if ($id) {
