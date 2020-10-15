@@ -44,7 +44,7 @@ class AuthController extends Controller
     public function login(PathPresenter $path_presenter)
     {
         if (auth()->check()) {
-            return redirect(config('dashboard.uri') . '/' . config('dashboard.login_default_uri', 'dashboard/index'));
+            return redirect(config('dashboard.login_default_uri', 'dashboard/index'));
         }
         $tpl_data['path_presenter'] = $path_presenter;
         return view($this->view_path . 'login', $tpl_data);
@@ -72,10 +72,9 @@ class AuthController extends Controller
             $remember = true;
         }
         if (auth()->attempt($credentials, $remember)) {
-            return redirect(config('dashboard.uri') . '/' . config('dashboard.login_default_uri', 'dashboard/index'));
+            return redirect(config('dashboard.login_default_uri', 'dashboard/index'));
         }
         session()->flash('login_message', '帳號密碼錯誤');
-        dd(config('dashboard.uri'), 'err');
         return redirect(config('dashboard.uri'));
     }
 
