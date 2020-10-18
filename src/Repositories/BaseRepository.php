@@ -491,9 +491,10 @@ class BaseRepository
             // 分頁設定
             $records_per_page = request('records_per_page', false);
             if ($records_per_page > 0) {
-                session(['records_per_page' => $records_per_page]);
+                // session(['records_per_page' => $records_per_page]);
+                cache(['records_per_page' => $records_per_page], 6000);
             }
-            $query = $query->paginate(session('records_per_page', $paginate));
+            $query = $query->paginate(cache('records_per_page', $paginate));
         } else {
             $query = $query->get();
         }
@@ -786,7 +787,8 @@ class BaseRepository
     {
         $method = request('method', false);
         $position = request('position', false);
-        $sort_array = session('sort_array', false);
+        // $sort_array = session('sort_array', false);
+        $sort_array = cache('sort_array', false);
         if ($method && $position !== false && $sort_array) {
             if ($method == 'down') {
                 $this->model->find($sort_array[$position][0])->update(['sort' => $sort_array[$position][1] + 1]);

@@ -77,10 +77,15 @@
                         <li class="list-group-item">
                             <div class="lead mb-2">{{ $permissions_key }}</div>
                             @foreach ($permissions_arr['permission'] as $permission_key => $permission)
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input checkbox" type="checkbox" id="{{ $permissions_arr['controller'].$permission_key }}" value="1" name="{{ $permissions_arr['controller'] }}[{{ $permission_key }}]" {{ $role_presenter->is_check($role_permissions_array, $permission_key . '-' . $permissions_arr['controller']) }}>
-                                    <label class="form-check-label" for="{{ $permissions_arr['controller'].$permission_key }}">{{ $permission }}</label>
-                                </div>
+                                @if ($permission == 'update')
+                                    <input type="hidden" value="update" name="{{ $permissions_arr['controller'] }}[{{ $permission_key }}]">
+                                    {{-- $role_permissions_array[$permission_key . '-' . $permissions_arr['controller']] --}}
+                                @else
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input checkbox" type="checkbox" id="{{ $permissions_arr['controller'].$permission_key }}" value="1" name="{{ $permissions_arr['controller'] }}[{{ $permission_key }}]" {{ $role_presenter->is_check($role_permissions_array, $permission_key . '-' . $permissions_arr['controller']) }}>
+                                        <label class="form-check-label" for="{{ $permissions_arr['controller'].$permission_key }}">{{ $permission }}</label>
+                                    </div>
+                                @endif
                             @endforeach
                         </li>
                     @endif

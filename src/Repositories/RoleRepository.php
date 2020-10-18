@@ -78,11 +78,21 @@ class RoleRepository extends BaseRepository
         $arr = [];
         foreach ($collection as $controller_name => $permission_array) {
             if (is_array($permission_array)) {
+                // if (isset($permission_array['update']) && $permission_array['update'] == 1) {
+                // }
                 foreach ($permission_array as $permission_key => $permission_value) {
-                    if ($permission_value == 1) {
-                        $arr[$permission_key . '-' . $controller_name] = true;
+                    if ($permission_value == 'update') {
+                        if (isset($permission_array['update']) && $permission_array['update'] == 1) {
+                            $arr[$permission_key . '-' . $controller_name] = true;
+                        } else {
+                            $arr[$permission_key . '-' . $controller_name] = false;
+                        }
                     } else {
-                        $arr[$permission_key . '-' . $controller_name] = false;
+                        if ($permission_value == 1) {
+                            $arr[$permission_key . '-' . $controller_name] = true;
+                        } else {
+                            $arr[$permission_key . '-' . $controller_name] = false;
+                        }
                     }
                 }
             }
