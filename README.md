@@ -263,6 +263,12 @@ app/Exceptions/Handler.php
     public function render($request, Exception $exception)
     {
         if ($exception instanceof NotFoundHttpException) {
-            return redirect()->route('home');
+            // return redirect()->route('home');
+            return redirect('index');
         }
+
+        if ($exception instanceof \Illuminate\Session\TokenMismatchException) {
+            return redirect('index');
+        }
+        return parent::render($request, $exception);
     }

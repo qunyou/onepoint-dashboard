@@ -21,7 +21,7 @@ class AuthController extends Controller
     {
         // $this->middleware('guest');
         $this->share();
-
+        // dd(config('dashboard.uri'));
         $this->view_path = 'dashboard::' . config('dashboard.view_path') . '.';
         $this->uri = config('dashboard.uri') . '/';
     }
@@ -34,6 +34,7 @@ class AuthController extends Controller
         if (auth()->check()) {
             return redirect(config('dashboard.login_default_uri', 'dashboard/index'));
         } else {
+            
             return redirect($this->uri . 'login');
         }
     }
