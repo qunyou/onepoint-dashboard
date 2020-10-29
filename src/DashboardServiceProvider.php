@@ -29,7 +29,7 @@ class DashboardServiceProvider extends ServiceProvider
         $this->loadTranslationsFrom(__DIR__.'/resources/lang', 'dashboard');
         
         // todo 有問題，讀取不到
-        $this->mergeConfigFrom(__DIR__.'/config/dashboard.php', 'dashboard');
+        // $this->mergeConfigFrom(__DIR__.'/config/dashboard.php', 'dashboard');
 
         // 發佈至 public 目錄的指令
         // php artisan vendor:publish --tag=public --force
