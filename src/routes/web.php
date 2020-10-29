@@ -19,8 +19,8 @@ if (isset($_SERVER['HTTP_HOST'])) {
     // 認證
     Route::prefix(config('dashboard.uri'))->namespace('Onepoint\Dashboard\Controllers')->middleware(['web'])->group(function () {
 
-        // 登入頁
-        Route::get('/', 'AuthController@login')->name(config('dashboard.uri'));
+        // 登入頁backend/login
+        // Route::get('/', 'AuthController@login')->name(config('dashboard.uri'));
         Route::get('login', 'AuthController@login')->name('login');
         Route::post('login', 'AuthController@postLogin');
         Route::get('logout', 'AuthController@logout');
@@ -38,7 +38,7 @@ if (isset($_SERVER['HTTP_HOST'])) {
             Route::prefix('dashboard')->group(function () {
                 
                 // 預設頁
-                Route::get('index', 'DashboardController@index')->name('dashboard-index');
+                // Route::get('index', 'DashboardController@index')->name('dashboard-index');
                 Route::get('storage-link', 'DashboardController@storageLink');
             });
 
@@ -99,3 +99,6 @@ if (isset($_SERVER['HTTP_HOST'])) {
 // Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
 //     \UniSharp\LaravelFilemanager\Lfm::routes();
 // });
+
+// 登入頁
+Route::get(config('dashboard.uri'), '\Onepoint\Dashboard\Controllers\AuthController@login')->name(config('dashboard.uri'));

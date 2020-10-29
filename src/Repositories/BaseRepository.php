@@ -706,26 +706,26 @@ class BaseRepository
             }
 
             // 批次設定顯示
-            if ($show) {
-                $result['datas_count'] = $this->model->whereIn('id', $checked_id)->update([config('site.frontend_active_column') => 1]);
-                $result['batch_method'] = 'show';
-            }
+            // if ($show) {
+            //     $result['datas_count'] = $this->model->whereIn('id', $checked_id)->update([config('site.frontend_active_column') => 1]);
+            //     $result['batch_method'] = 'show';
+            // }
 
             // 批次設定隱藏
-            if ($hide) {
-                $result['datas_count'] = $this->model->whereIn('id', $checked_id)->update([config('site.frontend_active_column') => 0]);
-                $result['batch_method'] = 'hide';
-            }
+            // if ($hide) {
+            //     $result['datas_count'] = $this->model->whereIn('id', $checked_id)->update([config('site.frontend_active_column') => 0]);
+            //     $result['batch_method'] = 'hide';
+            // }
 
             // 批次設定啟用
             if ($status_enable) {
-                $result['datas_count'] = $this->model->whereIn('id', $checked_id)->update(['status' => '啟用']);
+                $result['datas_count'] = $this->model->whereIn('id', $checked_id)->update([config('db_status_name') => config('db_status_true_string')]);
                 $result['batch_method'] = 'show';
             }
 
             // 批次設定停用
             if ($status_disable) {
-                $result['datas_count'] = $this->model->whereIn('id', $checked_id)->update(['status' => '停用']);
+                $result['datas_count'] = $this->model->whereIn('id', $checked_id)->update([config('db_status_name') => config('db_status_false_string')]);
                 $result['batch_method'] = 'hide';
             }
         }

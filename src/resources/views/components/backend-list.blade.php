@@ -96,7 +96,7 @@
                                     }
                                 }
                             } else {
-                                $css_class_name = $element->status == '停用' ? 'table-dark' : '';
+                                $css_class_name = $element->{config('db_status_name')} == config('db_status_false_string') ? 'table-dark' : '';
                             }
                         @endphp
                         <tr id="{{ $element->id }}" class="{{ $css_class_name }}">
