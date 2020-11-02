@@ -21,7 +21,8 @@ if (isset($_SERVER['HTTP_HOST'])) {
 
         // 登入頁backend/login
         Route::get('/', 'AuthController@login')->name(config('dashboard.uri'));
-        Route::get('login', 'AuthController@login')->name('login');
+        // Route::get('login', 'AuthController@login')->name('login');
+        Route::get('login', 'AuthController@login');
         Route::post('login', 'AuthController@postLogin');
         Route::get('logout', 'AuthController@logout');
         Route::get('reset', 'AuthController@reset');

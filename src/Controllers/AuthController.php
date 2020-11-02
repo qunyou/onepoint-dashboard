@@ -65,7 +65,6 @@ class AuthController extends Controller
      */
     public function postLogin()
     {
-        dd('pl');
         $credentials = request()->only('username', 'password');
         // $credentials['status'] = '啟用';
         $credentials[config('db_status_name')] = config('db_status_true_string');
@@ -74,12 +73,10 @@ class AuthController extends Controller
             $remember = true;
         }
         if (auth()->attempt($credentials, $remember)) {
-            dd('suc', config('dashboard.login_default_uri', 'dashboard/index'));
-            // return redirect(config('dashboard.login_default_uri', 'dashboard/index'));
+            return redirect(config('dashboard.login_default_uri', 'dashboard/index'));
         }
         session()->flash('login_message', '帳號密碼錯誤');
-        dd('fail',config('dashboard.uri'));
-        // return redirect(config('dashboard.uri'));
+        return redirect(config('dashboard.uri'));
     }
 
     /**

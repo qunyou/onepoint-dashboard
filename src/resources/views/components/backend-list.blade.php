@@ -97,225 +97,223 @@
                                         }
                                     }
                                 } else {
-                                    $css_class_name = $element->status == '停用' ? 'table-dark' : '';
+                                    $css_class_name = $element->{config('db_status_name')} == config('db_status_false_string') ? 'table-dark' : '';
                                 }
-                            } else {
-                                $css_class_name = $element->{config('db_status_name')} == config('db_status_false_string') ? 'table-dark' : '';
-                            }
-                        @endphp
-                        <tr id="{{ $element->id }}" class="{{ $css_class_name }}">
-                            @if (auth()->user()->hasAccess(['update-' . $permission_controller_string]))
-                                @if (!$version)
-                                    <td class="{{ $use_drag_rearrange ?? true ? 'drag' : '' }} d-none d-md-table-cell">
-                                        <input type="checkbox" name="checked_id[]" class="checkbox" value="{{ $element->id }}" />
-                                    </td>
-                                @endif
-                                @foreach ($column as $key => $value)
-                                    <td class="{{ $value['class'] ?? '' }}">
-                                        @switch($value['type'])
-                                            @case('belongsToMany')
-                                                @if (is_array($value['column_name']))
-                                                    @foreach ($element->{$value['with']} as $with_item)
-                                                        <div>
-                                                            @foreach ($value['column_name'] as $item)
-                                                                {{ $with_item->{$item} }}{!! $value['delimiter_string'] !!}
-                                                            @endforeach
-                                                        </div>
-                                                    @endforeach
-                                                @else
-                                                    @if (isset($value['url']))
-                                                        @foreach ($element->{$value['with']} as $item)
-                                                            <a href="{{ $value['url'] . $item->id }}">{{ $item->{$value['column_name']} }}</a>
-                                                        @endforeach
-                                                    @else
-                                                        {!! $element->{$value['with']}->implode($value['column_name'], $value['delimiter_string'] ?? ',') !!}
-                                                    @endif
-                                                @endif
-                                                @break
-                                            @case('belongsTo')
-                                                {{ $element->{$value['with']}->{$value['column_name']} ?? '' }}
-                                                @break
-                                            @case('belongsToSum')
-                                                {{ $element->{$value['with']}->sum($value['column_name']) ?? '' }}
-                                                @break
-                                            @case('badges')
-                                                {{ $element->{$value['column_name']} }}<br>
-                                                @foreach ($value['set_value'] as $badge_key => $badge_value)
-                                                    <span class="{{ $badge_value['class'] }}">
-                                                        @if (isset($badge_value['belongsTo']))
-                                                            @if (!is_null($element->{$badge_key}))
-                                                                {{ $badge_value['badge_title'] }}{{ $element->{$badge_key}->{$badge_value['belongsTo']} }}
-                                                            @endif
-                                                        @else
-                                                            {{ $badge_value['badge_title'] }}{{ $element->{$badge_key} }}
-                                                        @endif
-                                                    </span>
-                                                @endforeach
-                                                @break
-                                            @case('image')
-                                                {!! $image_service->{$value['method']}($element->{$value['column_name']}, '', '', $value['folder_name']) !!}
-                                                @break
-                                            @case('url')
-                                                @php
-                                                    $url_string = $value['url'];
-                                                    foreach ($value['slash'] as $slash_string) {
-                                                        $url_string .= '/' . $element->{$slash_string};
-                                                    }
-                                                @endphp
-                                                <a href="{{ $url_string }}" target="_blank">{{ $url_string }}</a>
-                                                @break
-                                            @case('boolean')
-                                                {{ $element->{$value['column_name']} == 1 ? '是' : '否' }}
-                                                @break
-                                            @case('serialNumber')
-                                                {{ $list_key + 1 + (request('page', 1) - 1) * config('backend.paginate') }}
-                                                @break
-                                            @case('function')
-                                                @php
-                                                    $function_name = explode('@', $value['function_name']);
-                                                    $class_name = $function_name[0];
-                                                @endphp
-                                                {{ $class_name::{$function_name[1]}($element) }}
-                                                @break
-                                            @default
-                                                @if (isset($value['str_limit']))
-                                                    {{ $str->limit($element->{$value['column_name']}, $value['str_limit']) }}
-                                                @else
-                                                    @if (is_array($value['column_name']))
-                                                        @foreach ($value['column_name'] as $item)
-                                                            <div>{{ $element->{$item} }}</div>
-                                                        @endforeach
-                                                    @else
-                                                        {{ $element->{$value['column_name']} }}
-                                                    @endif
-                                                @endif
-                                        @endswitch
-                                    </td>
-                                @endforeach
-                                @if (!$trashed)
-                                    @if (auth()->user()->hasAccess(['update-' . $permission_controller_string]))
-                                        @if ($version)
-                                            <td class="d-none d-md-table-cell">{{ $element->created_at }}</td>
-                                        @endif
+                            @endphp
+                            <tr id="{{ $element->id }}" class="{{ $css_class_name }}">
+                                @if (auth()->user()->hasAccess(['update-' . $permission_controller_string]))
+                                    @if (!$version)
+                                        <td class="{{ $use_drag_rearrange ?? true ? 'drag' : '' }} d-none d-md-table-cell">
+                                            <input type="checkbox" name="checked_id[]" class="checkbox" value="{{ $element->id }}" />
+                                        </td>
                                     @endif
-                                    <td>
-                                        @if (auth()->user()->hasAccess(['update-' . $permission_controller_string]) && !$version)
-                                            @php
-                                                if (isset($detail_hide) && $detail_hide) {
-                                                    $button_items = [];
-                                                } else {
-                                                    $button_items['items']['檢視'] = ['url' => url($uri . 'detail?' . $id_string . '=' . $element->id . '&' . $base_service->getQueryString(true, true))];
-                                                }
-                                                if ($use_duplicate) {
-                                                    if (auth()->user()->hasAccess(['create-' . $permission_controller_string])) {
-                                                        if (!isset($duplicate_url_suffix)) {
-                                                            $duplicate_url_suffix = '';
-                                                        }
-                                                        $button_items['items']['複製'] = ['url' => url($uri . 'duplicate?' . $id_string . '=' . $element->id . $duplicate_url_suffix)];
-                                                    }
-                                                }
-                                                if (isset($preview_url) && !empty($preview_url)) {
-                                                    $button_items['items']['預覽'] = ['url' => url($preview_url['url'] . $element->{$preview_url['column']})];
-                                                }
-                                                if (isset($with)) {
-                                                    if (is_array($with)) {
-                                                        $button_items['items']['關聯'] = [];
-                                                        foreach ($with as $with_key => $with_value) {
-                                                            $button_items['items']['關聯'][] = ['url' => url($with_value['url'] . $element->id), 'with_count' => $element->{$with_value['with_count_string']}, 'name' => $with_value['with_name'], 'icon' => $with_value['icon']];
-                                                        }
-                                                    } else {
-                                                        $button_items['items']['關聯'] = ['url' => url($preview_url . $element->id), 'with_count' => $element->$with_count_string, 'name' => $with_name, 'icon' => $icon];
-                                                    }
-                                                }
-                                                if (isset($custom_item)) {
-                                                    $button_items['items']['自訂'] = [];
-                                                    foreach ($custom_item as $custom_item_array) {
-                                                        $custom_item_array['url'] .= $element->id;
-                                                        $button_items['items']['自訂'][] = $custom_item_array;
-                                                    }
-                                                }
-                                                if ($use_version) {
-                                                    $button_items['items']['版本'] = ['url' => url($uri . 'index?' . $id_string . '=' . $element->id . '&version=true')];
-                                                }
-                                            @endphp
-                                            @component('dashboard::components.backend-list-btn-group', $button_items)
-                                                @if (isset($custom_button))
-                                                    @if (is_array($custom_button))
-                                                        @foreach ($custom_button as $custom_button_item)
-                                                            <a class="btn btn-outline-deep-purple waves-effect" href="{{ $custom_button_item['url'] . $element->id }}">
-                                                                <i class="{{ $custom_button_item['icon'] }}"></i>
-                                                                {{ $custom_button_item['with_name'] }}
-                                                                <span class="badge badge-primary">
-                                                                    {{ $element->{$custom_button_item['with_count_string']} }}
-                                                                </span>
-                                                            </a>
+                                    @foreach ($column as $key => $value)
+                                        <td class="{{ $value['class'] ?? '' }}">
+                                            @switch($value['type'])
+                                                @case('belongsToMany')
+                                                    @if (is_array($value['column_name']))
+                                                        @foreach ($element->{$value['with']} as $with_item)
+                                                            <div>
+                                                                @foreach ($value['column_name'] as $item)
+                                                                    {{ $with_item->{$item} }}{!! $value['delimiter_string'] !!}
+                                                                @endforeach
+                                                            </div>
                                                         @endforeach
                                                     @else
+                                                        @if (isset($value['url']))
+                                                            @foreach ($element->{$value['with']} as $item)
+                                                                <a href="{{ $value['url'] . $item->id }}">{{ $item->{$value['column_name']} }}</a>
+                                                            @endforeach
+                                                        @else
+                                                            {!! $element->{$value['with']}->implode($value['column_name'], $value['delimiter_string'] ?? ',') !!}
+                                                        @endif
                                                     @endif
-                                                @else
-                                                    @if (isset($update_hide) && $update_hide)
+                                                    @break
+                                                @case('belongsTo')
+                                                    {{ $element->{$value['with']}->{$value['column_name']} ?? '' }}
+                                                    @break
+                                                @case('belongsToSum')
+                                                    {{ $element->{$value['with']}->sum($value['column_name']) ?? '' }}
+                                                    @break
+                                                @case('badges')
+                                                    {{ $element->{$value['column_name']} }}<br>
+                                                    @foreach ($value['set_value'] as $badge_key => $badge_value)
+                                                        <span class="{{ $badge_value['class'] }}">
+                                                            @if (isset($badge_value['belongsTo']))
+                                                                @if (!is_null($element->{$badge_key}))
+                                                                    {{ $badge_value['badge_title'] }}{{ $element->{$badge_key}->{$badge_value['belongsTo']} }}
+                                                                @endif
+                                                            @else
+                                                                {{ $badge_value['badge_title'] }}{{ $element->{$badge_key} }}
+                                                            @endif
+                                                        </span>
+                                                    @endforeach
+                                                    @break
+                                                @case('image')
+                                                    {!! $image_service->{$value['method']}($element->{$value['column_name']}, '', '', $value['folder_name']) !!}
+                                                    @break
+                                                @case('url')
+                                                    @php
+                                                        $url_string = $value['url'];
+                                                        foreach ($value['slash'] as $slash_string) {
+                                                            $url_string .= '/' . $element->{$slash_string};
+                                                        }
+                                                    @endphp
+                                                    <a href="{{ $url_string }}" target="_blank">{{ $url_string }}</a>
+                                                    @break
+                                                @case('boolean')
+                                                    {{ $element->{$value['column_name']} == 1 ? '是' : '否' }}
+                                                    @break
+                                                @case('serialNumber')
+                                                    {{ $list_key + 1 + (request('page', 1) - 1) * config('backend.paginate') }}
+                                                    @break
+                                                @case('function')
+                                                    @php
+                                                        $function_name = explode('@', $value['function_name']);
+                                                        $class_name = $function_name[0];
+                                                    @endphp
+                                                    {{ $class_name::{$function_name[1]}($element) }}
+                                                    @break
+                                                @default
+                                                    @if (isset($value['str_limit']))
+                                                        {{ $str->limit($element->{$value['column_name']}, $value['str_limit']) }}
                                                     @else
-                                                        {{-- <a href="{{ url($uri . 'update?' . $id_string . '=' . $element->id . ($update_url_append_string ?? '')) }}" class="btn btn-outline-deep-purple waves-effect text-nowrap"> --}}
-                                                        <a href="{{ url($uri . 'update?' . $id_string . '=' . $element->id . '&' . $base_service->getQueryString(true, true)) }}" class="btn btn-outline-deep-purple waves-effect text-nowrap">
+                                                        @if (is_array($value['column_name']))
+                                                            @foreach ($value['column_name'] as $item)
+                                                                <div>{{ $element->{$item} }}</div>
+                                                            @endforeach
+                                                        @else
+                                                            {{ $element->{$value['column_name']} }}
+                                                        @endif
+                                                    @endif
+                                            @endswitch
+                                        </td>
+                                    @endforeach
+                                    @if (!$trashed)
+                                        @if (auth()->user()->hasAccess(['update-' . $permission_controller_string]))
+                                            @if ($version)
+                                                <td class="d-none d-md-table-cell">{{ $element->created_at }}</td>
+                                            @endif
+                                        @endif
+                                        <td>
+                                            @if (auth()->user()->hasAccess(['update-' . $permission_controller_string]) && !$version)
+                                                @php
+                                                    if (isset($detail_hide) && $detail_hide) {
+                                                        $button_items = [];
+                                                    } else {
+                                                        $button_items['items']['檢視'] = ['url' => url($uri . 'detail?' . $id_string . '=' . $element->id . '&' . $base_service->getQueryString(true, true))];
+                                                    }
+                                                    if ($use_duplicate) {
+                                                        if (auth()->user()->hasAccess(['create-' . $permission_controller_string])) {
+                                                            if (!isset($duplicate_url_suffix)) {
+                                                                $duplicate_url_suffix = '';
+                                                            }
+                                                            $button_items['items']['複製'] = ['url' => url($uri . 'duplicate?' . $id_string . '=' . $element->id . $duplicate_url_suffix)];
+                                                        }
+                                                    }
+                                                    if (isset($preview_url) && !empty($preview_url)) {
+                                                        $button_items['items']['預覽'] = ['url' => url($preview_url['url'] . $element->{$preview_url['column']})];
+                                                    }
+                                                    if (isset($with)) {
+                                                        if (is_array($with)) {
+                                                            $button_items['items']['關聯'] = [];
+                                                            foreach ($with as $with_key => $with_value) {
+                                                                $button_items['items']['關聯'][] = ['url' => url($with_value['url'] . $element->id), 'with_count' => $element->{$with_value['with_count_string']}, 'name' => $with_value['with_name'], 'icon' => $with_value['icon']];
+                                                            }
+                                                        } else {
+                                                            $button_items['items']['關聯'] = ['url' => url($preview_url . $element->id), 'with_count' => $element->$with_count_string, 'name' => $with_name, 'icon' => $icon];
+                                                        }
+                                                    }
+                                                    if (isset($custom_item)) {
+                                                        $button_items['items']['自訂'] = [];
+                                                        foreach ($custom_item as $custom_item_array) {
+                                                            $custom_item_array['url'] .= $element->id;
+                                                            $button_items['items']['自訂'][] = $custom_item_array;
+                                                        }
+                                                    }
+                                                    if ($use_version) {
+                                                        $button_items['items']['版本'] = ['url' => url($uri . 'index?' . $id_string . '=' . $element->id . '&version=true')];
+                                                    }
+                                                @endphp
+                                                @component('dashboard::components.backend-list-btn-group', $button_items)
+                                                    @if (isset($custom_button))
+                                                        @if (is_array($custom_button))
+                                                            @foreach ($custom_button as $custom_button_item)
+                                                                <a class="btn btn-outline-deep-purple waves-effect" href="{{ $custom_button_item['url'] . $element->id }}">
+                                                                    <i class="{{ $custom_button_item['icon'] }}"></i>
+                                                                    {{ $custom_button_item['with_name'] }}
+                                                                    <span class="badge badge-primary">
+                                                                        {{ $element->{$custom_button_item['with_count_string']} }}
+                                                                    </span>
+                                                                </a>
+                                                            @endforeach
+                                                        @else
+                                                        @endif
+                                                    @else
+                                                        @if (isset($update_hide) && $update_hide)
+                                                        @else
+                                                            {{-- <a href="{{ url($uri . 'update?' . $id_string . '=' . $element->id . ($update_url_append_string ?? '')) }}" class="btn btn-outline-deep-purple waves-effect text-nowrap"> --}}
+                                                            <a href="{{ url($uri . 'update?' . $id_string . '=' . $element->id . '&' . $base_service->getQueryString(true, true)) }}" class="btn btn-outline-deep-purple waves-effect text-nowrap">
+                                                                <i class="fas fa-edit"></i>
+                                                                <span class="d-none d-md-inline">@lang('dashboard::backend.編輯')</span>
+                                                            </a>
+                                                        @endif
+                                                    @endif
+                                                @endcomponent
+                                                
+                                                {{-- @component('dashboard::components.dropdown-toggle', $button_items)
+                                                    @if (isset($custom_button))
+                                                        @if (is_array($custom_button))
+                                                            @foreach ($custom_button as $custom_button_item)
+                                                                <a class="btn btn-outline-deep-purple waves-effect" href="{{ $custom_button_item['url'] . $element->id }}">
+                                                                    <i class="{{ $custom_button_item['icon'] }}"></i>
+                                                                    {{ $custom_button_item['with_name'] }}
+                                                                    <span class="badge badge-primary">
+                                                                        {{ $element->{$custom_button_item['with_count_string']} }}
+                                                                    </span>
+                                                                </a>
+                                                            @endforeach
+                                                        @else
+                                                        @endif
+                                                    @else
+                                                        <a href="{{ url($uri . 'update?' . $id_string . '=' . $element->id . ($update_url_append_string ?? '')) }}" class="btn btn-outline-deep-purple waves-effect">
                                                             <i class="fas fa-edit"></i>
                                                             <span class="d-none d-md-inline">@lang('dashboard::backend.編輯')</span>
                                                         </a>
                                                     @endif
-                                                @endif
-                                            @endcomponent
-                                            
-                                            {{-- @component('dashboard::components.dropdown-toggle', $button_items)
-                                                @if (isset($custom_button))
-                                                    @if (is_array($custom_button))
-                                                        @foreach ($custom_button as $custom_button_item)
-                                                            <a class="btn btn-outline-deep-purple waves-effect" href="{{ $custom_button_item['url'] . $element->id }}">
-                                                                <i class="{{ $custom_button_item['icon'] }}"></i>
-                                                                {{ $custom_button_item['with_name'] }}
-                                                                <span class="badge badge-primary">
-                                                                    {{ $element->{$custom_button_item['with_count_string']} }}
-                                                                </span>
-                                                            </a>
-                                                        @endforeach
+                                                @endcomponent --}}
+                                            @else
+                                                @php
+                                                    $button_items = [];
+                                                    if ($version) {
+                                                        $button_items['items']['檢視'] = ['url' => url($uri . 'detail?' . $id_string . '=' . $element->id . '&origin_id=' . $element->origin_id . '&version=true')];
+                                                    }
+                                                @endphp
+                                                @component('dashboard::components.dropdown-toggle', $button_items)
+                                                    @if ($version)
+                                                        <a href="{{ url($uri . 'apply-version?' . $id_string . '=' . $element->origin_id . '&version_id=' . $element->id) }}" class="btn btn-outline-deep-purple waves-effect">
+                                                            <i class="fas fa-code-branch"></i>@lang('dashboard::backend.使用此版本')
+                                                        </a>
                                                     @else
+                                                        <a href="{{ url($uri . 'detail?' . $id_string . '=' . $element->id) }}" class="btn btn-outline-deep-purple waves-effect">
+                                                            <i class="fas fa-info"></i>@lang('dashboard::backend.檢視')
+                                                        </a>
                                                     @endif
-                                                @else
-                                                    <a href="{{ url($uri . 'update?' . $id_string . '=' . $element->id . ($update_url_append_string ?? '')) }}" class="btn btn-outline-deep-purple waves-effect">
-                                                        <i class="fas fa-edit"></i>
-                                                        <span class="d-none d-md-inline">@lang('dashboard::backend.編輯')</span>
-                                                    </a>
+                                                @endcomponent
+                                            @endif
+                                        </td>
+                                        @if (($use_sort ?? true) && auth()->user()->hasAccess(['update-' . $permission_controller_string]))
+                                            @if (!$version)
+                                                @if ($use_rearrange ?? true)
+                                                    <td class="d-none d-md-table-cell sort_btn">
+                                                        <a href="{{ url($uri . 'rearrange?' . $id_string . '=' . $element->id . '&method=up&position=' . $list_key) }}"><i class="fas fa-caret-up"></i></a>
+                                                        <a href="{{ url($uri . 'rearrange?' . $id_string . '=' . $element->id . '&method=down&position=' . $list_key) }}"><i class="fas fa-caret-down"></i></a>
+                                                    </td>
                                                 @endif
-                                            @endcomponent --}}
-                                        @else
-                                            @php
-                                                $button_items = [];
-                                                if ($version) {
-                                                    $button_items['items']['檢視'] = ['url' => url($uri . 'detail?' . $id_string . '=' . $element->id . '&origin_id=' . $element->origin_id . '&version=true')];
-                                                }
-                                            @endphp
-                                            @component('dashboard::components.dropdown-toggle', $button_items)
-                                                @if ($version)
-                                                    <a href="{{ url($uri . 'apply-version?' . $id_string . '=' . $element->origin_id . '&version_id=' . $element->id) }}" class="btn btn-outline-deep-purple waves-effect">
-                                                        <i class="fas fa-code-branch"></i>@lang('dashboard::backend.使用此版本')
-                                                    </a>
-                                                @else
-                                                    <a href="{{ url($uri . 'detail?' . $id_string . '=' . $element->id) }}" class="btn btn-outline-deep-purple waves-effect">
-                                                        <i class="fas fa-info"></i>@lang('dashboard::backend.檢視')
-                                                    </a>
-                                                @endif
-                                            @endcomponent
-                                        @endif
-                                    </td>
-                                    @if (($use_sort ?? true) && auth()->user()->hasAccess(['update-' . $permission_controller_string]))
-                                        @if (!$version)
-                                            @if ($use_rearrange ?? true)
-                                                <td class="d-none d-md-table-cell sort_btn">
-                                                    <a href="{{ url($uri . 'rearrange?' . $id_string . '=' . $element->id . '&method=up&position=' . $list_key) }}"><i class="fas fa-caret-up"></i></a>
-                                                    <a href="{{ url($uri . 'rearrange?' . $id_string . '=' . $element->id . '&method=down&position=' . $list_key) }}"><i class="fas fa-caret-down"></i></a>
+                                                <td class="d-none d-md-table-cell">
+                                                    <input type="text" name="sort[{{ $element->id }}]" class="form-control" value="{{ $element->sort }}" />
                                                 </td>
                                             @endif
-                                            <td class="d-none d-md-table-cell">
-                                                <input type="text" name="sort[{{ $element->id }}]" class="form-control" value="{{ $element->sort }}" />
-                                            </td>
                                         @endif
                                     @endif
                                 @endif
