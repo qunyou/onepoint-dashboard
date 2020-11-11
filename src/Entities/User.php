@@ -27,9 +27,11 @@ class User extends Authenticatable
      *
      * @var array
      */
-    // ALTER TABLE `users` ADD `update_user_id` INT NOT NULL DEFAULT '0' AFTER `origin_id`;
     protected $fillable = [
-        // 'realname', 'username', 'email', 'password', 'status', 'sort', 'note', 'old_version', 'origin_id', 'update_user_id'
+        'old_version',
+        'origin_id',
+        'update_user_id',
+
         'enable',
         'username',
         'realname',
@@ -107,3 +109,8 @@ class User extends Authenticatable
         return $this->roles()->where('role_name', $roleSlug)->count() == 1;
     }
 }
+
+// ALTER TABLE `users` CHANGE `created_at` `created_at` TIMESTAMP NULL DEFAULT NULL, CHANGE `updated_at` `updated_at` TIMESTAMP NULL DEFAULT NULL;
+// ALTER TABLE `users` ADD `old_version` BOOLEAN NOT NULL AFTER `deleted_at`;
+// ALTER TABLE `users` ADD `origin_id` INT NOT NULL AFTER `old_version`;
+// ALTER TABLE `users` ADD `update_user_id` INT NOT NULL DEFAULT '0' AFTER `origin_id`;

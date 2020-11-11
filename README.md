@@ -5,7 +5,8 @@
     composer require onepoint/dashboard
 
 ## 自訂安裝(方法二)
-    將 packages 資料夾放在網站根目錄
+    git clone 或是 download onepoint/dashboard
+    檔案放在這個路徑 packages/onepoint/dashboard
     在 composer.json 加上
     "autoload": {
         "psr-4": {
@@ -184,7 +185,7 @@ config/auth.php
         ...
 
         // Guard 登入檢查
-        'auth.guard' => \App\Http\Middleware\AuthenticateGuard::class,
+        'auth.guard' => \Onepoint\Dashboard\Middleware\AuthenticateGuard::class,
     ];
 
 ## 上傳檔案相關設定
@@ -263,6 +264,12 @@ app/Exceptions/Handler.php
     public function render($request, Exception $exception)
     {
         if ($exception instanceof NotFoundHttpException) {
-            return redirect()->route('home');
+            // return redirect()->route('home');
+            return redirect('index');
         }
+
+        if ($exception instanceof \Illuminate\Session\TokenMismatchException) {
+            return redirect('index');
+        }
+        return parent::render($request, $exception);
     }

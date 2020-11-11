@@ -96,7 +96,6 @@ class BaseRepository
      */
     public function update($id = 0, $manually = false)
     {
-        // 測試
         return $this->executeUpdate($id, $this->makeUpdateData($manually));
     }
 
@@ -239,7 +238,7 @@ class BaseRepository
             if (auth()->check() && in_array('update_user_id', $this->model->getFillable())) {
                 $datas['update_user_id'] = auth()->id();
             }
-            
+
             // 更新或新增
             if (count($datas)) {
                 if ($id) {
@@ -492,9 +491,10 @@ class BaseRepository
             // 分頁設定
             $records_per_page = request('records_per_page', false);
             if ($records_per_page > 0) {
-                session(['records_per_page' => $records_per_page]);
+                // session(['records_per_page' => $records_per_page]);
+                cache(['records_per_page' => $records_per_page], 6000);
             }
-            $query = $query->paginate(session('records_per_page', $paginate));
+            $query = $query->paginate(cache('records_per_page', $paginate));
         } else {
             $query = $query->get();
         }
@@ -707,26 +707,26 @@ class BaseRepository
             }
 
             // 批次設定顯示
-            if ($show) {
-                $result['datas_count'] = $this->model->whereIn('id', $checked_id)->update([config('site.frontend_active_column') => 1]);
-                $result['batch_method'] = 'show';
-            }
+            // if ($show) {
+            //     $result['datas_count'] = $this->model->whereIn('id', $checked_id)->update([config('site.frontend_active_column') => 1]);
+            //     $result['batch_method'] = 'show';
+            // }
 
             // 批次設定隱藏
-            if ($hide) {
-                $result['datas_count'] = $this->model->whereIn('id', $checked_id)->update([config('site.frontend_active_column') => 0]);
-                $result['batch_method'] = 'hide';
-            }
+            // if ($hide) {
+            //     $result['datas_count'] = $this->model->whereIn('id', $checked_id)->update([config('site.frontend_active_column') => 0]);
+            //     $result['batch_method'] = 'hide';
+            // }
 
             // 批次設定啟用
             if ($status_enable) {
-                $result['datas_count'] = $this->model->whereIn('id', $checked_id)->update(['status' => '啟用']);
+                $result['datas_count'] = $this->model->whereIn('id', $checked_id)->update([config('db_status_name') => config('db_status_true_string')]);
                 $result['batch_method'] = 'show';
             }
 
             // 批次設定停用
             if ($status_disable) {
-                $result['datas_count'] = $this->model->whereIn('id', $checked_id)->update(['status' => '停用']);
+                $result['datas_count'] = $this->model->whereIn('id', $checked_id)->update([config('db_status_name') => config('db_status_false_string')]);
                 $result['batch_method'] = 'hide';
             }
         }
@@ -787,7 +787,8 @@ class BaseRepository
     {
         $method = request('method', false);
         $position = request('position', false);
-        $sort_array = session('sort_array', false);
+        // $sort_array = session('sort_array', false);
+        $sort_array = cache('sort_array', false);
         if ($method && $position !== false && $sort_array) {
             if ($method == 'down') {
                 $this->model->find($sort_array[$position][0])->update(['sort' => $sort_array[$position][1] + 1]);

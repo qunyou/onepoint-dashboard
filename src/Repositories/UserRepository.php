@@ -34,8 +34,8 @@ class UserRepository extends BaseRepository
      */
     public function getList($id = 0, $paginate = 0)
     {
-        $query = $this->permissions()->with('roles')->orderBy('sort');
-        return $this->fetchList($query, $id, $paginate);
+        $query = $this->permissions()->with('roles');
+        return $this->fetchList($query, $id, $paginate, 'created_at', 'desc');
     }
 
     /**
