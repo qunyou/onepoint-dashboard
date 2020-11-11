@@ -54,17 +54,19 @@ class AppServiceProvider extends ServiceProvider
         // if (!is_null($query)) {
         //     config(['suffix_url' => $query->suffix_url . '/']);
         // }
+        $suffix_url = '';
 
         // 加入網址後綴
         $uri = 'backend';
-        if (!empty(config('suffix_url', ''))) {
-            $uri = config('suffix_url') . $uri;
+        if (!empty($suffix_url)) {
+            $uri = $suffix_url . $uri;
         }
         $login_default_uri = $uri . '/' . 'dashboard/index';
 
         // 各項初始設定值
         config([
             'http_host' => $http_host,
+            'suffix_url' => $suffix_url,
         
             // 資料庫
             // 'database.connections.mysql.host' => $mysql_host,

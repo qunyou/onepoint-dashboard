@@ -53,15 +53,9 @@ custom/httpHost.php
     case '6k6.test':
     如果沒有取消 switch 的判斷，目前的網址不包含在 case 中，就會顯示 404 頁面
 
-## 引入設定檔
-
-    將以下內容放在 config/app.php 的第一行
-    // 依網址判斷資料庫、資料夾等設定，產生 config('http_host') 設定值
-    include base_path('custom') . '/httpHost.php';
-
 ## 資料庫設定
 
-custom/default/baseConfig.php
+private/app/Providers/AppServiceProvider.php
 
 在這個檔設定資料庫的帳號密碼
 
@@ -123,17 +117,15 @@ config/database.php
     Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
 
 ### 編輯器檔案管理 Package
-    composer require unisharp/laravel-filemanager
+    composer require alexusmai/laravel-file-manager
 
 #### app.php 加入內容
 ##### providers
-    UniSharp\LaravelFilemanager\LaravelFilemanagerServiceProvider::class,
+    Alexusmai\LaravelFileManager\FileManagerServiceProvider::class,
 
 #### 發佈 Package 必要檔案
-    php artisan vendor:publish --tag=lfm_config
-    php artisan vendor:publish --tag=lfm_public
-    php artisan route:clear
-    php artisan config:clear
+    php artisan vendor:publish --tag=fm-config
+    php artisan vendor:publish --tag=fm-assets
 
 #### 流量統計套件
     composer require jenssegers/agent
