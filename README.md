@@ -117,15 +117,12 @@ config/database.php
     Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
 
 ### 編輯器檔案管理 Package
-    composer require alexusmai/laravel-file-manager
-
-#### app.php 加入內容
-##### providers
-    Alexusmai\LaravelFileManager\FileManagerServiceProvider::class,
+    composer require haruncpi/laravel-simple-filemanager
 
 #### 發佈 Package 必要檔案
-    php artisan vendor:publish --tag=fm-config
-    php artisan vendor:publish --tag=fm-assets
+
+    // php artisan filemanager:install
+    // 原本這個指令，但實際上複製的不完全，已整合至本套件的 publish 的動作之中
 
 #### 流量統計套件
     composer require jenssegers/agent
