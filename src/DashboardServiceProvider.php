@@ -38,9 +38,13 @@ class DashboardServiceProvider extends ServiceProvider
             __DIR__.'/Publishes/public/assets/dashboard' => public_path('assets/dashboard'),
         ], 'public');
 
-        // $this->publishes([
-        //     __DIR__.'/Publishes/public/vendor/laravel-filemanager' => public_path('vendor/laravel-filemanager'),
-        // ], 'public-vendor');
+        $this->publishes([
+            __DIR__.'/Publishes/public/filemanager' => public_path('filemanager'),
+        ], 'filemanager');
+
+        $this->publishes([
+            __DIR__.'/Publishes/config' => config_path('/'),
+        ], 'config-filemanager');
 
         $this->publishes([
             __DIR__.'/Publishes/app/Http' => app_path('Http'),
