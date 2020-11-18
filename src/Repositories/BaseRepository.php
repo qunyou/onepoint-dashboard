@@ -520,6 +520,8 @@ class BaseRepository
             }
         }
         $query = $query->where('id', $id)->first();
+        // $query = $query->where('id', $id)->toSql();
+        // $query = $query->where('id', $id)->explain();
         if (!is_null($query)) {
             return $query;
         }

@@ -22,7 +22,8 @@
     @show
 
     {{-- 網頁標題 --}}
-    <title>@lang('dashboard::backend.網站內容管理系統')</title>
+    {{-- <title>@lang('dashboard::backend.網站內容管理系統')</title> --}}
+    <title>{{ config('backend.html_page_title') }}</title>
     <style>
         .input-require {
             color: #f00;

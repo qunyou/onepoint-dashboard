@@ -2,9 +2,10 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use App;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\ServiceProvider;
+// use Illuminate\Pagination\Paginator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -122,6 +123,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // if (isset($_SERVER['HTTP_HOST']) && ($_SERVER['HTTP_HOST'] == 'hdf.tw' || $_SERVER['HTTP_HOST'] == 'www.hdf.tw')) {
+        //     \URL::forceScheme('https');
+        // }
+
+        // Paginator::useBootstrap();
+        
         // 設定語言
         if (request('lang', false)) {
             Cache::forever('backend_language', request('lang'));
@@ -135,13 +142,13 @@ class AppServiceProvider extends ServiceProvider
                     'footer_copyright' => '<a href="#!">Onepoint</a>',
             
                     // 網頁標題
-                    'html_page_title' => __('dashbaord::backend.網站內容管理系統'),
+                    'html_page_title' => __('dashboard::backend.網站內容管理系統'),
             
                     // 網頁關鍵字
-                    'meta_keywords' => __('dashbaord::backend.網站內容管理系統'),
+                    'meta_keywords' => __('dashboard::backend.網站內容管理系統'),
             
                     // 網頁敘述
-                    'meta_description' => __('dashbaord::backend.網站內容管理系統'),
+                    'meta_description' => __('dashboard::backend.網站內容管理系統'),
             
                     // 網頁圖示
                     'favicon' => 'assets/dashboard/img/favicon.ico',
@@ -161,7 +168,7 @@ class AppServiceProvider extends ServiceProvider
                         'img' => 'assets/dashboard/img/sidebar-1.jpg',
                         
                         // 標題
-                        'header_text' => __('dashbaord::backend.網站內容管理系統')
+                        'header_text' => __('dashboard::backend.網站內容管理系統')
                     ],
                     'navigation_item' => [
                         ['title' => '權限管理', 'translation' => 'dashboard::auth.', 'icon' => 'fas fa-user-lock', 'sub' => [
@@ -184,12 +191,12 @@ class AppServiceProvider extends ServiceProvider
             
                     // 語言版本
                     'language' => [
-                        'zh-tw' => __('dashbaord::backend.繁體中文'),
-                        'en' => __('dashbaord::backend.英文'),
+                        'zh-tw' => __('dashboard::backend.繁體中文'),
+                        'en' => __('dashboard::backend.英文'),
                     ],
             
                     // 狀態
-                    'status_item' => ['啟用' => __('dashbaord::backend.啟用'), '停用' => __('dashbaord::backend.停用')],
+                    'status_item' => ['啟用' => __('dashboard::backend.啟用'), '停用' => __('dashboard::backend.停用')],
             
                     // 性別
                     'gender_item' => ['男' => __('auth.男'), '女' => __('auth.女')],
