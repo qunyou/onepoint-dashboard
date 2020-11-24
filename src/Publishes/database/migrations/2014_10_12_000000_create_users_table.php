@@ -29,6 +29,8 @@ class CreateUsersTable extends Migration
             $table->string('realname')->charset('utf8')->comment('姓名');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->foreignId('current_team_id')->nullable();
+            $table->text('profile_photo_path')->nullable();
         });
     }
 

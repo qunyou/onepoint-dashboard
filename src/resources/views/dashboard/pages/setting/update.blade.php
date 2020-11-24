@@ -62,14 +62,14 @@
             ]])
 
             @include('dashboard::text', ['input_setting' => [
-                'display_name' => __('backend.標題'),
+                'display_name' => __('dashboard::backend.標題'),
                 'input_name' => 'title',
                 'input_value' => old('title', optional($setting)->title),
                 'attribute' => 'required',
             ]])
 
             @include('dashboard::textarea', ['input_setting' => [
-                'display_name' => __('backend.說明'),
+                'display_name' => __('dashboard::backend.說明'),
                 'input_name' => 'description',
                 'input_value' => old('description', optional($setting)->description),
             ]])
@@ -156,7 +156,7 @@
             @endif
 
             @include('dashboard::number', ['input_setting' => [
-                'display_name' => __('backend.排序'),
+                'display_name' => __('dashboard::backend.排序'),
                 'input_name' => 'sort',
                 'input_value' => old('sort', optional($setting)->sort),
             ]])

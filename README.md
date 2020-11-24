@@ -29,29 +29,9 @@
 
     先刪除以下檔案
     database/migrations/2014_10_12_000000_create_users_table.php
-    packages/onepoint/dashboard/src/Publishes/database/seeds/DatabaseSeeder.php
 
     執行
     php artisan vendor:publish --provider="Onepoint\Dashboard\DashboardServiceProvider"
-
-## 設定檔位置設定
-custom/httpHost.php
-
-    範例名稱為 default，可視情況自行修改
-    $http_host = 'default';
-
-    如果 default 改成 onepoint 這個資料夾
-    custom/default
-    就要改成
-    custom/onepoint
-
-    修改成實際運作的網址，主要是用來判斷不同網址載入不同設定檔，如果不需要不同網址，可以取消 switch 的判斷
-    如果網址是 6k6.test
-    就要將
-    case 'default.test':
-    改成
-    case '6k6.test':
-    如果沒有取消 switch 的判斷，目前的網址不包含在 case 中，就會顯示 404 頁面
 
 ## 資料庫設定
 
@@ -59,15 +39,11 @@ private/app/Providers/AppServiceProvider.php
 
 在這個檔設定資料庫的帳號密碼
 
-建立資料庫，建立時選擇utf8mb4編碼的資料庫
+建立資料庫，建立時選擇 utf8mb4 編碼的資料庫
 
 執行以下指令重新產生 Composer 的自動讀取檔案列表，以免執行 seed 指令時找不到檔案
 
     composer dump-autoload
-
-先刪除預設的 user migrate 檔案
-
-    database/migrations/2014_10_12_000000_create_users_table.php
 
 執行以下指令建立預設的資料表及預設資料，執行前先修改 .env 中的資料庫帳號密碼，在 artisan 中不會去讀取 custom/default/baseConfig.php 設定的資料庫帳號密碼。
 
@@ -84,60 +60,85 @@ config/database.php
 ## 安裝必要 Package
 
 ### 縮圖 Package
+
     composer require intervention/image
 
-#### app.php 加入內容
-##### providers
-    Intervention\Image\ImageServiceProvider::class
+    // app.php 加入內容
+    'providers' => [
+        ...
+        Intervention\Image\ImageServiceProvider::class
+    ]
 
-##### aliases
-    'Image' => Intervention\Image\Facades\Image::class
+    'aliases' => [
+        ...
+        'Image' => Intervention\Image\Facades\Image::class
+    ]
 
-#### 執行
+    // 執行
     php artisan vendor:publish --provider="Intervention\Image\ImageServiceProviderLaravelRecent"
 
 ### excel Package
+
     composer require maatwebsite/excel
 
-#### app.php 加入內容
-##### providers
-    Maatwebsite\Excel\ExcelServiceProvider::class,
+    // app.php 加入內容
+    'providers' => [
+        ...
+        Maatwebsite\Excel\ExcelServiceProvider::class,
+    ]
 
-##### aliases
-    'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+    'aliases' => [
+        ...
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+    ]
 
-#### 發佈套件檔案至正確目錄
+    // 執行
     php artisan vendor:publish --provider="Maatwebsite\Excel\ExcelServiceProvider"
 
 ### 檢視 Log Package
+
     composer require rap2hpoutre/laravel-log-viewer
 
-#### app.php 加入內容
-##### providers
-    Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
+    // app.php 加入內容
+    'providers' => [
+        ...
+        Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
+    ]
+
+    // 在 route 檔案中增加規則
+    Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
 ### 編輯器檔案管理 Package
+
     composer require alexusmai/laravel-file-manager
 
-#### app.php 加入內容
-##### providers
-    Alexusmai\LaravelFileManager\FileManagerServiceProvider::class,
+    // app.php 加入內容
+    'providers' => [
+        ...
+        Alexusmai\LaravelFileManager\FileManagerServiceProvider::class,
+    ]
 
-#### 發佈 Package 必要檔案
+    // 執行
     php artisan vendor:publish --tag=fm-config
     php artisan vendor:publish --tag=fm-assets
 
 #### 流量統計套件
+
     composer require jenssegers/agent
 
-#### app.php 加入內容
-##### providers
-    Jenssegers\Agent\AgentServiceProvider::class,
+    // app.php 加入內容
+    'providers' => [
+        ...
+        Jenssegers\Agent\AgentServiceProvider::class,
+    ]
 
-##### aliases
-    'Agent' => Jenssegers\Agent\Facades\Agent::class,
+    'aliases' => [
+        ...
+        'Agent' => Jenssegers\Agent\Facades\Agent::class,
+    ]
 
 #### google analytics 套件
+
     composer require spatie/laravel-analytics
     php artisan vendor:publish --provider="Spatie\Analytics\AnalyticsServiceProvider"
     在 google api https://console.developers.google.com/apis 取得金鑰及 json 檔
@@ -147,6 +148,7 @@ config/database.php
 ## 認證相關設定
 
 ### 修改 user.php 路徑
+
 config/auth.php
 
     'model' => App\User::class,
@@ -175,7 +177,6 @@ config/auth.php
     在 app/Http/Kernel.php 增加登入檢查方法
     protected $routeMiddleware = [
         ...
-
         // Guard 登入檢查
         'auth.guard' => \Onepoint\Dashboard\Middleware\AuthenticateGuard::class,
     ];
@@ -265,3 +266,36 @@ app/Exceptions/Handler.php
         }
         return parent::render($request, $exception);
     }
+
+### 測試
+
+    composer require --dev "kitloong/laravel-migrations-generator"
+    php artisan migrate:generate
+
+    // 產生測試檔
+    php artisan make:test ApiTest
+
+    // 執行測試
+    artisan test
+
+### 其他可安裝套件
+
+#### laravel:artisan gui
+
+安裝完成後在 http://you-domain.com/~artisan 這個網址可以執行各項 artisan 功能
+
+    composer require infureal/artisan-gui
+    php artisan vendor:publish --provider="Infureal\Providers\GuiServiceProvider"
+
+### jetstream
+
+安裝 laravel 時如果有加參數，就不用再安裝 laravel new mysite --jet
+如果一開始沒裝，可以用以下指令安裝
+
+    composer require laravel/jetstream
+    php artisan jetstream:install livewire
+    php artisan migrate
+
+修改 package.json：在 mac 環境，要移除 cross-env 相關內容
+npm install
+npm run dev or npm run production

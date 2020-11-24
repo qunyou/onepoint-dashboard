@@ -2,9 +2,10 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use App;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\ServiceProvider;
+use Illuminate\Pagination\Paginator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
 
         // url() 產生的網址
         // 單元測試時要用這個設定
-        $app_url = 'http://default.test';
+        $app_url = 'http://backend.3dmats.test';
 
         // 資料庫設定
         $mysql_host = 'localhost';
@@ -122,6 +123,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Paginator::useBootstrap();
+        
         // 設定語言
         if (request('lang', false)) {
             Cache::forever('backend_language', request('lang'));
@@ -164,15 +167,27 @@ class AppServiceProvider extends ServiceProvider
                         'header_text' => __('dashbaord::backend.網站內容管理系統')
                     ],
                     'navigation_item' => [
-                        ['title' => '權限管理', 'translation' => 'dashboard::auth.', 'icon' => 'fas fa-user-lock', 'sub' => [
-                            ['title' => '人員管理', 'translation' => 'dashboard::auth.', 'action' => '\Onepoint\Dashboard\Controllers\UserController@index'],
-                            ['title' => '人員群組', 'translation' => 'dashboard::auth.', 'action' => '\Onepoint\Dashboard\Controllers\RoleController@index'],
+                        ['title' => '訂單', 'translation' => 'base::order-form.', 'icon' => 'far fa-credit-card', 'action' => '\Onepoint\Base\Controllers\OrderController@index'],
+                        ['title' => '保固登錄', 'translation' => 'base::warranty.', 'icon' => 'fas fa-users', 'action' => '\Onepoint\Base\Controllers\WarrantyController@index'],
+                        ['title' => '會員', 'translation' => 'base::user.', 'icon' => 'fas fa-user', 'action' => '\Onepoint\Base\Controllers\UserController@index'],
+                        ['title' => '通用型產品', 'translation' => 'base::product-general.', 'icon' => 'fas fa-gift', 'sub' => [
+                            ['title' => '通用型產品', 'translation' => 'base::product-general.', 'action' => '\Onepoint\Base\Controllers\ProductGeneralController@index'],
+                            ['title' => '通用型產品分類', 'translation' => 'base::product-general.', 'action' => '\Onepoint\Base\Controllers\ProductGeneralCategoryController@index', 'includes' => [
+                                '\Onepoint\Base\Controllers\ProductGeneralSubCategoryController@index',
+                                '\Onepoint\Base\Controllers\ProductGeneralSubCategoryController@update',
+                                '\Onepoint\Base\Controllers\ProductGeneralSubCategoryController@detail',
+                            ]],
                         ]],
+                        ['title' => '活動', 'translation' => 'base::activity.', 'icon' => 'fas fa-calendar-alt', 'action' => '\Onepoint\Base\Controllers\ActivityController@index'],
+                        // ['title' => '權限管理', 'translation' => 'dashboard::auth.', 'icon' => 'fas fa-user-lock', 'sub' => [
+                        //     ['title' => '人員管理', 'translation' => 'dashboard::auth.', 'action' => '\Onepoint\Dashboard\Controllers\UserController@index'],
+                        //     ['title' => '人員群組', 'translation' => 'dashboard::auth.', 'action' => '\Onepoint\Dashboard\Controllers\RoleController@index'],
+                        // ]],
                         ['title' => '網站設定', 'translation' => 'dashboard::setting.', 'icon' => 'fas fa-cogs', 'action' => '\Onepoint\Dashboard\Controllers\SettingController@model', 'method' => 'model', 'includes' => [
                             '\Onepoint\Dashboard\Controllers\SettingController@index',
                             '\Onepoint\Dashboard\Controllers\SettingController@update',
                             '\Onepoint\Dashboard\Controllers\SettingController@detail',
-                        ]]
+                        ]],
                     ],
             
                     // 權限項目

@@ -49,9 +49,9 @@ class RoleController extends Controller
     {
         // 列表標題
         if (!$this->tpl_data['trashed']) {
-            $this->tpl_data['component_datas']['page_title'] = __('backend.列表');
+            $this->tpl_data['component_datas']['page_title'] = __('dashboard::backend.列表');
         } else {
-            $this->tpl_data['component_datas']['page_title'] = __('backend.資源回收');
+            $this->tpl_data['component_datas']['page_title'] = __('dashboard::backend.資源回收');
         }
 
         // 主資料 id query string 字串
@@ -203,22 +203,22 @@ class RoleController extends Controller
                 ],
                 'sort' => [
                     'input_type' => 'value',
-                    'display_name' => __('backend.排序'),
+                    'display_name' => __('dashboard::backend.排序'),
                 ],
                 'status' => [
                     'input_type' => 'value',
-                    'display_name' => __('backend.狀態'),
+                    'display_name' => __('dashboard::backend.狀態'),
                 ],
                 'note' => [
                     'input_type' => 'value',
-                    'display_name' => __('backend.備註'),
+                    'display_name' => __('dashboard::backend.備註'),
                 ],
             ];
 
             // 樣版資料
             $component_datas['page_title'] = __('auth.檢視人員群組');
             if ($this->tpl_data['version']) {
-                $component_datas['page_title'] .= ' -' . __('backend.版本檢視');
+                $component_datas['page_title'] .= ' -' . __('dashboard::backend.版本檢視');
             }
             if ($this->tpl_data['version']) {
                 $component_datas['back_url'] = url($this->uri . 'index?role_id=' . request('origin_id') . '&version=true');

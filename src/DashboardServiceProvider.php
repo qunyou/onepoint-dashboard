@@ -43,7 +43,7 @@ class DashboardServiceProvider extends ServiceProvider
         // ], 'public-vendor');
 
         $this->publishes([
-            __DIR__.'/Publishes/app/Http' => app_path('Http'),
+            __DIR__.'/Publishes/app' => app_path('Http'),
         ], 'http');
 
         // $this->publishes([
