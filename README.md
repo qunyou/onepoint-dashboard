@@ -35,7 +35,7 @@
 
 ## 資料庫設定
 
-private/app/Providers/AppServiceProvider.php
+app/Providers/AppServiceProvider.php
 
 在這個檔設定資料庫的帳號密碼
 
@@ -110,12 +110,12 @@ config/database.php
 
 ### 編輯器檔案管理 Package
 
-    composer require alexusmai/laravel-file-manager
+    COMPOSER_MEMORY_LIMIT=-1 composer require unisharp/laravel-filemanager
 
     // app.php 加入內容
     'providers' => [
         ...
-        Alexusmai\LaravelFileManager\FileManagerServiceProvider::class,
+        UniSharp\LaravelFilemanager\LaravelFilemanagerServiceProvider::class,
     ]
 
     // 執行
@@ -278,6 +278,9 @@ app/Exceptions/Handler.php
     // 執行測試
     artisan test
 
+    記憶體不足、composer 安裝錯誤
+    COMPOSER_MEMORY_LIMIT=-1 composer create-project laravel/laravel result 5.4.* --no-plugins
+
 ### 其他可安裝套件
 
 #### laravel:artisan gui
@@ -299,3 +302,9 @@ app/Exceptions/Handler.php
 修改 package.json：在 mac 環境，要移除 cross-env 相關內容
 npm install
 npm run dev or npm run production
+
+
+## laravel 版本判斷
+
+    $laravel_version = explode('.', app()->version());
+    if ($laravel_version[0] > 6)

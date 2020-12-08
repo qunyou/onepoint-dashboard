@@ -8,8 +8,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
-    <meta name="keywords" content="{{ config('backend.meta_keywords', __('dashboard::backend.網站內容管理系統')) }}" />
-    <meta name="description" content="{{ config('backend.meta_description', __('dashboard::backend.網站內容管理系統')) }}">
+    <meta name="keywords" content="{{ config('backend.meta_keywords') }}" />
+    <meta name="description" content="{{ config('backend.meta_description') }}">
     <meta name="author" content="Onepoint">
     @if (config('backend.favicon', false))
         <link rel="shortcut icon" href="{{ url(config('backend.favicon')) }}" type="image/x-icon">
@@ -22,7 +22,6 @@
     @show
 
     {{-- 網頁標題 --}}
-    {{-- <title>@lang('dashboard::backend.網站內容管理系統')</title> --}}
     <title>{{ config('backend.html_page_title') }}</title>
     <style>
         .input-require {

@@ -1,6 +1,7 @@
-<script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
-{{-- <script src="{{ url('vendor/laravel-filemanager/js/tinymce.min.js') }}"></script> --}}
-    <script>
+{{-- <script src="//cdn.tinymce.com/4/tinymce.min.js"></script> --}}
+<script src="{{ url('vendor/laravel-filemanager/tinymce/tinymce.min.js') }}"></script>
+{{-- <script src="https://cdn.tiny.cloud/1/tmcqki9wj0hxa66ig711zidwi7a7np53spcqufvu9k5kd2so/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script> --}}
+<script>
     var editor_config = {
         path_absolute : "/",
         selector: "textarea.tinymce",
