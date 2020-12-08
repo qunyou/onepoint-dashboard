@@ -71,9 +71,5 @@ Route::prefix(config('dashboard.uri'))->namespace('Onepoint\Dashboard\Controller
     });
 });
 
-// Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
-//     \UniSharp\LaravelFilemanager\Lfm::routes();
-// });
-
 // 登入頁
 // Route::get(config('dashboard.uri'), '\Onepoint\Dashboard\Controllers\AuthController@login')->name(config('dashboard.uri'));
