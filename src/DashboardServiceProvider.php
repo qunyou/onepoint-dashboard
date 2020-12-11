@@ -47,8 +47,8 @@ class DashboardServiceProvider extends ServiceProvider
         ], 'config-filemanager');
 
         $this->publishes([
-            __DIR__.'/Publishes/app' => app_path(),
-        ], 'http');
+            __DIR__.'/Publishes/app/Providers' => app_path('Providers'),
+        ], 'providers');
 
         // $this->publishes([
         //     __DIR__.'/Publishes/custom' => base_path('custom'),
