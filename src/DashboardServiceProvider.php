@@ -35,16 +35,20 @@ class DashboardServiceProvider extends ServiceProvider
         // php artisan vendor:publish --tag=public --force
         // php artisan vendor:publish --force
         $this->publishes([
-            __DIR__.'/Publishes/public/assets/dashboard' => public_path('assets/dashboard'),
+            __DIR__.'/Publishes/public/assets/dashboard.zip' => public_path('assets'),
         ], 'public');
 
         $this->publishes([
-            __DIR__.'/Publishes/public/filemanager' => public_path('filemanager'),
-        ], 'filemanager');
+            __DIR__.'/Publishes/public/vendor.zip' => public_path('/'),
+        ], 'public/vendor');
 
-        $this->publishes([
-            __DIR__.'/Publishes/config' => config_path('/'),
-        ], 'config-filemanager');
+        // $this->publishes([
+        //     __DIR__.'/Publishes/public/filemanager' => public_path('filemanager'),
+        // ], 'filemanager');
+
+        // $this->publishes([
+        //     __DIR__.'/Publishes/config' => config_path('/'),
+        // ], 'config-filemanager');
 
         $this->publishes([
             __DIR__.'/Publishes/app/Providers' => app_path('Providers'),
