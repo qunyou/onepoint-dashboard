@@ -3,8 +3,8 @@ Route::prefix(config('dashboard.uri'))->namespace('Onepoint\Dashboard\Controller
 
     // 登入頁 backend/login
     Route::get('/', 'AuthController@login')->name(config('dashboard.uri'));
-    // Route::get('login', 'AuthController@login')->name('login');
-    Route::get('login', 'AuthController@login');
+    Route::get('login', 'AuthController@login')->name('login');
+    // Route::get('login', 'AuthController@login');
     Route::post('login', 'AuthController@postLogin');
     Route::get('logout', 'AuthController@logout');
     Route::get('reset', 'AuthController@reset');
