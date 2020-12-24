@@ -76,6 +76,14 @@ class FormPresenter
             // 選單值使用 array key 或 array value
             $input_setting['use_array_value'] = $input_setting['use_array_value'] ?? false;
         }
+        if ($input_type == 'select-vue') {
+            $input_setting['option'] = $input_setting['option'] ?? [];
+            $input_setting['item_key'] = $input_setting['item_key'] ?? '';
+            $input_setting['parent_key'] = $input_setting['parent_key'] ?? '';
+
+            // 選單值使用 array key 或 array value
+            $input_setting['use_array_value'] = $input_setting['use_array_value'] ?? false;
+        }
 
         // textarea
         if ($input_type == 'textarea') {

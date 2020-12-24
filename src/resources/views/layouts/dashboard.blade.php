@@ -188,6 +188,9 @@ const app = new Vue({
     },
     methods: {
         @yield('vuejs_methods')
+    },
+    watch: {
+        @yield('vuejs_watchs')
     }
 })
 </script>

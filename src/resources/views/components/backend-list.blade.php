@@ -129,8 +129,19 @@
                                                         @endif
                                                     @endif
                                                     @break
+                                                @case('belongsToManyImage')
+                                                    @if ($element->{$value['with']}->count())
+                                                        {!! $image_service->{$value['method']}($element->{$value['with']}->first()->{$value['column_name']}, '', '', $value['folder_name']) !!}
+                                                    @endif
+                                                    @break
                                                 @case('belongsTo')
-                                                    {{ $element->{$value['with']}->{$value['column_name']} ?? '' }}
+                                                    @if (is_array($value['column_name']))
+                                                        @foreach ($value['column_name'] as $column_name_key => $column_name_item)
+                                                            {{ $element->{$value['with'][$column_name_key]}->{$column_name_item} }}{!! $value['delimiter_string'] !!}
+                                                        @endforeach
+                                                    @else
+                                                        {{ $element->{$value['with']}->{$value['column_name']} ?? '' }}
+                                                    @endif
                                                     @break
                                                 @case('belongsToSum')
                                                     {{ $element->{$value['with']}->sum($value['column_name']) ?? '' }}

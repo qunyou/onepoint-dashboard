@@ -2,12 +2,13 @@
 
 namespace Onepoint\Dashboard\Repositories;
 
-use Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Log;
 use Onepoint\Dashboard\Services\BaseService;
-use Onepoint\Dashboard\Services\ImageService;
 use Onepoint\Dashboard\Services\FileService;
+use Onepoint\Dashboard\Services\ImageService;
+
 // use DateTime;
 
 /**
@@ -70,7 +71,7 @@ class BaseRepository
     /**
      * 建構子
      */
-    function __construct($model)
+    public function __construct($model)
     {
         $this->model = $model;
         $this->trashed = request('trashed', false);
@@ -130,7 +131,7 @@ class BaseRepository
         $this->append_array = $datas;
         return $this;
     }
-    
+
     /**
      * 排除資料
      */
@@ -223,13 +224,7 @@ class BaseRepository
 
             // 產生排序編號
             if (in_array('sort', $this->model->getFillable())) {
-                if ((!$id && !isset($datas['sort'])) || (!$id && isset($datas['sort']) && is_null($datas['sort']))) {
-                    $datas['sort'] = $this->model->count() + 1;
-                }
-                if ($id && !isset($datas['sort'])) {
-                    $datas['sort'] = $this->model->count() + 1;
-                }
-                if ($id && is_null($datas['sort'])) {
+                if (!$id) {
                     $datas['sort'] = $this->model->count() + 1;
                 }
             }
@@ -285,7 +280,7 @@ class BaseRepository
                     }
                     if ($res) {
                         $datas[$value] = $res['file_name'];
-                        
+
                         // 檔案大小
                         if (isset($this->upload_file_size_column_name[$key])) {
                             $datas[$this->upload_file_size_column_name[$key]] = $res['file_size'];
@@ -326,7 +321,7 @@ class BaseRepository
                 if (!empty($this->upload_file_size_column_name)) {
                     $datas[$this->upload_file_size_column_name] = $res['file_size'];
                 }
-                
+
                 // 不含副檔名原始檔名
                 if (!empty($this->upload_file_origin_column_name)) {
                     $datas[$this->upload_file_origin_column_name] = $res['origin_name'];
@@ -458,12 +453,12 @@ class BaseRepository
 
     /**
      * 列表查詢
-     * 
+     *
      * $query       Object  查詢物件
      * $id          Int     目前版本 id
      * $paginate    Int     分頁筆數設定, 值為 0 時不使用分頁功能
      */
-    function fetchList($query, $id, $paginate, $order_by = 'sort', $power = 'asc')
+    public function fetchList($query, $id, $paginate, $order_by = 'sort', $power = 'asc')
     {
         if ($this->trashed) {
             $query = $query->onlyTrashed();
@@ -487,7 +482,7 @@ class BaseRepository
             $query = $query->orderBy($order_by, $power);
         }
         if ($paginate) {
-            
+
             // 分頁設定
             $records_per_page = request('records_per_page', false);
             if ($records_per_page > 0) {
@@ -507,7 +502,7 @@ class BaseRepository
     /**
      * 單筆資料查詢
      */
-    function fetchOne($query, $id)
+    public function fetchOne($query, $id)
     {
         if ($this->trashed) {
             $query = $query->onlyTrashed();
@@ -613,7 +608,7 @@ class BaseRepository
             $date_start = $base_services->isDate([
                 $yyyy,
                 $mm,
-                $dd
+                $dd,
             ]);
             if ($date_start) {
                 $q->where($first_column_name, '>=', $date_start);
@@ -626,7 +621,7 @@ class BaseRepository
             $date_end = $base_services->isDate([
                 $yyyy_end,
                 $mm_end,
-                $dd_end
+                $dd_end,
             ]);
             if ($date_end) {
                 $q->where($last_column_name, '<=', $date_end);
@@ -664,7 +659,7 @@ class BaseRepository
 
                 // 查詢所有選擇的資料，準備刪除附檔及版本
                 $query = $this->model->onlyTrashed()->find($checked_id);
-                
+
                 // 刪除附檔
                 if (isset($settings['file_field']) && isset($settings['folder'])) {
                     $upload_path = config('frontend.upload_path');
@@ -678,7 +673,7 @@ class BaseRepository
                     foreach ($query as $key => $value) {
                         $file_name = $value->{$settings['file_field']};
                         $arr[] = $upload_path . '/' . $file_name;
-                        
+
                         // 刪除縮圖
                         if (isset($settings['image_scale'])) {
                             foreach (config('backend.image_scale_setting') as $value) {
@@ -775,7 +770,7 @@ class BaseRepository
         $q->id = $id;
         $q->origin_id = 0;
         // $q->note = 'Reduction';
-        $q->deleted_at = NULL;
+        $q->deleted_at = null;
         $q->save();
         // $q->restore();
         session()->flash('notify.message', __('backend.版本還原完成'));
@@ -789,7 +784,6 @@ class BaseRepository
     {
         $method = request('method', false);
         $position = request('position', false);
-        // $sort_array = session('sort_array', false);
         $sort_array = cache('sort_array', false);
         if ($method && $position !== false && $sort_array) {
             if ($method == 'down') {
