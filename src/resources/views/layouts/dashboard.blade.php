@@ -42,7 +42,9 @@
                 {{-- 邊欄標題 --}}
                 <div class="logo">
                     <a href="{{ url(config('dashboard.uri') . '/dashboard/index') }}" class="simple-text">
-                        @lang('dashboard::backend.網站內容管理系統')
+                        @section('sidebar-header')
+                            @lang('dashboard::backend.網站內容管理系統')
+                        @show
                     </a>
                 </div>
 
@@ -88,25 +90,27 @@
 
                     <div class="nav-top ml-auto d-none d-md-block">
                         <ul class="list-group list-group-horizontal">
+                            @section('top-item')
+                                {{-- 語言版本 --}}
+                                @if (config('backend.language', false))
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            {{ config('backend.language')[config('app.locale')] }}
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                            @foreach (config('backend.language') as $language_key => $language_item)
+                                                <a class="dropdown-item" href="?lang={{ $language_key }}">{{ $language_item }}</a>
+                                            @endforeach
+                                        </div>
+                                    </li>
+                                @endif
+                                @if (config('app.url', false))
+                                    <li>
+                                        <a href="{{ config('frontend.url') }}" target="_blank"><i class="fas fa-home"></i>@lang('dashboard::backend.檢視網站')</a>
+                                    </li>
+                                @endif
+                            @show
                             
-                            {{-- 語言版本 --}}
-                            @if (config('backend.language', false))
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        {{ config('backend.language')[config('app.locale')] }}
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                        @foreach (config('backend.language') as $language_key => $language_item)
-                                            <a class="dropdown-item" href="?lang={{ $language_key }}">{{ $language_item }}</a>
-                                        @endforeach
-                                    </div>
-                                </li>
-                            @endif
-                            @if (config('app.url', false))
-                                <li>
-                                    <a href="{{ config('frontend.url') }}" target="_blank"><i class="fas fa-home"></i>@lang('dashboard::backend.檢視網站')</a>
-                                </li>
-                            @endif
                             {{--
                             <li>
                                 <a href="{{ url(config('dashboard.uri') . '/user/profile') }}"><i class="fas fa-lock"></i>@lang('dashboard::auth.修改密碼')</a>

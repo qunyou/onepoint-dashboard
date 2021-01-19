@@ -247,6 +247,14 @@ config/filesystems.php
     post_max_size = 20M
     upload_max_filesize = 10M
 
+### Homestead 修改 Mysql 時區
+
+    cd /etc/mysql/mysql.conf.d
+    sudo nano mysqld.cnf
+
+    在 [mysqld] 區塊下面增加一行
+    default-time-zone='+08:00'
+
 ### 404 轉跳首頁
 
 app/Exceptions/Handler.php
