@@ -287,7 +287,7 @@ app/Exceptions/Handler.php
     artisan test
 
     記憶體不足、composer 安裝錯誤
-    COMPOSER_MEMORY_LIMIT=-1 composer create-project laravel/laravel result 5.4.* --no-plugins
+    COMPOSER_MEMORY_LIMIT=-1 composer require rap2hpoutre/laravel-log-viewer
 
 ### 其他可安裝套件
 

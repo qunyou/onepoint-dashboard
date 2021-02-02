@@ -123,12 +123,29 @@ class UserController extends Controller
      */
     public function putIndex()
     {
+        return $this->exeBatch();
+    }
+
+    /**
+     * 批次處理
+     */
+    public function exeBatch()
+    {
         $settings['file_field'] = 'file_name';
-        $settings['folder'] = 'slider';
+        $settings['folder'] = 'user';
         $settings['image_scale'] = true;
         $settings['use_version'] = true;
-        $settings['result'] = $this->slider_repository->batch($settings);
-        return $this->batch($settings);
+        $result = $this->user_repository->batch($settings);
+        switch ($result['batch_method']) {
+            case 'restore':
+            case 'force_delete':
+                $back_url_str = 'index?' . $this->base_service->getQueryString(true, true) . '&trashed=true';
+                break;
+            default:
+                $back_url_str = 'index?' . $this->base_service->getQueryString(true, true);
+                break;
+        }
+        return redirect($this->uri . $back_url_str);
     }
 
     /**

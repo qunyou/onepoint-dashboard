@@ -67,7 +67,7 @@ Route::prefix(config('dashboard.uri'))->namespace('Onepoint\Dashboard\Controller
         });
 
         // 檢視錯誤訊息
-        Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
+        // Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
     });
 });
 

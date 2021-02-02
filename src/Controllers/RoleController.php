@@ -116,11 +116,11 @@ class RoleController extends Controller
      */
     public function putIndex()
     {
-        $settings['file_field'] = 'file_name';
-        $settings['folder'] = 'slider';
-        $settings['image_scale'] = true;
+        // $settings['file_field'] = 'file_name';
+        // $settings['folder'] = 'slider';
+        // $settings['image_scale'] = true;
         $settings['use_version'] = true;
-        $settings['result'] = $this->slider_repository->batch($settings);
+        $settings['result'] = $this->role_repository->batch($settings);
         return $this->batch($settings);
     }
 
