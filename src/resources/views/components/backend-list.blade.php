@@ -335,7 +335,9 @@
                             @endphp
                         @endforeach
                         @php
-                            cache(['sort_array' => $sort_array], 6000);
+                            if (isset($sort_array)) {
+                                cache(['sort_array' => $sort_array], 6000);
+                            }
                             // session()->flash('sort_array', $sort_array);
                         @endphp
                     </tbody>

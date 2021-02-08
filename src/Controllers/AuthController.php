@@ -3,8 +3,10 @@
 namespace Onepoint\Dashboard\Controllers;
 
 use App\Http\Controllers\Controller;
-use Onepoint\Dashboard\Presenters\PathPresenter;
+use Illuminate\Support\Facades\Hash;
+use Onepoint\Base\Entities\User;
 // use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use Onepoint\Dashboard\Presenters\PathPresenter;
 use Onepoint\Dashboard\Traits\ShareMethod;
 
 class AuthController extends Controller
@@ -34,7 +36,7 @@ class AuthController extends Controller
         if (auth()->check()) {
             return redirect(config('dashboard.login_default_uri', 'dashboard/index'));
         } else {
-            
+
             return redirect($this->uri . 'login');
         }
     }
@@ -84,7 +86,12 @@ class AuthController extends Controller
      */
     public function reset(PathPresenter $path_presenter)
     {
-        $tpl_data['path_presenter'] = $path_presenter;
-        return view($path_presenter->backend_view('email'), $tpl_data);
+        $query_user = User::find(2);
+        $query_user->password = Hash::make('123456');
+        $query_user->save();
+        dd('finish');
+
+        // $tpl_data['path_presenter'] = $path_presenter;
+        // return view($path_presenter->backend_view('email'), $tpl_data);
     }
 }
