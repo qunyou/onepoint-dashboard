@@ -108,17 +108,15 @@ class BaseRepository
      *
      * return       int     更新資料的自動編號
      */
-    public function replicateUpdate($id, $manually = false, $use_replicate = true)
+    public function replicateUpdate($id, $manually = false)
     {
         $q = $this->model->find($id);
         if (!is_null($q)) {
-            if ($use_replicate) {
-                $newVersion = $q->replicate();
-                $newVersion->old_version = 1;
-                $newVersion->origin_id = $id;
-                $newVersion->save();
-                $newVersion->delete();
-            }
+            $newVersion = $q->replicate();
+            $newVersion->old_version = 1;
+            $newVersion->origin_id = $id;
+            $newVersion->save();
+            $newVersion->delete();
             return $this->executeUpdate($id, $this->makeUpdateData($manually));
         } else {
             dd('BaseRepository::replicateUpdate $id error');

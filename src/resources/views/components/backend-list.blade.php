@@ -140,7 +140,19 @@
                                                             {{ $element->{$value['with'][$column_name_key]}->{$column_name_item} }}{!! $value['delimiter_string'] !!}
                                                         @endforeach
                                                     @else
-                                                        {{ $element->{$value['with']}->{$value['column_name']} ?? '' }}
+                                                        @php
+                                                            $column_name_array = explode('->', $value['column_name']);
+                                                            $column_name_array_count = count($column_name_array);
+                                                            if ($column_name_array_count > 1) {
+                                                                $value_string = $element[$value['with']];
+                                                                for ($i=0; $i < $column_name_array_count; $i++) { 
+                                                                    $value_string = $value_string[$column_name_array[$i]];
+                                                                }
+                                                            } else {
+                                                                $value_string = $element->{$value['with']}->{$value['column_name']} ?? '';
+                                                            }
+                                                        @endphp
+                                                        {{ $value_string ?? '' }}
                                                     @endif
                                                     @break
                                                 @case('belongsToSum')
@@ -184,6 +196,13 @@
                                                         $class_name = $function_name[0];
                                                     @endphp
                                                     {{ $class_name::{$function_name[1]}($element) }}
+                                                    @break
+                                                @case('date')
+                                                    @if (isset($value['format']))
+                                                        {{ date($value['format'], strtotime($element->{$value['column_name']}))}}
+                                                    @else
+                                                        {{ $element->{$value['column_name']} }}
+                                                    @endif
                                                     @break
                                                 @default
                                                     @if (isset($value['str_limit']))
@@ -335,9 +354,7 @@
                             @endphp
                         @endforeach
                         @php
-                            if (isset($sort_array)) {
-                                cache(['sort_array' => $sort_array], 6000);
-                            }
+                            cache(['sort_array' => $sort_array], 6000);
                             // session()->flash('sort_array', $sort_array);
                         @endphp
                     </tbody>

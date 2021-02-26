@@ -6,6 +6,6 @@
             @endforeach
         </ul>
     @else
-        {{ $input_array['input_value'] }}
+        {!! $input_array['input_value'] !!}
     @endif
 @endcomponent
