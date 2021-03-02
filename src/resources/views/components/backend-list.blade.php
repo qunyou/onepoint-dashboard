@@ -131,7 +131,11 @@
                                                     @break
                                                 @case('belongsToManyImage')
                                                     @if ($element->{$value['with']}->count())
-                                                        {!! $image_service->{$value['method']}($element->{$value['with']}->first()->{$value['column_name']}, '', '', $value['folder_name']) !!}
+                                                            @if (isset($value['img_url']))
+                                                                <img src="{{ $value['img_url'] . $element->{$value['with']}->first()->{$value['column_name']} }}" alt="">
+                                                            @else
+                                                                {!! $image_service->{$value['method']}($element->{$value['with']}->first()->{$value['column_name']}, '', '', $value['folder_name']) !!}
+                                                            @endif
                                                     @endif
                                                     @break
                                                 @case('belongsTo')
