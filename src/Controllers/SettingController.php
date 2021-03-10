@@ -120,7 +120,7 @@ class SettingController extends Controller
         if ($res) {
             session()->flash('notify.message', __('dashboard::backend.資料編輯完成'));
             session()->flash('notify.type', 'success');
-            return redirect($this->uri . 'model-detail?model=' . $model . '&setting_id=' . $res);
+            return redirect($this->uri . 'model-update?model=' . $model . '&setting_id=' . $res);
         } else {
             session()->flash('notify.message', __('dashboard::backend.資料編輯失敗'));
             session()->flash('notify.type', 'danger');
