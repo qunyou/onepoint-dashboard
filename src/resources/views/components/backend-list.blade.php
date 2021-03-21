@@ -159,6 +159,20 @@
                                                         {{ $value_string ?? '' }}
                                                     @endif
                                                     @break
+                                                @case('belongsToSelect')
+                                                    <select name="{{ $value['column_name'] }}" id="{{ $value['column_name'] }}" class="form-control" v-model="{{ $value['vmodel'] . $list_key }}" {!! isset($value['onchange_function']) ? '@change="' . $value['onchange_function'] . '($event, ' . $element->id . ')"' : '' !!}>
+                                                        @if (isset($value['option_vshow']))
+                                                            <option value="0">請選擇</option>
+                                                        @endif
+                                                        @foreach ($value['option_items'] as $option_key => $option_item)
+                                                            @if (isset($value['option_vshow']))
+                                                                <option value="{{ $option_key }}" {!! 'v-show="' . $option_item[$value['parent_id_string']] . ' == ' . $value['option_vshow'] . $list_key . '"' !!}>{{ $option_item[$value['item_key']] }}</option>
+                                                            @else
+                                                                <option value="{{ $option_key }}">{{ $option_item }}</option>
+                                                            @endif
+                                                        @endforeach
+                                                    </select>
+                                                    @break
                                                 @case('belongsToSum')
                                                     {{ $element->{$value['with']}->sum($value['column_name']) ?? '' }}
                                                     @break
@@ -213,8 +227,16 @@
                                                         {{ $str->limit($element->{$value['column_name']}, $value['str_limit']) }}
                                                     @else
                                                         @if (is_array($value['column_name']))
-                                                            @foreach ($value['column_name'] as $item)
-                                                                <div>{{ $element->{$item} }}</div>
+                                                            @foreach ($value['column_name'] as $key => $item)
+                                                                <div>
+                                                                    @if (is_string($key))
+                                                                        <span class="badge badge-primary">{{ $key }}：
+                                                                    @endif
+                                                                    {{ $element->{$item} }}
+                                                                    @if (is_string($key))
+                                                                        </span>
+                                                                    @endif
+                                                                </div>
                                                             @endforeach
                                                         @else
                                                             {{ $element->{$value['column_name']} }}
