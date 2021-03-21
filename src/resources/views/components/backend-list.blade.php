@@ -2,7 +2,9 @@
 @inject('base_service', 'Onepoint\Dashboard\Services\BaseService')
 @inject('str', 'Illuminate\Support\Str')
 
+@if (isset($list) && $list)
 <div class="card-list">
+@endif
     <div class="row justify-content-between px-3">
         <div class="col-12">
             <div class="card-title">
@@ -448,4 +450,8 @@
             </footer>
         </form>
     @endif
+
+    {!! $custom_block ?? '' !!}
+@if (isset($list) && $list)
 </div>
+@endif
