@@ -143,7 +143,8 @@
                                                 @case('belongsTo')
                                                     @if (is_array($value['column_name']))
                                                         @foreach ($value['column_name'] as $column_name_key => $column_name_item)
-                                                            {{ $element->{$value['with'][$column_name_key]}->{$column_name_item} }}{!! $value['delimiter_string'] !!}
+                                                            {{-- 好像怪怪的，先修改一下 {{ $element->{$value['with'][$column_name_key]}->{$column_name_item} }}{!! $value['delimiter_string'] !!} --}}
+                                                            {{ $element->{$value['with']}->{$column_name_item} }}{!! $value['delimiter_string'] !!}
                                                         @endforeach
                                                     @else
                                                         @php
