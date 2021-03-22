@@ -144,7 +144,19 @@
                                                     @if (is_array($value['column_name']))
                                                         @foreach ($value['column_name'] as $column_name_key => $column_name_item)
                                                             {{-- 好像怪怪的，先修改一下 {{ $element->{$value['with'][$column_name_key]}->{$column_name_item} }}{!! $value['delimiter_string'] !!} --}}
-                                                            {{ $element->{$value['with']}->{$column_name_item} }}{!! $value['delimiter_string'] !!}
+                                                            @php
+                                                                $column_name_array = explode('->', $column_name_item);
+                                                                $column_name_array_count = count($column_name_array);
+                                                                if ($column_name_array_count > 1) {
+                                                                    $value_string = $element[$value['with']];
+                                                                    for ($i=0; $i < $column_name_array_count; $i++) { 
+                                                                        $value_string = $value_string[$column_name_array[$i]];
+                                                                    }
+                                                                } else {
+                                                                    $value_string = $element->{$value['with']}->{$column_name_item} ?? '';
+                                                                }
+                                                            @endphp
+                                                            {{ $value_string }}{!! $value['delimiter_string'] !!}
                                                         @endforeach
                                                     @else
                                                         @php
