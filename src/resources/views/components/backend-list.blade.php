@@ -148,7 +148,11 @@
                                                                 $column_name_array = explode('->', $column_name_item);
                                                                 $column_name_array_count = count($column_name_array);
                                                                 if ($column_name_array_count > 1) {
-                                                                    $value_string = $element[$value['with'][$column_name_key]];
+                                                                    if (is_array($value['with'])) {
+                                                                        $value_string = $element[$value['with'][$column_name_key]];
+                                                                    } else {
+                                                                        $value_string = $element[$value['with']];
+                                                                    }
                                                                     for ($i=0; $i < $column_name_array_count; $i++) { 
                                                                         $value_string = $value_string[$column_name_array[$i]];
                                                                     }
