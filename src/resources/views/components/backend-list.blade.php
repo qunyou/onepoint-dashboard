@@ -228,7 +228,7 @@
                                                         $function_name = explode('@', $value['function_name']);
                                                         $class_name = $function_name[0];
                                                     @endphp
-                                                    {{ $class_name::{$function_name[1]}($element) }}
+                                                    {!! $class_name::{$function_name[1]}($element) !!}
                                                     @break
                                                 @case('date')
                                                     @if (isset($value['format']))

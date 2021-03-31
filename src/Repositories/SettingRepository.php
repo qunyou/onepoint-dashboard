@@ -148,4 +148,17 @@ class SettingRepository extends BaseRepository
         }
         return false;
     }
+
+    /**
+     * 取得管理者email
+     */
+    public function getAdminEmail()
+    {
+        $query = $this->model->where('setting_key', 'admin_email')->first();
+        if (!is_null($query)) {
+            $mail_array = explode(',', $setting_admin_email->setting_value);
+            return $mail_array;
+        }
+        return false;
+    }
 }
