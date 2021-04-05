@@ -10,49 +10,6 @@ use Onepoint\Dashboard\Presenters\FormPresenter;
 class BaseService
 {
     /**
-     * 建構子
-     */
-    function __construct()
-    {
-        $current_action = RouteService::getCurrentAction();
-
-        // 目前所在方法
-        $this->tpl_data['current_class_name'] = $current_action['class_name'];
-        if ($current_action['method'] == 'update' || $current_action['method'] == 'detail' || $current_action['method'] == 'duplicate') {
-            $this->tpl_data['formPresenter'] = new FormPresenter;
-        }
-
-        // 檢視刪除資料狀態判斷
-        $this->tpl_data['trashed'] = request('trashed', false);
-        $this->tpl_data['component_datas']['trashed'] = $this->tpl_data['trashed'];
-
-        // 檢視備份資料狀態判斷
-        $this->tpl_data['version'] = request('version', false);
-        $this->tpl_data['component_datas']['version'] = $this->tpl_data['version'];
-
-        // 後台右上下拉選單預設值
-        $this->tpl_data['component_datas']['dropdown_items'] = [];
-
-        // 是否使用複製功能
-        $this->tpl_data['component_datas']['use_duplicate'] = true;
-
-        // 是否使用版本功能
-        $this->tpl_data['component_datas']['use_version'] = true;
-
-        // 是否使用排序功能
-        $this->tpl_data['component_datas']['use_sort'] = true;
-
-        // 排除分頁 qs
-        $qs = $_GET;
-        unset($qs['page']);
-        $this->tpl_data['qs'] = $qs;
-        $this->tpl_data['query_string'] = http_build_query($qs);
-
-        // 當前分頁
-        $this->tpl_data['page'] = request('page', 1);
-    }
-
-    /**
      * 取得不含頁數的 QueryString 陣列
      */
     public static function getQueryString($include_page = false, $toString = false, $exclude = [])
@@ -150,7 +107,8 @@ class BaseService
     /**
      * 以IP取得瀏覽者國家資料
      */
-    public static function ipInfo($ip = NULL, $purpose = "location", $deep_detect = TRUE) {
+    public static function ipInfo($ip = NULL, $purpose = "location", $deep_detect = TRUE)
+    {
         $output = NULL;
         if (filter_var($ip, FILTER_VALIDATE_IP) === FALSE) {
             $ip = $_SERVER["REMOTE_ADDR"];

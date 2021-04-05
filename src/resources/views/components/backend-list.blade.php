@@ -8,10 +8,10 @@
     <div class="row justify-content-between px-3">
         <div class="col-12">
             <div class="card-title">
-                {{ $page_title }}
-                @if ($version)
+                {!! $page_title !!}
+                {{-- @if ($version)
                     - @lang('dashboard::backend.版本檢視')
-                @endif
+                @endif --}}
             </div>
         </div>
         <div class="col-md-12 top-btn-group">
@@ -65,8 +65,8 @@
                                     </th>
                                 @endif
                             @endif
-                            @foreach ($th as $element)
-                                <th scope="col" class="{{ $element['class'] ?? '' }} text-nowrap">{{ $element['title'] }}</th>
+                            @foreach ($th as $th_key => $element)
+                                <th scope="col" class="{{ $element['class'] ?? $th_key > 0 ? 'd-none d-xl-table-cell' : '' }} text-nowrap">{{ $element['title'] }}</th>
                             @endforeach
                             @if (!$trashed)
                                 @if (auth()->user()->hasAccess(['update-' . $permission_controller_string]))
@@ -109,8 +109,8 @@
                                             <input type="checkbox" name="checked_id[]" class="checkbox" value="{{ $element->id }}" />
                                         </td>
                                     @endif
-                                    @foreach ($column as $key => $value)
-                                        <td class="{{ $value['class'] ?? '' }}">
+                                    @foreach ($column as $column_key => $value)
+                                        <td class="{{ $value['class'] ?? $column_key > 0 ? 'd-none d-xl-table-cell' : '' }}">
                                             @switch($value['type'])
                                                 @case('belongsToMany')
                                                     @if (is_array($value['column_name']))
