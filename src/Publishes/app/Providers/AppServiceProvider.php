@@ -125,12 +125,6 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrap();
         
-        // 設定語言
-        if (request('lang', false)) {
-            Cache::forever('backend_language', request('lang'));
-        }
-        App::setLocale(Cache::get('backend_language', 'zh-tw'));
-
         // 後台設定值
         if (request()->segment(0) == config('backend.dashboard.uri')) {
             config([
@@ -244,6 +238,20 @@ class AppServiceProvider extends ServiceProvider
                     ],
                 ]
             ]);
+        }
+        
+        // 設定語言
+        if (request('lang', false)) {
+            if (isset(config('backend.language')[config('app.locale')])) {
+                Cache::forever('backend_language', request('lang'));
+                App::setLocale(Cache::get('backend_language', 'zh-tw'));
+            }
+        }
+
+        // 避免語言參數錯誤
+        if (!isset(config('backend.language')[config('app.locale')])) {
+            Cache::forever('backend_language', 'zh-tw');
+            App::setLocale('zh-tw');
         }
     }
 }

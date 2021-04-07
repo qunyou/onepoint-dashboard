@@ -71,7 +71,7 @@
                 @break
             @default
                 <a class="dropdown-item" href="{{ $item['url'] }}">
-                    {!! $item['text'] ?? '' !!}
+                    {!! $item['text'] ?? $key !!}
                 </a>
         @endswitch
     @endforeach

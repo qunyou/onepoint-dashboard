@@ -61,9 +61,9 @@
                             <th scope="col">@lang('dashboard::setting.項目')</th>
                             <th scope="col" class="d-none d-md-table-cell">@lang('dashboard::setting.設定值')</th>
                             <th scope="col"></th>
-                            @if (auth()->user()->hasAccess(['update-' . $permission_controller_string]))
+                            {{-- @if (auth()->user()->hasAccess(['update-' . $permission_controller_string]))
                                 <th scope="col" class="th_sort_width d-none d-md-table-cell">@lang('dashboard::backend.排序')</th>
-                            @endif
+                            @endif --}}
                         </tr>
                     </thead>
                     <tbody>
@@ -90,11 +90,11 @@
                                         </a>
                                     @endif
                                 </td>
-                                @if (auth()->user()->hasAccess(['update-' . $permission_controller_string]))
+                                {{-- @if (auth()->user()->hasAccess(['update-' . $permission_controller_string]))
                                     <td class="d-none d-md-table-cell">
                                         <input type="text" name="sort[{{ $element->id }}]" class="form-control" value="{{ $element->sort }}" />
                                     </td>
-                                @endif
+                                @endif --}}
                             </tr>
                         @endforeach
                     </tbody>
@@ -109,15 +109,15 @@
                                 @lang('dashboard::backend.共') {{ $list->total() }} @lang('dashboard::backend.筆資料')
                             </div>
                         </div>
-                        <div class="col d-none d-md-inline">
+                        {{-- <div class="col d-none d-md-inline">
                             @if (!$trashed)
                                 @if (auth()->user()->hasAccess(['update-' . $permission_controller_string]))
                                     <div class="btn-group float-right">
-                                        <button type="submit" name="set_sort" value="set_sort" class="btn btn-outline-deep-purple waves-effect"><i class="fa fa-fw fa-sort"></i>{{ trans('backend.修改排序') }}</button>
+                                        <button type="submit" name="set_sort" value="set_sort" class="btn btn-outline-deep-purple waves-effect"><i class="fa fa-fw fa-sort"></i>@lang('dashboard::backend.修改排序')</button>
                                     </div>
                                 @endif
                             @endif
-                        </div>
+                        </div> --}}
                     </div>
                 </footer>
             </form>

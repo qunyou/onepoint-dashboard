@@ -2,12 +2,19 @@
 
 namespace Onepoint\Dashboard\Traits;
 
+use Onepoint\Dashboard\Services\BaseService;
+
 trait ShareMethod
 {
     public $tpl = [];
+    protected $base_service;
 
     public function share()
     {
+        $base_service = new BaseService;
+        $this->base_service = $base_service;
+        $this->tpl_data['base_service'] = $this->base_service;
+        
         // 設定語言
         // 如果有問題，執行清除動作
         // cache()->flush();
@@ -38,6 +45,9 @@ trait ShareMethod
 
         // 當前分頁
         $this->tpl_data['page'] = request('page', 1);
+
+        // 主導覽
+        $this->tpl_data['navigation_item'] = config('backend.navigation_item');
     }
 
     // 列表基本設定資料
@@ -92,6 +102,9 @@ trait ShareMethod
 
         // 預覽網址
         $component_datas['preview_url'] = '';
+
+        // 回列表網址
+        // $component_datas['back_url'] = '';
 
         // 更新網址附加字串
         // $component_datas['update_url_append_string'] = $this->base_service->getQueryString(true, true);

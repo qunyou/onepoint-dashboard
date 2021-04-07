@@ -2,16 +2,14 @@
 @inject('base_service', 'Onepoint\Dashboard\Services\BaseService')
 @inject('str', 'Illuminate\Support\Str')
 
-@if (isset($list) && $list)
-<div class="card-list">
-@endif
+<div class="{{ isset($list) && $list ? 'card-list' : 'card-update' }}">
     <div class="row justify-content-between px-3">
         <div class="col-12">
             <div class="card-title">
-                {!! $page_title !!}
-                {{-- @if ($version)
+                {!! $page_title ?? '' !!}
+                @if ($version)
                     - @lang('dashboard::backend.版本檢視')
-                @endif --}}
+                @endif
             </div>
         </div>
         <div class="col-md-12 top-btn-group">
@@ -469,6 +467,4 @@
     @endif
 
     {!! $custom_block ?? '' !!}
-@if (isset($list) && $list)
 </div>
-@endif

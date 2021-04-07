@@ -23,20 +23,11 @@ class UserController extends Controller
     public function __construct(BaseService $base_service, UserRepository $user_repository)
     {
         $this->share();
-        $this->base_service = $base_service;
-        $this->tpl_data = $base_service->tpl_data;
-        $this->tpl_data['base_service'] = $this->base_service;
-        // $this->tpl_data['path_presenter'] = $path_presenter;
-        $this->permission_controller_string = get_class($this);
-        $this->tpl_data['component_datas']['permission_controller_string'] = $this->permission_controller_string;
-        $this->tpl_data['navigation_item'] = config('backend.navigation_item');
-
         $this->user_repository = $user_repository;
 
         // 預設網址
         $this->uri = config('dashboard.uri') . '/user/';
         $this->tpl_data['uri'] = $this->uri;
-        $this->tpl_data['component_datas']['uri'] = $this->uri;
 
         // view 路徑
         $this->view_path = 'dashboard::' . config('dashboard.view_path') . '.pages.user.';
@@ -51,70 +42,54 @@ class UserController extends Controller
     public function index()
     {
         // 列表標題
-        if (!$this->tpl_data['trashed']) {
-            $this->tpl_data['component_datas']['page_title'] = __('dashboard::backend.列表');
-        } else {
-            $this->tpl_data['component_datas']['page_title'] = __('dashboard::backend.資源回收');
-        }
+        // if (!$this->tpl_data['trashed']) {
+        //     $this->tpl_data['component_datas']['page_title'] = __('dashboard::backend.列表');
+        // } else {
+        //     $this->tpl_data['component_datas']['page_title'] = __('dashboard::backend.資源回收');
+        // }
+        $component_datas = $this->listPrepare();
+        $permission_controller_string = get_class($this);
+        $component_datas['permission_controller_string'] = $permission_controller_string;
+        $component_datas['uri'] = $this->uri;
+        $component_datas['back_url'] = url($this->uri . 'index');
 
         // 主資料 id query string 字串
-        $this->tpl_data['component_datas']['id_string'] = 'user_id';
-
-        // 回列表網址
-        $this->tpl_data['component_datas']['back_url'] = url($this->uri . 'index');
+        $component_datas['id_string'] = 'user_id';
 
         // 表格欄位設定
-        $this->tpl_data['component_datas']['th'] = [
+        $component_datas['th'] = [
             ['title' => __('dashboard::auth.姓名'), 'class' => ''],
             ['title' => __('dashboard::auth.Email'), 'class' => 'd-none d-xl-table-cell'],
             ['title' => __('dashboard::auth.權限'), 'class' => 'd-none d-xl-table-cell'],
         ];
-        $this->tpl_data['component_datas']['column'] = [
+        $component_datas['column'] = [
             ['type' => 'column', 'class' => '', 'column_name' => 'username'],
             ['type' => 'column', 'class' => 'd-none d-md-table-cell', 'column_name' => 'email'],
             ['type' => 'belongsToMany', 'class' => 'd-none d-xl-table-cell', 'with' => 'roles', 'column_name' => 'role_name'],
         ];
 
-        // 是否使用複製功能
-        $this->tpl_data['component_datas']['use_duplicate'] = false;
-
-        // 是否使用版本功能
-        $this->tpl_data['component_datas']['use_version'] = false;
-
-        // 是否使用排序功能
-        $this->tpl_data['component_datas']['use_sort'] = false;
-
         // 權限設定
-        $this->tpl_data['component_datas']['footer_delete_hide'] = false;
-        if (auth()->user()->hasAccess(['create-' . $this->permission_controller_string])) {
-            $this->tpl_data['component_datas']['add_url'] = url($this->uri . 'update');
+        if (auth()->user()->hasAccess(['create-' . $permission_controller_string])) {
+            $component_datas['add_url'] = url($this->uri . 'update');
         }
-        if (auth()->user()->hasAccess(['update-' . $this->permission_controller_string])) {
-            $this->tpl_data['component_datas']['footer_dropdown_hide'] = false;
-            $this->tpl_data['component_datas']['footer_sort_hide'] = false;
-            if (!auth()->user()->hasAccess(['delete-' . $this->permission_controller_string])) {
-                $this->tpl_data['component_datas']['footer_delete_hide'] = true;
+        if (auth()->user()->hasAccess(['update-' . $permission_controller_string])) {
+            if (!auth()->user()->hasAccess(['delete-' . $permission_controller_string])) {
+                $component_datas['footer_delete_hide'] = true;
             }
         } else {
-            $this->tpl_data['component_datas']['footer_dropdown_hide'] = true;
-            $this->tpl_data['component_datas']['footer_sort_hide'] = true;
+            $component_datas['footer_dropdown_hide'] = true;
+            $component_datas['footer_sort_hide'] = true;
         }
-        if (auth()->user()->hasAccess(['create-' . $this->permission_controller_string])) {
-            $this->tpl_data['component_datas']['dropdown_items']['items']['匯入'] = ['url' => url($this->uri . 'import')];
-        }
-        if (auth()->user()->hasAccess(['update-' . $this->permission_controller_string])) {
-            $this->tpl_data['component_datas']['dropdown_items']['items']['舊版本'] = ['url' => url($this->uri . 'index?version=true')];
-        }
-        if (auth()->user()->hasAccess(['delete-' . $this->permission_controller_string])) {
-            $this->tpl_data['component_datas']['dropdown_items']['items']['資源回收'] = ['url' => url($this->uri . 'index?trashed=true')];
-        }
+        // if (auth()->user()->hasAccess(['update-' . $this->permission_controller_string])) {
+        //     $component_datas['dropdown_items']['items']['舊版本'] = ['url' => url($this->uri . 'index?version=true')];
+        // }
+        // if (auth()->user()->hasAccess(['delete-' . $this->permission_controller_string])) {
+        //     $component_datas['dropdown_items']['items']['資源回收'] = ['url' => url($this->uri . 'index?trashed=true')];
+        // }
 
         // 列表資料查詢
-        $this->tpl_data['component_datas']['list'] = $this->user_repository->getList($this->user_id, config('backend.paginate'));
-        $this->tpl_data['component_datas']['qs'] = $this->base_service->getQueryString();
-
-        // 預覽按鈕網址
-        // $this->tpl_data['component_datas']['preview_url'] = ['url' => url(config('backend.book.preview_url')) . '/', 'column' => 'book_name_slug'];
+        $component_datas['list'] = $this->user_repository->getList($this->user_id, config('backend.paginate'));
+        $this->tpl_data['component_datas'] = $component_datas;
         return view($this->view_path . 'index', $this->tpl_data);
     }
 
