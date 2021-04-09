@@ -32,7 +32,7 @@
                 @if (isset($add_url) || isset($dropdown_items) || isset($button_block))
                     @component('dashboard::components.top-btn-group', $dropdown_items)
                         {!! $button_block ?? '' !!}
-                        @if (isset($add_url))
+                        @if (isset($add_url) && !empty($add_url))
                             <a class="btn btn-outline-deep-purple waves-effect d-xs-block" href="{{ $add_url }}">
                                 {!! $add_btn_string ?? '<i class="fa fa-plus"></i>' . __('dashboard::backend.新增') !!}
                             </a>

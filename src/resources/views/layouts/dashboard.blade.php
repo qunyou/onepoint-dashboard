@@ -29,6 +29,10 @@
             font-size: 2rem;
             line-height: 1rem;
         }
+        .btn-outline-deep-purple.active {
+            background-color: #7752b3;
+            color: #fff;
+        }
     </style>
 </head>
 
