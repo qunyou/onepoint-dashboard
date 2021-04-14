@@ -155,7 +155,8 @@
                                                                         $value_string = $value_string[$column_name_array[$i]];
                                                                     }
                                                                 } else {
-                                                                    $value_string = $element->{$value['with'][$column_name_key]}->{$column_name_item} ?? '';
+                                                                    // $value_string = $element->{$value['with'][$column_name_key]}->{$column_name_item} ?? '';
+                                                                    $value_string = $element->{$value['with']}->{$column_name_item} ?? '';
                                                                 }
                                                             @endphp
                                                             {{ $value_string }}{!! $value['delimiter_string'] !!}
