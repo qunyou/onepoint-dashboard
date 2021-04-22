@@ -2,6 +2,7 @@
 
 namespace Onepoint\Dashboard\Repositories;
 
+use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Log;
@@ -460,6 +461,9 @@ class BaseRepository
      */
     public function fetchList($query, $id, $paginate, $order_by = 'sort', $power = 'asc')
     {
+        if ($this->debug) {
+            DB::enableQueryLog();
+        }
         if ($this->trashed) {
             $query = $query->onlyTrashed();
         }
@@ -492,6 +496,9 @@ class BaseRepository
             $query = $query->paginate(cache('records_per_page', $paginate));
         } else {
             $query = $query->get();
+        }
+        if ($this->debug) {
+            dd(DB::getQueryLog());
         }
         if ($query->count()) {
             return $query;
