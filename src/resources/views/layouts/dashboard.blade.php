@@ -191,6 +191,9 @@ const app = new Vue({
         @yield('vuejs_data')
         result: false
     },
+    mounted: function () {
+        @yield('vuejs_mounted')
+    },
     components: {
         @yield('vuejs_components')
     },
