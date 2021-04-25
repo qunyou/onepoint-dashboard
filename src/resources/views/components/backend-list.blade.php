@@ -58,6 +58,9 @@
                         <tr>
                             @if (auth()->user()->hasAccess(['update-' . $permission_controller_string]))
                                 @if (!$version)
+                                    @if (isset($use_drag_rearrange) && $use_drag_rearrange)
+                                        <th class="check_all_width d-none d-md-table-cell">@lang('dashboard::backend.排序')</th>
+                                    @endif
                                     <th class="check_all_width d-none d-md-table-cell">
                                         <input type="checkbox" name="select_all" id="select_all" value="" data-toggle="tooltip" data-original-title="@lang('dashboard::backend.全選')" />
                                     </th>
@@ -103,7 +106,12 @@
                             <tr id="{{ $element->id }}" class="{{ $css_class_name }}">
                                 @if (auth()->user()->hasAccess(['update-' . $permission_controller_string]))
                                     @if (!$version)
-                                        <td class="{{ $use_drag_rearrange ?? true ? 'drag' : '' }} d-none d-md-table-cell">
+                                        @if (isset($use_drag_rearrange) && $use_drag_rearrange)
+                                            <td class="drag d-none d-md-table-cell">
+                                                <i class="fas fa-arrows-alt-v move"></i>
+                                            </td>
+                                        @endif
+                                        <td class="d-none d-md-table-cell">
                                             <input type="checkbox" name="checked_id[]" class="checkbox" value="{{ $element->id }}" />
                                         </td>
                                     @endif
@@ -141,7 +149,6 @@
                                                 @case('belongsTo')
                                                     @if (is_array($value['column_name']))
                                                         @foreach ($value['column_name'] as $column_name_key => $column_name_item)
-                                                            {{-- 好像怪怪的，先修改一下 {{ $element->{$value['with'][$column_name_key]}->{$column_name_item} }}{!! $value['delimiter_string'] !!} --}}
                                                             @php
                                                                 $column_name_array = explode('->', $column_name_item);
                                                                 $column_name_array_count = count($column_name_array);
@@ -155,8 +162,11 @@
                                                                         $value_string = $value_string[$column_name_array[$i]];
                                                                     }
                                                                 } else {
-                                                                    // $value_string = $element->{$value['with'][$column_name_key]}->{$column_name_item} ?? '';
-                                                                    $value_string = $element->{$value['with']}->{$column_name_item} ?? '';
+                                                                    if (is_array($value['with'])) {
+                                                                        $value_string = $element->{$value['with'][$column_name_key]}->{$column_name_item} ?? '';
+                                                                    } else {
+                                                                        $value_string = $element->{$value['with']}->{$column_name_item} ?? '';
+                                                                    }
                                                                 }
                                                             @endphp
                                                             {{ $value_string }}{!! $value['delimiter_string'] !!}

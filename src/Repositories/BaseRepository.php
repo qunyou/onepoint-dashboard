@@ -810,4 +810,35 @@ class BaseRepository
             }
         }
     }
+
+    /**
+     * 拖曳排序
+     */
+    public function dragRearrange($where_str = 'ORDER BY sort ASC')
+    {
+        // 先重新整理排序
+        DB::select('SET @sort := 0');
+        DB::select('UPDATE ' . $this->model->getTable() . ' SET sort = ( SELECT @sort := @sort + 1 ) ' . $where_str);
+
+        // 新排序資料
+        $new_sort = request('new_sort', false);
+        $sort_arr = explode(',', $new_sort);
+
+        // 以新排序資料查詢，查出最小排序值
+        $q = $this->model->select(['id', 'sort'])->whereIn('id', $sort_arr)->get();
+        $min_sort = $q->min('sort');
+
+        // 迴圈更新排序
+        foreach ($sort_arr as $value) {
+            $this->model->find($value)->update(['sort' => $min_sort]);
+            $min_sort++;
+        }
+        return response()->json([
+            'result' => true,
+            // 'getTable' => $this->model->getTable(),
+            // 'sort_arr' => $sort_arr,
+            // 'max_sort' => $min_sort,
+            // 'min_sort' => $q->min('sort'),
+        ]);
+    }
 }

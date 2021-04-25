@@ -82,6 +82,9 @@ trait ShareMethod
         // 是否使用上下排序功能
         $component_datas['use_rearrange'] = false;
 
+        // 是否使用拖曳排序
+        $component_datas['use_drag_rearrange'] = false;
+
         // 隱藏檢視按鈕
         $component_datas['detail_hide'] = true;
 
