@@ -153,7 +153,7 @@
 <script src="{{ $path_presenter::backend_assets('js/uikit.min.js') }}" type="text/javascript"></script>
 <script src="{{ $path_presenter::backend_assets('js/uikit-icons.min.js') }}" type="text/javascript"></script>
 <script src="{{ $path_presenter::backend_assets('js/dashboard.js?v=1.0.0') }}" type="text/javascript"></script>
-@if ($component_datas['use_drag_rearrange'])
+@if (isset($component_datas['use_drag_rearrange']) && $component_datas['use_drag_rearrange'])
 <script src="https://cdnjs.cloudflare.com/ajax/libs/TableDnD/0.9.1/jquery.tablednd.js" integrity="sha256-d3rtug+Hg1GZPB7Y/yTcRixO/wlI78+2m08tosoRn7A=" crossorigin="anonymous"></script>
 @endif
 <script src="{{ $path_presenter::backend_assets('js/vue.min.js?v=2.6.10') }}" type="text/javascript"></script>
@@ -162,7 +162,7 @@
 @yield('js')
 <script>
 
-@if ($component_datas['use_drag_rearrange'])
+@if (isset($component_datas['use_drag_rearrange']) && $component_datas['use_drag_rearrange'])
 $(document).ready(function() {
     $("#row-table").tableDnD({
         dragHandle: ".drag",
