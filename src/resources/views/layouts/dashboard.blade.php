@@ -33,6 +33,7 @@
             background-color: #7752b3;
             color: #fff;
         }
+        .move {cursor: move;}
     </style>
 </head>
 
@@ -152,28 +153,36 @@
 <script src="{{ $path_presenter::backend_assets('js/uikit.min.js') }}" type="text/javascript"></script>
 <script src="{{ $path_presenter::backend_assets('js/uikit-icons.min.js') }}" type="text/javascript"></script>
 <script src="{{ $path_presenter::backend_assets('js/dashboard.js?v=1.0.0') }}" type="text/javascript"></script>
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/TableDnD/0.9.1/jquery.tablednd.js" integrity="sha256-d3rtug+Hg1GZPB7Y/yTcRixO/wlI78+2m08tosoRn7A=" crossorigin="anonymous"></script> -->
+@if (isset($component_datas['use_drag_rearrange']) && $component_datas['use_drag_rearrange'])
+<script src="https://cdnjs.cloudflare.com/ajax/libs/TableDnD/0.9.1/jquery.tablednd.js" integrity="sha256-d3rtug+Hg1GZPB7Y/yTcRixO/wlI78+2m08tosoRn7A=" crossorigin="anonymous"></script>
+@endif
 <script src="{{ $path_presenter::backend_assets('js/vue.min.js?v=2.6.10') }}" type="text/javascript"></script>
 <script src="{{ $path_presenter::backend_assets('js/moment.min.js') }}" type="text/javascript"></script>
 <script src="{{ $path_presenter::backend_assets('js/axios.min.js') }}" type="text/javascript"></script>
 @yield('js')
 <script>
 
-{{-- 拖曳排序
+@if (isset($component_datas['use_drag_rearrange']) && $component_datas['use_drag_rearrange'])
 $(document).ready(function() {
     $("#row-table").tableDnD({
         dragHandle: ".drag",
         onDrop: function(table, row) {
             var rows = table.tBodies[0].rows;
-            // var debugStr = "Row dropped was "+row.id+". New order: ";
-            // for (var i=0; i<rows.length; i++) {
-            //     debugStr += rows[i].id+" ";
-            // }
-            // $('#debugArea').html(debugStr);
+            var new_sort = [];
+            for (var i=0; i<rows.length; i++) {
+                new_sort[i] = rows[i].id;
+            }
+            axios.get('{{ url($uri . 'drag-sort') }}?new_sort=' + new_sort.toString())
+            .then(function (response) {
+                console.log(response.data);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
         },
     });
 });
---}}
+@endif
 
 @if (session('notify.message', false))
     $(function(){
