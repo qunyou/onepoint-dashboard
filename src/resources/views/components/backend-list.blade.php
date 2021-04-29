@@ -166,12 +166,7 @@
                                                             $column_name_array = explode('->', $value['column_name']);
                                                             $column_name_array_count = count($column_name_array);
                                                             if ($column_name_array_count > 1) {
-                                                                $value_string = $element[$value['with']];
-                                                                for ($i=0; $i < $column_name_array_count; $i++) { 
-                                                                    $value_string = $value_string[$column_name_array[$i]];
-                                                                }
                                                             } else {
-                                                                $value_string = $element->{$value['with']}->{$value['column_name']} ?? '';
                                                             }
                                                         @endphp
                                                         {{ $value_string ?? '' }}
