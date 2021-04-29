@@ -817,8 +817,13 @@ class BaseRepository
     public function dragRearrange($where_str = 'ORDER BY sort ASC')
     {
         // 先重新整理排序
-        DB::select('SET @sort := 0');
-        DB::select('UPDATE ' . $this->model->getTable() . ' SET sort = ( SELECT @sort := @sort + 1 ) ' . $where_str);
+        // DB::select('SET @sort := 0');
+        // DB::select(DB::raw('SET @sort := 0'));
+        // DB::execute('SET @sort := 0');
+        DB::statement('SET @sort := 0');
+        // DB::selectRaw(DB::raw('SET @sort := 0'));
+        // DB::select('UPDATE ' . $this->model->getTable() . ' SET sort = ( SELECT @sort := @sort + 1 ) ' . $where_str);
+        DB::update('UPDATE ' . $this->model->getTable() . ' SET sort = ( SELECT @sort := @sort + 1 ) ' . $where_str);
 
         // 新排序資料
         $new_sort = request('new_sort', false);
