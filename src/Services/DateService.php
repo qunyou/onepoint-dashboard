@@ -240,4 +240,36 @@ class DateService
         }
         return false;
     }
+
+    /**
+     * 判斷目前日期是否在兩個日期之間
+     *
+     * $start_date      Y-m-d
+     * $end_date        Y-m-d
+     * $current_date    Y-m-d
+     *
+     */
+    static function betweenTwoTimes($start_date, $end_date, $current_date = false)
+    {
+        $between_check = false;
+        if (!$current_date) {
+            $current_date = time();
+        } else {
+            $current_date = strtotime($current_date);
+        }
+        if (!empty($start_date)) {
+            $start_date = strtotime($start_date . '00:00:01');
+            if (!empty($end_date)) {
+                $end_date = strtotime($end_date . '23:59:59');
+                if ($current_date > $start_date && $current_date < $end_date) {
+                    $between_check = true;
+                }
+            } else {
+                if ($current_date > $start_date) {
+                    $between_check = true;
+                }
+            }
+        }
+        return $between_check;
+    }
 }

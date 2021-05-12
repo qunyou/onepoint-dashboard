@@ -245,7 +245,9 @@
                                                     @break
                                                 @case('date')
                                                     @if (isset($value['format']))
-                                                        {{ date($value['format'], strtotime($element->{$value['column_name']}))}}
+                                                        @if (!is_null($element->{$value['column_name']}))
+                                                            {{ date($value['format'], strtotime($element->{$value['column_name']}))}}
+                                                        @endif
                                                     @else
                                                         {{ $element->{$value['column_name']} }}
                                                     @endif
