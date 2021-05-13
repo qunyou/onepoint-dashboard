@@ -142,7 +142,7 @@
                                                             @if (isset($value['img_url']))
                                                                 <img src="{{ $value['img_url'] . $element->{$value['with']}->first()->{$value['column_name']} }}" alt="">
                                                             @else
-                                                                {!! $image_service->{$value['method']}($element->{$value['with']}->first()->{$value['column_name']}, '', '', $value['folder_name']) !!}
+                                                                {!! $image_service->{$value['method']}($element->{$value['with']}->first()->{$value['column_name']}, '', false, $value['folder_name']) !!}
                                                             @endif
                                                     @endif
                                                     @break

@@ -95,7 +95,7 @@ class ImageService
             }
         }
         if ($default_str === false) {
-            return '';
+            return $file_name;
         }
         if (!empty($default_str)) {
             return $default_str;
