@@ -34,24 +34,24 @@ Route::prefix(config('dashboard.uri'))->namespace('Onepoint\Dashboard\Controller
         });
 
         // 人員管理
-        Route::prefix('user')->group(function () {
-            Route::get('index', 'UserController@index');
-            Route::put('index', 'UserController@putIndex');
-            Route::get('update', 'UserController@update');
-            Route::put('update', 'UserController@putUpdate');
-            Route::get('duplicate', 'UserController@duplicate');
-            Route::put('duplicate', 'UserController@putDuplicate');
-            Route::get('detail', 'UserController@detail');
-            Route::get('delete', 'UserController@delete');
+        // Route::prefix('user')->group(function () {
+            // Route::get('index', 'UserController@index');
+            // Route::put('index', 'UserController@putIndex');
+            // Route::get('update', 'UserController@update');
+            // Route::put('update', 'UserController@putUpdate');
+            // Route::get('duplicate', 'UserController@duplicate');
+            // Route::put('duplicate', 'UserController@putDuplicate');
+            // Route::get('detail', 'UserController@detail');
+            // Route::get('delete', 'UserController@delete');
 
             // 個人資料維護
-            Route::get('profile', 'UserController@profile');
-            Route::put('profile', 'UserController@putProfile');
+            // Route::get('profile', 'UserController@profile');
+            // Route::put('profile', 'UserController@putProfile');
 
             // 匯入
             // Route::get('import', 'UserController@import');
             // Route::put('import', 'UserController@putImport');
-        });
+        // });
 
         // 人員群組
         Route::prefix('role')->group(function () {

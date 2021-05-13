@@ -14,17 +14,17 @@
             </li>
             <li class="breadcrumb-item" aria-current="page">
                 <a href="{{ url($uri . 'index') }}">
-                    @lang('auth.人員群組')
+                    @lang('dashboard::auth.人員群組')
                 </a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
                 @if ($role_id)
                     <a href="{{ url($uri . 'update?role_id=' . $role_id) }}">
-                        @lang('auth.編輯人員群組')
+                        @lang('dashboard::auth.編輯人員群組')
                     </a>
                 @else
                     <a href="{{ url($uri . 'update') }}">
-                        @lang('auth.新增人員群組')
+                        @lang('dashboard::auth.新增人員群組')
                     </a>
                 @endif
             </li>
@@ -62,14 +62,14 @@
     @component('dashboard::components.backend-update-card', $component_datas)
         <div class="form-body">
             @include('dashboard::text', ['input_setting' => [
-                'display_name' => __('auth.群組名稱'),
+                'display_name' => __('dashboard::auth.群組名稱'),
                 'input_name' => 'role_name',
                 'input_value' => old('role_name', optional($role)->role_name),
             ]])
             
             <div class="alert alert-dark pl-5">
                 <input type="checkbox" name="select_all" class="form-check-input" id="select_all" value="">
-                <label class="form-check-label" for="select_all">{{ trans('backend.全選') }}</label>
+                <label class="form-check-label" for="select_all">{{ trans('dashboard::backend.全選') }}</label>
             </div>
             <ul class="list-group">
                 @foreach ($permissions as $permissions_key => $permissions_arr)

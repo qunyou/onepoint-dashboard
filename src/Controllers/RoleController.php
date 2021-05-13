@@ -81,6 +81,7 @@ class RoleController extends Controller
 
         // 列表資料查詢
         $component_datas['list'] = $this->role_repository->getList($this->role_id, config('backend.paginate'));
+        $component_datas['use_sort'] = false;
         $this->tpl_data['component_datas'] = $component_datas;
         return view($this->view_path . 'index', $this->tpl_data);
     }
@@ -109,13 +110,13 @@ class RoleController extends Controller
         // 權限陣列
         $this->tpl_data['role_permissions_array'] = [];
         if ($this->role_id) {
-            $page_title = __('auth.編輯人員群組');
+            $page_title = __('dashboard::auth.編輯人員群組');
             $role = $this->role_repository->getOne($this->role_id);
             $this->tpl_data['role'] = $role;
             $this->tpl_data['role_permissions_array'] = $role->permissions;
         } else {
             $this->tpl_data['role'] = false;
-            $page_title = __('auth.新增人員群組');
+            $page_title = __('dashboard::auth.新增人員群組');
         }
 
         // 樣版資料
@@ -132,10 +133,16 @@ class RoleController extends Controller
     {
         $role_id = $this->role_repository->setUpdate($this->role_id);
         if ($role_id) {
-            return redirect($this->uri . 'index?role_id=' . $role_id);
+            session()->flash('notify.message', '資料編輯完成');
+            session()->flash('notify.type', 'success');
+            return redirect($this->uri . 'update?' . $this->base_service->getQueryString(true, true));
+            // return redirect($this->uri . 'index?role_id=' . $role_id);
         } else {
-            $this->base_service->rememberInputs();
-            return redirect($this->uri . 'update?role_id=' . $this->role_id);
+            session()->flash('notify.message', '資料編輯失敗');
+            session()->flash('notify.type', 'danger');
+            // $this->base_service->rememberInputs();
+            // return redirect($this->uri . 'update?role_id=' . $this->role_id);
+            return redirect($this->uri . 'update?' . $this->base_service->getQueryString(true, true))->withInput();
         }
     }
 
@@ -173,7 +180,7 @@ class RoleController extends Controller
             $this->tpl_data['form_array'] = [
                 'role_name' => [
                     'input_type' => 'value',
-                    'display_name' => __('auth.群組名稱'),
+                    'display_name' => __('dashboard::auth.群組名稱'),
                 ],
                 'sort' => [
                     'input_type' => 'value',
@@ -190,7 +197,7 @@ class RoleController extends Controller
             ];
 
             // 樣版資料
-            $component_datas['page_title'] = __('auth.檢視人員群組');
+            $component_datas['page_title'] = __('dashboard::auth.檢視人員群組');
             if ($this->tpl_data['version']) {
                 $component_datas['page_title'] .= ' -' . __('dashboard::backend.版本檢視');
             }
