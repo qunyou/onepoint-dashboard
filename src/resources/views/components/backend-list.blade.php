@@ -93,12 +93,18 @@
                                 $css_class_name = '';
                                 if (isset($td_color)) {
                                     if ($td_color) {
-                                        foreach ($td_color as $condition) {
-                                            if ($element->{$condition['column']} == $condition['value']) {
-                                                $css_class_name = $condition['class'];
-                                            } else {
-                                                $css_class_name = $condition['else'];
+                                        if (is_array($td_color)) {
+                                            foreach ($td_color as $condition) {
+                                                if ($element->{$condition['column']} == $condition['value']) {
+                                                    $css_class_name = $condition['class'];
+                                                } else {
+                                                    $css_class_name = $condition['else'];
+                                                }
                                             }
+                                        } else {
+                                            $function_name = explode('@', $td_color);
+                                            $class_name = $function_name[0];
+                                            $css_class_name = $class_name::{$function_name[1]}($element);
                                         }
                                     }
                                 } else {
