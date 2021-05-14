@@ -92,11 +92,13 @@
                             @php
                                 $css_class_name = '';
                                 if (isset($td_color)) {
-                                    foreach ($td_color as $condition) {
-                                        if ($element->{$condition['column']} == $condition['value']) {
-                                            $css_class_name = $condition['class'];
-                                        } else {
-                                            $css_class_name = $condition['else'];
+                                    if ($td_color) {
+                                        foreach ($td_color as $condition) {
+                                            if ($element->{$condition['column']} == $condition['value']) {
+                                                $css_class_name = $condition['class'];
+                                            } else {
+                                                $css_class_name = $condition['else'];
+                                            }
                                         }
                                     }
                                 } else {
