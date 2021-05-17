@@ -16,11 +16,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $http_host = 'default';
+        // $this->app->bind('path.public', function() {
+        //     return $_SERVER['DOCUMENT_ROOT'];
+        // });
 
-        // url() 產生的網址
-        // 單元測試時要用這個設定
-        $app_url = 'http://backend.3dmats.test';
+        $http_host = 'default';
 
         // 資料庫設定
         $mysql_host = 'localhost';
@@ -28,18 +28,12 @@ class AppServiceProvider extends ServiceProvider
         $mysql_username = 'homestead';
         $mysql_password = 'secret';
         if (isset($_SERVER['HTTP_HOST'])) {
-            if (request()->isSecure()) {
-                $ssl_protocol = 'https://';
-            } else {
-                $ssl_protocol = 'http://';
-            }
-            $app_url = $ssl_protocol . $_SERVER['HTTP_HOST'];
             switch ($_SERVER['HTTP_HOST']) {
                 case 'default.test':
                 case 'backend.3dmats.test':
                     $http_host = 'default';
                     $mysql_host = 'localhost';
-                    $mysql_database = 'admin_3dmats';
+                    $mysql_database = 'admin_db';
                     $mysql_username = 'homestead';
                     $mysql_password = 'secret';
                     break;
@@ -77,7 +71,6 @@ class AppServiceProvider extends ServiceProvider
         
             'app.debug' => true,
             'app.name' => '後台管理系統',
-            'app.url' => $app_url,
             'http_host' => $http_host,
             'today' => date('Y-m-d'),
         
@@ -91,18 +84,15 @@ class AppServiceProvider extends ServiceProvider
             ],
         
             // 啟用欄位名稱值設定
-            // 'db_status_name' => 'status',
-            // 'db_status_true_string' => '啟用',
-            // 'db_status_false_string' => '停用',
-            'db_status_name' => 'enable',
-            'db_status_true_string' => 1,
-            'db_status_false_string' => 0,
+            'db_status_name' => 'status',
+            'db_status_true_string' => '啟用',
+            'db_status_false_string' => '停用',
         
             // 前台
             'frontend' => [
         
                 // 前台網址
-                'url' => $app_url,
+                'url' => APP_URL,
         
                 // 上傳資料夾
                 'upload_path' => 'uploads/' . $http_host,
@@ -124,6 +114,47 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Paginator::useBootstrap();
+        // \URL::forceScheme('https');
+
+        $db_name = 'default';
+        $request_db_name = request('db_name', false);
+        if ($request_db_name) {
+            Cache::forever('db_name', $request_db_name);
+            $db_name = $request_db_name;
+        } else {
+            if (Cache::has('db_name')) {
+                $db_name = Cache::get('db_name');
+            }
+        }
+
+        if ($db_name != 'default') {
+            switch ($db_name) {
+                case 'local':
+                    $mysql_host = 'localhost';
+                    $mysql_database = 'admin_db';
+                    $mysql_username = 'admin_db';
+                    $mysql_password = '';
+                    break;
+                
+                // 測試機
+                case 'dev':
+                    $mysql_host = 'localhost';
+                    $mysql_database = 'admin_db';
+                    $mysql_username = 'admin_db';
+                    $mysql_password = '';
+                    break;
+            }
+            config([
+                // 'http_host' => $http_host,
+                // 'suffix_url' => $suffix_url,
+
+                // 資料庫
+                'database.connections.mysql.host' => $mysql_host,
+                'database.connections.mysql.database' => $mysql_database,
+                'database.connections.mysql.username' => $mysql_username,
+                'database.connections.mysql.password' => $mysql_password,
+            ]);
+        }
         
         // 後台設定值
         if (request()->segment(0) == config('backend.dashboard.uri')) {
@@ -162,21 +193,34 @@ class AppServiceProvider extends ServiceProvider
                     ],
                     'navigation_item' => [
                         ['title' => '訂單', 'translation' => 'base::order-form.', 'icon' => 'far fa-credit-card', 'action' => '\Onepoint\Base\Controllers\OrderController@index'],
-                        ['title' => '保固登錄', 'translation' => 'base::warranty.', 'icon' => 'fas fa-users', 'action' => '\Onepoint\Base\Controllers\WarrantyController@index'],
                         ['title' => '會員', 'translation' => 'base::user.', 'icon' => 'fas fa-user', 'action' => '\Onepoint\Base\Controllers\UserController@index'],
-                        ['title' => '通用型產品', 'translation' => 'base::product-general.', 'icon' => 'fas fa-gift', 'sub' => [
-                            ['title' => '通用型產品', 'translation' => 'base::product-general.', 'action' => '\Onepoint\Base\Controllers\ProductGeneralController@index'],
-                            ['title' => '通用型產品分類', 'translation' => 'base::product-general.', 'action' => '\Onepoint\Base\Controllers\ProductGeneralCategoryController@index', 'includes' => [
-                                '\Onepoint\Base\Controllers\ProductGeneralSubCategoryController@index',
-                                '\Onepoint\Base\Controllers\ProductGeneralSubCategoryController@update',
-                                '\Onepoint\Base\Controllers\ProductGeneralSubCategoryController@detail',
-                            ]],
-                        ]],
                         ['title' => '活動', 'translation' => 'base::activity.', 'icon' => 'fas fa-calendar-alt', 'action' => '\Onepoint\Base\Controllers\ActivityController@index'],
-                        // ['title' => '權限管理', 'translation' => 'dashboard::auth.', 'icon' => 'fas fa-user-lock', 'sub' => [
-                        //     ['title' => '人員管理', 'translation' => 'dashboard::auth.', 'action' => '\Onepoint\Dashboard\Controllers\UserController@index'],
-                        //     ['title' => '人員群組', 'translation' => 'dashboard::auth.', 'action' => '\Onepoint\Dashboard\Controllers\RoleController@index'],
-                        // ]],
+                        ['title' => '折扣碼', 'translation' => 'base::coupon.', 'icon' => 'fas fa-percentage', 'action' => '\Onepoint\Base\Controllers\CouponCategoryController@index', 'includes' => [
+                            '\Onepoint\Base\Controllers\CouponController@index',
+                            '\Onepoint\Base\Controllers\CouponController@update',
+                            '\Onepoint\Base\Controllers\CouponController@detail',
+                        ]],
+                        ['title' => '聯絡表單', 'translation' => 'base::contact.', 'icon' => 'far fa-comment-dots', 'action' => '\Onepoint\Base\Controllers\ContactController@index'],
+                        ['title' => '文章', 'translation' => 'base::article.', 'icon' => 'far fa-file-alt', 'action' => '\Onepoint\Base\Controllers\ArticleController@index', 'includes' => [
+                            '\Onepoint\Base\Controllers\ArticleCategoryController@index',
+                            '\Onepoint\Base\Controllers\ArticleCategoryController@update',
+                            '\Onepoint\Base\Controllers\ArticleCategoryController@detail',
+                        ]],
+                        ['title' => '輪播圖', 'translation' => 'base::slider.', 'icon' => 'fas fa-photo-video', 'action' => '\Onepoint\Base\Controllers\SliderController@index'],
+                        ['title' => '部落格', 'translation' => 'base::blog.', 'icon' => 'fas fa-blog', 'action' => '\Onepoint\Base\Controllers\BlogController@index', 'includes' => [
+                            '\Onepoint\Base\Controllers\BlogCategoryController@index',
+                            '\Onepoint\Base\Controllers\BlogCategoryController@update',
+                            '\Onepoint\Base\Controllers\BlogCategoryController@detail',
+                        ]],
+                        ['title' => '行政地區', 'translation' => 'base::order-form.', 'icon' => 'fas fa-map-marker-alt', 'action' => '\Onepoint\Base\Controllers\DeliveryCountyController@index', 'includes' => [
+                            '\Onepoint\Base\Controllers\DeliveryDistrictController@index',
+                            '\Onepoint\Base\Controllers\DeliveryDistrictController@update',
+                            '\Onepoint\Base\Controllers\DeliveryDistrictController@detail',
+                        ]],
+                        ['title' => '權限管理', 'translation' => 'dashboard::auth.', 'icon' => 'fas fa-user-lock', 'sub' => [
+                            ['title' => '人員管理', 'translation' => 'dashboard::auth.', 'action' => '\Onepoint\Base\Controllers\UserController@index'],
+                            ['title' => '人員群組', 'translation' => 'dashboard::auth.', 'action' => '\Onepoint\Dashboard\Controllers\RoleController@index'],
+                        ]],
                         ['title' => '網站設定', 'translation' => 'dashboard::setting.', 'icon' => 'fas fa-cogs', 'action' => '\Onepoint\Dashboard\Controllers\SettingController@model', 'method' => 'model', 'includes' => [
                             '\Onepoint\Dashboard\Controllers\SettingController@index',
                             '\Onepoint\Dashboard\Controllers\SettingController@update',
@@ -186,6 +230,15 @@ class AppServiceProvider extends ServiceProvider
             
                     // 權限項目
                     'permissions' => [
+                        '訂單' => ['controller' => 'Onepoint\Base\Controllers\OrderFormController', 'permission' => ['read' => '檢視', 'update' => '修改', 'create' => '新增', 'delete' => '刪除']],
+                        '會員' => ['controller' => 'Onepoint\Base\Controllers\MemberController', 'permission' => ['read' => '檢視', 'update' => '修改', 'create' => '新增', 'delete' => '刪除']],
+                        '活動' => ['controller' => 'Onepoint\Base\Controllers\ActivityController', 'permission' => ['read' => '檢視', 'update' => '修改', 'create' => '新增', 'delete' => '刪除']],
+                        '折扣碼' => ['controller' => 'Onepoint\Base\Controllers\CouponCategoryController', 'permission' => ['read' => '檢視', 'update' => '修改', 'create' => 'update', 'delete' => 'update']],
+                        '聯絡表單' => ['controller' => 'Onepoint\Base\Controllers\ContactController', 'permission' => ['read' => '檢視', 'update' => '修改', 'create' => 'update', 'delete' => 'update']],
+                        '文章' => ['controller' => 'Onepoint\Base\Controllers\ArticleController', 'permission' => ['read' => '檢視', 'update' => '修改', 'create' => '新增', 'delete' => '刪除']],
+                        '輪播圖' => ['controller' => 'Onepoint\Base\Controllers\SliderController', 'permission' => ['read' => '檢視', 'update' => '修改', 'create' => '新增', 'delete' => '刪除']],
+                        '部落格' => ['controller' => 'Onepoint\Base\Controllers\BlogController', 'permission' => ['read' => '檢視', 'update' => '修改', 'create' => '新增', 'delete' => '刪除']],
+                        '行政地區' => ['controller' => 'Onepoint\Base\Controllers\DeliveryCountyController', 'permission' => ['read' => '檢視', 'update' => '修改', 'create' => 'update', 'delete' => 'update']],
                         '人員管理' => ['controller' => 'UserController', 'permission' => ['read' => '檢視', 'update' => '修改', 'create' => '新增', 'delete' => '刪除']],
                         '人員群組' => ['controller' => 'RoleController', 'permission' => ['read' => '檢視', 'update' => '修改', 'create' => '新增', 'delete' => '刪除']],
                         '網站設定' => ['controller' => 'SettingController', 'permission' => ['read' => '檢視', 'update' => '修改']],

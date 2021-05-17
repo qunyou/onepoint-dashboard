@@ -209,9 +209,21 @@ config/auth.php
 ### 修改設定
 config/app.php
 
+    在 return 之前加上
+    $app_url = 'https://localhost.test';
+    if (isset($_SERVER['HTTP_HOST'])) {
+        if (request()->isSecure()) {
+            $ssl_protocol = 'https://';
+        } else {
+            $ssl_protocol = 'http://';
+        }
+        $app_url = $ssl_protocol . $_SERVER['HTTP_HOST'];
+    }
+    define("APP_URL", $app_url);
+
     'url' => env('APP_URL', 'http://localhost'),
     修改為
-    'url' => config('app.url'),
+    'url' => APP_URL,
 
     'timezone' => 'UTC',
     修改為
