@@ -70,6 +70,8 @@ return array(
     '功能' => 'Features',
     '新增' => 'Add',
     '關閉' => 'shut down',
+    '重設查詢' => 'Reset inquiry',
+    '查詢' => 'Inquire',
     '搜尋' => 'search',
     '多檔上傳' => 'Multi-file upload',
     '列表摘要' => 'List summary',
