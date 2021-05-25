@@ -239,7 +239,11 @@
                                                     <a href="{{ $url_string }}" target="_blank">{{ $url_string }}</a>
                                                     @break
                                                 @case('boolean')
-                                                    {{ $element->{$value['column_name']} == 1 ? '是' : '否' }}
+                                                    @if (isset($value['option']))
+                                                        {{ $element->{$value['column_name']} == 1 ? $value['option'][0] : $value['option'][1] }}
+                                                    @else
+                                                        {{ $element->{$value['column_name']} == 1 ? '是' : '否' }}
+                                                    @endif
                                                     @break
                                                 @case('serialNumber')
                                                     {{ $list_key + 1 + (request('page', 1) - 1) * config('backend.paginate') }}
@@ -312,7 +316,18 @@
                                                         if (is_array($with)) {
                                                             $button_items['items']['關聯'] = [];
                                                             foreach ($with as $with_key => $with_value) {
-                                                                $button_items['items']['關聯'][] = ['url' => url($with_value['url'] . $element->id), 'with_count' => $element->{$with_value['with_count_string']}, 'name' => $with_value['with_name'], 'icon' => $with_value['icon']];
+                                                                $with_url = '';
+                                                                $qs = '';
+                                                                if (isset($with_value['url'])) {
+                                                                    $with_value['query_string_suffix'][$id_string] = $element->id;
+                                                                    $page = request('page', 0);
+                                                                    if (isset($with_value['back_page_string']) && $page > 0) {
+                                                                        $with_value['query_string_suffix'][$with_value['back_page_string']] = $page;
+                                                                    }
+                                                                    $qs = '&' . http_build_query($with_value['query_string_suffix']);
+                                                                    $with_url = url($with_value['url'] . '?' . $base_service->getQueryString(true, true, [$id_string, 'page']) . $qs);
+                                                                }
+                                                                $button_items['items']['關聯'][] = ['url' => $with_url, 'with_count' => $element->{$with_value['with_count_string']}, 'name' => $with_value['with_name'], 'icon' => $with_value['icon']];
                                                             }
                                                         } else {
                                                             $button_items['items']['關聯'] = ['url' => url($preview_url . $element->id), 'with_count' => $element->$with_count_string, 'name' => $with_name, 'icon' => $icon];

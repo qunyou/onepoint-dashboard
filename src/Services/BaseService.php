@@ -12,7 +12,7 @@ class BaseService
     /**
      * 取得不含頁數的 QueryString 陣列
      */
-    public static function getQueryString($include_page = false, $toString = false, $exclude = [])
+    public static function getQueryString($include_page = false, $toString = false, $exclude = [], $page_revert = '')
     {
         $qs = $_GET;
         if (!$include_page) {
@@ -22,6 +22,10 @@ class BaseService
             foreach ($exclude as $item) {
                 unset($qs[$item]);
             }
+        }
+        if (!empty($page_revert)) {
+            $qs['page'] = request('branch_page', 1);
+            unset($qs[$page_revert]);
         }
         if ($toString) {
             return http_build_query($qs);
