@@ -22,7 +22,9 @@ trait ShareMethod
         if (request('lang', false)) {
             cache()->forever('backend_language', request('lang'));
         }
-        \App::setLocale(cache('backend_language', 'zh-tw'));
+        if (array_key_exists(cache('backend_language', 'zh-tw'), config('backend.language', ['zh-tw' => '繁體中文']))) {
+            \App::setLocale(cache('backend_language'));
+        }
         
         // 判斷是否使用分站網址
         $this->backend_url_suffix = '';
