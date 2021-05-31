@@ -41,10 +41,10 @@
             templates: "{{ url(config('site.backend_uri') . '/' . config('site.editor_template_method')) }}",
         @endif
         plugins: [
-             "advlist autolink link image imagetools lists charmap print preview hr anchor pagebreak",
-             "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
-             "save table colorpicker contextmenu directionality emoticons paste textcolor moxiemanager {{ config('site.editor_template_method', false) ? 'template' : '' }}"
-       ],
-       toolbar: "undo redo rotateleft | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | forecolor backcolor | fontselect fontsizeselect | link table insertfile image media template | print preview fullpage emoticons"
+            "advlist autolink link image imagetools lists charmap print preview hr anchor pagebreak",
+            "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+            "save table colorpicker contextmenu directionality emoticons paste textcolor moxiemanager {{ config('site.editor_template_method', false) ? 'template' : '' }}"
+        ],
+        toolbar: "undo redo rotateleft | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | forecolor backcolor | fontselect fontsizeselect | link table insertfile image media template | print preview fullpage emoticons"
     });
 </script>

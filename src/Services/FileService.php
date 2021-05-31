@@ -24,6 +24,48 @@ class FileService
         }
         return false;
     }
+    
+    /**
+     * 取得檔案路徑
+     *
+     * $folder_name     String       資料夾名稱[/檔名]
+     *
+     * @return String
+     */
+    public static function getPath($folder_name)
+    {
+        return Storage::disk('public')->path(config('frontend.upload_path') . '/' . $folder_name);
+    }
+
+    /**
+     * 檔案是否存在
+     *
+     * $path_string     String       檔案[資料夾]路徑
+     *
+     * @return Boolean
+     */
+    public static function exists($path_string)
+    {
+        return Storage::disk('public')->exists(config('frontend.upload_path') . '/' . $path_string);
+        // if (FileService::exists(FileService::getPath($file_name))) {
+    }
+
+    /**
+     * 檔案是否存在
+     *
+     * @return Boolean
+     */
+    // public static function exists($file_name, $path = '')
+    // {
+    //     if (!empty($path)) {
+    //         $path = $path . '/';
+    //     }
+    //     $file_path = config('frontend.upload_path') . '/' . $path . $file_name;
+    //     if (Storage::disk('public')->exists($file_path)) {
+    //         return true;
+    //     }
+    //     return false;
+    // }
 
     /**
      * 判斷是否為圖檔
@@ -159,15 +201,19 @@ class FileService
      *
      * @return Array or false
      */
-    public static function delete($file_name)
+    public static function delete($file_name, $exists_check = true)
     {
-        if (!empty($file_name)) {
-            if (Storage::disk('public')->exists(config('frontend.upload_path') . '/' . $file_name)) {
-                $path = config('frontend.upload_path') . '/' . $file_name;
-
-                // 執行刪除
-                Storage::disk('public')->delete($path);
+        $path = config('frontend.upload_path') . '/' . $file_name;
+        if ($exists_check) {
+            if (!empty($file_name)) {
+                if (FileService::exists($file_name)) {
+    
+                    // 執行刪除
+                    Storage::disk('public')->delete($path);
+                }
             }
+        } else {
+            Storage::disk('public')->delete($path);
         }
     }
 
@@ -195,23 +241,6 @@ class FileService
     }
 
     /**
-     * 檔案是否存在
-     *
-     * @return Boolean
-     */
-    public static function exists($file_name, $path = '')
-    {
-        if (!empty($path)) {
-            $path = $path . '/';
-        }
-        $file_path = config('frontend.upload_path') . '/' . $path . $file_name;
-        if (Storage::disk('public')->exists($file_path)) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * 下載檔案
      *
      * @return Response
@@ -223,5 +252,15 @@ class FileService
         }
         $file_path = 'storage/' . config('frontend.upload_path') . '/' . $path . $file_name;
         return response()->download($file_path, $display_name);
+    }
+
+    /**
+     * 列出全部檔案
+     *
+     * @return Array
+     */
+    public static function allFiles($directory)
+    {
+        return Storage::disk('public')->allFiles(config('frontend.upload_path') . '/' . $directory);
     }
 }

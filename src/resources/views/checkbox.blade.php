@@ -1,3 +1,7 @@
+@if (!isset($formPresenter))
+    @inject('formPresenter', 'Onepoint\Dashboard\Presenters\FormPresenter')
+@endif
+
 @component('dashboard::components.inputs', $input_array = $formPresenter->setValue($input_setting, 'radio'))
     @foreach ($input_array['option'] as $key => $element)
         <div class="form-check form-check-inline">

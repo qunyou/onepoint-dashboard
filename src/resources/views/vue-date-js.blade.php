@@ -1,4 +1,6 @@
-@inject('path_presenter', 'Onepoint\Dashboard\Presenters\PathPresenter')
+@if (!isset($formPresenter))
+    @inject('formPresenter', 'Onepoint\Dashboard\Presenters\FormPresenter')
+@endif
 
 @section('js')
     @parent

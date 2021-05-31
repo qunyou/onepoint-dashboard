@@ -40,9 +40,9 @@
             templates: "{{ url(config('backend.uri') . '/' . config('site.editor_template_method')) }}",
         @endif
         plugins: [
-             "advlist autolink link image imagetools lists charmap print preview hr anchor pagebreak",
-             "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
-             "save table colorpicker contextmenu directionality emoticons paste textcolor filemanager {{ config('site.editor_template_method', false) ? 'template' : '' }}"
+            "advlist autolink link image imagetools lists charmap print preview hr anchor pagebreak",
+            "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+            "save table colorpicker contextmenu directionality emoticons paste textcolor filemanager {{ config('site.editor_template_method', false) ? 'template' : '' }}"
         ],
         toolbar: "undo redo rotateleft | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | forecolor backcolor | fontselect fontsizeselect | link table insertfile image media template | print preview fullpage emoticons filemanager",
         external_filemanager_path:"/{{ config('site.url_prefix') . $path_presenter::$assets_path . '/' . config('backend.view_path') }}/tinymce/plugins/filemanager/",

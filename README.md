@@ -122,29 +122,6 @@ config/database.php
     php artisan vendor:publish --tag=fm-config
     php artisan vendor:publish --tag=fm-assets
 
-#### 流量統計套件
-
-    composer require jenssegers/agent
-
-    // app.php 加入內容
-    'providers' => [
-        ...
-        Jenssegers\Agent\AgentServiceProvider::class,
-    ]
-
-    'aliases' => [
-        ...
-        'Agent' => Jenssegers\Agent\Facades\Agent::class,
-    ]
-
-#### google analytics 套件
-
-    composer require spatie/laravel-analytics
-    php artisan vendor:publish --provider="Spatie\Analytics\AnalyticsServiceProvider"
-    在 google api https://console.developers.google.com/apis 取得金鑰及 json 檔
-    在 google analytics 管理裡的「資料檢視設定」取得 view id(資料檢視 ID)
-    在 google analytics 管理裡的「查看使用者管理」新增 google api 新增的 email
-
 ## 認證相關設定
 
 ### 修改 user.php 路徑
@@ -287,44 +264,3 @@ app/Exceptions/Handler.php
         return parent::render($request, $exception);
     }
 
-### 測試
-
-    composer require --dev "kitloong/laravel-migrations-generator"
-    php artisan migrate:generate
-
-    // 產生測試檔
-    php artisan make:test ApiTest
-
-    // 執行測試
-    artisan test
-
-    記憶體不足、composer 安裝錯誤
-    COMPOSER_MEMORY_LIMIT=-1 composer require rap2hpoutre/laravel-log-viewer
-
-### 其他可安裝套件
-
-#### laravel:artisan gui
-
-安裝完成後在 http://you-domain.com/~artisan 這個網址可以執行各項 artisan 功能
-
-    composer require infureal/artisan-gui
-    php artisan vendor:publish --provider="Infureal\Providers\GuiServiceProvider"
-
-### jetstream
-
-安裝 laravel 時如果有加參數，就不用再安裝 laravel new mysite --jet
-如果一開始沒裝，可以用以下指令安裝
-
-    composer require laravel/jetstream
-    php artisan jetstream:install livewire
-    php artisan migrate
-
-修改 package.json：在 mac 環境，要移除 cross-env 相關內容
-npm install
-npm run dev or npm run production
-
-
-## laravel 版本判斷
-
-    $laravel_version = explode('.', app()->version());
-    if ($laravel_version[0] > 6)

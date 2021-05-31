@@ -3,11 +3,11 @@
 namespace Onepoint\Dashboard\Controllers;
 
 use App\Http\Controllers\Controller;
-use Onepoint\Dashboard\Repositories\SettingRepository;
 use Onepoint\Dashboard\Presenters\FormPresenter;
 use Onepoint\Dashboard\Presenters\PathPresenter;
-use Onepoint\Dashboard\Services\BaseService;
+use Onepoint\Dashboard\Repositories\SettingRepository;
 use Onepoint\Dashboard\Services\ImageService;
+use Onepoint\Dashboard\Services\StringService;
 use Onepoint\Dashboard\Traits\ShareMethod;
 
 /**
@@ -45,18 +45,62 @@ class SettingController extends Controller
      */
     public function model()
     {
-        // $component_datas = $this->listPrepare();
+        $component_datas = $this->listPrepare();
         $permission_controller_string = get_class($this);
-        $this->tpl_data['permission_controller_string'] = $permission_controller_string;
-        $this->tpl_data['model'] = request('model', 'global');
-        $this->tpl_data['list'] = $this->setting_repository->getList(false, $this->tpl_data['model']);
-        if (isset(config('site.setting.model')[$this->tpl_data['model']])) {
-            $this->tpl_data['page_title'] = config('site.setting.model')[$this->tpl_data['model']] . __('dashboard::backend.列表');
+        $component_datas['permission_controller_string'] = $permission_controller_string;
+        $component_datas['uri'] = $this->uri;
+        $component_datas['back_url'] = url($this->uri . 'index');
+
+        // 主資料 id query string 字串
+        $component_datas['id_string'] = 'setting_id';
+
+        // 表格欄位設定
+        $component_datas['th'] = [
+            ['title' => __('dashboard::setting.項目')],
+            ['title' => __('dashboard::setting.設定值')],
+        ];
+        $component_datas['column'] = [
+            ['type' => 'column', 'column_name' => 'title'],
+            ['type' => 'function', 'function_name' => 'Onepoint\Dashboard\Controllers\SettingController@settingValueDisplay'],
+        ];
+
+        // 權限設定
+        if (auth()->user()->hasAccess(['update-' . $permission_controller_string])) {
+            if (!auth()->user()->hasAccess(['delete-' . $permission_controller_string])) {
+                $component_datas['footer_delete_hide'] = true;
+            }
         } else {
-            $this->tpl_data['page_title'] = __('dashboard::backend.列表');
+            $component_datas['footer_dropdown_hide'] = true;
+            $component_datas['footer_sort_hide'] = true;
         }
-        // $this->tpl_data['component_datas'] = $component_datas;
+        $this->tpl_data['model'] = request('model', 'global');
+        $component_datas['list'] = $this->setting_repository->getList(false, $this->tpl_data['model']);
+        $component_datas['use_sort'] = false;
+        $component_datas['footer_dropdown_hide'] = true;
+        $this->tpl_data['component_datas'] = $component_datas;
         return view($this->view_path . 'model', $this->tpl_data);
+    }
+
+    /**
+     * 判斷checkbox是否勾選
+     */
+    public static function settingValueDisplay($element)
+    {
+        switch ($element->type) {
+            case 'file_name':
+                $str = ImageService::origin($element->setting_value, '', '', 'setting');
+                break;
+
+            case 'text':
+            case 'editor':
+                $str = StringService::htmlLimit($element->setting_value, 20, '...');
+                break;
+
+            default:
+                $str = StringService::htmlLimit($element->setting_value, 20, '...');
+                break;
+        }
+        return $str;
     }
 
     /**
@@ -127,6 +171,8 @@ class SettingController extends Controller
      */
     public function modelDetail()
     {
+        $permission_controller_string = get_class($this);
+        $component_datas['permission_controller_string'] = $permission_controller_string;
         $model = request('model', false);
         $this->tpl_data['model'] = $model;
         $this->tpl_data['formPresenter'] = new FormPresenter;
@@ -155,13 +201,13 @@ class SettingController extends Controller
             $component_datas['page_title'] = __('dashboard::backend.檢視');
             $component_datas['back_url'] = url($this->uri . 'model');
             $component_datas['dropdown_items']['btn_align'] = 'float-left';
-            if (auth()->user()->hasAccess(['update-' . $this->permission_controller_string])) {
+            if (auth()->user()->hasAccess(['update-' . $permission_controller_string])) {
                 $component_datas['dropdown_items']['items']['編輯'] = ['url' => url($this->uri . 'update?setting_id=' . $setting->id)];
-                if (auth()->user()->hasAccess(['delete-' . $this->permission_controller_string])) {
+                if (auth()->user()->hasAccess(['delete-' . $permission_controller_string])) {
                     $component_datas['dropdown_items']['items']['刪除'] = ['url' => url($this->uri . 'delete?setting_id=' . $setting->id)];
                 }
             }
-            // if (auth()->user()->hasAccess(['create-' . $this->permission_controller_string])) {
+            // if (auth()->user()->hasAccess(['create-' . $permission_controller_string])) {
             //     $component_datas['dropdown_items']['items']['複製'] = ['url' => url($this->uri . 'duplicate?setting_id=' . $setting->id)];
             // }
             $this->tpl_data['component_datas'] = $component_datas;
@@ -178,67 +224,43 @@ class SettingController extends Controller
     {
         $this->IsRoot();
 
-        // 列表標題
-        if (!$this->tpl_data['trashed']) {
-            $this->tpl_data['component_datas']['page_title'] = __('dashboard::backend.列表');
-        } else {
-            $this->tpl_data['component_datas']['page_title'] = __('dashboard::backend.資源回收');
-        }
+        $component_datas = $this->listPrepare();
+        $permission_controller_string = get_class($this);
+        $component_datas['permission_controller_string'] = $permission_controller_string;
+        $component_datas['uri'] = $this->uri;
+        $component_datas['back_url'] = url($this->uri . 'index');
 
         // 主資料 id query string 字串
-        $this->tpl_data['component_datas']['id_string'] = 'setting_id';
-
-        // 回列表網址
-        $this->tpl_data['component_datas']['back_url'] = url($this->uri . 'index');
+        $component_datas['id_string'] = 'setting_id';
 
         // 表格欄位設定
-        $this->tpl_data['component_datas']['th'] = [
-            ['title' => __('dashboard::backend.標題'), 'class' => ''],
+        $component_datas['th'] = [
+            ['title' => __('dashboard::setting.項目')],
+            ['title' => __('dashboard::setting.設定值')],
         ];
-        $this->tpl_data['component_datas']['column'] = [
-            ['type' => 'column', 'class' => '', 'column_name' => 'title'],
+        $component_datas['column'] = [
+            ['type' => 'column', 'column_name' => 'title'],
+            ['type' => 'function', 'function_name' => 'Onepoint\Dashboard\Controllers\SettingController@settingValueDisplay'],
         ];
-
-        // 是否使用複製功能
-        $this->tpl_data['component_datas']['use_duplicate'] = true;
-
-        // 是否使用版本功能
-        $this->tpl_data['component_datas']['use_version'] = true;
-
-        // 是否使用排序功能
-        $this->tpl_data['component_datas']['use_sort'] = true;
 
         // 權限設定
-        $this->tpl_data['component_datas']['footer_delete_hide'] = false;
-        if (auth()->user()->hasAccess(['create-' . $this->permission_controller_string])) {
-            $this->tpl_data['component_datas']['add_url'] = url($this->uri . 'update');
+        if (auth()->user()->hasAccess(['create-' . $permission_controller_string])) {
+            $component_datas['add_url'] = url($this->uri . 'update');
         }
-        if (auth()->user()->hasAccess(['update-' . $this->permission_controller_string])) {
-            $this->tpl_data['component_datas']['footer_dropdown_hide'] = false;
-            $this->tpl_data['component_datas']['footer_sort_hide'] = false;
-            if (!auth()->user()->hasAccess(['delete-' . $this->permission_controller_string])) {
-                $this->tpl_data['component_datas']['footer_delete_hide'] = true;
+        if (auth()->user()->hasAccess(['update-' . $permission_controller_string])) {
+            if (!auth()->user()->hasAccess(['delete-' . $permission_controller_string])) {
+                $component_datas['footer_delete_hide'] = true;
             }
         } else {
-            $this->tpl_data['component_datas']['footer_dropdown_hide'] = true;
-            $this->tpl_data['component_datas']['footer_sort_hide'] = true;
+            $component_datas['footer_dropdown_hide'] = true;
+            $component_datas['footer_sort_hide'] = true;
         }
-        if (auth()->user()->hasAccess(['create-' . $this->permission_controller_string])) {
-            $this->tpl_data['component_datas']['dropdown_items']['items']['匯入'] = ['url' => url($this->uri . 'import')];
-        }
-        if (auth()->user()->hasAccess(['update-' . $this->permission_controller_string])) {
-            $this->tpl_data['component_datas']['dropdown_items']['items']['舊版本'] = ['url' => url($this->uri . 'index?version=true')];
-        }
-        if (auth()->user()->hasAccess(['delete-' . $this->permission_controller_string])) {
-            $this->tpl_data['component_datas']['dropdown_items']['items']['資源回收'] = ['url' => url($this->uri . 'index?trashed=true')];
-        }
-
-        // 列表資料查詢
-        $this->tpl_data['component_datas']['list'] = $this->setting_repository->getRootList($this->setting_id, config('backend.paginate'));
-
-        // 預覽按鈕網址
-        // $this->tpl_data['component_datas']['preview_url'] = ['url' => url(config('backend.book.preview_url')) . '/', 'column' => 'book_name_slug'];
-        return view($this->view_path . 'index', $this->tpl_data);
+        $this->tpl_data['model'] = request('model', 'global');
+        $component_datas['list'] = $this->setting_repository->getList(false, $this->tpl_data['model']);
+        $component_datas['use_sort'] = false;
+        $component_datas['footer_dropdown_hide'] = true;
+        $this->tpl_data['component_datas'] = $component_datas;
+        return view($this->view_path . 'model', $this->tpl_data);
     }
 
     /**
@@ -305,7 +327,8 @@ class SettingController extends Controller
     {
         $this->IsRoot();
         if ($this->setting_id) {
-            // $this->tpl_data['permissions'] = config('backend.permissions');
+            $permission_controller_string = get_class($this);
+            $component_datas['permission_controller_string'] = $permission_controller_string;
             $setting = $this->setting_repository->getOne($this->setting_id);
             $this->tpl_data['setting'] = $setting;
 
@@ -350,7 +373,7 @@ class SettingController extends Controller
             ];
 
             // 樣版資料
-            $component_datas['page_title'] = __('auth.檢視人員群組');
+            $component_datas['page_title'] = __('dashboard::setting.檢視設定');
             if ($this->tpl_data['version']) {
                 $component_datas['page_title'] .= ' -' . __('dashboard::backend.版本檢視');
             }
@@ -360,17 +383,17 @@ class SettingController extends Controller
                 $component_datas['back_url'] = url($this->uri . 'index');
             }
             $component_datas['dropdown_items']['btn_align'] = 'float-left';
-            if (auth()->user()->hasAccess(['update-' . $this->permission_controller_string])) {
+            if (auth()->user()->hasAccess(['update-' . $permission_controller_string])) {
                 if ($this->tpl_data['version']) {
                     $component_datas['dropdown_items']['items']['使用此版本'] = ['url' => url($this->uri . 'apply-version?setting_id=' . $setting->origin_id . '&version_id=' . $setting->id)];
                 } else {
                     $component_datas['dropdown_items']['items']['編輯'] = ['url' => url($this->uri . 'update?setting_id=' . $setting->id)];
-                    if (auth()->user()->hasAccess(['delete-' . $this->permission_controller_string])) {
+                    if (auth()->user()->hasAccess(['delete-' . $permission_controller_string])) {
                         $component_datas['dropdown_items']['items']['刪除'] = ['url' => url($this->uri . 'delete?setting_id=' . $setting->id)];
                     }
                 }
             }
-            if (auth()->user()->hasAccess(['create-' . $this->permission_controller_string])) {
+            if (auth()->user()->hasAccess(['create-' . $permission_controller_string])) {
                 if (!$this->tpl_data['version']) {
                     $component_datas['dropdown_items']['items']['複製'] = ['url' => url($this->uri . 'duplicate?setting_id=' . $setting->id)];
                 }
