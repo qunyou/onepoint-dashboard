@@ -33,7 +33,7 @@ class AppServiceProvider extends ServiceProvider
                 case 'backend.3dmats.test':
                     $http_host = 'default';
                     $mysql_host = 'localhost';
-                    $mysql_database = 'admin_db';
+                    $mysql_database = 'default';
                     $mysql_username = 'homestead';
                     $mysql_password = 'secret';
                     break;

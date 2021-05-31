@@ -1,25 +1,10 @@
 # 後台操作界面及基本權限功能
 
-## 使用 Composer 安裝(方法一)
-    執行
+## 使用 Composer 安裝
+
+執行
+
     composer require onepoint/dashboard
-
-## 自訂安裝(方法二)
-    git clone 或是 download onepoint/dashboard
-    檔案放在這個路徑 packages/onepoint/dashboard
-    在 composer.json 加上
-    "autoload": {
-        "psr-4": {
-            ...
-            "Onepoint\\Dashboard\\": "packages/onepoint/dashboard/src",
-        },
-        ...
-    },
-
-    執行
-    composer dump-autoload
-
-> 以上兩個方法擇一使用
 
 在 config/app.php 的 providers 加上
 
@@ -27,19 +12,21 @@
 
 ### 複製必要檔案至正確目錄(檔案很多，執行要花一點時間)
 
-    先刪除以下檔案
-    database/migrations/2014_10_12_000000_create_users_table.php
+先刪除此檔案
 
-    執行
+database/migrations/2014_10_12_000000_create_users_table.php
+
+執行
+
     php artisan vendor:publish --provider="Onepoint\Dashboard\DashboardServiceProvider"
 
 ## 資料庫設定
 
+### 在這個檔設定資料庫的帳號密碼
+
 app/Providers/AppServiceProvider.php
 
-在這個檔設定資料庫的帳號密碼
-
-建立資料庫，建立時選擇 utf8mb4 編碼的資料庫
+### 建立資料庫，建立時選擇 utf8mb4 編碼的資料庫
 
 執行以下指令重新產生 Composer 的自動讀取檔案列表，以免執行 seed 指令時找不到檔案
 
