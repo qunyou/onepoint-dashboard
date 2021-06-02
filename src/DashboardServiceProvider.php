@@ -34,9 +34,9 @@ class DashboardServiceProvider extends ServiceProvider
         // 發佈至 public 目錄的指令
         // php artisan vendor:publish --tag=public --force
         // php artisan vendor:publish --force
-        $this->publishes([
-            __DIR__.'/Publishes/public/assets/dashboard.zip' => public_path('assets'),
-        ], 'public');
+        // $this->publishes([
+        //     __DIR__.'/Publishes/public/assets/dashboard.zip' => public_path('assets'),
+        // ], 'public');
 
         $this->publishes([
             __DIR__.'/Publishes/public/vendor.zip' => public_path('/'),
@@ -58,8 +58,8 @@ class DashboardServiceProvider extends ServiceProvider
         //     __DIR__.'/Publishes/custom' => base_path('custom'),
         // ], 'custom');
 
-        // $this->publishes([
-        //     __DIR__.'/Publishes/database' => base_path('database'),
-        // ], 'custom');
+        $this->publishes([
+            __DIR__.'/Publishes/database' => base_path('database'),
+        ], 'database');
     }
 }

@@ -100,7 +100,7 @@
                                 @if (config('backend.language', false))
                                     <li class="nav-item dropdown">
                                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            {{ config('backend.language')[config('app.locale')] }}
+                                            {{ config('backend.language')[config('app.locale')] ?? 'English' }}
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                             @foreach (config('backend.language') as $language_key => $language_item)

@@ -361,8 +361,7 @@
                                                     @else
                                                         @if (isset($update_hide) && $update_hide)
                                                         @else
-                                                            {{-- <a href="{{ url($uri . 'update?' . $id_string . '=' . $element->id . ($update_url_append_string ?? '')) }}" class="btn btn-outline-deep-purple waves-effect text-nowrap"> --}}
-                                                            <a href="{{ url($uri . 'update?' . $id_string . '=' . $element->id . '&' . $base_service->getQueryString(true, true)) }}" class="btn btn-outline-deep-purple waves-effect text-nowrap">
+                                                            <a href="{{ url($uri . ($update_uri ?? 'update') . '?' . $id_string . '=' . $element->id . '&' . $base_service->getQueryString(true, true)) }}" class="btn btn-outline-deep-purple waves-effect text-nowrap">
                                                                 <i class="fas fa-edit"></i>
                                                                 <span class="d-none d-md-inline">@lang('dashboard::backend.編輯')</span>
                                                             </a>

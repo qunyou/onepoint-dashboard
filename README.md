@@ -6,6 +6,19 @@
 
     composer require onepoint/dashboard
 
+在 config/app.php return 之前加上
+
+    $app_url = 'https://localhost.test';
+    if (isset($_SERVER['HTTP_HOST'])) {
+        if (request()->isSecure()) {
+            $ssl_protocol = 'https://';
+        } else {
+            $ssl_protocol = 'http://';
+        }
+        $app_url = $ssl_protocol . $_SERVER['HTTP_HOST'];
+    }
+    define("APP_URL", $app_url);
+
 在 config/app.php 的 providers 加上
 
     Onepoint\Dashboard\DashboardServiceProvider::class,
@@ -19,6 +32,10 @@ database/migrations/2014_10_12_000000_create_users_table.php
 執行
 
     php artisan vendor:publish --provider="Onepoint\Dashboard\DashboardServiceProvider"
+
+解壓縮這個檔案(tinymce檔案管理界面用檔案)
+
+public/vendor.zip
 
 ## 資料庫設定
 
@@ -173,18 +190,6 @@ config/auth.php
 ### 修改設定
 config/app.php
 
-    在 return 之前加上
-    $app_url = 'https://localhost.test';
-    if (isset($_SERVER['HTTP_HOST'])) {
-        if (request()->isSecure()) {
-            $ssl_protocol = 'https://';
-        } else {
-            $ssl_protocol = 'http://';
-        }
-        $app_url = $ssl_protocol . $_SERVER['HTTP_HOST'];
-    }
-    define("APP_URL", $app_url);
-
     'url' => env('APP_URL', 'http://localhost'),
     修改為
     'url' => APP_URL,
@@ -204,7 +209,6 @@ config/filesystems.php
 .env
 
     APP_DEBUG=false
-
 ### Homestead 上傳檔案大小修改
 
 預設只能傳小於 1M 的檔案，修改後會比較好測試
@@ -251,3 +255,24 @@ app/Exceptions/Handler.php
         return parent::render($request, $exception);
     }
 
+## 自訂套件
+
+composer.json
+
+    "autoload": {
+        "psr-4": {
+            …
+            "Onepoint\\Base\\": "packages/onepoint/base/src"
+        }
+    },
+
+執行
+
+    composer dump-autoload
+
+config/app.php
+
+    'providers' => [
+        …
+        Onepoint\Base\BaseServiceProvider::class,
+    ]

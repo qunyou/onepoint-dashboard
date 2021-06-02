@@ -490,7 +490,6 @@ class BaseRepository
             // 分頁設定
             $records_per_page = request('records_per_page', false);
             if ($records_per_page > 0) {
-                // session(['records_per_page' => $records_per_page]);
                 cache(['records_per_page' => $records_per_page], 6000);
             }
             $query = $query->paginate(cache('records_per_page', $paginate));

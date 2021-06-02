@@ -31,6 +31,8 @@ Route::prefix(config('dashboard.uri'))->namespace('Onepoint\Dashboard\Controller
             Route::get('model-update', 'SettingController@modelUpdate');
             Route::put('model-update', 'SettingController@putModelUpdate');
             Route::get('model-detail', 'SettingController@modelDetail');
+            Route::get('rearrange', 'SettingController@rearrange');
+            Route::get('drag-sort', 'SettingController@dragSort');
         });
 
         // 人員管理

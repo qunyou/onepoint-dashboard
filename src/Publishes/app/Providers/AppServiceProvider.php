@@ -16,6 +16,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $app_url = 'https://default.test';
+        if (isset($_SERVER['HTTP_HOST'])) {
+            if (request()->isSecure()) {
+                $ssl_protocol = 'https://';
+            } else {
+                $ssl_protocol = 'http://';
+            }
+            $app_url = $ssl_protocol . $_SERVER['HTTP_HOST'];
+        }
+        define("APP_URL", $app_url);
         // $this->app->bind('path.public', function() {
         //     return $_SERVER['DOCUMENT_ROOT'];
         // });
@@ -30,7 +40,6 @@ class AppServiceProvider extends ServiceProvider
         if (isset($_SERVER['HTTP_HOST'])) {
             switch ($_SERVER['HTTP_HOST']) {
                 case 'default.test':
-                case 'backend.3dmats.test':
                     $http_host = 'default';
                     $mysql_host = 'localhost';
                     $mysql_database = 'default';

@@ -30,31 +30,11 @@ class SettingRepository extends BaseRepository
     /**
      * 列表
      */
-    public function getList($trashed = false, $model)
+    public function getList($id = 0, $paginate = 0)
     {
-        if (!$trashed) {
-            $query = $this->permissions();
-        } else {
-            $query = $this->permissions()->onlyTrashed();
-        }
-        if (!empty($model)) {
-            $query = $query->where('model', $model);
-        }
-        $query = $query->orderBy('sort')->paginate(config('site.paginate'));
-        $append_array = [];
-        if (!empty($model)) {
-            $append_array['model'] = $model;
-        }
-        if ($query->count()) {
-            if ($trashed) {
-                $append_array['trashed'] = 'true';
-            }
-            if (count($append_array)) {
-                $query->appends($append_array);
-            }
-            return $query;
-        }
-        return false;
+        $model = request('model', 'global');
+        $query = $this->permissions()->where('model', $model);
+        return $this->fetchList($query, $id, $paginate);
     }
 
     /**
