@@ -184,7 +184,7 @@ class ArticleCategoryController extends Controller
     /**
      * 複製
      */
-    public function putDuplicate()
+    public function putDuplicate()
     {
         $this->article_category_id = 0;
         return $this->putUpdate();

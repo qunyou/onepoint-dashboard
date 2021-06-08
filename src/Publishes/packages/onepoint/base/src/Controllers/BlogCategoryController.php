@@ -165,7 +165,8 @@ class BlogCategoryController extends Controller
     /**
      * 複製
      */
-    function putDuplicate() {
+    public function putDuplicate()
+    {
         $this->blog_category_id = 0;
         return $this->putUpdate();
     }
