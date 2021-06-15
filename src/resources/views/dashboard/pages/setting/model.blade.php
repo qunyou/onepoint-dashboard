@@ -1,5 +1,14 @@
 @extends('dashboard::layouts.dashboard')
 
+@section('top-item')
+    @include('base::dashboard.includes.top-item')
+    @parent
+@endsection
+
+@section('sidebar-header')
+    @include('base::dashboard.includes.sidebar-header')
+@endsection
+
 @section('page-header')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">

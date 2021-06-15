@@ -417,12 +417,17 @@ class BaseRepository
         if ($trashed) {
 
             // 永久刪除
-            return $this->model->withTrashed()->where('id', $id)->forceDelete();
+            $q_del = $this->model->withTrashed()->where('id', $id)->first();
+            return  $q_del->forceDelete();
         } else {
 
             // 一般刪除
-            return $this->model->find($id)->delete();
+            $q_del = $this->model->find($id);
+            if (!is_null($q_del)) {
+                return $q_del->delete();
+            }
         }
+        return false;
     }
 
     /**
