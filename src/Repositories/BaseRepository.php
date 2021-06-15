@@ -486,6 +486,9 @@ class BaseRepository
             $query = $query->orderBy($order_by, $power);
         }
         if ($paginate) {
+            if (!is_numeric($paginate)) {
+                $paginate = config('backend.paginate');
+            }
 
             // 分頁設定
             $records_per_page = request('records_per_page', false);
