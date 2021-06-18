@@ -3,6 +3,7 @@
 namespace Onepoint\Dashboard\Traits;
 
 use Onepoint\Dashboard\Services\BaseService;
+use Illuminate\Support\Facades\Auth;
 
 trait ShareMethod
 {

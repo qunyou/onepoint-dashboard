@@ -2,6 +2,7 @@
 
 namespace Onepoint\Dashboard\Controllers;
 
+use App\Http\Controllers\Controller;
 use Onepoint\Dashboard\Presenters\RolePresenter;
 use Onepoint\Dashboard\Repositories\RoleRepository;
 use Onepoint\Dashboard\Traits\ShareMethod;
@@ -91,12 +92,29 @@ class RoleController extends Controller
      */
     public function putIndex()
     {
+        return $this->batch();
+    }
+
+    /**
+     * 批次處理
+     */
+    public function batch()
+    {
         // $settings['file_field'] = 'file_name';
-        // $settings['folder'] = 'slider';
+        // $settings['folder'] = 'article';
         // $settings['image_scale'] = true;
         $settings['use_version'] = true;
-        $settings['result'] = $this->role_repository->batch($settings);
-        return $this->batch($settings);
+        $result = $this->article_repository->batch($settings);
+        switch ($result['batch_method']) {
+            case 'restore':
+            case 'force_delete':
+                $back_url_str = 'index?trashed=true';
+                break;
+            default:
+                $back_url_str = 'index';
+                break;
+        }
+        return redirect($this->uri . $back_url_str);
     }
 
     /**
