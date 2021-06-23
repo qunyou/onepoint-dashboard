@@ -11,4 +11,6 @@ return array(
     '編輯網站設定' => 'Edit site settings',
     '項目類別' => 'Item category',
     '項目' => 'project',
+    '設定列表' => 'Settings list',
+    '檢視設定' => 'Settings edit',
 );
