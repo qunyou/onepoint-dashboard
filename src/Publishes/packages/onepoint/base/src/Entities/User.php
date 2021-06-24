@@ -17,7 +17,7 @@ class User extends Authenticatable
     use Notifiable;
     use SoftDeletes;
 
-    // protected $table = 'managers';
+    protected $table = 'managers';
 
     /**
      * The attributes that are mass assignable.
@@ -28,6 +28,8 @@ class User extends Authenticatable
         'old_version',
         'origin_id',
         'update_user_id',
+        'status',
+        'note',
 
         'enable',
 
@@ -41,13 +43,13 @@ class User extends Authenticatable
         'confirmation_code',
 
         // 性別
-        'gender',
-        'tel',
-        'state',
-        'zipcode',
-        'county',
-        'district',
-        'address',
+        // 'gender',
+        // 'tel',
+        // 'state',
+        // 'zipcode',
+        // 'county',
+        // 'district',
+        // 'address',
 		'remember_token',
         'confirmed',
         
@@ -85,7 +87,7 @@ class User extends Authenticatable
 
     public function roles()
     {
-        return $this->belongsToMany('Onepoint\Dashboard\Entities\Role', 'role_users');
+        return $this->belongsToMany('Onepoint\Dashboard\Entities\Role', 'role_users', 'user_id', 'role_id');
     }
 
     /**
@@ -112,5 +114,17 @@ class User extends Authenticatable
     public function inRole(string $roleSlug)
     {
         return $this->roles()->where('role_name', $roleSlug)->count() == 1;
+    }
+
+    // 訂購項目關聯
+    public function order()
+    {
+        return $this->hasMany('Onepoint\Base\Entities\Order');
+    }
+
+    // 保固登錄關聯
+    public function warranty()
+    {
+        return $this->hasMany('Onepoint\Base\Entities\Warranty');
     }
 }

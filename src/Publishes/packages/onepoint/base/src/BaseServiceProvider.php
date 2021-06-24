@@ -25,9 +25,8 @@ class BaseServiceProvider extends ServiceProvider
     {
         $this->loadViewsFrom(__DIR__ . '/resources/views', 'base');
         $this->loadRoutesFrom(__DIR__.'/routes/web.php');
-        // $this->loadMigrationsFrom(__DIR__.'/database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/database/migrations');
         $this->loadTranslationsFrom(__DIR__.'/resources/lang', 'base');
         $this->mergeConfigFrom(__DIR__.'/config/article.php', 'article');
-        $this->mergeConfigFrom(__DIR__.'/config/blog.php', 'blog');
     }
 }

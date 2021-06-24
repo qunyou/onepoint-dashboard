@@ -53,9 +53,9 @@ class ArticleCategory extends Model
     ];
 
     // 更新人員關聯
-    public function user()
+    public function update_user()
     {
-        return $this->belongsTo('Onepoint\Base\Entities\User');
+        return $this->belongsTo('Onepoint\Base\Entities\User', 'update_user_id');
     }
 
     // 文章關聯

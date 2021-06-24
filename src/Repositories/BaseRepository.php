@@ -51,7 +51,7 @@ class BaseRepository
     // 檔案標題欄位名稱
     public $upload_origin_file_column_name;
 
-    // 檔案原始檔名欄位名稱
+    // 檔案原始檔名欄位名稱(不含副檔名)
     public $upload_file_origin_column_name;
 
     // 檔案副檔名欄位名稱
@@ -287,7 +287,7 @@ class BaseRepository
                             $datas[$this->upload_file_size_column_name[$key]] = $res['file_size'];
                         }
 
-                        // 不含副檔名原始檔名
+                        // 原始檔名(不含副檔名)
                         if (isset($this->upload_file_origin_column_name[$key])) {
                             $datas[$this->upload_file_origin_column_name[$key]] = $res['origin_name'];
                         }

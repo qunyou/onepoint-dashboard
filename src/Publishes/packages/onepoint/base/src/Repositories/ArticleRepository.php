@@ -33,7 +33,7 @@ class ArticleRepository extends BaseRepository
      */
     public function getList($id = 0, $paginate = 0)
     {
-        $query = $this->permissions()->with('article_category');
+        $query = $this->permissions()->with('article_category')->withCount('image', 'attachment');
         if ($article_category_id = request('article_category_id', 0)) {
             $query = $query->whereHas('article_category', function ($q) use ($article_category_id) {
                 $q->where('article_category_id', $article_category_id);
@@ -47,7 +47,11 @@ class ArticleRepository extends BaseRepository
      */
     public function getOne($id)
     {
-        $query = $this->permissions()->with('article_category');
+        $query = $this->permissions()->with(['article_category', 'image' => function ($q) {
+            $q->orderBy('sort');
+        }, 'attachment' => function ($q) {
+            $q->orderBy('sort');
+        }]);
         return $this->fetchOne($query, $id);
     }
 

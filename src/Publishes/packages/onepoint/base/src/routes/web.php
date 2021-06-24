@@ -36,63 +36,29 @@ Route::namespace('Onepoint\Base\Controllers')->prefix(config('dashboard.uri'))->
         Route::put('index', 'ArticleController@putIndex');
         Route::get('update', 'ArticleController@update');
         Route::put('update', 'ArticleController@putUpdate');
-        Route::get('detail', 'ArticleController@detail');
-        Route::get('delete', 'ArticleController@delete');
-        Route::get('import', 'ArticleController@import');
-        Route::put('import', 'ArticleController@putImport');
         Route::get('duplicate', 'ArticleController@duplicate');
         Route::put('duplicate', 'ArticleController@putDuplicate');
+        Route::get('detail', 'ArticleController@detail');
+        Route::get('delete', 'ArticleController@delete');
         Route::get('rearrange', 'ArticleController@rearrange');
         Route::get('drag-sort', 'ArticleController@dragSort');
-    });
 
-    // 文章圖片
-    Route::group(['prefix' => 'article-image'], function () {
-        Route::get('index', 'ArticleImageController@index');
-        Route::put('index', 'ArticleImageController@putIndex');
-        Route::get('update', 'ArticleImageController@update');
-        Route::put('update', 'ArticleImageController@putUpdate');
-        Route::get('detail', 'ArticleImageController@detail');
-        Route::get('delete', 'ArticleImageController@delete');
-    });
+        // 刪除圖片
+        Route::get('delete-image/{image_id}', 'ArticleController@deleteImage');
 
-    // 最新消息分類
-    Route::group(['prefix' => 'news-category'], function () {
-        Route::get('index', 'NewsCategoryController@index');
-        Route::put('index', 'NewsCategoryController@putIndex');
-        Route::get('update', 'NewsCategoryController@update');
-        Route::put('update', 'NewsCategoryController@putUpdate');
-        Route::get('detail', 'NewsCategoryController@detail');
-        Route::get('delete', 'NewsCategoryController@delete');
-    });
+        // 上傳圖片
+        Route::get('multiple', 'ArticleController@multiple');
+        Route::post('multiple', 'ArticleController@postMultiple');
 
-    // 最新消息
-    Route::group(['prefix' => 'news'], function () {
-        Route::get('index', 'NewsController@index');
-        Route::put('index', 'NewsController@putIndex');
-        Route::get('update', 'NewsController@update');
-        Route::put('update', 'NewsController@putUpdate');
-        Route::get('detail', 'NewsController@detail');
-        Route::get('delete', 'NewsController@delete');
-    });
+        // 圖片排序
+        Route::post('image-sort', 'ArticleController@imageSort');
 
-    // 部落格分類
-    Route::group(['prefix' => 'blog-category'], function () {
-        Route::get('index', 'BlogCategoryController@index');
-        Route::put('index', 'BlogCategoryController@putIndex');
-        Route::get('update', 'BlogCategoryController@update');
-        Route::put('update', 'BlogCategoryController@putUpdate');
-        Route::get('detail', 'BlogCategoryController@detail');
-        Route::get('delete', 'BlogCategoryController@delete');
-    });
-
-    // 部落格
-    Route::group(['prefix' => 'blog'], function () {
-        Route::get('index', 'BlogController@index');
-        Route::put('index', 'BlogController@putIndex');
-        Route::get('update', 'BlogController@update');
-        Route::put('update', 'BlogController@putUpdate');
-        Route::get('detail', 'BlogController@detail');
-        Route::get('delete', 'BlogController@delete');
+        // 文章附檔
+        Route::get('attachment-update/{attachment_id}', 'ArticleController@attachmentUpdate');
+        Route::put('attachment-update/{attachment_id}', 'ArticleController@putAttachmentUpdate');
+        Route::get('attachment-add', 'ArticleController@attachmentAdd');
+        Route::put('attachment-add', 'ArticleController@putAttachmentAdd');
+        Route::get('attachment-delete/{attachment_id}', 'ArticleController@attachmentDelete');
+        Route::get('attachment-download/{attachment_id}', 'ArticleController@attachmentDownload');
     });
 });

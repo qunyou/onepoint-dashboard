@@ -31,7 +31,7 @@ class UserController extends Controller
         $this->tpl_data['uri'] = $this->uri;
 
         // view 路徑
-        $this->view_path = 'dashboard::' . config('dashboard.view_path') . '.pages.user.';
+        $this->view_path = 'base::' . config('dashboard.view_path') . '.pages.user.';
 
         $this->user_id = request('user_id', false);
         $this->tpl_data['user_id'] = $this->user_id;
@@ -59,7 +59,7 @@ class UserController extends Controller
 
         // 表格欄位設定
         $component_datas['th'] = [
-            ['title' => __('dashboard::auth.姓名'), 'class' => ''],
+            ['title' => __('dashboard::auth.帳號'), 'class' => ''],
             ['title' => __('dashboard::auth.Email'), 'class' => 'd-none d-xl-table-cell'],
             ['title' => __('dashboard::auth.權限'), 'class' => 'd-none d-xl-table-cell'],
         ];
@@ -161,7 +161,7 @@ class UserController extends Controller
         $category_select_item = $role_repository->getOptionItem();
 
         // 一般表單資料
-        $this->tpl_data['form_array'] = [
+        $this->tpl_data['form_array_normal'] = [
             'realname' => [
                 'input_type' => 'text',
                 'display_name' => __('dashboard::auth.姓名'),

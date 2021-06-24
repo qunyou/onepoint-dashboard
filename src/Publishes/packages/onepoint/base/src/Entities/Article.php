@@ -75,14 +75,26 @@ class Article extends Model
     ];
 
     // 更新人員關聯
-    public function user()
+    public function update_user()
     {
-        return $this->belongsTo('Onepoint\Base\Entities\User');
+        return $this->belongsTo('Onepoint\Base\Entities\User', 'update_user_id');
     }
 
     // 分類關聯
     public function article_category()
     {
         return $this->belongsToMany('Onepoint\Base\Entities\ArticleCategory', 'article_pivots');
+    }
+
+    // 圖片關聯
+    public function image()
+    {
+        return $this->hasMany('Onepoint\Base\Entities\ArticleImage')->orderBy('sort');;
+    }
+
+    // 附檔關聯
+    public function attachment()
+    {
+        return $this->hasMany('Onepoint\Base\Entities\ArticleAttachment')->orderBy('sort');;
     }
 }

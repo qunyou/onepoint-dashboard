@@ -4,9 +4,10 @@ namespace Onepoint\Base\Controllers;
 
 use App\Http\Controllers\Controller;
 use Cache;
+use Onepoint\Base\Repositories\ArticleAttachmentRepository;
 use Onepoint\Base\Repositories\ArticleCategoryRepository;
+use Onepoint\Base\Repositories\ArticleImageRepository;
 use Onepoint\Base\Repositories\ArticleRepository;
-use Onepoint\Dashboard\Services\BaseService;
 use Onepoint\Dashboard\Services\FileService;
 use Onepoint\Dashboard\Services\ImageService;
 use Onepoint\Dashboard\Traits\ShareMethod;
@@ -42,12 +43,6 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        // 列表標題
-        // if (!$this->tpl_data['trashed']) {
-        //     $this->tpl_data['component_datas']['page_title'] = __('dashboard::backend.列表');
-        // } else {
-        //     $this->tpl_data['component_datas']['page_title'] = __('dashboard::backend.資源回收');
-        // }
         $component_datas = $this->listPrepare();
         $permission_controller_string = get_class($this);
         $component_datas['permission_controller_string'] = $permission_controller_string;
@@ -61,13 +56,13 @@ class ArticleController extends Controller
         $component_datas['th'] = [
             ['title' => __('dashboard::backend.標題')],
             ['title' => __('dashboard::backend.分類')],
-            ['title' => '文章網址'],
+            ['title' => __('base::article.文章網址')],
         ];
-        // 'click' => ['class' => 'badge badge-secondary', 'badge_title' => '點擊:']
         $component_datas['column'] = [
-            ['type' => 'badges', 'column_name' => 'article_title', 'set_value' => [
-                'click' => ['class' => 'badge badge-secondary', 'badge_title' => '點擊:'],
-            ]],
+            // ['type' => 'badges', 'column_name' => 'article_title', 'set_value' => [
+            //     'click' => ['class' => 'badge badge-secondary', 'badge_title' => '點擊:'],
+            // ]],
+            ['type' => 'function', 'function_name' => 'Onepoint\Base\Controllers\ArticleController@articleTitleShow'],
             ['type' => 'belongsToMany', 'with' => 'article_category', 'column_name' => 'category_name'],
             ['type' => 'url', 'url' => url(config('article.preview_url', '')), 'slash' => ['article_title_slug']],
         ];
@@ -84,12 +79,12 @@ class ArticleController extends Controller
             $component_datas['footer_dropdown_hide'] = true;
             $component_datas['footer_sort_hide'] = true;
         }
-        // if (auth()->user()->hasAccess(['update-' . $permission_controller_string])) {
-        //     $component_datas['dropdown_items']['items']['舊版本'] = ['url' => url($this->uri . 'index?version=true')];
-        // }
-        // if (auth()->user()->hasAccess(['delete-' . $permission_controller_string])) {
-        //     $component_datas['dropdown_items']['items']['資源回收'] = ['url' => url($this->uri . 'index?trashed=true')];
-        // }
+        if (auth()->user()->hasAccess(['update-' . $permission_controller_string])) {
+            $component_datas['dropdown_items']['items']['版本'] = ['url' => url($this->uri . 'index?version=true')];
+        }
+        if (auth()->user()->hasAccess(['delete-' . $permission_controller_string])) {
+            $component_datas['dropdown_items']['items']['資源回收'] = ['url' => url($this->uri . 'index?trashed=true')];
+        }
 
         // 列表資料查詢
         $component_datas['list'] = $this->article_repository->getList($this->article_id, config('backend.paginate'));
@@ -98,6 +93,18 @@ class ArticleController extends Controller
         $component_datas['detail_hide'] = false;
         $this->tpl_data['component_datas'] = $component_datas;
         return view($this->view_path . 'index', $this->tpl_data);
+    }
+
+    /**
+     * 標題及關聯數量顯示
+     */
+    public static function articleTitleShow($element)
+    {
+        $str = $element->article_title;
+        $str .= '<br><span class="badge badge-primary"><i class="fas fa-images"></i> 圖片：' . $element->image_count . '</span>';
+        $str .= '<span class="ml-1 badge badge-primary"><i class="fas fa-paperclip"></i> 附檔：' . $element->attachment_count . '</span>';
+        $str .= '<span class="ml-1 badge badge-secondary"><i class="fas fa-book-reader"></i> 點擊：' . $element->click . '</span>';
+        return $str;
     }
 
     /**
@@ -135,9 +142,8 @@ class ArticleController extends Controller
      */
     public function update()
     {
-        // $permission_controller_string = get_class($this);
-        // $component_datas['permission_controller_string'] = $permission_controller_string;
         $this->tpl_data['article'] = false;
+        $this->tpl_data['tab'] = request('tab', 'normal');
 
         // 分類值陣列
         $category_id_array = [];
@@ -253,6 +259,7 @@ class ArticleController extends Controller
         // 樣版資料
         $this->tpl_data['component_datas']['page_title'] = $page_title;
         $this->tpl_data['component_datas']['back_url'] = false;
+        $this->tpl_data['component_datas']['footer_hide'] = true;
         return view($this->view_path . 'update', $this->tpl_data);
     }
 
@@ -261,14 +268,15 @@ class ArticleController extends Controller
      */
     public function putUpdate()
     {
+        $tab = request('tab', 'normal');
         $res = $this->article_repository->setUpdate($this->article_id);
         if ($res) {
             session()->flash('notify.message', __('dashboard::backend.資料編輯完成'));
             session()->flash('notify.type', 'success');
             if ($this->article_id) {
-                return redirect($this->uri . 'update?' . $this->base_service->getQueryString(true, true));
+                return redirect($this->uri . 'update?' . $this->base_service->getQueryString(true, true) . '&tab=' . $tab);
             } else {
-                return redirect($this->uri . 'update?article_id=' . $res . '&' . $this->base_service->getQueryString(true, true));
+                return redirect($this->uri . 'update?article_id=' . $res . '&' . $this->base_service->getQueryString(true, true) . '&tab=' . $tab);
             }
         } else {
             session()->flash('notify.message', __('dashboard::backend.資料編輯失敗'));
@@ -433,6 +441,79 @@ class ArticleController extends Controller
     }
 
     /**
+     * 拖曳排序
+     */
+    public function dragSort()
+    {
+        return $this->article_repository->dragRearrange();
+    }
+
+    /**
+     * 刪除圖片
+     */
+    public function deleteImage($image_id)
+    {
+        if ($this->article_id) {
+            $article_image_repository = new ArticleImageRepository;
+            $article_image_repository->model->find($image_id)->delete();
+        }
+        return redirect($this->uri . 'update?article_id=' . $this->article_id . '&tab=image');
+    }
+
+    /**
+     * 圖檔批次上傳
+     */
+    public function multiple()
+    {
+        $this->tpl_data['page_title'] = '圖檔批次上傳';
+        return view($this->view_path . 'multiple', $this->tpl_data);
+    }
+
+    /**
+     * 圖檔批次上傳
+     */
+    public function postMultiple()
+    {
+        $arr = ['success' => false, "error" => 'product id error'];
+        $article = $this->article_repository->model->find($this->article_id);
+        if (!is_null($article)) {
+            $qquuid = request('qquuid', '');
+            $qqfilename = request('qqfilename', '');
+            if (!empty($qquuid)) {
+                $article_image_repository = new ArticleImageRepository;
+                $article_image_repository->upload_file_form_name = 'qqfile';
+                $article_image_repository->upload_file_column_name = 'file_name';
+                $article_image_repository->upload_file_name_prefix = 'article';
+                $article_image_repository->upload_file_folder = 'article';
+                $article_image_repository->upload_file_resize = true;
+                $result = $article_image_repository->append(['image_title' => $article->article_title])->update();
+                $arr = ['success' => true, "uuid" => $qquuid, 'uploadName' => $qqfilename];
+            } else {
+                $arr = ['success' => false, "error" => 'uuid error'];
+            }
+        } else {
+            $arr = ['success' => false, "error" => 'material id error'];
+        }
+        return response()->json($arr);
+    }
+
+    /**
+     * 記錄圖片排序
+     */
+    public function imageSort()
+    {
+        $idArray = explode(",", request('ids', ''));
+        if (count($idArray)) {
+            $article_image_repository = new ArticleImageRepository;
+            $count = 1;
+            foreach ($idArray as $id) {
+                $article_image_repository->model->find($id)->update(['sort' => $count]);
+                $count++;
+            }
+        }
+    }
+
+    /**
      * 匯入文章
      */
     public function import()
@@ -550,4 +631,153 @@ class ArticleController extends Controller
         }
         return redirect($this->uri . 'import');
     }
+
+    /**
+     * 編輯附檔
+     */
+    public function attachmentUpdate($attachment_id)
+    {
+        if ($this->article_id) {
+            $page_title = __('base::article.編輯文章附檔');
+
+            $article_attachment_repository = new ArticleAttachmentRepository;
+            $query = $article_attachment_repository->getOne($attachment_id);
+            $this->tpl_data['attachment'] = $query;
+
+            // 一般表單資料
+            $this->tpl_data['form_array_normal'] = [
+                'file_name' => [
+                    'input_type' => 'file',
+                    'display_name' => __('base::article.文章附檔'),
+                    'upload_path' => 'article',
+                    'value_type' => 'file',
+                    // 'image_attribute' => ['style' => 'width:200px;'],
+                    // 'image_thumb' => true,
+                    'multiple' => false,
+                    'help' => __('dashboard::backend.檔案上傳說明', ['max_size' => ini_get('upload_max_filesize')]),
+                ],
+                'origin_name' => [
+                    'input_type' => 'text',
+                    'display_name' => __('base::article.附檔檔名'),
+                ],
+                'attachment_title' => [
+                    'input_type' => 'text',
+                    'display_name' => __('base::article.附檔標題'),
+                ],
+                'attachment_description' => [
+                    'input_type' => 'textarea',
+                    'display_name' => __('base::article.附檔說明'),
+                    'rows' => 5,
+                ],
+                'note' => [
+                    'input_type' => 'textarea',
+                    'display_name' => __('dashboard::backend.備註'),
+                    'rows' => 5,
+                ],
+            ];
+
+            // 樣版資料
+            $component_datas['page_title'] = $page_title;
+            $component_datas['back_url'] = false;
+            $this->tpl_data['component_datas'] = $component_datas;
+            return view($this->view_path . 'attachment-update', $this->tpl_data);
+        }
+    }
+
+    /**
+     * 接收附檔
+     */
+    public function putAttachmentUpdate(ArticleAttachmentRepository $article_attachment_repository, $attachment_id)
+    {
+        if ($this->article_id) {
+            $res = $article_attachment_repository->setUpdate($attachment_id);
+            if ($res) {
+                session()->flash('notify.message', __('dashboard::backend.資料編輯完成'));
+                session()->flash('notify.type', 'success');
+            } else {
+                session()->flash('notify.message', __('dashboard::backend.資料編輯失敗'));
+                session()->flash('notify.type', 'danger');
+            }
+        }
+        return redirect($this->uri . 'update?' . $this->base_service->getQueryString(true, true) . '&tab=attachment');
+    }
+
+    /**
+     * 新增附檔
+     */
+    public function attachmentAdd()
+    {
+        $page_title = __('base::article.新增文章附檔');
+
+        // 一般表單資料
+        $this->tpl_data['form_array_normal'] = [
+            'file_name' => [
+                'input_type' => 'file',
+                'display_name' => __('base::article.文章附檔'),
+                'upload_path' => 'article',
+                'value_type' => 'file',
+                // 'image_attribute' => ['style' => 'width:200px;'],
+                // 'image_thumb' => true,
+                'multiple' => false,
+                'help' => __('dashboard::backend.檔案上傳說明', ['max_size' => ini_get('upload_max_filesize')]),
+            ],
+            'attachment_title' => [
+                'input_type' => 'text',
+                'display_name' => __('base::article.附檔標題'),
+            ],
+            'attachment_description' => [
+                'input_type' => 'textarea',
+                'display_name' => __('base::article.附檔說明'),
+                'rows' => 5,
+            ],
+            'note' => [
+                'input_type' => 'textarea',
+                'display_name' => __('dashboard::backend.備註'),
+                'rows' => 5,
+            ],
+        ];
+
+        // 樣版資料
+        $this->tpl_data['component_datas']['page_title'] = $page_title;
+        $this->tpl_data['component_datas']['back_url'] = false;
+        return view($this->view_path . 'attachment-add', $this->tpl_data);
+    }
+
+    /**
+     * 接收新增附檔
+     */
+    public function putAttachmentAdd(ArticleAttachmentRepository $article_attachment_repository)
+    {
+        $res = $article_attachment_repository->setUpdate();
+        if ($res) {
+            session()->flash('notify.message', __('dashboard::backend.資料編輯完成'));
+            session()->flash('notify.type', 'success');
+        } else {
+            session()->flash('notify.message', __('dashboard::backend.資料編輯失敗'));
+            session()->flash('notify.type', 'danger');
+        }
+        return redirect($this->uri . 'update?' . $this->base_service->getQueryString(true, true) . '&tab=attachment');
+    }
+
+    /**
+     * 刪除附檔
+     */
+    public function attachmentDelete(ArticleAttachmentRepository $article_attachment_repository, $attachment_id)
+    {
+        if ($this->article_id) {
+            $article_attachment_repository->model->find($attachment_id)->delete();
+            return redirect($this->uri . 'update?' . $this->base_service->getQueryString(true, true) . '&tab=attachment');
+        }
+    }
+
+    /**
+     * 下載附檔
+     */
+    public function attachmentDownload(ArticleAttachmentRepository $article_attachment_repository, $attachment_id)
+    {
+        $query_article_attachment = $article_attachment_repository->model->find($attachment_id);
+        // $storage_path = storage_path(config('frontend.upload_path') . '/article/' . $query_article_attachment->file_name);
+        return FileService::download($query_article_attachment->file_name, $query_article_attachment->origin_name . '.' . $query_article_attachment->file_extention, 'article');
+    }
+    
 }
