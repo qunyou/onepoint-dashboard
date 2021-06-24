@@ -17,8 +17,6 @@ class User extends Authenticatable
     use Notifiable;
     use SoftDeletes;
 
-    protected $table = 'managers';
-
     /**
      * The attributes that are mass assignable.
      *

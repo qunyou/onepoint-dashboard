@@ -44,9 +44,11 @@
             @endif
         @endslot
         @slot('button_block')
+            @if (auth()->user()->hasAccess(['read-Onepoint\Base\Controllers\ArticleCategoryController']))
             <a class="btn btn-outline-deep-purple waves-effect d-xs-block" href="{{ url(config('dashboard.uri') . '/article-category/index') }}">
                 <i class="fas fa-folder-open"></i>@lang('base::article.文章分類')
             </a>
+            @endif
         @endslot
     @endcomponent
 @endsection

@@ -1,10 +1,5 @@
 @extends('dashboard::layouts.dashboard')
 
-@section('top-item')
-    @include('base::dashboard.includes.top-item')
-    @parent
-@endsection
-
 @section('sidebar-header')
     @include('base::dashboard.includes.sidebar-header')
 @endsection
