@@ -247,6 +247,11 @@ class AppServiceProvider extends ServiceProvider
                         ['path' => 'normal', 'width' => 700],
                         ['path' => 'thumb', 'width' => 200]
                     ],
+
+                    // 權限功能
+                    'user' => [
+                        'use_role' => false
+                    ],
             
                     // 設定功能
                     'setting' => [
