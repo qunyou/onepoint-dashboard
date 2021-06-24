@@ -32,17 +32,10 @@ class DashboardServiceProvider extends ServiceProvider
         // 發佈至 public 目錄的指令
         // php artisan vendor:publish --tag=public --force
         // php artisan vendor:publish --force
-        // $this->publishes([
-        //     __DIR__.'/Publishes/public/assets/dashboard.zip' => public_path('assets'),
-        // ], 'public');
 
         $this->publishes([
-            __DIR__.'/Publishes/public/vendor.zip' => public_path('/'),
-        ], 'public/vendor');
-
-        // $this->publishes([
-        //     __DIR__.'/Publishes/config' => config_path('/'),
-        // ], 'config-filemanager');
+            __DIR__.'/Publishes/public' => public_path('/'),
+        ], 'public');
 
         $this->publishes([
             __DIR__.'/Publishes/app/Providers' => app_path('Providers'),
