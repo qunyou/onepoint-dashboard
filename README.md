@@ -23,7 +23,7 @@
 
     Onepoint\Dashboard\DashboardServiceProvider::class,
 
-### 複製必要檔案至正確目錄(檔案很多，執行要花一點時間)
+### 複製必要檔案至正確目錄
 
 先刪除此檔案
 
@@ -38,6 +38,12 @@ database/migrations/2014_10_12_000000_create_users_table.php
 public/vendor.zip
 
 ## 資料庫設定
+
+### 設定 AppServiceProvider.php
+
+將 app/Providers/AppServiceProviderSample.php 的內容複製至 app/Providers/AppServiceProvider.php
+
+刪除 app/Providers/AppServiceProviderSample.php
 
 ### 在這個檔設定資料庫的帳號密碼
 
