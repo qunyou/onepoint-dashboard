@@ -41,10 +41,6 @@ class DashboardServiceProvider extends ServiceProvider
         ], 'public/vendor');
 
         // $this->publishes([
-        //     __DIR__.'/Publishes/public/filemanager' => public_path('filemanager'),
-        // ], 'filemanager');
-
-        // $this->publishes([
         //     __DIR__.'/Publishes/config' => config_path('/'),
         // ], 'config-filemanager');
 
@@ -52,12 +48,12 @@ class DashboardServiceProvider extends ServiceProvider
             __DIR__.'/Publishes/app/Providers' => app_path('Providers'),
         ], 'providers');
 
-        // $this->publishes([
-        //     __DIR__.'/Publishes/custom' => base_path('custom'),
-        // ], 'custom');
-
         $this->publishes([
             __DIR__.'/Publishes/database' => base_path('database'),
         ], 'database');
+
+        $this->publishes([
+            __DIR__.'/Publishes/packages' => base_path('packages'),
+        ], 'packages');
     }
 }

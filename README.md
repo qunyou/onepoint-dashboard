@@ -65,6 +65,15 @@ config/database.php
 
 ## 安裝必要 Package
 
+### 文章管理功能
+
+    在前面 publish 步驟時已建立 packages 資料夾，裡面有一個 base 套件
+    在 config/app.php 的 providers 加上
+    Onepoint\Base\BaseServiceProvider::class,
+
+    如果前台也要使用 package 的方式，可以參照 base 的方式建立資料夾，並在 providers 再加一行
+    Onepoint\Frontend\FrontendServiceProvider::class,
+
 ### 縮圖 Package
 
     composer require intervention/image
