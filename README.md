@@ -31,6 +31,7 @@ public/vendor.zip
 1. 將 app/Providers/AppServiceProviderSample.php 的內容複製至 app/Providers/AppServiceProvider.php
 2. 刪除 app/Providers/AppServiceProviderSample.php
 3. 修改 app/Providers/AppServiceProvider.php 內的資料庫名稱密碼等資訊
+4. 修改 .env 中的資料庫帳號密碼
 
 ### 建立資料庫，建立時選擇 utf8mb4 編碼的資料庫
 
@@ -38,13 +39,24 @@ public/vendor.zip
 
     composer dump-autoload
 
-執行以下指令建立預設的資料表及預設資料，執行前先修改 .env 中的資料庫帳號密碼，在 artisan 中不會去讀取 custom/default/baseConfig.php 設定的資料庫帳號密碼。
+執行以下指令建立預設的資料表及預設資料，執行前先修改 .env 中的資料庫帳號密碼，在 artisan 中不會去讀取 app/Providers/AppServiceProvider.php 設定的資料庫帳號密碼。
 
     php artisan migrate --seed
 
 清空資料庫，重新建立預設資料(想要重設資料庫才需要執行的指令)
 
     php artisan migrate:refresh --seed
+
+修改 config/auth.php
+
+    將 user model 改成自訂的 user model
+    'providers' => [
+        'users' => [
+            'driver' => 'eloquent',
+            'model' => Onepoint\Base\Entities\User::class,
+        ],
+        ...
+    ],
 
 config/database.php
 
