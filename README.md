@@ -68,11 +68,25 @@ config/database.php
 ### 文章管理功能
 
     在前面 publish 步驟時已建立 packages 資料夾，裡面有一個 base 套件
-    在 config/app.php 的 providers 加上
-    Onepoint\Base\BaseServiceProvider::class,
 
-    如果前台也要使用 package 的方式，可以參照 base 的方式建立資料夾，並在 providers 再加一行
-    Onepoint\Frontend\FrontendServiceProvider::class,
+    composer.json 加上
+    "autoload": {
+        "psr-4": {
+            …
+            "Onepoint\\Base\\": "packages/onepoint/base/src"
+        }
+    },
+
+    執行
+    composer dump-autoload
+
+    在 config/app.php 加上
+    'providers' => [
+        …
+        Onepoint\Base\BaseServiceProvider::class,
+    ]
+
+    如果前台也要使用 package 的方式，可以參照 base 的方式建立資料夾，分別在 composer.json 及 config/app.php 加內容
 
 ### 縮圖 Package
 
@@ -265,25 +279,3 @@ app/Exceptions/Handler.php
         }
         return parent::render($request, $exception);
     }
-
-## 自訂套件
-
-composer.json
-
-    "autoload": {
-        "psr-4": {
-            …
-            "Onepoint\\Base\\": "packages/onepoint/base/src"
-        }
-    },
-
-執行
-
-    composer dump-autoload
-
-config/app.php
-
-    'providers' => [
-        …
-        Onepoint\Base\BaseServiceProvider::class,
-    ]

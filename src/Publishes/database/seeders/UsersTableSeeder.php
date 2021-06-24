@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Hash;
 use Illuminate\Database\Seeder;
+use DB;
 
 class UsersTableSeeder extends Seeder
 {
