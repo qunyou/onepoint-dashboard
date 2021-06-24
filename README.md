@@ -6,19 +6,6 @@
 
     composer require onepoint/dashboard
 
-在 config/app.php return 之前加上
-
-    $app_url = 'https://localhost.test';
-    if (isset($_SERVER['HTTP_HOST'])) {
-        if (request()->isSecure()) {
-            $ssl_protocol = 'https://';
-        } else {
-            $ssl_protocol = 'http://';
-        }
-        $app_url = $ssl_protocol . $_SERVER['HTTP_HOST'];
-    }
-    define("APP_URL", $app_url);
-
 在 config/app.php 的 providers 加上
 
     Onepoint\Dashboard\DashboardServiceProvider::class,
