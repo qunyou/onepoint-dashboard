@@ -39,15 +39,11 @@ public/vendor.zip
 
 ## 資料庫設定
 
-### 設定 AppServiceProvider.php
-
-將 app/Providers/AppServiceProviderSample.php 的內容複製至 app/Providers/AppServiceProvider.php
-
-刪除 app/Providers/AppServiceProviderSample.php
-
 ### 在這個檔設定資料庫的帳號密碼
 
-app/Providers/AppServiceProvider.php
+1. 將 app/Providers/AppServiceProviderSample.php 的內容複製至 app/Providers/AppServiceProvider.php
+2. 刪除 app/Providers/AppServiceProviderSample.php
+3. 修改 app/Providers/AppServiceProvider.php 內的資料庫名稱密碼等資訊
 
 ### 建立資料庫，建立時選擇 utf8mb4 編碼的資料庫
 
