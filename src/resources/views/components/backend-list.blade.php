@@ -319,7 +319,11 @@
                                                                 $with_url = '';
                                                                 $qs = '';
                                                                 if (isset($with_value['url'])) {
-                                                                    $with_value['query_string_suffix'][$id_string] = $element->id;
+                                                                    if (isset($with_value['refer_id_string'])) {
+                                                                        $with_value['query_string_suffix'][$with_value['refer_id_string']] = $element->id;
+                                                                    } else {
+                                                                        $with_value['query_string_suffix'][$id_string] = $element->id;
+                                                                    }
                                                                     $page = request('page', 0);
                                                                     if (isset($with_value['back_page_string']) && $page > 0) {
                                                                         $with_value['query_string_suffix'][$with_value['back_page_string']] = $page;
@@ -361,8 +365,7 @@
                                                     @else
                                                         @if (isset($update_hide) && $update_hide)
                                                         @else
-                                                            {{-- <a href="{{ url($uri . 'update?' . $id_string . '=' . $element->id . ($update_url_append_string ?? '')) }}" class="btn btn-outline-deep-purple waves-effect text-nowrap"> --}}
-                                                            <a href="{{ url($uri . 'update?' . $id_string . '=' . $element->id . '&' . $base_service->getQueryString(true, true)) }}" class="btn btn-outline-deep-purple waves-effect text-nowrap">
+                                                            <a href="{{ url($uri . ($update_uri ?? 'update') . '?' . $id_string . '=' . $element->id . '&' . $base_service->getQueryString(true, true)) }}" class="btn btn-outline-deep-purple waves-effect text-nowrap">
                                                                 <i class="fas fa-edit"></i>
                                                                 <span class="d-none d-md-inline">@lang('dashboard::backend.編輯')</span>
                                                             </a>

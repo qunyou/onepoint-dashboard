@@ -3,6 +3,7 @@
 namespace Onepoint\Dashboard\Traits;
 
 use Onepoint\Dashboard\Services\BaseService;
+use Illuminate\Support\Facades\Auth;
 
 trait ShareMethod
 {
@@ -114,5 +115,24 @@ trait ShareMethod
         // 更新網址附加字串
         // $component_datas['update_url_append_string'] = $this->base_service->getQueryString(true, true);
         return $component_datas;
+    }
+
+    /**
+     * 批次處理
+     */
+    public function batch()
+    {
+        $settings['use_version'] = true;
+        $result = $this->article_category_repository->batch($settings);
+        switch ($result['batch_method']) {
+            case 'restore':
+            case 'force_delete':
+                $back_url_str = 'index?' . $this->base_service->getQueryString(true, true) . '&trashed=true';
+                break;
+            default:
+                $back_url_str = 'index?' . $this->base_service->getQueryString(true, true);
+                break;
+        }
+        return redirect($this->uri . $back_url_str);
     }
 }

@@ -1,51 +1,45 @@
 # 後台操作界面及基本權限功能
 
-## 使用 Composer 安裝(方法一)
-    執行
+## 使用 Composer 安裝
+
+執行
+
     composer require onepoint/dashboard
-
-## 自訂安裝(方法二)
-    git clone 或是 download onepoint/dashboard
-    檔案放在這個路徑 packages/onepoint/dashboard
-    在 composer.json 加上
-    "autoload": {
-        "psr-4": {
-            ...
-            "Onepoint\\Dashboard\\": "packages/onepoint/dashboard/src",
-        },
-        ...
-    },
-
-    執行
-    composer dump-autoload
-
-> 以上兩個方法擇一使用
 
 在 config/app.php 的 providers 加上
 
     Onepoint\Dashboard\DashboardServiceProvider::class,
 
-### 複製必要檔案至正確目錄(檔案很多，執行要花一點時間)
+### 複製必要檔案至正確目錄
 
-    先刪除以下檔案
-    database/migrations/2014_10_12_000000_create_users_table.php
+先刪除此檔案
 
-    執行
+database/migrations/2014_10_12_000000_create_users_table.php
+
+執行
+
     php artisan vendor:publish --provider="Onepoint\Dashboard\DashboardServiceProvider"
+
+解壓縮這個檔案(tinymce檔案管理界面用檔案)
+
+public/vendor.zip
 
 ## 資料庫設定
 
-app/Providers/AppServiceProvider.php
+### 在這個檔設定資料庫的帳號密碼
 
-在這個檔設定資料庫的帳號密碼
+1. 將 app/Providers/AppServiceProviderSample.php 的內容複製至 app/Providers/AppServiceProvider.php
+2. 刪除 app/Providers/AppServiceProviderSample.php
+3. 修改 app/Providers/AppServiceProvider.php 內的資料庫名稱密碼等資訊
+4. 修改 .env 中的資料庫帳號密碼
 
-建立資料庫，建立時選擇 utf8mb4 編碼的資料庫
+### 建立資料庫，建立時選擇 utf8mb4 編碼的資料庫
 
 執行以下指令重新產生 Composer 的自動讀取檔案列表，以免執行 seed 指令時找不到檔案
 
     composer dump-autoload
 
-執行以下指令建立預設的資料表及預設資料，執行前先修改 .env 中的資料庫帳號密碼，在 artisan 中不會去讀取 custom/default/baseConfig.php 設定的資料庫帳號密碼。
+執行以下指令建立預設的資料表及預設資料，執行前先修改 .env 中的資料庫帳號密碼，在 artisan 中不會去讀取 app/Providers/AppServiceProvider.php 設定的資料庫帳號密碼。
 
     php artisan migrate --seed
 
@@ -53,11 +47,45 @@ app/Providers/AppServiceProvider.php
 
     php artisan migrate:refresh --seed
 
+修改 config/auth.php
+
+    將 user model 改成自訂的 user model
+    'providers' => [
+        'users' => [
+            'driver' => 'eloquent',
+            'model' => Onepoint\Base\Entities\User::class,
+        ],
+        ...
+    ],
+
 config/database.php
 
     connections.mysql.strict 要改成 false
 
 ## 安裝必要 Package
+
+### 文章管理功能
+
+    在前面 publish 步驟時已建立 packages 資料夾，裡面有一個 base 套件
+
+    composer.json 加上
+    "autoload": {
+        "psr-4": {
+            …
+            "Onepoint\\Base\\": "packages/onepoint/base/src"
+        }
+    },
+
+    執行
+    composer dump-autoload
+
+    在 config/app.php 加上
+    'providers' => [
+        …
+        Onepoint\Base\BaseServiceProvider::class,
+    ]
+
+    如果前台也要使用 package 的方式，可以參照 base 的方式建立資料夾，分別在 composer.json 及 config/app.php 加內容
 
 ### 縮圖 Package
 
@@ -186,18 +214,6 @@ config/auth.php
 ### 修改設定
 config/app.php
 
-    在 return 之前加上
-    $app_url = 'https://localhost.test';
-    if (isset($_SERVER['HTTP_HOST'])) {
-        if (request()->isSecure()) {
-            $ssl_protocol = 'https://';
-        } else {
-            $ssl_protocol = 'http://';
-        }
-        $app_url = $ssl_protocol . $_SERVER['HTTP_HOST'];
-    }
-    define("APP_URL", $app_url);
-
     'url' => env('APP_URL', 'http://localhost'),
     修改為
     'url' => APP_URL,
@@ -217,7 +233,6 @@ config/filesystems.php
 .env
 
     APP_DEBUG=false
-
 ### Homestead 上傳檔案大小修改
 
 預設只能傳小於 1M 的檔案，修改後會比較好測試
@@ -263,4 +278,3 @@ app/Exceptions/Handler.php
         }
         return parent::render($request, $exception);
     }
-

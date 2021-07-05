@@ -74,9 +74,10 @@ class SettingController extends Controller
             $component_datas['footer_sort_hide'] = true;
         }
         $this->tpl_data['model'] = request('model', 'global');
-        $component_datas['list'] = $this->setting_repository->getList(false, $this->tpl_data['model']);
+        $component_datas['list'] = $this->setting_repository->getList($this->setting_id, config('backend.paginate'));
+        $component_datas['update_uri'] = 'model-update';
+        $component_datas['use_drag_rearrange'] = true;
         $component_datas['use_sort'] = false;
-        $component_datas['footer_dropdown_hide'] = true;
         $this->tpl_data['component_datas'] = $component_datas;
         return view($this->view_path . 'model', $this->tpl_data);
     }
@@ -123,10 +124,10 @@ class SettingController extends Controller
     public function modelUpdate()
     {
         $this->tpl_data['page_title'] = __('dashboard::backend.編輯');
-        $model = request('model', false);
+        $model = request('model', 'global');
         $this->tpl_data['model'] = $model;
-        $this->tpl_data['formPresenter'] = new FormPresenter;
-        if ($this->setting_id && $model) {
+        // $this->tpl_data['formPresenter'] = new FormPresenter;
+        if ($this->setting_id) {
             $query = $this->setting_repository->getOne($this->setting_id);
             $this->tpl_data['setting'] = $query;
 
@@ -454,5 +455,24 @@ class SettingController extends Controller
                 break;
         }
         return redirect($this->uri . $back_url_str);
+    }
+
+    /**
+     * 修改排序
+     */
+    public function rearrange()
+    {
+        if ($this->setting_id) {
+            $this->setting_repository->rearrange();
+        }
+        return redirect($this->uri . 'index?' . $this->base_service->getQueryString(true, true));
+    }
+
+    /**
+     * 拖曳排序
+     */
+    public function dragSort()
+    {
+        return $this->setting_repository->dragRearrange();
     }
 }

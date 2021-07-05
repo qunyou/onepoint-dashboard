@@ -1,7 +1,7 @@
 @isset($items)
 <div class="btn-group d-block d-md-inline-block">    
     <button class="btn btn-outline-deep-purple waves-effect dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        更多功能
+        @lang('dashboard::backend.更多功能')
     </button>
     <div class="dropdown-menu dropdown-menu-right">
     @foreach ($items as $key => $item)
