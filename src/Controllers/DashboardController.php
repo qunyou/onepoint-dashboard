@@ -28,7 +28,7 @@ class DashboardController extends Controller
     {
         $this->share();
         $this->base_services = $base_services;
-        $this->tpl_data = $base_services->tpl_data;
+        // $this->tpl_data = $base_services->tpl_data;
         $this->tpl_data['base_services'] = $this->base_services;
         $this->tpl_data['navigation_item'] = config('backend.navigation_item');
 

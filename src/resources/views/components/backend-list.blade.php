@@ -319,7 +319,11 @@
                                                                 $with_url = '';
                                                                 $qs = '';
                                                                 if (isset($with_value['url'])) {
-                                                                    $with_value['query_string_suffix'][$id_string] = $element->id;
+                                                                    if (isset($with_value['refer_id_string'])) {
+                                                                        $with_value['query_string_suffix'][$with_value['refer_id_string']] = $element->id;
+                                                                    } else {
+                                                                        $with_value['query_string_suffix'][$id_string] = $element->id;
+                                                                    }
                                                                     $page = request('page', 0);
                                                                     if (isset($with_value['back_page_string']) && $page > 0) {
                                                                         $with_value['query_string_suffix'][$with_value['back_page_string']] = $page;
