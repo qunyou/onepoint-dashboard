@@ -1,7 +1,7 @@
 <?php
 
-return array(
-    '網站內容管理系統' => 'Website CMS',
+return [
+    '網站內容管理系統' => 'Content Manage Ststem',
     '檢視網站' => 'View website',
     '管理者' => 'Manager',
     '預設首頁' => 'Default homepage',
@@ -12,6 +12,7 @@ return array(
     '使用此版本' => 'Use this version',
     '版本時間' => 'Version time',
     '版本還原完成' => 'Version restoration complete',
+    '流量統計' => 'Traffic Statistics',
     '列表' => 'List',
     '回列表' => 'Back to list',
     '匯入' => 'Import',
@@ -30,6 +31,7 @@ return array(
     '圖片' => 'image',
     '手機尺寸圖片' => 'Phone size picture',
     '圖片名稱' => 'Picture name',
+    '檔案大小' => 'File size',
     '圖片上傳說明' => 'Select a native image file，acceptable jpg、png、gif、svg format，File size :max_size files within',
     '檔案上傳說明' => 'Select a native file，File size ' . ini_get('upload_max_filesize') . ' Files within',
     '檢視' => 'View',
@@ -68,7 +70,6 @@ return array(
     '發佈日期說明' => 'For front desk display only, not for setting the front desk date',
     '開始日期' => 'start date',
     '結束日期' => 'End date',
-    '永久發佈' => 'Post forever',
     '發佈期限說明' => 'Choose to enable, the front end will be displayed permanently, if you choose to disable, the two columns will be displayed in the foreground according to the start release date and the end release date. During the set period, the news will be automatically submitted at the front desk, and will be automatically removed outside the set period.',
     '網頁標題' => 'Page title',
     '關鍵字' => 'Keywords',
@@ -77,15 +78,20 @@ return array(
     '功能' => 'Features',
     '更多功能' => 'More...',
     '新增' => 'Add',
-    '關閉' => 'shut down',
-    '重設查詢' => 'Reset inquiry',
-    '查詢' => 'Inquire',
-    '搜尋' => 'search',
+    '關閉' => 'Close',
+    '重設查詢' => 'Reset',
+    '查詢' => 'Search',
+    '搜尋' => 'Search',
     '多檔上傳' => 'Multi-file upload',
     '列表摘要' => 'List summary',
-    '自訂列表縮圖內容' => '自訂列表縮圖內容',
+    '自訂列表縮圖內容' => 'Custom list thumbnail content',
     '僅供會員檢視' => 'Visible to members only',
     '外連網址' => 'External URL',
+    '檔案管理' => 'File management',
+    '按著Ctrl點選可複選多個項目' => 'Press Ctrl and click to select multiple items',
+    '請使用包含http的完整網址' => 'Please use the full URL including http://',
+    '最後更新時間' => 'Last update time',
+    '更新人員' => 'Updated staff',
 
     '資料設定' => 'Data settings',
     '進階設定' => 'Advanced settings',
@@ -94,4 +100,4 @@ return array(
     '語言' => 'Language',
     '繁體中文' => '繁體中文',
     '英文' => 'English',
-);
+];

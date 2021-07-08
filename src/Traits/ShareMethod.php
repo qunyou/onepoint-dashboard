@@ -54,15 +54,17 @@ trait ShareMethod
     }
 
     // 列表基本設定資料
-    public function listPrepare()
+    public function listPrepare($permission_controller_string = '', $id_string = '')
     {
-        // $current_action = RouteService::getCurrentAction();
+        // 權限判斷字串
+        if (!empty($permission_controller_string)) {
+            $component_datas['permission_controller_string'] = $permission_controller_string;
+        }
 
-        // // 目前所在方法
-        // $this->tpl_data['current_class_name'] = $current_action['class_name'];
-        // if ($current_action['method'] == 'update' || $current_action['method'] == 'detail' || $current_action['method'] == 'duplicate') {
-        //     $this->tpl_data['formPresenter'] = new FormPresenter;
-        // }
+        // 主資料 id query string 字串
+        if (!empty($id_string)) {
+            $component_datas['id_string'] = $id_string;
+        }
 
         // 檢視刪除資料狀態判斷
         $component_datas['trashed'] = request('trashed', false);
@@ -109,21 +111,72 @@ trait ShareMethod
         // 預覽網址
         $component_datas['preview_url'] = '';
 
+        // 預設網址
+        $component_datas['uri'] = $this->uri;
+
         // 回列表網址
-        // $component_datas['back_url'] = '';
+        $component_datas['back_url'] = url($this->uri . 'index');
+
+        // 權限設定
+        if (auth()->user()->hasAccess(['create-' . $permission_controller_string])) {
+            $component_datas['add_url'] = url($this->uri . 'update');
+        }
+        if (auth()->user()->hasAccess(['update-' . $permission_controller_string])) {
+            if (!auth()->user()->hasAccess(['delete-' . $permission_controller_string])) {
+                $component_datas['footer_delete_hide'] = true;
+            }
+        } else {
+            $component_datas['footer_dropdown_hide'] = true;
+            $component_datas['footer_sort_hide'] = true;
+        }
+        if (auth()->user()->hasAccess(['update-' . $permission_controller_string])) {
+            $component_datas['dropdown_items']['items']['版本'] = ['url' => url($this->uri . 'index?version=true')];
+        }
+        if (auth()->user()->hasAccess(['delete-' . $permission_controller_string])) {
+            $component_datas['dropdown_items']['items']['資源回收'] = ['url' => url($this->uri . 'index?trashed=true')];
+        }
 
         // 更新網址附加字串
         // $component_datas['update_url_append_string'] = $this->base_service->getQueryString(true, true);
         return $component_datas;
     }
 
+    // 細節基本設定資料
+    public function detailPrepare($permission_controller_string = '', $id_string = '', $query_datas)
+    {
+        // 權限判斷字串
+        if (!empty($permission_controller_string)) {
+            $component_datas['permission_controller_string'] = $permission_controller_string;
+        }
+
+        // 回列表網址
+        $component_datas['back_url'] = url($this->uri . 'index?' . $this->base_service->getQueryString(true, true));
+
+        // 主資料 id query string 字串
+        if (!empty($id_string)) {
+            if (auth()->user()->hasAccess(['update-' . $permission_controller_string])) {
+                $component_datas['dropdown_items']['items']['編輯'] = ['url' => url($this->uri . 'update?' . $id_string . '=' . $query_datas->id)];
+            }
+            if (auth()->user()->hasAccess(['create-' . $permission_controller_string])) {
+                $component_datas['dropdown_items']['items']['複製'] = ['url' => url($this->uri . 'duplicate?' . $id_string . '=' . $query_datas->id)];
+            }
+            if (auth()->user()->hasAccess(['delete-' . $permission_controller_string])) {
+                $component_datas['dropdown_items']['items']['刪除'] = ['url' => url($this->uri . 'delete?' . $id_string . '=' . $query_datas->id)];
+            }
+            if (config('backend.article.preview_url', false)) {
+                $component_datas['dropdown_items']['items']['預覽'] = ['url' => url(config('backend.article.preview_url', '') . $query_datas->id)];
+            }
+        }
+        return $component_datas;
+    }
+
     /**
      * 批次處理
      */
-    public function batch()
+    public function batch($repository, $settings)
     {
-        $settings['use_version'] = true;
-        $result = $this->article_category_repository->batch($settings);
+        // $settings['use_version'] = true;
+        $result = $repository->batch($settings);
         switch ($result['batch_method']) {
             case 'restore':
             case 'force_delete':
