@@ -81,6 +81,7 @@ class ImageService
      */
     public static function showImg($path, $file_name, $attribute = '', $default_str = false, $custom_folder = '')
     {
+        $file_path = '';
         if (!empty($file_name)) {
             $file_path = Self::getPath($path, $file_name, $custom_folder);
             if ($file_path = Self::getPath($path, $file_name, $custom_folder)) {
