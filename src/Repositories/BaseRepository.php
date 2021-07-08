@@ -787,7 +787,7 @@ class BaseRepository
         $q->deleted_at = null;
         $q->save();
         // $q->restore();
-        session()->flash('notify.message', __('backend.版本還原完成'));
+        session()->flash('notify.message', __('dashboard::backend.版本還原完成'));
         session()->flash('notify.type', 'success');
     }
 

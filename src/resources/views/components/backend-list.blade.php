@@ -401,7 +401,8 @@
                                                         $button_items['items']['檢視'] = ['url' => url($uri . 'detail?' . $id_string . '=' . $element->id . '&origin_id=' . $element->origin_id . '&version=true')];
                                                     }
                                                 @endphp
-                                                @component('dashboard::components.dropdown-toggle', $button_items)
+                                                {{-- @component('dashboard::components.dropdown-toggle', $button_items) --}}
+                                                @component('dashboard::components.backend-list-btn-group', $button_items)
                                                     @if ($version)
                                                         <a href="{{ url($uri . 'apply-version?' . $id_string . '=' . $element->origin_id . '&version_id=' . $element->id) }}" class="btn btn-outline-deep-purple waves-effect">
                                                             <i class="fas fa-code-branch"></i>@lang('dashboard::backend.使用此版本')
@@ -477,6 +478,7 @@
                                                     </button>
                                                 @endif
                                             @endif
+                                            {!! $footer_dropdown_item ?? '' !!}
                                         </div>
                                     </div>
                                 </div>
