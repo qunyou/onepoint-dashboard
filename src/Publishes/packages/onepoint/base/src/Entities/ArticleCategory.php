@@ -36,20 +36,14 @@ class ArticleCategory extends Model
         // 備註
         'note',
 
-        // 點擊
-        // 'click',
-
         // 類別名稱
         'category_name',
 
         // 類別名稱slug
         'category_name_slug',
         
-        // 背景圖
-        // 'file_name',
-        
         // 分類說明
-        // 'category_description',
+        'category_description',
     ];
 
     // 更新人員關聯

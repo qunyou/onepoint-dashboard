@@ -34,10 +34,18 @@ class ArticleRepository extends BaseRepository
     public function getList($id = 0, $paginate = 0)
     {
         $query = $this->permissions()->with('article_category')->withCount('image', 'attachment');
-        if ($article_category_id = request('article_category_id', 0)) {
-            $query = $query->whereHas('article_category', function ($q) use ($article_category_id) {
-                $q->where('article_category_id', $article_category_id);
+        if ($q_article_category_id = request('q_article_category_id', 0)) {
+            $query = $query->whereHas('article_category', function ($q) use ($q_article_category_id) {
+                $q->where('article_category_id', $q_article_category_id);
             });
+        }
+        $q_article_title = request('q_article_title', '');
+        if (!empty($q_article_title)) {
+            $query = $query->where('article_title', 'like', '%' . $q_article_title . '%');
+        }
+        $q_article_content = request('q_article_content', '');
+        if (!empty($q_article_content)) {
+            $query = $query->where('article_content', 'like', '%' . $q_article_content . '%');
         }
         return $this->fetchList($query, $id, $paginate);
     }

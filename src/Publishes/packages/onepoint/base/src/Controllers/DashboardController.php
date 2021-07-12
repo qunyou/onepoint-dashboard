@@ -2,17 +2,12 @@
 
 namespace Onepoint\Base\Controllers;
 
-use DB;
 use Analytics;
 use App\Http\Controllers\Controller;
 use Onepoint\Base\Entities\BrowserAgent;
 use Onepoint\Dashboard\Presenters\PathPresenter;
-use Onepoint\Dashboard\Services\BaseService;
 use Onepoint\Dashboard\Traits\ShareMethod;
 use Spatie\Analytics\Period;
-use Onepoint\Base\Entities\OrderForm;
-use Onepoint\Base\Entities\OrderItem;
-use Onepoint\Base\Entities\Member;
 
 /**
  * 登入預設頁

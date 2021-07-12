@@ -9,7 +9,6 @@ use Onepoint\Base\Repositories\ArticleCategoryRepository;
 use Onepoint\Base\Repositories\ArticleImageRepository;
 use Onepoint\Base\Repositories\ArticleRepository;
 use Onepoint\Dashboard\Services\FileService;
-use Onepoint\Dashboard\Services\ImageService;
 use Onepoint\Dashboard\Traits\ShareMethod;
 
 /**
@@ -43,14 +42,8 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $component_datas = $this->listPrepare();
-        $permission_controller_string = get_class($this);
-        $component_datas['permission_controller_string'] = $permission_controller_string;
-        $component_datas['uri'] = $this->uri;
-        $component_datas['back_url'] = url($this->uri . 'index');
-
-        // 主資料 id query string 字串
-        $component_datas['id_string'] = 'article_id';
+        // 列表基本設定資料
+        $component_datas = $this->listPrepare(get_class($this), 'article_id');
 
         // 表格欄位設定
         $component_datas['th'] = [
@@ -67,30 +60,16 @@ class ArticleController extends Controller
             ['type' => 'url', 'url' => url(config('article.preview_url', '')), 'slash' => ['article_title_slug']],
         ];
 
-        // 權限設定
-        if (auth()->user()->hasAccess(['create-' . $permission_controller_string])) {
-            $component_datas['add_url'] = url($this->uri . 'update');
-        }
-        if (auth()->user()->hasAccess(['update-' . $permission_controller_string])) {
-            if (!auth()->user()->hasAccess(['delete-' . $permission_controller_string])) {
-                $component_datas['footer_delete_hide'] = true;
-            }
-        } else {
-            $component_datas['footer_dropdown_hide'] = true;
-            $component_datas['footer_sort_hide'] = true;
-        }
-        if (auth()->user()->hasAccess(['update-' . $permission_controller_string])) {
-            $component_datas['dropdown_items']['items']['版本'] = ['url' => url($this->uri . 'index?version=true')];
-        }
-        if (auth()->user()->hasAccess(['delete-' . $permission_controller_string])) {
-            $component_datas['dropdown_items']['items']['資源回收'] = ['url' => url($this->uri . 'index?trashed=true')];
-        }
+        // 文章分類選單
+        $article_category_repository = new ArticleCategoryRepository;
+        $this->tpl_data['category_select_item'] = $article_category_repository->getOptionItem();
 
         // 列表資料查詢
         $component_datas['list'] = $this->article_repository->getList($this->article_id, config('backend.paginate'));
         $component_datas['use_drag_rearrange'] = true;
         $component_datas['use_sort'] = false;
         $component_datas['detail_hide'] = false;
+        $component_datas['use_duplicate'] = true;
         $this->tpl_data['component_datas'] = $component_datas;
         return view($this->view_path . 'index', $this->tpl_data);
     }
@@ -112,29 +91,11 @@ class ArticleController extends Controller
      */
     public function putIndex()
     {
-        return $this->batch();
-    }
-
-    /**
-     * 批次處理
-     */
-    public function batch()
-    {
-        $settings['file_field'] = 'file_name';
-        $settings['folder'] = 'article';
-        $settings['image_scale'] = true;
+        // $settings['file_field'] = 'file_name';
+        // $settings['folder'] = 'article';
+        // $settings['image_scale'] = true;
         $settings['use_version'] = true;
-        $result = $this->article_repository->batch($settings);
-        switch ($result['batch_method']) {
-            case 'restore':
-            case 'force_delete':
-                $back_url_str = 'index?trashed=true';
-                break;
-            default:
-                $back_url_str = 'index';
-                break;
-        }
-        return redirect($this->uri . $back_url_str);
+        return $this->batch($this->article_repository, $settings);
     }
 
     /**
@@ -148,28 +109,11 @@ class ArticleController extends Controller
         // 分類值陣列
         $category_id_array = [];
         if ($this->article_id) {
-            $page_title = __('dashboard::backend.編輯');
             $query = $this->article_repository->getOne($this->article_id);
-
-            // 複製時不顯示圖片
-            if (isset($this->tpl_data['duplicate']) && $this->tpl_data['duplicate']) {
-                $query->file_name = '';
-                $page_title = __('dashboard::backend.複製');
-            }
             $this->tpl_data['article'] = $query;
-
-            // 刪除附檔
-            $delete_file = request('delete_file', false);
-            if ($delete_file) {
-                ImageService::delete($query->file_name, true, 'article');
-                $query->file_name = '';
-                $query->save();
-            }
             foreach ($query->article_category as $value) {
                 $category_id_array[] = $value->id;
             }
-        } else {
-            $page_title = __('dashboard::backend.新增');
         }
 
         // 分類選單資料
@@ -187,26 +131,8 @@ class ArticleController extends Controller
                 'input_value' => $category_id_array,
                 'option' => $category_select_item,
                 'attribute' => ['multiple' => 'multiple', 'size' => 5],
-                'help' => '按著Ctrl點選，可複選多個項目',
+                'help' => __('dashboard::backend.按著Ctrl點選可複選多個項目'),
             ],
-            // 'file_name' => [
-            //     'input_type' => 'file',
-            //     'display_name' => __('dashboard::backend.圖片'),
-            //     'upload_path' => 'article',
-            //     'value_type' => 'image',
-            //     'image_attribute' => ['style' => 'width:200px;'],
-            //     'image_thumb' => false,
-            //     'multiple' => false,
-            //     'help' => __('dashboard::backend.圖片上傳說明', ['max_size' => ini_get('upload_max_filesize')]),
-            // ],
-            // 'summary' => [
-            //     'input_type' => 'text',
-            //     'display_name' => __('dashboard::backend.列表摘要'),
-            // ],
-            // 'post_at' => [
-            //     'input_type' => 'date',
-            //     'display_name' => __('dashboard::backend.發佈日期'),
-            // ],
             'article_content' => [
                 'input_type' => 'tinymce',
                 'display_name' => __('dashboard::backend.內容'),
@@ -224,15 +150,6 @@ class ArticleController extends Controller
                 'display_name' => __('dashboard::backend.狀態'),
                 'option' => config('backend.status_item'),
             ],
-            // 'member_only' => [
-            //     'input_type' => 'select',
-            //     'display_name' => __('dashboard::backend.僅供會員檢視'),
-            //     'option' => config('backend.status_item'),
-            // ],
-            // 'url' => [
-            //     'input_type' => 'text',
-            //     'display_name' => __('dashboard::backend.外連網址'),
-            // ],
             'note' => [
                 'input_type' => 'textarea',
                 'display_name' => __('dashboard::backend.備註'),
@@ -257,10 +174,12 @@ class ArticleController extends Controller
         ];
 
         // 樣版資料
-        $this->tpl_data['component_datas']['page_title'] = $page_title;
         $this->tpl_data['component_datas']['back_url'] = false;
         $this->tpl_data['component_datas']['footer_hide'] = true;
-        return view($this->view_path . 'update', $this->tpl_data);
+        if ($this->article_id && !isset($this->tpl_data['duplicate'])) {
+            return view($this->view_path . 'update', $this->tpl_data);
+        }
+        return view($this->view_path . 'add', $this->tpl_data);
     }
 
     /**
@@ -309,14 +228,14 @@ class ArticleController extends Controller
     public function detail()
     {
         if ($this->article_id) {
-            $permission_controller_string = get_class($this);
-            $component_datas['permission_controller_string'] = $permission_controller_string;
 
+            // 細節基本設定資料
             $article = $this->article_repository->getOne($this->article_id);
             $this->tpl_data['article'] = $article;
-            $category_value_str = $article->article_category->implode('category_name', ', ');
+            $component_datas = $this->detailPrepare(get_class($this), 'article_id', $article);
 
             // 表單資料
+            $category_value_str = $article->article_category->implode('category_name', ', ');
             $this->tpl_data['form_array'] = [
                 'article_title' => [
                     'input_type' => 'value',
@@ -327,29 +246,14 @@ class ArticleController extends Controller
                     'display_name' => __('dashboard::backend.分類'),
                     'input_value' => $category_value_str,
                 ],
-                // 'file_name' => [
-                //     'input_type' => 'value',
-                //     'display_name' => __('dashboard::backend.圖片'),
-                //     'upload_path' => 'article',
-                //     'value_type' => 'image',
-                //     'image_attribute' => ['style' => 'width:200px;'],
-                // ],
-                // 'summary' => [
-                //     'input_type' => 'value',
-                //     'display_name' => __('dashboard::backend.列表摘要'),
-                // ],
-                // 'post_at' => [
-                //     'input_type' => 'value',
-                //     'display_name' => __('dashboard::backend.發佈日期'),
-                // ],
+                'post_at' => [
+                    'input_type' => 'value',
+                    'display_name' => __('dashboard::backend.發佈日期'),
+                ],
                 'article_content' => [
                     'input_type' => 'value',
                     'display_name' => __('dashboard::backend.內容'),
                 ],
-                // 'member_only' => [
-                //     'input_type' => 'value',
-                //     'display_name' => __('dashboard::backend.僅供會員檢視'),
-                // ],
                 'html_title' => [
                     'input_type' => 'value',
                     'display_name' => __('dashboard::backend.網頁標題'),
@@ -379,24 +283,6 @@ class ArticleController extends Controller
                     'display_name' => __('dashboard::backend.備註'),
                 ],
             ];
-
-            // 樣版資料
-            $component_datas['page_title'] = __('dashboard::backend.檢視');
-            // $component_datas['back_url'] = url($this->uri . 'index?page=' . session('page', 1));
-            $component_datas['back_url'] = false;
-            $component_datas['dropdown_items']['btn_align'] = 'float-left';
-            if (auth()->user()->hasAccess(['update-' . $permission_controller_string])) {
-                $component_datas['dropdown_items']['items']['編輯'] = ['url' => url($this->uri . 'update?article_id=' . $article->id)];
-                if (auth()->user()->hasAccess(['delete-' . $permission_controller_string])) {
-                    $component_datas['dropdown_items']['items']['刪除'] = ['url' => url($this->uri . 'delete?article_id=' . $article->id)];
-                }
-            }
-            if (auth()->user()->hasAccess(['create-' . $permission_controller_string])) {
-                $component_datas['dropdown_items']['items']['複製'] = ['url' => url($this->uri . 'duplicate?article_id=' . $article->id)];
-            }
-            if (config('backend.article.preview_url', false)) {
-                $component_datas['dropdown_items']['items']['預覽'] = ['url' => url(config('backend.article.preview_url') . '/' . $article->id)];
-            }
             $this->tpl_data['component_datas'] = $component_datas;
             return view($this->view_path . 'detail', $this->tpl_data);
         } else {
@@ -779,5 +665,4 @@ class ArticleController extends Controller
         // $storage_path = storage_path(config('frontend.upload_path') . '/article/' . $query_article_attachment->file_name);
         return FileService::download($query_article_attachment->file_name, $query_article_attachment->origin_name . '.' . $query_article_attachment->file_extention, 'article');
     }
-    
 }
