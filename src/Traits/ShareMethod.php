@@ -118,9 +118,9 @@ trait ShareMethod
         $component_datas['back_url'] = url($this->uri . 'index');
 
         // 權限設定
-        if (auth()->user()->hasAccess(['create-' . $permission_controller_string])) {
-            $component_datas['add_url'] = url($this->uri . 'update');
-        }
+        // if (auth()->user()->hasAccess(['create-' . $permission_controller_string])) {
+        //     $component_datas['add_url'] = url($this->uri . 'update');
+        // }
         if (auth()->user()->hasAccess(['update-' . $permission_controller_string])) {
             if (!auth()->user()->hasAccess(['delete-' . $permission_controller_string])) {
                 $component_datas['footer_delete_hide'] = true;
