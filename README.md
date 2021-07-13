@@ -14,7 +14,7 @@
 
 先刪除此檔案
 
-database/migrations/2014_10_12_000000_create_users_table.php
+rm database/migrations/2014_10_12_000000_create_users_table.php
 
 執行
 
@@ -38,6 +38,19 @@ public/vendor.zip
 執行以下指令重新產生 Composer 的自動讀取檔案列表，以免執行 seed 指令時找不到檔案
 
     composer dump-autoload
+
+加入內容 database/seeders/DatabaseSeeder.php
+
+    public function run()
+    {
+        ...
+        $this->call([
+            UsersTableSeeder::class,
+            RolesTableSeeder::class,
+            RoleUsersTableSeeder::class,
+            SettingsTableSeeder::class,
+        ]);
+    }
 
 執行以下指令建立預設的資料表及預設資料，執行前先修改 .env 中的資料庫帳號密碼，在 artisan 中不會去讀取 app/Providers/AppServiceProvider.php 設定的資料庫帳號密碼。
 
