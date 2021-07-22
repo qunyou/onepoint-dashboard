@@ -320,9 +320,18 @@
                                                                 $qs = '';
                                                                 if (isset($with_value['url'])) {
                                                                     if (isset($with_value['refer_id_string'])) {
-                                                                        $with_value['query_string_suffix'][$with_value['refer_id_string']] = $element->id;
+                                                                        if (isset($with_value['refer_id_column'])) {
+                                                                            $with_value['query_string_suffix'][$with_value['refer_id_string']] = $element->{$with_value['refer_id_column']};
+                                                                        } else {
+                                                                            $with_value['query_string_suffix'][$with_value['refer_id_string']] = $element->id;
+                                                                        }
                                                                     } else {
                                                                         $with_value['query_string_suffix'][$id_string] = $element->id;
+                                                                    }
+                                                                    if (isset($with_value['query_string_append']) && is_array($with_value['query_string_append'])) {
+                                                                        foreach ($with_value['query_string_append'] as $query_string_append_key => $query_string_append_value) {
+                                                                            $with_value['query_string_suffix'][$query_string_append_key] = $query_string_append_value;
+                                                                        }
                                                                     }
                                                                     $page = request('page', 0);
                                                                     if (isset($with_value['back_page_string']) && $page > 0) {
