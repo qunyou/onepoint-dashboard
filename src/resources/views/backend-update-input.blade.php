@@ -28,5 +28,6 @@
         'rows' => $item_value['rows'] ?? 20,
         'parameter' => $item_value['parameter'] ?? [],
         'formPresenter' => $formPresenter,
+        'delete_url' => $item_value['delete_url'] ?? '',
     ]])
 @endforeach

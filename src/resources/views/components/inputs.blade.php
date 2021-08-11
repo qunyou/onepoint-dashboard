@@ -17,6 +17,9 @@
         {!! $help !!}
     </p>
 @endif
+
+{!! $suffix ?? '' !!}
+
 @if (!$input_only)
         </div>
     </div>

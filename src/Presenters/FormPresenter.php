@@ -138,14 +138,11 @@ class FormPresenter
                     $input_setting['depend_str'] = '</a>';
 
                     // 刪除附檔網址
-                    $input_setting['delete_url'] = url()->full() . '&delete_file=true&column=' . $input_setting['input_name'];
-                    // $qs = $_SERVER['QUERY_STRING'];
-                    // $url = Request::url();
-                    // if (empty($qs)) {
-                    //     $url .= '?delete_file=true&column=' . $input_name;
-                    // } else {
-                    //     $url .= '?' . $qs . '&delete_file=true&column=' . $input_name;
-                    // }
+                    if (empty($input_setting['delete_url'])) {
+                        $input_setting['delete_url'] = url()->full() . '&delete_file=true&column=' . $input_setting['input_name'];
+                    } else {
+                        $input_setting['delete_url'] = $input_setting['delete_url'] . '&delete_file=true&column=' . $input_setting['input_name'];
+                    }
                 }
             }
         }
@@ -181,7 +178,6 @@ class FormPresenter
                 $input_setting['prepend_str'] = '<a href="' . asset($file_path) . '" target="_blank">';
                 $input_setting['depend_str'] = '</a>';
             }
-            $input_setting['delete_url'] = url()->full() . '&delete_file=true&column=' . $input_setting['input_name'];
         }
         if ($input_type == 'value') {
             $input_setting['input_grid_class'] .= ' pt-2';
