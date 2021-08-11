@@ -1,6 +1,28 @@
-# 後台操作界面及基本權限功能
+onepoint/dashboard
+===
 
-## 使用 Composer 安裝
+##### 後台操作界面及基本權限功能
+
+---
+
+安裝 laravel
+---
+
+直接從 Github 下載
+[Laravel Github](https://github.com/laravel/laravel)
+
+一些提示步驟
+
+	composer install
+	複製 .env 檔案
+	php artisan key:generate
+	
+Homestead
+
+	laravel new 專案資料夾名稱
+
+使用 Composer 安裝 onepoint/dashboard
+---
 
 執行
 
@@ -10,30 +32,33 @@
 
     Onepoint\Dashboard\DashboardServiceProvider::class,
 
-### 複製必要檔案至正確目錄
+複製必要檔案至正確目錄
+---
 
 先刪除此檔案
 
-rm database/migrations/2014_10_12_000000_create_users_table.php
+	rm database/migrations/2014_10_12_000000_create_users_table.php
 
 執行
 
     php artisan vendor:publish --provider="Onepoint\Dashboard\DashboardServiceProvider"
 
-解壓縮這個檔案(tinymce檔案管理界面用檔案)
+解壓縮vendor.zip(tinymce檔案管理界面用檔案)
 
-public/vendor.zip
+	unzip public/vendor.zip
+	rm public/vendor.zip
 
-## 資料庫設定
+資料庫設定
+---
 
-### 在這個檔設定資料庫的帳號密碼
+#### 在這個檔設定資料庫的帳號密碼
 
 1. 將 app/Providers/AppServiceProviderSample.php 的內容複製至 app/Providers/AppServiceProvider.php
 2. 刪除 app/Providers/AppServiceProviderSample.php
 3. 修改 app/Providers/AppServiceProvider.php 內的資料庫名稱密碼等資訊
 4. 修改 .env 中的資料庫帳號密碼
 
-### 建立資料庫，建立時選擇 utf8mb4 編碼的資料庫
+#### 建立資料庫，建立時選擇 utf8mb4 編碼的資料庫
 
 執行以下指令重新產生 Composer 的自動讀取檔案列表，以免執行 seed 指令時找不到檔案
 
@@ -75,9 +100,10 @@ config/database.php
 
     connections.mysql.strict 要改成 false
 
-## 安裝必要 Package
+安裝必要 Package
+---
 
-### 文章管理功能
+#### 文章管理功能
 
     在前面 publish 步驟時已建立 packages 資料夾，裡面有一個 base 套件
 
@@ -100,7 +126,7 @@ config/database.php
 
     如果前台也要使用 package 的方式，可以參照 base 的方式建立資料夾，分別在 composer.json 及 config/app.php 加內容
 
-### 縮圖 Package
+#### 縮圖 Package
 
     composer require intervention/image
 
@@ -118,7 +144,7 @@ config/database.php
     // 執行
     php artisan vendor:publish --provider="Intervention\Image\ImageServiceProviderLaravelRecent"
 
-### excel Package
+#### excel Package
 
     composer require maatwebsite/excel
 
@@ -136,7 +162,7 @@ config/database.php
     // 執行
     php artisan vendor:publish --provider="Maatwebsite\Excel\ExcelServiceProvider"
 
-### 檢視 Log Package
+#### 檢視 Log Package
 
     composer require rap2hpoutre/laravel-log-viewer
 
@@ -149,7 +175,7 @@ config/database.php
     // 在 route 檔案中增加規則
     Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
-### 編輯器檔案管理 Package
+#### 編輯器檔案管理 Package
 
     COMPOSER_MEMORY_LIMIT=-1 composer require unisharp/laravel-filemanager
 
@@ -163,9 +189,10 @@ config/database.php
     php artisan vendor:publish --tag=fm-config
     php artisan vendor:publish --tag=fm-assets
 
-## 認證相關設定
+認證相關設定
+---
 
-### 修改 user.php 路徑
+#### 修改 user.php 路徑
 
 config/auth.php
 
@@ -199,9 +226,10 @@ config/auth.php
         'auth.guard' => \Onepoint\Dashboard\Middleware\AuthenticateGuard::class,
     ];
 
-## 上傳檔案相關設定
+上傳檔案相關設定
+---
 
-### 建立軟連結
+#### 建立軟連結
     php artisan storage:link
     在虛擬主機上可以用這個網址來建立(相關的 route 規則要打開)
     http://url/backend/dashboard/storage-link
@@ -224,7 +252,7 @@ config/auth.php
         \URL::forceScheme('https');
     }
 
-### 修改設定
+#### 修改設定
 config/app.php
 
     'url' => env('APP_URL', 'http://localhost'),
@@ -246,7 +274,9 @@ config/filesystems.php
 .env
 
     APP_DEBUG=false
-### Homestead 上傳檔案大小修改
+
+Homestead 上傳檔案大小修改
+---
 
 預設只能傳小於 1M 的檔案，修改後會比較好測試
 
@@ -264,7 +294,8 @@ config/filesystems.php
     post_max_size = 20M
     upload_max_filesize = 10M
 
-### Homestead 修改 Mysql 時區
+Homestead 修改 Mysql 時區
+---
 
     cd /etc/mysql/mysql.conf.d
     sudo nano mysqld.cnf
@@ -272,7 +303,8 @@ config/filesystems.php
     在 [mysqld] 區塊下面增加一行
     default-time-zone='+08:00'
 
-### 404 轉跳首頁
+404 轉跳首頁
+---
 
 app/Exceptions/Handler.php
 
