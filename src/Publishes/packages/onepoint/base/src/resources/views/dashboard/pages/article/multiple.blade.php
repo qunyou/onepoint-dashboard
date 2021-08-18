@@ -1,3 +1,10 @@
+{{-- 
+/**
+ * 文章
+ * 1.0.01
+ * packages/onepoint/base/src/resources/views/dashboard/pages/article/multiple.blade.php
+ */
+--}}
 @inject('path_presenter', 'Onepoint\Dashboard\Presenters\PathPresenter')
 
 @extends('dashboard::layouts.dashboard')
@@ -21,7 +28,7 @@
             </li>
             <li class="breadcrumb-item" aria-current="page">
                 <a href="{{ url(config('dashboard.uri') . '/article/update?article_id=' . $article_id . '&' . $base_service->getQueryString(true, true, ['article_id'])) }}">
-                    @lang('base::article.文章編輯')
+                    @lang('base::article.編輯文章')
                 </a>
             </li>
             <li class="breadcrumb-item" aria-current="page">
@@ -31,25 +38,9 @@
             </li>
             <li class="breadcrumb-item" aria-current="page">
                 <a href="#">
-                    @if ($article_id)
-                        @if (isset($duplicate) && $duplicate)
-                            @lang('dashboard::backend.複製')
-                        @else
-                            @lang('dashboard::backend.編輯')
-                        @endif
-                    @else
-                        @lang('dashboard::backend.新增')
-                    @endif
+                    @lang('base::article.圖檔批次上傳')
                 </a>
             </li>
-
-            @if ($version)
-                <li class="breadcrumb-item" aria-current="page">
-                    <a href="#">
-                        @lang('dashboard::backend.版本檢視')
-                    </a>
-                </li>
-            @endif
         </ol>
     </nav>
 @endsection

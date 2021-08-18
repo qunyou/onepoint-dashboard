@@ -3,7 +3,7 @@
 namespace Onepoint\Base\Controllers;
 
 use App\Http\Controllers\Controller;
-use Cache;
+use Illuminate\Support\Facades\Cache;
 use Onepoint\Base\Repositories\ArticleAttachmentRepository;
 use Onepoint\Base\Repositories\ArticleCategoryRepository;
 use Onepoint\Base\Repositories\ArticleImageRepository;
@@ -13,6 +13,8 @@ use Onepoint\Dashboard\Traits\ShareMethod;
 
 /**
  * 文章
+ * 1.0.01
+ * packages/onepoint/base/src/Controllers/ArticleController.php
  */
 class ArticleController extends Controller
 {
@@ -21,20 +23,9 @@ class ArticleController extends Controller
     /**
      * 建構子
      */
-    public function __construct(ArticleRepository $article_repository, ArticleCategoryRepository $article_category_repository)
+    public function __construct()
     {
-        $this->share();
-        $this->article_repository = $article_repository;
-        $this->article_category_repository = $article_category_repository;
-
-        // 預設網址
-        $this->uri = config('dashboard.uri') . '/article/';
-        $this->tpl_data['uri'] = $this->uri;
-
-        // view 路徑
-        $this->view_path = 'base::' . config('dashboard.view_path') . '.pages.article.';
-        $this->article_id = request('article_id', false);
-        $this->tpl_data['article_id'] = $this->article_id;
+        $this->share('article_id', 'article', 'pages.article');
     }
 
     /**
@@ -43,7 +34,7 @@ class ArticleController extends Controller
     public function index()
     {
         // 列表基本設定資料
-        $component_datas = $this->listPrepare(get_class($this), 'article_id');
+        $component_datas = $this->listPrepare();
 
         // 表格欄位設定
         $component_datas['th'] = [
@@ -52,9 +43,6 @@ class ArticleController extends Controller
             ['title' => __('base::article.文章網址')],
         ];
         $component_datas['column'] = [
-            // ['type' => 'badges', 'column_name' => 'article_title', 'set_value' => [
-            //     'click' => ['class' => 'badge badge-secondary', 'badge_title' => '點擊:'],
-            // ]],
             ['type' => 'function', 'function_name' => 'Onepoint\Base\Controllers\ArticleController@articleTitleShow'],
             ['type' => 'belongsToMany', 'with' => 'article_category', 'column_name' => 'category_name'],
             ['type' => 'url', 'url' => url(config('article.preview_url', '')), 'slash' => ['article_title_slug']],
@@ -65,7 +53,8 @@ class ArticleController extends Controller
         $this->tpl_data['category_select_item'] = $article_category_repository->getOptionItem();
 
         // 列表資料查詢
-        $component_datas['list'] = $this->article_repository->getList($this->article_id, config('backend.paginate'));
+        $article_repository = new ArticleRepository;
+        $component_datas['list'] = $article_repository->getList($this->article_id, config('backend.paginate'));
         $component_datas['use_drag_rearrange'] = true;
         $component_datas['use_sort'] = false;
         $component_datas['detail_hide'] = false;
@@ -91,11 +80,15 @@ class ArticleController extends Controller
      */
     public function putIndex()
     {
-        // $settings['file_field'] = 'file_name';
-        // $settings['folder'] = 'article';
-        // $settings['image_scale'] = true;
         $settings['use_version'] = true;
-        return $this->batch($this->article_repository, $settings);
+
+        // 關聯資料
+        $settings['refer_table'] = [
+            ['model' => 'Onepoint\Base\Entities\ArticleImage', 'file_field' => 'file_name', 'folder' => 'article', 'image_scale' => true, 'with_id' => $this->tpl_data['id_string']],
+            ['model' => 'Onepoint\Base\Entities\ArticleAttachment', 'file_field' => 'file_name', 'folder' => 'article', 'image_scale' => true, 'with_id' => $this->tpl_data['id_string']],
+        ];
+        $article_repository = new ArticleRepository;
+        return $this->batch($article_repository, $settings);
     }
 
     /**
@@ -109,7 +102,8 @@ class ArticleController extends Controller
         // 分類值陣列
         $category_id_array = [];
         if ($this->article_id) {
-            $query = $this->article_repository->getOne($this->article_id);
+            $article_repository = new ArticleRepository;
+            $query = $article_repository->getOne($this->article_id);
             $this->tpl_data['article'] = $query;
             foreach ($query->article_category as $value) {
                 $category_id_array[] = $value->id;
@@ -117,7 +111,8 @@ class ArticleController extends Controller
         }
 
         // 分類選單資料
-        $category_select_item = $this->article_category_repository->getOptionItem();
+        $article_category_repository = new ArticleCategoryRepository;
+        $category_select_item = $article_category_repository->getOptionItem();
 
         // 一般表單資料
         $this->tpl_data['form_array_normal'] = [
@@ -174,7 +169,6 @@ class ArticleController extends Controller
         ];
 
         // 樣版資料
-        $this->tpl_data['component_datas']['back_url'] = false;
         $this->tpl_data['component_datas']['footer_hide'] = true;
         if ($this->article_id && !isset($this->tpl_data['duplicate'])) {
             return view($this->view_path . 'update', $this->tpl_data);
@@ -188,7 +182,8 @@ class ArticleController extends Controller
     public function putUpdate()
     {
         $tab = request('tab', 'normal');
-        $res = $this->article_repository->setUpdate($this->article_id);
+        $article_repository = new ArticleRepository;
+        $res = $article_repository->setUpdate($this->article_id);
         if ($res) {
             session()->flash('notify.message', __('dashboard::backend.資料編輯完成'));
             session()->flash('notify.type', 'success');
@@ -230,9 +225,10 @@ class ArticleController extends Controller
         if ($this->article_id) {
 
             // 細節基本設定資料
-            $article = $this->article_repository->getOne($this->article_id);
+            $article_repository = new ArticleRepository;
+            $article = $article_repository->getOne($this->article_id);
             $this->tpl_data['article'] = $article;
-            $component_datas = $this->detailPrepare(get_class($this), 'article_id', $article);
+            $component_datas = $this->detailPrepare();
 
             // 表單資料
             $category_value_str = $article->article_category->implode('category_name', ', ');
@@ -298,7 +294,8 @@ class ArticleController extends Controller
         if ($this->article_id) {
             $version_id = request('version_id', 0);
             if ($version_id) {
-                $this->article_repository->applyVersion($this->article_id, $version_id);
+                $article_repository = new ArticleRepository;
+                $article_repository->applyVersion($this->article_id, $version_id);
             }
         }
         return redirect($this->uri . 'detail?' . $this->base_service->getQueryString(true, true));
@@ -310,7 +307,8 @@ class ArticleController extends Controller
     public function delete()
     {
         if ($this->article_id) {
-            $this->article_repository->delete($this->article_id);
+            $article_repository = new ArticleRepository;
+            $article_repository->delete($this->article_id);
         }
         return redirect($this->uri . 'detail?' . $this->base_service->getQueryString(true, true));
     }
@@ -321,7 +319,8 @@ class ArticleController extends Controller
     public function rearrange()
     {
         if ($this->article_id) {
-            $this->article_repository->rearrange();
+            $article_repository = new ArticleRepository;
+            $article_repository->rearrange();
         }
         return redirect($this->uri . 'detail?' . $this->base_service->getQueryString(true, true));
     }
@@ -331,7 +330,8 @@ class ArticleController extends Controller
      */
     public function dragSort()
     {
-        return $this->article_repository->dragRearrange();
+        $article_repository = new ArticleRepository;
+        return $article_repository->dragRearrange();
     }
 
     /**
@@ -361,7 +361,8 @@ class ArticleController extends Controller
     public function postMultiple()
     {
         $arr = ['success' => false, "error" => 'product id error'];
-        $article = $this->article_repository->model->find($this->article_id);
+        $article_repository = new ArticleRepository;
+        $article = $article_repository->model->find($this->article_id);
         if (!is_null($article)) {
             $qquuid = request('qquuid', '');
             $qqfilename = request('qqfilename', '');
@@ -397,125 +398,6 @@ class ArticleController extends Controller
                 $count++;
             }
         }
-    }
-
-    /**
-     * 匯入文章
-     */
-    public function import()
-    {
-        $this->tpl_data['page_title'] = '匯入';
-
-        // 匯入結果訊息
-        $this->tpl_data['import_message'] = false;
-        if (Cache::has('import_message')) {
-            $this->tpl_data['import_message'] = Cache::get('import_message');
-            Cache::forget('import_message');
-        }
-        return view($this->view_path . 'import', $this->tpl_data);
-    }
-
-    /**
-     * 匯入文章
-     */
-    public function putImport()
-    {
-        // 匯入時間
-        $created_at = date('Y-m-d H:i:s', time());
-
-        // 匯入訊息
-        $import_message = [];
-
-        // 上傳檔案
-        $prefix = 'product-import-' . date('Y-m-d');
-        $res = FileService::upload('file_name', $prefix);
-
-        // 檢查是否多檔上傳
-        if (isset($res[0]['file_name'])) {
-            set_time_limit(120);
-            foreach ($res as $value) {
-
-                // 開啟檔案
-                $file = fopen(config('frontend.upload_path') . '/' . $value['file_name'], 'r');
-                $key = 0;
-                while (!feof($file)) {
-                    $csv_value = fgetcsv($file);
-
-                    // 略過前兩列資料
-                    if ($key >= 2) {
-                        $文章分類 = isset($csv_value[0]) ? $csv_value[0] : '';
-                        $文章標題 = isset($csv_value[1]) ? $csv_value[1] : '';
-                        $文章內容 = isset($csv_value[2]) ? $csv_value[2] : '';
-                        $代表圖 = isset($csv_value[3]) ? $csv_value[3] : '';
-                        $簡短說明 = isset($csv_value[4]) ? $csv_value[4] : '';
-                        $管理者備註 = isset($csv_value[5]) ? $csv_value[5] : '';
-
-                        // 檢查文章標題
-                        $article_exist = false;
-                        if (!blank($文章標題)) {
-                            $article_query = $this->article_repository->model->where('title', $文章標題)->first();
-                            if (!is_null($article_query)) {
-                                $article_exist = true;
-                            }
-                        }
-
-                        // 必填欄位檢查
-                        if (!empty($文章標題) && !$article_exist) {
-
-                            // 執行匯入
-                            $article_datas['sort'] = $key - 1;
-                            $article_datas['status'] = '啟用';
-                            $article_datas['note'] = $管理者備註;
-                            $article_datas['post_at'] = date('Y-m-d');
-                            $article_datas['file_name'] = $代表圖;
-                            $article_datas['title'] = $文章標題;
-                            $article_datas['content'] = $文章內容;
-                            $article_datas['summary'] = $簡短說明;
-                            $article = $this->article_repository->model->create($article_datas);
-
-                            // 處理複選分類資料
-                            $category_array = explode(',', $文章分類);
-                            $category_id_array = [];
-                            if (count($category_array)) {
-                                foreach ($category_array as $category_name) {
-                                    $category_query = $this->article_category_repository->model->where('name', $category_name)->first();
-
-                                    // 建立不存在的分類
-                                    if (is_null($category_query)) {
-                                        $category_id_array[] = $this->article_category_repository->update(0, ['name' => $category_name]);
-                                    } else {
-                                        $category_id_array[] = $category_query->id;
-                                    }
-                                }
-                                if (count($category_id_array)) {
-                                    $article->article_category()->sync($category_id_array);
-                                }
-                            }
-                            $import_message[] = '檔案 ' . $value['origin_name'] . '第' . $key . '列資料匯入完成';
-                        } else {
-                            $massage_str = '';
-                            if ($article_exist) {
-                                $massage_str .= '已有相同的文章標題，';
-                            }
-                            if (empty($文章標題)) {
-                                $massage_str .= '文章標題為必填資料，';
-                            }
-                            $import_message[] = '檔案 ' . $value['origin_name'] . '第' . $key . '列資料匯入失敗，' . $massage_str;
-                        }
-                    }
-                    $key++;
-                }
-                fclose($file);
-            }
-        } else {
-            $import_message[] = '檔案 ' . $value['origin_name'] . '上傳失敗';
-        }
-
-        // 將匯入訊息存入快取
-        if (count($import_message)) {
-            Cache::put('import_message', $import_message, 30);
-        }
-        return redirect($this->uri . 'import');
     }
 
     /**
@@ -664,5 +546,127 @@ class ArticleController extends Controller
         $query_article_attachment = $article_attachment_repository->model->find($attachment_id);
         // $storage_path = storage_path(config('frontend.upload_path') . '/article/' . $query_article_attachment->file_name);
         return FileService::download($query_article_attachment->file_name, $query_article_attachment->origin_name . '.' . $query_article_attachment->file_extention, 'article');
+    }
+
+    /**
+     * 匯入文章
+     */
+    public function import()
+    {
+        $this->tpl_data['page_title'] = '匯入';
+
+        // 匯入結果訊息
+        $this->tpl_data['import_message'] = false;
+        if (Cache::has('import_message')) {
+            $this->tpl_data['import_message'] = Cache::get('import_message');
+            Cache::forget('import_message');
+        }
+        return view($this->view_path . 'import', $this->tpl_data);
+    }
+
+    /**
+     * 匯入文章
+     */
+    public function putImport()
+    {
+        $article_repository = new ArticleRepository;
+        $article_category_repository = new ArticleCategoryRepository;
+
+        // 匯入時間
+        $created_at = date('Y-m-d H:i:s', time());
+
+        // 匯入訊息
+        $import_message = [];
+
+        // 上傳檔案
+        $prefix = 'product-import-' . date('Y-m-d');
+        $res = FileService::upload('file_name', $prefix);
+
+        // 檢查是否多檔上傳
+        if (isset($res[0]['file_name'])) {
+            set_time_limit(120);
+            foreach ($res as $value) {
+
+                // 開啟檔案
+                $file = fopen(config('frontend.upload_path') . '/' . $value['file_name'], 'r');
+                $key = 0;
+                while (!feof($file)) {
+                    $csv_value = fgetcsv($file);
+
+                    // 略過前兩列資料
+                    if ($key >= 2) {
+                        $文章分類 = isset($csv_value[0]) ? $csv_value[0] : '';
+                        $文章標題 = isset($csv_value[1]) ? $csv_value[1] : '';
+                        $文章內容 = isset($csv_value[2]) ? $csv_value[2] : '';
+                        $代表圖 = isset($csv_value[3]) ? $csv_value[3] : '';
+                        $簡短說明 = isset($csv_value[4]) ? $csv_value[4] : '';
+                        $管理者備註 = isset($csv_value[5]) ? $csv_value[5] : '';
+
+                        // 檢查文章標題
+                        $article_exist = false;
+                        if (!blank($文章標題)) {
+                            $article_query = $article_repository->model->where('title', $文章標題)->first();
+                            if (!is_null($article_query)) {
+                                $article_exist = true;
+                            }
+                        }
+
+                        // 必填欄位檢查
+                        if (!empty($文章標題) && !$article_exist) {
+
+                            // 執行匯入
+                            $article_datas['sort'] = $key - 1;
+                            $article_datas['status'] = '啟用';
+                            $article_datas['note'] = $管理者備註;
+                            $article_datas['post_at'] = date('Y-m-d');
+                            $article_datas['file_name'] = $代表圖;
+                            $article_datas['title'] = $文章標題;
+                            $article_datas['content'] = $文章內容;
+                            $article_datas['summary'] = $簡短說明;
+                            $article = $article_repository->model->create($article_datas);
+
+                            // 處理複選分類資料
+                            $category_array = explode(',', $文章分類);
+                            $category_id_array = [];
+                            if (count($category_array)) {
+                                foreach ($category_array as $category_name) {
+                                    $category_query = $article_category_repository->model->where('name', $category_name)->first();
+
+                                    // 建立不存在的分類
+                                    if (is_null($category_query)) {
+                                        $category_id_array[] = $article_category_repository->update(0, ['name' => $category_name]);
+                                    } else {
+                                        $category_id_array[] = $category_query->id;
+                                    }
+                                }
+                                if (count($category_id_array)) {
+                                    $article->article_category()->sync($category_id_array);
+                                }
+                            }
+                            $import_message[] = '檔案 ' . $value['origin_name'] . '第' . $key . '列資料匯入完成';
+                        } else {
+                            $massage_str = '';
+                            if ($article_exist) {
+                                $massage_str .= '已有相同的文章標題，';
+                            }
+                            if (empty($文章標題)) {
+                                $massage_str .= '文章標題為必填資料，';
+                            }
+                            $import_message[] = '檔案 ' . $value['origin_name'] . '第' . $key . '列資料匯入失敗，' . $massage_str;
+                        }
+                    }
+                    $key++;
+                }
+                fclose($file);
+            }
+        } else {
+            $import_message[] = '檔案上傳失敗';
+        }
+
+        // 將匯入訊息存入快取
+        if (count($import_message)) {
+            Cache::put('import_message', $import_message, 30);
+        }
+        return redirect($this->uri . 'import');
     }
 }

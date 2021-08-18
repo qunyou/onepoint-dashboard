@@ -9,6 +9,8 @@ use Onepoint\Base\Entities\ArticleCategory;
 
 /**
  * 文章分類
+ * 1.0.01
+ * packages/onepoint/base/src/Controllers/ArticleCategoryController.php
  */
 class ArticleCategoryRepository extends BaseRepository
 {
@@ -51,10 +53,6 @@ class ArticleCategoryRepository extends BaseRepository
      */
     public function setUpdate($id = 0, $datas = [])
     {
-        $this->upload_file_form_name = 'file_name';
-        $this->upload_file_name_prefix = 'article';
-        $this->upload_file_folder = 'article';
-        
         // 表單驗證
         $rule_array = [
             'category_name' => [
@@ -103,7 +101,7 @@ class ArticleCategoryRepository extends BaseRepository
      */
     public function getFrontendList()
     {
-        $query = $this->permissions()->where('status', '啟用')
+        $query = $this->model->where('status', '啟用')
             ->orderBy('sort')
             ->withCount(['article' => function ($q) {
                 $q->where('status', '啟用')->orderBy('sort');
@@ -119,12 +117,12 @@ class ArticleCategoryRepository extends BaseRepository
      */
     public function getOneByName($category_name = '')
     {
-        $query = $this->model->where('status', '啟用');
+        $query = $this->permissions()->where('status', '啟用');
         if (!empty($category_name)) {
             if (is_numeric($category_name)) {
                 $query = $query->find($category_name);
             } else {
-                $query = $query->where('category_name_slug', $category_name)->first();
+                $query = $query->where('category_name', $category_name)->first();
             }
             if (!is_null($query)) {
                 return $query;

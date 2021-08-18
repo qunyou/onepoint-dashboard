@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * 文章
+ * 1.0.01
+ * packages/onepoint/base/src/Entities/Article.php
  * php artisan make:migration create_articles_table --create=articles
  * php artisan make:migration create_article_pivots_table --create=article_pivots
  */

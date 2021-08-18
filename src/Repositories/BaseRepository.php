@@ -662,6 +662,14 @@ class BaseRepository
             $status_enable = request('status_enable', false);
             $status_disable = request('status_disable', false);
 
+            // 置頂
+            $set_top = request('set_top', false);
+            $unset_top = request('unset_top', false);
+
+            // 熱門
+            $set_hot = request('set_hot', false);
+            $unset_hot = request('unset_hot', false);
+
             // 批次還原
             if ($restore) {
                 $result['datas_count'] = $this->model->onlyTrashed()->whereIn('id', $checked_id)->restore();
@@ -680,7 +688,6 @@ class BaseRepository
                     if (!empty($settings['folder'])) {
                         $upload_path .= '/' . $settings['folder'];
                     }
-                    // $query = $this->model->onlyTrashed()->whereIn('id', $checked_id)->get();
 
                     // 製作刪除檔案陣列
                     $arr = [];
@@ -708,26 +715,49 @@ class BaseRepository
                 }
                 $result['datas_count'] = $this->model->onlyTrashed()->whereIn('id', $checked_id)->forceDelete();
                 $result['batch_method'] = 'force_delete';
+
+                // 刪除關聯資料
+                if (isset($settings['refer_table'])) {
+                    foreach ($settings['refer_table'] as $refer_table) {
+                        $obj_refer_table = new $refer_table['model'];
+                        foreach ($checked_id as $refer_id) {
+                            $query_refer_table = $obj_refer_table->where($refer_table['with_id'], $refer_id)->get();
+                            if ($query_refer_table->count()) {
+                                if (isset($refer_table['file_field']) && !empty($refer_table['file_field'])) {
+
+                                    // 刪除檔案陣列
+                                    $del_img_arr = [];
+                                    foreach ($query_refer_table as $refer_table_file_field) {
+                                        $file_name = $refer_table_file_field->{$refer_table['file_field']};
+                                        if (!empty($file_name)) {
+                                            $upload_path = config('frontend.upload_path');
+                                            if (isset($refer_table['folder']) && !empty($refer_table['folder'])) {
+                                                $upload_path .= '/' . $settings['folder'];
+                                            }
+                                            $del_img_arr[] = $upload_path . '/' . $file_name;
+                                            if (isset($refer_table['image_scale']) && $refer_table['image_scale']) {
+                                                foreach (config('backend.image_scale_setting') as $value) {
+                                                    $del_img_arr[] = $upload_path . '/' . $value['path'] . '/' . $file_name;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if (count($del_img_arr)) {
+                                        Storage::disk('public')->delete($del_img_arr);
+                                    }
+                                }
+                                $obj_refer_table->where($refer_table['with_id'], $refer_id)->forceDelete();
+                            }
+                        }
+                    }
+                }
             }
 
             // 批次刪除
             if ($delete) {
-                // $result['datas_count'] = $this->model->whereIn('id', $checked_id)->delete();
                 $result['datas_count'] = $this->model->destroy($checked_id);
                 $result['batch_method'] = 'delete';
             }
-
-            // 批次設定顯示
-            // if ($show) {
-            //     $result['datas_count'] = $this->model->whereIn('id', $checked_id)->update([config('site.frontend_active_column') => 1]);
-            //     $result['batch_method'] = 'show';
-            // }
-
-            // 批次設定隱藏
-            // if ($hide) {
-            //     $result['datas_count'] = $this->model->whereIn('id', $checked_id)->update([config('site.frontend_active_column') => 0]);
-            //     $result['batch_method'] = 'hide';
-            // }
 
             // 批次設定啟用
             if ($status_enable) {
@@ -739,6 +769,32 @@ class BaseRepository
             if ($status_disable) {
                 $result['datas_count'] = $this->model->whereIn('id', $checked_id)->update([config('db_status_name') => config('db_status_false_string')]);
                 $result['batch_method'] = 'hide';
+            }
+
+            // 置頂
+            if ($set_top) {
+                $query_top = $this->model->whereIn('id', $checked_id)->where(config('db_status_name'), config('db_status_true_string'))->orderBy('top', 'asc')->get();
+                foreach ($query_top as $top_key => $top_item) {
+                    $top_item->top = $top_key + 1;
+                    $top_item->save();
+                }
+            }
+            if ($unset_top) {
+                $this->model->whereIn('id', $checked_id)->where(config('db_status_name'), config('db_status_true_string'))->orderBy('top', 'asc')->update([
+                    'top' => 0
+                ]);
+            }
+
+            // 熱門
+            if ($set_hot) {
+                $this->model->whereIn('id', $checked_id)->where(config('db_status_name'), config('db_status_true_string'))->update([
+                    'hot' => 1
+                ]);
+            }
+            if ($unset_hot) {
+                $this->model->whereIn('id', $checked_id)->where(config('db_status_name'), config('db_status_true_string'))->update([
+                    'hot' => 0
+                ]);
             }
         }
 
@@ -770,7 +826,7 @@ class BaseRepository
     public function applyVersion($id, $version_id)
     {
         // 備份現有資料後刪除
-        $q = $this->model->find($id);
+        $q = $this->model->withTrashed()->find($id);
         $newVersion = $q->replicate();
         $newVersion->old_version = 1;
         $newVersion->origin_id = $id;

@@ -1,3 +1,10 @@
+{{-- 
+/**
+ * 文章分類
+ * 1.0.01
+ * packages/onepoint/base/src/resources/views/dashboard/pages/article-category/detail.blade.php
+ */
+--}}
 @extends('dashboard::layouts.dashboard')
 
 @section('sidebar-header')
@@ -35,7 +42,10 @@
 @endsection
 
 @section('main_block')
-    @component('dashboard::components.backend-detail-card', $component_datas)
+    @component('dashboard::components.backend-detail-card')
+        @slot('page_title')
+            @lang('base::article.檢視文章分類')
+        @endslot
         @slot('top_btn')
             <a class="btn btn-outline-deep-purple waves-effect d-xs-block" href="{{ url($uri . 'index?' . $base_service->getQueryString(true, true, ['article_category_id'])) }}">
                 <i class="fa fa-fw fa-arrow-left"></i>@lang('base::article.文章分類')

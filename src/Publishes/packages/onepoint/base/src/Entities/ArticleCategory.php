@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * 文章分類
+ * 1.0.01
+ * packages/onepoint/base/src/Entities/ArticleCategory.php
  * php artisan make:migration create_article_categories_table --create=article_categories
  */
 class ArticleCategory extends Model
@@ -41,16 +43,7 @@ class ArticleCategory extends Model
 
         // 類別名稱slug
         'category_name_slug',
-        
-        // 分類說明
-        'category_description',
     ];
-
-    // 更新人員關聯
-    public function update_user()
-    {
-        return $this->belongsTo('Onepoint\Base\Entities\User', 'update_user_id');
-    }
 
     // 文章關聯
     public function article()

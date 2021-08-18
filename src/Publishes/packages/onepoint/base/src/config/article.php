@@ -1,5 +1,7 @@
 <?php
+// packages/onepoint/base/src/config/article.php
 
 return [
-    'preview_url' => 'article-detail',
+    // 預覽網址
+    'preview_url' => 'about-detail',
 ];

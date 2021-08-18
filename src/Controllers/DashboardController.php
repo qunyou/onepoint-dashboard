@@ -203,6 +203,7 @@ class DashboardController extends Controller
         dd(storage_path('app/public'), public_path('storage'));
         // symlink(public_path('storage'), storage_path('app/public'));
         // ln -sr /home/vagrant/code/popupasia.com/private/storage/app/public /home/vagrant/code/popupasia.com/storage
+        // ln -sr /home/t4zwwng5q1en/public_html/skjhs.onepoint.com.tw/storage/app/public /home/t4zwwng5q1en/public_html/skjhs.onepoint.com.tw/public/storage
 
         // 正常的目錄配置可使用此方法
         // Artisan::call('storage:link');

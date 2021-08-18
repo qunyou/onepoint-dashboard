@@ -9,6 +9,8 @@ use Onepoint\Base\Entities\Article;
 
 /**
  * 文章
+ * 1.0.01
+ * packages/onepoint/base/src/Repositories/ArticleRepository.php
  */
 class ArticleRepository extends BaseRepository
 {
@@ -129,7 +131,7 @@ class ArticleRepository extends BaseRepository
      */
     public function getOneByTitle($article_title)
     {
-        $query = $this->model->where('article_title_slug', $article_title)->with('article_category')->first();
+        $query = $this->model->where('status', '啟用')->where('article_title_slug', $article_title)->with('article_category', 'image', 'attachment')->first();
         if ($query) {
 
             // 增加點擊

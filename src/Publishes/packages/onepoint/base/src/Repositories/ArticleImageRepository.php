@@ -7,6 +7,8 @@ use Onepoint\Dashboard\Repositories\BaseRepository;
 
 /**
  * 文章附圖
+ * 1.0.01
+ * packages/onepoint/base/src/Repositories/ArticleImageRepository.php
  */
 class ArticleImageRepository extends BaseRepository
 {
@@ -65,42 +67,9 @@ class ArticleImageRepository extends BaseRepository
             $result = $this->update();
         }
         if ($result) {
-
-            // 處理複選資料
-            // $product_id = request('product_id', []);
-            // $sync_datas = [];
-            // foreach ($product_id as $category_id) {
-            //     $sync_datas[] = $category_id;
-            // }
-            // $this->model->find($result)->product()->sync($sync_datas);
             return $result;
         } else {
             return false;
         }
-    }
-
-    /**
-     * 前端相片列表
-     */
-    public function getFrontendList($product_title, $paginate = false)
-    {
-        // 查詢商品
-        $product = Product::where('product_title_slug', $product_title)->first();
-
-        // 查詢相片
-        $query = $this->model->with('article');
-        if (!is_null($product)) {
-
-            // 增加相簿點擊
-            $product->increment('click');
-            $product_id = $product->id;
-            $query = $query->whereHas('product', function ($q) use ($product_id) {
-                $q->where('product_id', $product_id);
-            });
-        }
-        if (!$paginate) {
-            $paginate = config('frontend.paginate');
-        }
-        return $this->fetchList($query, 0, $paginate);
     }
 }

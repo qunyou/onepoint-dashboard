@@ -3,18 +3,42 @@
 namespace Onepoint\Dashboard\Traits;
 
 use Onepoint\Dashboard\Services\BaseService;
-use Illuminate\Support\Facades\Auth;
 
 trait ShareMethod
 {
     public $tpl = [];
     protected $base_service;
 
-    public function share()
+    /**
+     * 基本設定資料
+     * 
+     * @var $id_string 主資料 id 字串
+     */
+    public function share($id_string = '', $uri = '', $view_path = '')
     {
         $base_service = new BaseService;
         $this->base_service = $base_service;
         $this->tpl_data['base_service'] = $this->base_service;
+
+        // 主資料 id query string 字串
+        $this->tpl_data['id_string'] = $id_string;
+        if (!empty($id_string)) {
+            $this->{$id_string} = request($id_string, 0);
+        } else {
+            $this->{$id_string} = 0;
+        }
+        $this->tpl_data[$id_string] = $this->{$id_string};
+
+        // 預設網址
+        if (!empty($uri)) {
+            $this->uri = config('dashboard.uri') . '/' . $uri . '/';
+            $this->tpl_data['uri'] = $this->uri;
+        }
+
+        // view 路徑
+        if (!empty($view_path)) {
+            $this->view_path = 'base::' . config('dashboard.view_path') . '.' . $view_path . '.';
+        }
         
         // 設定語言
         // 如果有問題，執行清除動作
@@ -41,10 +65,10 @@ trait ShareMethod
         $this->tpl_data['version'] = request('version', false);
 
         // 排除分頁 qs
-        $qs = $_GET;
-        unset($qs['page']);
-        $this->tpl_data['qs'] = $qs;
-        $this->tpl_data['query_string'] = http_build_query($qs);
+        // $qs = $_GET;
+        // unset($qs['page']);
+        // $this->tpl_data['qs'] = $qs;
+        // $this->tpl_data['query_string'] = http_build_query($qs);
 
         // 當前分頁
         $this->tpl_data['page'] = request('page', 1);
@@ -53,17 +77,17 @@ trait ShareMethod
         $this->tpl_data['navigation_item'] = config('backend.navigation_item');
     }
 
-    // 列表基本設定資料
-    public function listPrepare($permission_controller_string = '', $id_string = '')
+    /**
+     * 列表基本設定資料
+     */
+    public function listPrepare()
     {
+        $permission_controller_string = get_class($this);
+        $component_datas['id_string'] = $this->tpl_data['id_string'];
+        
         // 權限判斷字串
         if (!empty($permission_controller_string)) {
             $component_datas['permission_controller_string'] = $permission_controller_string;
-        }
-
-        // 主資料 id query string 字串
-        if (!empty($id_string)) {
-            $component_datas['id_string'] = $id_string;
         }
 
         // 檢視刪除資料狀態判斷
@@ -141,31 +165,32 @@ trait ShareMethod
         return $component_datas;
     }
 
-    // 細節基本設定資料
-    public function detailPrepare($permission_controller_string = '', $id_string = '', $query_datas)
+    /**
+     * 細節基本設定資料
+     */
+    public function detailPrepare()
     {
         // 權限判斷字串
-        if (!empty($permission_controller_string)) {
-            $component_datas['permission_controller_string'] = $permission_controller_string;
-        }
+        $permission_controller_string = get_class($this);
+        $component_datas['permission_controller_string'] = $permission_controller_string;
 
         // 回列表網址
         $component_datas['back_url'] = url($this->uri . 'index?' . $this->base_service->getQueryString(true, true));
 
         // 主資料 id query string 字串
-        if (!empty($id_string)) {
+        if (!empty($this->tpl_data['id_string'])) {
             if (auth()->user()->hasAccess(['update-' . $permission_controller_string])) {
-                $component_datas['dropdown_items']['items']['編輯'] = ['url' => url($this->uri . 'update?' . $id_string . '=' . $query_datas->id)];
+                $component_datas['dropdown_items']['items']['編輯'] = ['url' => url($this->uri . 'update?' . $this->tpl_data['id_string'] . '=' . $this->tpl_data[$this->tpl_data['id_string']])];
             }
             if (auth()->user()->hasAccess(['create-' . $permission_controller_string])) {
-                $component_datas['dropdown_items']['items']['複製'] = ['url' => url($this->uri . 'duplicate?' . $id_string . '=' . $query_datas->id)];
+                $component_datas['dropdown_items']['items']['複製'] = ['url' => url($this->uri . 'duplicate?' . $this->tpl_data['id_string'] . '=' . $this->tpl_data[$this->tpl_data['id_string']])];
             }
             if (auth()->user()->hasAccess(['delete-' . $permission_controller_string])) {
-                $component_datas['dropdown_items']['items']['刪除'] = ['url' => url($this->uri . 'delete?' . $id_string . '=' . $query_datas->id)];
+                $component_datas['dropdown_items']['items']['刪除'] = ['url' => url($this->uri . 'delete?' . $this->tpl_data['id_string'] . '=' . $this->tpl_data[$this->tpl_data['id_string']])];
             }
-            if (config('backend.article.preview_url', false)) {
-                $component_datas['dropdown_items']['items']['預覽'] = ['url' => url(config('backend.article.preview_url', '') . $query_datas->id)];
-            }
+            // if (config('backend.article.preview_url', false)) {
+            //     $component_datas['dropdown_items']['items']['預覽'] = ['url' => url(config('backend.article.preview_url', '') . $this->tpl_data[$id_string])];
+            // }
         }
         return $component_datas;
     }

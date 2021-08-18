@@ -1,3 +1,10 @@
+{{-- 
+/**
+ * 文章分類
+ * 1.0.01
+ * packages/onepoint/base/src/resources/views/dashboard/pages/article-category/index.blade.php
+ */
+--}}
 @extends('dashboard::layouts.dashboard')
 
 @section('top-item')
@@ -52,6 +59,11 @@
             <a class="btn btn-outline-deep-purple waves-effect d-xs-block" href="{{ url(config('dashboard.uri') . '/article/index') }}">
                 <i class="fa fa-fw fa-arrow-left"></i>@lang('base::article.文章列表')
             </a>
+            @if (auth()->user()->hasAccess(['create-Onepoint\Base\Controllers\ArticleCategoryController']))
+                <a href="{{ url($uri . 'update?' . $base_service->getQueryString(true, true, ['article_category_id'])) }}" class="btn btn-outline-deep-purple waves-effect d-xs-block">
+                    <i class="fa fa-plus"></i>@lang('base::article.新增文章分類')
+                </a>
+            @endif
         @endslot
     @endcomponent
 @endsection

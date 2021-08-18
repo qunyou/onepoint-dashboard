@@ -7,6 +7,8 @@ use Onepoint\Dashboard\Repositories\BaseRepository;
 
 /**
  * 文章附檔
+ * 1.0.01
+ * packages/onepoint/base/src/Repositories/ArticleAttachmentRepository.php
  */
 class ArticleAttachmentRepository extends BaseRepository
 {

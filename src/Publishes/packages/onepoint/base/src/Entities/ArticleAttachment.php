@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * 文章附檔
+ * 1.0.01
+ * packages/onepoint/base/src/Entities/ArticleAttachment.php
  * php artisan make:migration create_article_attachments_table --create=article_attachments
  */
 class ArticleAttachment extends Model

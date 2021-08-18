@@ -1,3 +1,10 @@
+{{-- 
+/**
+ * 文章
+ * 1.0.01
+ * packages/onepoint/base/src/resources/views/dashboard/pages/article/detail.blade.php
+ */
+--}}
 @extends('dashboard::layouts.dashboard')
 
 @section('sidebar-header')
@@ -14,12 +21,12 @@
             </li>
             <li class="breadcrumb-item" aria-current="page">
                 <a href="{{ url(config('dashboard.uri') . '/article/index') }}">
-                    @lang('base::article.文章')
+                    @lang('base::article.文章列表')
                 </a>
             </li>
             <li class="breadcrumb-item" aria-current="page">
                 <a href="#">
-                    @lang('dashboard::backend.檢視')
+                    @lang('base::article.檢視文章')
                 </a>
             </li>
 
@@ -36,6 +43,9 @@
 
 @section('main_block')
     @component('dashboard::components.backend-detail-card', $component_datas)
+        @slot('page_title')
+            @lang('base::article.文章內容')
+        @endslot
         @slot('top_btn')
             <a class="btn btn-outline-deep-purple waves-effect d-xs-block" href="{{ url($uri . 'index?' . $base_service->getQueryString(true, true, ['article_id'])) }}">
                 <i class="fa fa-fw fa-arrow-left"></i>@lang('base::article.文章列表')

@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * 文章圖片
+ * 1.0.01
+ * packages/onepoint/base/src/Entities/ArticleImage.php
  * php artisan make:migration create_article_images_table --create=article_images
  */
 class ArticleImage extends Model

@@ -1,3 +1,10 @@
+{{-- 
+/**
+ * 文章
+ * 1.0.01
+ * packages/onepoint/base/src/resources/views/dashboard/pages/article/update.blade.php
+ */
+--}}
 @inject('image_service', 'Onepoint\Dashboard\Services\ImageService')
 @inject('file_service', 'Onepoint\Dashboard\Services\FileService')
 
@@ -17,23 +24,18 @@
             </li>
             <li class="breadcrumb-item" aria-current="page">
                 <a href="{{ url(config('dashboard.uri') . '/article/index') }}">
-                    @lang('base::article.文章')
+                    @lang('base::article.文章列表')
                 </a>
             </li>
             <li class="breadcrumb-item" aria-current="page">
                 <a href="#">
-                    @if ($article_id)
-                        @if (isset($duplicate) && $duplicate)
-                            @lang('dashboard::backend.複製')
-                        @else
-                            @lang('dashboard::backend.編輯')
-                        @endif
+                    @if (isset($duplicate) && $duplicate)
+                        @lang('dashboard::backend.複製')
                     @else
-                        @lang('dashboard::backend.新增')
+                        @lang('base::article.編輯文章')
                     @endif
                 </a>
             </li>
-
             @if ($version)
                 <li class="breadcrumb-item" aria-current="page">
                     <a href="#">
@@ -94,6 +96,13 @@
 
 @section('main_block')
     @component('dashboard::components.backend-update-card', $component_datas)
+        @slot('page_title')
+            @if (isset($duplicate))
+                @lang('dashboard::backend.複製')
+            @else
+                @lang('base::article.編輯文章')
+            @endif
+        @endslot
         @slot('top_btn')
             <a class="btn btn-outline-deep-purple waves-effect d-xs-block" href="{{ url($uri . 'index?' . $base_service->getQueryString(true, true, ['article_id'])) }}">
                 <i class="fa fa-fw fa-arrow-left"></i>@lang('base::article.文章列表')
@@ -157,9 +166,9 @@
                     @if ($article && $article->attachment->count())
                         <table class="table">
                             <tr>
-                                <th>檔名</th>
-                                <th>檔案大小</th>
-                                <th>附檔標題</th>
+                                <th>@lang('base::article.附檔檔名')</th>
+                                <th>@lang('base::article.檔案大小')</th>
+                                <th>@lang('base::article.附檔標題')</th>
                                 <th></th>
                             </tr>
                             @foreach ($article->attachment as $key => $article_attachment)
@@ -173,9 +182,9 @@
                                         {{--
                                             asset('storage/' . config('frontend.upload_path') . '/article/' . $article_attachment->file_name)
                                         --}}
-                                        <a href="{{ url($uri . 'attachment-download/' . $article_attachment->id) }}" class="btn btn-outline-deep-purple waves-effect">下載 <i class="fas fa-download"></i></a>
-                                        <a href="{{ url($uri . 'attachment-update/' . $article_attachment->id . '?' . $base_service->getQueryString(true, true)) }}" class="btn btn-outline-deep-purple waves-effect">編輯</a>
-                                        <a href="{{ url($uri . 'attachment-delete/' . $article_attachment->id . '?' . $base_service->getQueryString(true, true)) }}" class="btn btn-outline-deep-purple waves-effect">刪除</a>
+                                        <a href="{{ url($uri . 'attachment-download/' . $article_attachment->id) }}" class="btn btn-outline-deep-purple waves-effect">@lang('dashboard::backend.下載') <i class="fas fa-download"></i></a>
+                                        <a href="{{ url($uri . 'attachment-update/' . $article_attachment->id . '?' . $base_service->getQueryString(true, true)) }}" class="btn btn-outline-deep-purple waves-effect">@lang('dashboard::backend.編輯')</a>
+                                        <a href="{{ url($uri . 'attachment-delete/' . $article_attachment->id . '?' . $base_service->getQueryString(true, true)) }}" class="btn btn-outline-deep-purple waves-effect">@lang('dashboard::backend.刪除')</a>
                                     </td>
                                 </tr>
                             @endforeach

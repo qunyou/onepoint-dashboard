@@ -1,3 +1,10 @@
+{{-- 
+/**
+ * 文章分類
+ * 1.0.01
+ * packages/onepoint/base/src/resources/views/dashboard/pages/article-category/update.blade.php
+ */
+--}}
 @extends('dashboard::layouts.dashboard')
 
 @section('sidebar-header')
@@ -24,10 +31,10 @@
                         @if (isset($duplicate) && $duplicate)
                             @lang('dashboard::backend.複製')
                         @else
-                            @lang('dashboard::backend.編輯')
+                            @lang('base::article.編輯文章分類')
                         @endif
                     @else
-                        @lang('dashboard::backend.新增')
+                        @lang('base::article.新增文章分類')
                     @endif
                 </a>
             </li>
@@ -44,7 +51,7 @@
 @endsection
 
 @section('main_block')
-    @component('dashboard::components.backend-update-card', $component_datas)
+    @component('dashboard::components.backend-update-card')
         @slot('page_title')
             @if ($article_category_id)
                 @if (isset($duplicate) && $duplicate)

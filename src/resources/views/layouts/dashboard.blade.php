@@ -135,14 +135,14 @@
                 </div>
             </div>
 
-            <footer class="footer">
+            {{-- <footer class="footer">
                 <div class="copyright">
                     <div class="float-right">
                         <a href="#"><i class="fas fa-arrow-alt-circle-up fa-lg"></i></a>
                     </div>
                     <div class="clearfix"></div>
                 </div>
-            </footer>
+            </footer> --}}
         </div>
     </div>
 </body>
