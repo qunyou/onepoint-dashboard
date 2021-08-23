@@ -3,17 +3,43 @@
 namespace Onepoint\Dashboard\Repositories;
 
 use DB;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Log;
 use Onepoint\Dashboard\Services\BaseService;
 use Onepoint\Dashboard\Services\FileService;
 use Onepoint\Dashboard\Services\ImageService;
 
-// use DateTime;
-
+/**
+ * 
+ * 
+ */
 /**
  * Repository基本可用方法
+ * @method BaseRepository debug()
+ * @method BaseRepository update($id = 0, $manually = false)
+ * @method BaseRepository replicateUpdate($id, $manually = false)
+ * @method BaseRepository append(array $datas)
+ * @method BaseRepository exclude(array $datas)
+ * @method BaseRepository rule(array $datas, array $custom_name)
+ * @method BaseRepository updateAndActive($id = 0, $datas = [], $exclude = [], $manually = false, $rule = [])
+ * @method BaseRepository makeUpdateData($manually)
+ * @method BaseRepository executeUpdate($id, $datas)
+ * @method BaseRepository uploadFile($id = 0)
+ * @method BaseRepository deleteFile($file_name)
+ * @method BaseRepository attach($prefix, $form_name = '', $upload_origin_file_column_name = '', $upload_img = true)
+ * @method BaseRepository clear($key, $value, $trashed = false)
+ * @method BaseRepository delete($id, $trashed = false)
+ * @method BaseRepository restore($id)
+ * @method BaseRepository active()
+ * @method BaseRepository click($id)
+ * @method BaseRepository fetchList($query, $id = 0, $paginate = 0, $order_by = 'sort', $limit = 0)
+ * @method BaseRepository fetchOne($query, $id)
+ * @method BaseRepository queryDateSelect($q, $input_name)
+ * @method BaseRepository queryTimeBetweenColumn($q, $input_name = '', $time_start = false, $time_end = false)
+ * @method BaseRepository queryDateBetweenTwoColumn($q, $input_name = '', $first_column_name = '', $last_column_name = '')
+ * @method BaseRepository batch($settings = [])
+ * @method BaseRepository applyVersion($id, $version_id)
+ * @method BaseRepository rearrange()
+ * @method BaseRepository dragRearrange($where_str = 'ORDER BY sort ASC')
  */
 class BaseRepository
 {
@@ -66,7 +92,12 @@ class BaseRepository
     // 是否使用版本功能
     public $use_version = true;
 
-    // 除錯
+    /**
+     * 除錯模式
+     *
+     * @access public
+     * @var Boolean
+     */
     public $debug;
 
     /**
@@ -91,10 +122,9 @@ class BaseRepository
     /**
      * 更新
      *
-     * $id          int     自動編號，值為 0 時為新增資料
-     * $manually    boolean 值為 true 時不接收表單資料，值全由 $datas 自訂
-     *
-     * return       int     更新或新增資料的自動編號
+     * @param   Integer $id         自動編號，值為 0 時為新增資料
+     * @param   Boolean $manually   boolean 值為 true 時不接收表單資料，值全由 $datas 自訂
+     * @return  Integer             更新或新增資料的自動編號
      */
     public function update($id = 0, $manually = false)
     {
@@ -104,10 +134,10 @@ class BaseRepository
     /**
      * 複製備份後更新
      *
-     * $id          int     自動編號
-     * $manually    boolean 值為 true 時不接收表單資料，值全由 $datas 自訂
+     * @param$id          int     自動編號
+     * @param$manually    boolean 值為 true 時不接收表單資料，值全由 $datas 自訂
      *
-     * return       int     更新資料的自動編號
+     * @return       int     更新資料的自動編號
      */
     public function replicateUpdate($id, $manually = false)
     {
@@ -144,8 +174,9 @@ class BaseRepository
 
     /**
      * 表單驗證
-     * $datas           驗證規則陣列
-     * $custom_name    自訂欄位名稱
+     * @param   Array   $datas          驗證規則陣列
+     * @param   Array   $custom_name    自訂欄位名稱
+     * @return Object
      */
     public function rule(array $datas, array $custom_name)
     {
@@ -256,7 +287,7 @@ class BaseRepository
             }
             return $id;
         } else {
-            Log::info('BaseRepository::executeUpdate', ['id' => $id, 'datas' => $datas, 'request' => request()->all()]);
+            logger()->info('BaseRepository::executeUpdate', ['id' => $id, 'datas' => $datas, 'request' => request()->all()]);
         }
         return false;
     }
@@ -264,7 +295,8 @@ class BaseRepository
     /**
      * 檔案上傳
      *
-     * $file_name   string  檔名
+     * @ignore  Integer $id 舊檔資料id
+     * @return Array
      */
     public function uploadFile($id = 0)
     {
@@ -350,7 +382,8 @@ class BaseRepository
     /**
      * 刪除檔案
      *
-     * $file_name   string  檔名
+     * @param   String  $file_name  檔名
+     * @return  Boolean
      */
     public function deleteFile($file_name)
     {
@@ -376,9 +409,11 @@ class BaseRepository
     /**
      * 上傳檔案準備
      *
-     * $prefix              string              檔名前綴
-     * $form_name           string || array     表單名稱
-     * $upload_origin_file_column_name   string              圖片標題欄位名稱
+     * @param   String          $prefix                         檔名前綴
+     * @param   String|Array    $form_name                      表單名稱
+     * @param   String          $upload_origin_file_column_name 圖片標題欄位名稱
+     * @param   Boolean         $upload_img                     
+     * @return  Object
      */
     public function attach($prefix, $form_name = '', $upload_origin_file_column_name = '', $upload_img = true)
     {
@@ -448,23 +483,26 @@ class BaseRepository
 
     /**
      * 增加點擊
+     * @param Integer   $id 資料 id
+     * @return Void
      */
     public function click($id)
     {
         $query = $this->model->find($id);
-        $query->click = $query->click + 1;
-        $query->save();
-        return true;
+        $query->increment('click');
     }
 
     /**
      * 列表查詢
      *
-     * $query       Object  查詢物件
-     * $id          Int     目前版本 id
-     * $paginate    Int     分頁筆數設定, 值為 0 時不使用分頁功能
+     * @param   Object          $query      查詢物件
+     * @ignore  Integer         $id         目前版本 id，查詢舊版本時使用
+     * @ignore  Integer         $paginate   分頁筆數設定, 值為 0 時不使用分頁功能
+     * @ignore  Integer|Array   $order_by   排序欄位
+     * @ignore  Integer         $limit      查詢筆數， 值為 0 時不限制
+     * @return Object|Boolean
      */
-    public function fetchList($query, $id, $paginate, $order_by = 'sort', $power = 'asc')
+    public function fetchList($query, $id = 0, $paginate = 0, $order_by = 'sort', $limit = 0)
     {
         if ($this->debug) {
             DB::enableQueryLog();
@@ -488,12 +526,12 @@ class BaseRepository
                 $query = $query->orderBy($key, $value);
             }
         } elseif (!empty($order_by)) {
-            $query = $query->orderBy($order_by, $power);
+            $query = $query->orderBy($order_by, 'asc');
+        }
+        if ($limit) {
+            $query = $query->limit($limit);
         }
         if ($paginate) {
-            if (!is_numeric($paginate)) {
-                $paginate = config('backend.paginate');
-            }
 
             // 分頁設定
             $records_per_page = request('records_per_page', false);
@@ -539,13 +577,12 @@ class BaseRepository
 
     /**
      * 設定日期區間查詢條件
-     *
-     * 同一欄位在兩個日期之前，年、月、日可單一條件無值
-     * @param  object $q          [description]
-     * @param  string $input_name [description]
-     * @return [type]             [description]
+     *  同一欄位在兩個日期之前，年、月、日可單一條件無值
+     * @param  Object $q           查詢物件
+     * @param  String $input_name  input名稱
+     * @return Object
      */
-    public static function queryDateSelect($q, $input_name = '')
+    public static function queryDateSelect($q, $input_name)
     {
         // 開始日
         $yyyy = request($input_name . '_yyyy', false);
@@ -583,11 +620,11 @@ class BaseRepository
 
     /**
      * 設定時間區間查詢條件，比對一個欄位
-     * @param  [type]         $q                  [description]
-     * @param  string         $input_name         [description]
-     * @param  string|boolean $time_start         [description]
-     * @param  string|boolean $time_end           [description]
-     * @return object                             [description]
+     * @param  Object         $q                  查詢物件
+     * @param  String         $input_name         input名稱
+     * @param  String|Boolean $time_start         開始日期
+     * @param  String|Boolean $time_end           結束日期
+     * @return object
      */
     public function queryTimeBetweenColumn($q, $input_name = '', $time_start = false, $time_end = false)
     {
@@ -605,11 +642,11 @@ class BaseRepository
      *
      * 月、日無輸入時，開始日將設定為 01 ，，結束日將設定為當月的最後一天
      * 年無輸入時，開始日將設定為 1911，結束日將設定為今年
-     * @param  object         $q                        查詢物件
-     * @param  string         $input_name               input 表單的欄位名稱，程式會自動加上 _yyyy，_mm，_dd，_yyyy_end，_mm_end，_dd_end, 六個欄位名稱的後綴
-     * @param  string         $first_column_name        開始日期欄位的名稱
-     * @param  string         $last_column_name         結束日期欄位的名稱
-     * @return object                                   [description]
+     * @param  Object   $q                        查詢物件
+     * @param  String   $input_name               input 表單的欄位名稱，程式會自動加上 _yyyy，_mm，_dd，_yyyy_end，_mm_end，_dd_end, 六個欄位名稱的後綴
+     * @param  String   $first_column_name        開始日期欄位的名稱
+     * @param  String   $last_column_name         結束日期欄位的名稱
+     * @return Object
      */
     public function queryDateBetweenTwoColumn($q, $input_name = '', $first_column_name = '', $last_column_name = '')
     {
