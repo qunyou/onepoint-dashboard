@@ -14,7 +14,7 @@ trait ShareMethod
      * 
      * @var $id_string 主資料 id 字串
      */
-    public function share($id_string = '', $uri = '', $view_path = '')
+    public function share($id_string = '', $uri = '', $view_path = '', $view_path_prefix = '')
     {
         $base_service = new BaseService;
         $this->base_service = $base_service;
@@ -37,7 +37,11 @@ trait ShareMethod
 
         // view 路徑
         if (!empty($view_path)) {
-            $this->view_path = 'base::' . config('dashboard.view_path') . '.' . $view_path . '.';
+            if (empty($view_path_prefix)) {
+                $this->view_path = 'base::' . config('dashboard.view_path') . '.' . $view_path . '.';
+            } else {
+                $this->view_path = $view_path_prefix . $view_path . '.';
+            }
         }
         
         // 設定語言

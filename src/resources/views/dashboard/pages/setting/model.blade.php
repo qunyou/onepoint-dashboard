@@ -45,19 +45,10 @@
         @endslot
         @slot('button_block')
             @if (count(config('backend.setting.model')) > 1)
-                <div class="btn-group d-block d-md-inline-block">
-                    <div class="dropdown">
-                        <button class="btn btn-outline-deep-purple waves-effect dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            @lang('dashboard::setting.項目類別')
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            @foreach (config('backend.setting.model') as $setting_model => $setting_title)
-                                <a class="dropdown-item{{ request('model', '') == $setting_model ? ' active' : '' }}" href="{{ url($uri . 'model?model=' . $setting_model) }}">
-                                    {{ $setting_title }}
-                                </a>
-                            @endforeach
-                        </div>
-                    </div>
+                <div class="btn-group">
+                    @foreach (config('backend.setting.model') as $setting_model => $setting_title)
+                        <a class="btn btn-primary{{ request('model', '') == $setting_model ? ' active' : '' }}" href="{{ url($uri . 'model?model=' . $setting_model) }}">{{ $setting_title }}</a>
+                    @endforeach
                 </div>
             @endif
         @endslot

@@ -43,7 +43,7 @@
 @endsection
 
 @section('main_block')
-    @component('dashboard::components.backend-update-card', $component_datas)
+    @component('dashboard::components.backend-update-card')
         <div class="form-body">
             @include('dashboard::select', ['input_setting' => [
                 'display_name' => 'model',
@@ -82,7 +82,7 @@
             ]])
 
             @if ($setting_id > 0)
-                @switch(session('inputs.type'))
+                @switch($setting->type)
                     @case('num')
                     @case('number')
 

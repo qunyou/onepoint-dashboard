@@ -18,26 +18,17 @@ class SettingController extends Controller
     use ShareMethod;
 
     /**
+     * 只能手動開啟的功能
+     * @var Boolean
+     */
+    var $is_root = true;
+
+    /**
      * 建構子
      */
-    public function __construct(ImageService $image_services, SettingRepository $setting_repository, PathPresenter $path_presenter)
+    public function __construct()
     {
-        $this->share();
-        $this->setting_repository = $setting_repository;
-
-        // 預設網址
-        $this->uri = config('dashboard.uri') . '/setting/';
-        $this->tpl_data['uri'] = $this->uri;
-
-        // view 路徑
-        // $this->view_path = config('dashboard.view_path') . '.pages.setting.';
-        $this->view_path = 'dashboard::' . config('dashboard.view_path') . '.pages.setting.';
-
-        $this->setting_id = request('setting_id', false);
-        $this->tpl_data['setting_id'] = $this->setting_id;
-
-        // 只能手動開啟的功能
-        $this->is_root = true;
+        $this->share('setting_id', 'setting', 'pages.setting', 'dashboard::dashboard.');
     }
 
     /**
@@ -74,7 +65,8 @@ class SettingController extends Controller
             $component_datas['footer_sort_hide'] = true;
         }
         $this->tpl_data['model'] = request('model', 'global');
-        $component_datas['list'] = $this->setting_repository->getList($this->setting_id, config('backend.paginate'));
+        $setting_repository = new SettingRepository;
+        $component_datas['list'] = $setting_repository->getList($this->setting_id, config('backend.paginate'));
         $component_datas['update_uri'] = 'model-update';
         $component_datas['use_drag_rearrange'] = true;
         $component_datas['use_sort'] = false;
@@ -128,15 +120,16 @@ class SettingController extends Controller
         $this->tpl_data['model'] = $model;
         // $this->tpl_data['formPresenter'] = new FormPresenter;
         if ($this->setting_id) {
-            $query = $this->setting_repository->getOne($this->setting_id);
+            $setting_repository = new SettingRepository;
+            $query = $setting_repository->getOne($this->setting_id);
             $this->tpl_data['setting'] = $query;
 
             // 刪除附檔
             $delete_file = request('delete_file', false);
             if ($delete_file) {
                 ImageService::delete($query->setting_value);
-                $this->setting_repository->model->find($this->setting_id)->update(['setting_value' => '']);
-                $query = $this->setting_repository->getOne($this->setting_id);
+                $setting_repository->model->find($this->setting_id)->update(['setting_value' => '']);
+                $query = $setting_repository->getOne($this->setting_id);
             }
 
             //　logo 圖片說明
@@ -155,7 +148,8 @@ class SettingController extends Controller
     public function putModelUpdate()
     {
         $model = request('model', false);
-        $res = $this->setting_repository->setUpdate($this->setting_id);
+        $setting_repository = new SettingRepository;
+        $res = $setting_repository->setUpdate($this->setting_id);
         if ($res) {
             session()->flash('notify.message', __('dashboard::backend.資料編輯完成'));
             session()->flash('notify.type', 'success');
@@ -179,7 +173,8 @@ class SettingController extends Controller
         $this->tpl_data['formPresenter'] = new FormPresenter;
 
         if ($this->setting_id) {
-            $setting = $this->setting_repository->getOne($this->setting_id);
+            $setting_repository = new SettingRepository;
+            $setting = $setting_repository->getOne($this->setting_id);
             $this->tpl_data['setting'] = $setting;
 
             // 表單資料
@@ -224,15 +219,7 @@ class SettingController extends Controller
     public function index()
     {
         $this->IsRoot();
-
         $component_datas = $this->listPrepare();
-        $permission_controller_string = get_class($this);
-        $component_datas['permission_controller_string'] = $permission_controller_string;
-        $component_datas['uri'] = $this->uri;
-        $component_datas['back_url'] = url($this->uri . 'index');
-
-        // 主資料 id query string 字串
-        $component_datas['id_string'] = 'setting_id';
 
         // 表格欄位設定
         $component_datas['th'] = [
@@ -243,25 +230,18 @@ class SettingController extends Controller
             ['type' => 'column', 'column_name' => 'title'],
             ['type' => 'function', 'function_name' => 'Onepoint\Dashboard\Controllers\SettingController@settingValueDisplay'],
         ];
-
-        // 權限設定
-        if (auth()->user()->hasAccess(['create-' . $permission_controller_string])) {
-            $component_datas['add_url'] = url($this->uri . 'update');
-        }
-        if (auth()->user()->hasAccess(['update-' . $permission_controller_string])) {
-            if (!auth()->user()->hasAccess(['delete-' . $permission_controller_string])) {
-                $component_datas['footer_delete_hide'] = true;
-            }
-        } else {
-            $component_datas['footer_dropdown_hide'] = true;
-            $component_datas['footer_sort_hide'] = true;
-        }
         $this->tpl_data['model'] = request('model', 'global');
-        $component_datas['list'] = $this->setting_repository->getList(false, $this->tpl_data['model']);
+
+        $setting_repository = new SettingRepository;
+        // $component_datas['list'] = $article_repository->getList($this->article_id, config('backend.paginate'));
+        $component_datas['list'] = $setting_repository->getList($this->setting_id, config('backend.paginate'));
+        // config('backend.paginate')
+
         $component_datas['use_sort'] = false;
         $component_datas['footer_dropdown_hide'] = true;
         $this->tpl_data['component_datas'] = $component_datas;
-        return view($this->view_path . 'model', $this->tpl_data);
+        // dd($this->view_path . 'index');
+        return view($this->view_path . 'index', $this->tpl_data);
     }
 
     /**
@@ -281,25 +261,18 @@ class SettingController extends Controller
         $this->IsRoot();
         $this->tpl_data['setting'] = false;
         if ($this->setting_id) {
-            $page_title = __('dashboard::backend.編輯');
-            $query = $this->setting_repository->getOne($this->setting_id);
+            $setting_repository = new SettingRepository;
+            $query = $setting_repository->getOne($this->setting_id);
             $this->tpl_data['setting'] = $query;
 
             // 刪除附檔
             $delete_file = request('delete_file', false);
             if ($delete_file) {
                 ImageService::delete($query->setting_value);
-                $this->setting_repository->model->find($this->setting_id)->update(['setting_value' => '']);
-                $query = $this->setting_repository->getOne($this->setting_id);
+                $setting_repository->model->find($this->setting_id)->update(['setting_value' => '']);
+                $query = $etting_repository->getOne($this->setting_id);
             }
-        } else {
-            $page_title = __('dashboard::backend.新增');
         }
-
-        // 樣版資料
-        $component_datas['page_title'] = $page_title;
-        $component_datas['back_url'] = url($this->uri . 'index');
-        $this->tpl_data['component_datas'] = $component_datas;
         return view($this->view_path . 'update', $this->tpl_data);
     }
 
@@ -309,7 +282,8 @@ class SettingController extends Controller
     public function putUpdate()
     {
         $this->IsRoot();
-        $res = $this->setting_repository->setUpdate($this->setting_id);
+        $setting_repository = new SettingRepository;
+        $res = $setting_repository->setUpdate($this->setting_id);
         if ($res) {
             session()->flash('notify.message', __('dashboard::backend.資料編輯完成'));
             session()->flash('notify.type', 'success');
@@ -328,10 +302,11 @@ class SettingController extends Controller
     {
         $this->IsRoot();
         if ($this->setting_id) {
-            $permission_controller_string = get_class($this);
-            $component_datas['permission_controller_string'] = $permission_controller_string;
-            $setting = $this->setting_repository->getOne($this->setting_id);
+
+            $setting_repository = new SettingRepository;
+            $setting = $setting_repository->getOne($this->setting_id);
             $this->tpl_data['setting'] = $setting;
+            $component_datas = $this->detailPrepare();
 
             // 表單資料
             $this->tpl_data['form_array'] = [
@@ -372,34 +347,6 @@ class SettingController extends Controller
                     'display_name' => __('dashboard::backend.備註'),
                 ],
             ];
-
-            // 樣版資料
-            $component_datas['page_title'] = __('dashboard::setting.檢視設定');
-            if ($this->tpl_data['version']) {
-                $component_datas['page_title'] .= ' -' . __('dashboard::backend.版本檢視');
-            }
-            if ($this->tpl_data['version']) {
-                $component_datas['back_url'] = url($this->uri . 'index?setting_id=' . request('origin_id') . '&version=true');
-            } else {
-                $component_datas['back_url'] = url($this->uri . 'index');
-            }
-            $component_datas['dropdown_items']['btn_align'] = 'float-left';
-            if (auth()->user()->hasAccess(['update-' . $permission_controller_string])) {
-                if ($this->tpl_data['version']) {
-                    $component_datas['dropdown_items']['items']['使用此版本'] = ['url' => url($this->uri . 'apply-version?setting_id=' . $setting->origin_id . '&version_id=' . $setting->id)];
-                } else {
-                    $component_datas['dropdown_items']['items']['編輯'] = ['url' => url($this->uri . 'update?setting_id=' . $setting->id)];
-                    if (auth()->user()->hasAccess(['delete-' . $permission_controller_string])) {
-                        $component_datas['dropdown_items']['items']['刪除'] = ['url' => url($this->uri . 'delete?setting_id=' . $setting->id)];
-                    }
-                }
-            }
-            if (auth()->user()->hasAccess(['create-' . $permission_controller_string])) {
-                if (!$this->tpl_data['version']) {
-                    $component_datas['dropdown_items']['items']['複製'] = ['url' => url($this->uri . 'duplicate?setting_id=' . $setting->id)];
-                }
-            }
-            // $component_datas['dropdown_items']['items']['預覽'] = ['url' => url(config('backend.setting.preview_url', 'detail/') . $setting->id)];
             $this->tpl_data['component_datas'] = $component_datas;
             return view($this->view_path . 'detail', $this->tpl_data);
         } else {
@@ -414,7 +361,8 @@ class SettingController extends Controller
     {
         $this->IsRoot();
         if ($this->setting_id) {
-            $this->setting_repository->delete($this->setting_id);
+            $setting_repository = new SettingRepository;
+            $setting_repository->delete($this->setting_id);
         }
         return redirect($this->uri . 'index');
     }
@@ -438,7 +386,8 @@ class SettingController extends Controller
         $settings['folder'] = 'setting';
         $settings['image_scale'] = false;
         $settings['use_version'] = true;
-        $result = $this->setting_repository->batch($settings);
+        $setting_repository = new SettingRepository;
+        $result = $setting_repository->batch($settings);
         switch ($result['batch_method']) {
             case 'restore':
             case 'force_delete':
@@ -463,7 +412,8 @@ class SettingController extends Controller
     public function rearrange()
     {
         if ($this->setting_id) {
-            $this->setting_repository->rearrange();
+            $setting_repository = new SettingRepository;
+            $setting_repository->rearrange();
         }
         return redirect($this->uri . 'index?' . $this->base_service->getQueryString(true, true));
     }
@@ -473,6 +423,7 @@ class SettingController extends Controller
      */
     public function dragSort()
     {
-        return $this->setting_repository->dragRearrange();
+        $setting_repository = new SettingRepository;
+        return $setting_repository->dragRearrange();
     }
 }
