@@ -935,8 +935,10 @@ class BaseRepository
 
         // 迴圈更新排序
         foreach ($sort_arr as $value) {
-            $this->model->find($value)->update(['sort' => $min_sort]);
-            $min_sort++;
+            if ($value > 0) {
+                $this->model->find($value)->update(['sort' => $min_sort]);
+                $min_sort++;
+            }
         }
         return response()->json([
             'result' => true,
