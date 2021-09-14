@@ -29,5 +29,6 @@
         'parameter' => $item_value['parameter'] ?? [],
         'formPresenter' => $formPresenter,
         'delete_url' => $item_value['delete_url'] ?? '',
+        'include_path' => $item_value['include_path'] ?? '',
     ]])
 @endforeach

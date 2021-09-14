@@ -24,6 +24,7 @@ class FormPresenter
         $input_setting['error'] = $input_setting['error'] ?? false;
         $input_setting['help'] = $input_setting['help'] ?? false;
         $input_setting['input_value'] = $input_setting['input_value'] ?? '';
+        $input_setting['include_path'] = $input_setting['include_path'] ?? '';
         $input_setting['row_attribute'] = $input_setting['row_attribute'] ?? [];
         // $input_setting['parameter'] = $input_setting['parameter'] ?? [];
         
@@ -188,6 +189,9 @@ class FormPresenter
         // if ($input_type == 'custom') {
         //     $input_setting['input_value'] = $input_setting['image_string'];
         // }
+        if ($input_type == 'include') {
+            $input_setting['include_path'] = $input_setting['include_path'];
+        }
         return $input_setting;
     }
 
