@@ -32,7 +32,7 @@ class BackendPresenter
         }
         $sub_item = [];
         $parent_show_string = '';
-        $parent_permission = false;
+        $parent_permission = true;
         if (isset($element['action'])) {
 
             // 沒有子項目的連結

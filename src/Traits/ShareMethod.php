@@ -152,19 +152,21 @@ trait ShareMethod
         // if (auth()->user()->hasAccess(['create-' . $permission_controller_string])) {
         //     $component_datas['add_url'] = url($this->uri . 'update');
         // }
-        if (auth()->user()->hasAccess(['update-' . $permission_controller_string])) {
-            if (!auth()->user()->hasAccess(['delete-' . $permission_controller_string])) {
-                $component_datas['footer_delete_hide'] = true;
+        if (config('user.use_role')) {
+            if (auth()->user()->hasAccess(['update-' . $permission_controller_string])) {
+                if (!auth()->user()->hasAccess(['delete-' . $permission_controller_string])) {
+                    $component_datas['footer_delete_hide'] = true;
+                }
+            } else {
+                $component_datas['footer_dropdown_hide'] = true;
+                $component_datas['footer_sort_hide'] = true;
             }
-        } else {
-            $component_datas['footer_dropdown_hide'] = true;
-            $component_datas['footer_sort_hide'] = true;
-        }
-        if (auth()->user()->hasAccess(['update-' . $permission_controller_string])) {
-            $component_datas['dropdown_items']['items']['版本'] = ['url' => url($this->uri . 'index?version=true')];
-        }
-        if (auth()->user()->hasAccess(['delete-' . $permission_controller_string])) {
-            $component_datas['dropdown_items']['items']['資源回收'] = ['url' => url($this->uri . 'index?trashed=true')];
+            if (auth()->user()->hasAccess(['update-' . $permission_controller_string])) {
+                $component_datas['dropdown_items']['items']['版本'] = ['url' => url($this->uri . 'index?version=true')];
+            }
+            if (auth()->user()->hasAccess(['delete-' . $permission_controller_string])) {
+                $component_datas['dropdown_items']['items']['資源回收'] = ['url' => url($this->uri . 'index?trashed=true')];
+            }
         }
 
         // 更新網址附加字串
