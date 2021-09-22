@@ -71,14 +71,17 @@ class BackendPresenter
             }
 
             // 權限
-            $role_controller_str = Str::after(Str::before($element['action'], '@'), '\\');
-            if ($this->auth_guard) {
-                if (auth()->guard($this->auth_guard)->user()->hasAccess(['read-' . $role_controller_str]) || $this->is_root) {
-                    $parent_permission = true;
-                }
-            } else {
-                if (auth()->user()->hasAccess(['read-' . $role_controller_str]) || $this->is_root) {
-                    $parent_permission = true;
+            $permission = true;
+            if (config('user.use_role')) {
+                $role_controller_str = Str::after(Str::before($element['action'], '@'), '\\');
+                if ($this->auth_guard) {
+                    if (auth()->guard($this->auth_guard)->user()->hasAccess(['read-' . $role_controller_str]) || $this->is_root) {
+                        $parent_permission = true;
+                    }
+                } else {
+                    if (auth()->user()->hasAccess(['read-' . $role_controller_str]) || $this->is_root) {
+                        $parent_permission = true;
+                    }
                 }
             }
         } else {
@@ -123,19 +126,23 @@ class BackendPresenter
                 }
 
                 // 判斷是否有權限
-                if ($this->auth_guard) {
-                    if (auth()->guard($this->auth_guard)->user()->hasAccess(['read-' . $role_controller_str]) || $this->is_root) {
-                        $permission = true;
-                        $parent_permission = true;
+                $permission = true;
+                $parent_permission = true;
+                if (config('user.use_role')) {
+                    if ($this->auth_guard) {
+                        if (auth()->guard($this->auth_guard)->user()->hasAccess(['read-' . $role_controller_str]) || $this->is_root) {
+                            $permission = true;
+                            $parent_permission = true;
+                        } else {
+                            $permission = false;
+                        }
                     } else {
-                        $permission = false;
-                    }
-                } else {
-                    if (auth()->user()->hasAccess(['read-' . $role_controller_str]) || $this->is_root) {
-                        $permission = true;
-                        $parent_permission = true;
-                    } else {
-                        $permission = false;
+                        if (auth()->user()->hasAccess(['read-' . $role_controller_str]) || $this->is_root) {
+                            $permission = true;
+                            $parent_permission = true;
+                        } else {
+                            $permission = false;
+                        }
                     }
                 }
 

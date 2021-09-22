@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 取消表格標題圓角 */
+.table tfoot td:first-child, .table tfoot th:first-child, .table thead td:first-child, .table thead th:first-child {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.table tfoot td:last-child, .table tfoot th:last-child, .table thead td:last-child, .table thead th:last-child {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}

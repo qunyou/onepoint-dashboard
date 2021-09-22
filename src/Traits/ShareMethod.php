@@ -12,7 +12,10 @@ trait ShareMethod
     /**
      * 基本設定資料
      * 
-     * @var $id_string 主資料 id 字串
+     * @param $id_string            int 主資料 id 字串
+     * @param $uri                  str 預設網址
+     * @param $view_path            str view 路徑
+     * @param $view_path_prefix     str view 路徑前綴，無值時預設前綴，有值時自訂前綴
      */
     public function share($id_string = '', $uri = '', $view_path = '', $view_path_prefix = '')
     {

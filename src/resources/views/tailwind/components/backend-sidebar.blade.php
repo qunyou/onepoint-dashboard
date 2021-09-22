@@ -1,4 +1,3 @@
-has
 @inject('backendPresenter','Onepoint\Dashboard\Presenters\BackendPresenter')
 
 @foreach ($navigation_item as $element)
