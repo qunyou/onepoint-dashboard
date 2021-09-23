@@ -3,6 +3,8 @@
 namespace Onepoint\Dashboard;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Blade;
+use Onepoint\Dashboard\View\Components\SideItem;
 
 class DashboardServiceProvider extends ServiceProvider
 {
@@ -29,6 +31,12 @@ class DashboardServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/config/dashboard.php', 'dashboard');
         $this->loadTranslationsFrom(__DIR__.'/resources/lang', 'dashboard');
 
+        Blade::component('side-item', SideItem::class);
+
+        // $this->callAfterResolving(BladeCompiler::class, function () {
+        //     Blade::component('dashboard::side-item', SideItem::class);
+        // });
+
         // 發佈至 public 目錄的指令
         // php artisan vendor:publish --tag=public --force
         // php artisan vendor:publish --force
@@ -49,4 +57,16 @@ class DashboardServiceProvider extends ServiceProvider
             __DIR__.'/Publishes/packages' => base_path('packages'),
         ], 'packages');
     }
+
+    // protected function configureComponents()
+    // {
+	// 	$this->callAfterResolving(BladeCompiler::class, function () {
+	// 		$this->registerComponent('side-item');
+	// 	});
+	// }
+
+    // protected function registerComponent(string $component)
+    // {
+    //     Blade::component('dashboard::components.'.$component, 'dashboard-'.$component);
+    // }
 }

@@ -2,7 +2,7 @@
     @inject('formPresenter', 'Onepoint\Dashboard\Presenters\FormPresenter')
 @endif
 
-@component('dashboard::components.inputs', $input_array = $formPresenter->setValue($input_setting, 'value'))
+@component('dashboard::' . config('backend.template') . '.components.inputs', $input_array = $formPresenter->setValue($input_setting, 'value'))
     {!! $input_array['prepend_str'] !!}
     @if ($input_array['input_value'] === '啟用' || $input_array['input_value'] === '停用')
         {{ __('dashboard::backend.' . $input_array['input_value']) }}

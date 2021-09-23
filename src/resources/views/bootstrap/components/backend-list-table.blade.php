@@ -28,7 +28,7 @@
             </div>
             @if (!$trashed && !$version)
                 @if (isset($add_url) || isset($dropdown_items) || isset($button_block))
-                    @component('dashboard::components.top-btn-group', $dropdown_items)
+                    @component('dashboard::' . config('backend.template') .  '.components.top-btn-group', $dropdown_items)
                         {!! $button_block ?? '' !!}
                         @if (isset($add_url))
                             <a class="btn btn-outline-deep-purple waves-effect d-xs-block" href="{{ $add_url }}">
@@ -232,7 +232,7 @@
                                                 $button_items['items']['版本'] = ['url' => url($uri . 'index?' . $id_string . '=' . $element->id . '&version=true')];
                                             }
                                         @endphp
-                                        @component('dashboard::components.backend-list-btn-group', $button_items)
+                                        @component('dashboard::' . config('backend.template') .  '.components.backend-list-btn-group', $button_items)
                                             @if (isset($custom_button))
                                                 @if (is_array($custom_button))
                                                     @foreach ($custom_button as $custom_button_item)
@@ -258,7 +258,7 @@
                                             @endif
                                         @endcomponent
                                         
-                                        {{-- @component('dashboard::components.dropdown-toggle', $button_items)
+                                        {{-- @component('dashboard::' . config('backend.template') .  '.components.dropdown-toggle', $button_items)
                                             @if (isset($custom_button))
                                                 @if (is_array($custom_button))
                                                     @foreach ($custom_button as $custom_button_item)
@@ -286,7 +286,7 @@
                                                 $button_items['items']['檢視'] = ['url' => url($uri . 'detail?' . $id_string . '=' . $element->id . '&origin_id=' . $element->origin_id . '&version=true')];
                                             }
                                         @endphp
-                                        @component('dashboard::components.dropdown-toggle', $button_items)
+                                        @component('dashboard::' . config('backend.template') .  '.components.dropdown-toggle', $button_items)
                                             @if ($version)
                                                 <a href="{{ url($uri . 'apply-version?' . $id_string . '=' . $element->origin_id . '&version_id=' . $element->id) }}" class="btn btn-outline-deep-purple waves-effect">
                                                     <i class="fas fa-code-branch"></i>@lang('dashboard::backend.使用此版本')

@@ -55,7 +55,7 @@
 
                 {{-- 主導覽 --}}
                 <ul class="nav">
-                    @component('dashboard::components.backend-sidebar', ['navigation_item' => $navigation_item])
+                    @component('dashboard::' . config('backend.template') . '.components.backend-sidebar', ['navigation_item' => $navigation_item])
                         {{-- <li class="nav-item">
                             <a class="nav-link" href="{{ url(config('dashboard.uri') . '/user/profile') }}">
                                 <i class="fas fa-lock" aria-hidden="true"></i>

@@ -2,7 +2,7 @@
     @inject('formPresenter', 'Onepoint\Dashboard\Presenters\FormPresenter')
 @endif
 
-@component('dashboard::components.inputs', $input_array = $formPresenter->setValue($input_setting, 'radio'))
+@component('dashboard::' . config('backend.template') . '.components.inputs', $input_array = $formPresenter->setValue($input_setting, 'radio'))
     @foreach ($input_array['option'] as $key => $element)
         <div class="form-check form-check-inline">
             @if (is_array($input_array['input_value']))

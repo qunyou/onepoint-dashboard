@@ -2,7 +2,7 @@
     @inject('formPresenter', 'Onepoint\Dashboard\Presenters\FormPresenter')
 @endif
 
-@component('dashboard::components.inputs', $input_array = $formPresenter->setValue($input_setting, 'number'))
+@component('dashboard::' . config('backend.template') . '.components.inputs', $input_array = $formPresenter->setValue($input_setting, 'number'))
     @php
         $input_value = 0;
         if (isset($input_array['value_type']) && $input_array['value_type'] == 'integer') {

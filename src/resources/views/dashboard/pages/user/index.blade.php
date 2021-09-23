@@ -26,6 +26,6 @@
 @endsection
 
 @section('main_block')
-    @component('dashboard::components.backend-list', $component_datas)
+    @component('dashboard::' . config('backend.template') . '.components.backend-list', $component_datas)
     @endcomponent
 @endsection

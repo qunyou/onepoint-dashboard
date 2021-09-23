@@ -2,7 +2,7 @@
     @inject('formPresenter', 'Onepoint\Dashboard\Presenters\FormPresenter')
 @endif
 
-@component('dashboard::components.inputs', $input_array = $formPresenter->setValue($input_setting))
+@component('dashboard::' . config('backend.template') . '.components.inputs', $input_array = $formPresenter->setValue($input_setting))
     <vuejs-datepicker :language="zh" :format="customFormatter" :input-class="styleClass" :value="{{ $input_array['input_name'] }}" :name="'{{ $input_array['input_name'] }}'" :disabled-dates="state.disabledDates"></vuejs-datepicker>
 
     @error($input_array['input_name'])

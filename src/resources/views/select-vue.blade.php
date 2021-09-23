@@ -2,7 +2,7 @@
     @inject('formPresenter', 'Onepoint\Dashboard\Presenters\FormPresenter')
 @endif
 
-@component('dashboard::components.inputs', $input_array = $formPresenter->setValue($input_setting, 'select-vue'))
+@component('dashboard::' . config('backend.template') . '.components.inputs', $input_array = $formPresenter->setValue($input_setting, 'select-vue'))
     <select name="{{ $input_array['input_name'] }}" class="form-control {{ $input_array['input_size_class'] }}  @error($input_array['input_name']) is-invalid @enderror" {!! $input_array['attribute'] !!} v-model="{{ $input_array['input_name'] }}">
         {!! $input_array['prepend_str'] !!}
         @if (empty($input_array['compare']))

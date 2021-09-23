@@ -16,10 +16,10 @@ class BackendPresenter
     /**
      * 產生主導覽
      */
-    public function setNavi($element)
+    public static function setNavi($element)
     {
         if (config('auth_guard', false)) {
-            $this->auth_guard = config('auth_guard');
+            $auth_guard = config('auth_guard');
         }
         $active = '';
         $url = '';
@@ -36,8 +36,8 @@ class BackendPresenter
         if (isset($element['action'])) {
 
             // 沒有子項目的連結
-            $url = action($element['action']);
-            if (url()->current() == $url) {
+            $parent_url = action($element['action']);
+            if (url()->current() == $parent_url) {
                 $active = 'active';
             }
 
@@ -67,15 +67,15 @@ class BackendPresenter
 
             // Query string
             if (isset($element['query_string'])) {
-                $url .= '?' . http_build_query($element['query_string']);
+                $$parent_url .= '?' . http_build_query($element['query_string']);
             }
 
             // 權限
             $permission = true;
             if (config('user.use_role')) {
                 $role_controller_str = Str::after(Str::before($element['action'], '@'), '\\');
-                if ($this->auth_guard) {
-                    if (auth()->guard($this->auth_guard)->user()->hasAccess(['read-' . $role_controller_str]) || $this->is_root) {
+                if ($auth_guard) {
+                    if (auth()->guard($auth_guard)->user()->hasAccess(['read-' . $role_controller_str]) || $this->is_root) {
                         $parent_permission = true;
                     }
                 } else {
@@ -85,6 +85,7 @@ class BackendPresenter
                 }
             }
         } else {
+            $parent_url = false;
 
             // 子項目
             $parent_show = false;
@@ -129,8 +130,8 @@ class BackendPresenter
                 $permission = true;
                 $parent_permission = true;
                 if (config('user.use_role')) {
-                    if ($this->auth_guard) {
-                        if (auth()->guard($this->auth_guard)->user()->hasAccess(['read-' . $role_controller_str]) || $this->is_root) {
+                    if ($auth_guard) {
+                        if (auth()->guard($auth_guard)->user()->hasAccess(['read-' . $role_controller_str]) || $this->is_root) {
                             $permission = true;
                             $parent_permission = true;
                         } else {
@@ -163,6 +164,6 @@ class BackendPresenter
                 $parent_show_string = 'show';
             }
         }
-        return compact('active', 'url', 'icon', 'title', 'sub_item', 'parent_show_string', 'parent_permission');
+        return compact('active', 'url', 'parent_url', 'icon', 'title', 'sub_item', 'parent_show_string', 'parent_permission');
     }
 }

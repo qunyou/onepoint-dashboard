@@ -30,7 +30,7 @@
             @endisset
             @if (!$trashed && !$version)
                 @if (isset($add_url) || isset($dropdown_items) || isset($button_block))
-                    @component('dashboard::components.top-btn-group', $dropdown_items)
+                    @component('dashboard::' . config('backend.template') .  '.components.top-btn-group', $dropdown_items)
                         {!! $button_block ?? '' !!}
                         @if (isset($add_url) && !empty($add_url))
                             <a class="btn btn-outline-deep-purple waves-effect d-xs-block" href="{{ $add_url }}">
@@ -56,7 +56,7 @@
                 <table id="row-table" class="table table-hover">
                     <thead>
                         <tr>
-                            @if (auth()->user()->hasAccess(['update-' . $permission_controller_string]))
+                            @if (!config('user.use_role') || auth()->user()->hasAccess(['update-' . $permission_controller_string]))
                                 @if (!$version)
                                     @if (isset($use_drag_rearrange) && $use_drag_rearrange)
                                         <th class="check_all_width d-none d-md-table-cell">@lang('dashboard::backend.排序')</th>
@@ -70,13 +70,13 @@
                                 <th scope="col" class="{{ $element['class'] ?? $th_key > 0 ? 'd-none d-xl-table-cell' : '' }} text-nowrap">{{ $element['title'] }}</th>
                             @endforeach
                             @if (!$trashed)
-                                @if (auth()->user()->hasAccess(['update-' . $permission_controller_string]))
+                                @if (!config('user.use_role') || auth()->user()->hasAccess(['update-' . $permission_controller_string]))
                                     @if ($version)
                                         <th class="d-none d-md-table-cell">@lang('dashboard::backend.版本時間')</th>
                                     @endif
                                 @endif
                                 <th scope="col"></th>
-                                @if (($use_sort ?? true) && auth()->user()->hasAccess(['update-' . $permission_controller_string]))
+                                @if (($use_sort ?? true) && (!config('user.use_role') ||  auth()->user()->hasAccess(['update-' . $permission_controller_string])))
                                     @if (!$version)
                                         @if ($use_rearrange ?? true)
                                             <th scope="col" class="th_sort_btn_width d-none d-md-table-cell"></th>
@@ -112,7 +112,7 @@
                                 }
                             @endphp
                             <tr id="{{ $element->id }}" class="{{ $css_class_name }}">
-                                @if (auth()->user()->hasAccess(['update-' . $permission_controller_string]))
+                                @if (!config('user.use_role') || auth()->user()->hasAccess(['update-' . $permission_controller_string]))
                                     @if (!$version)
                                         @if (isset($use_drag_rearrange) && $use_drag_rearrange)
                                             <td class="drag d-none d-md-table-cell">
@@ -288,13 +288,13 @@
                                         </td>
                                     @endforeach
                                     @if (!$trashed)
-                                        @if (auth()->user()->hasAccess(['update-' . $permission_controller_string]))
+                                        @if (!config('user.use_role') || auth()->user()->hasAccess(['update-' . $permission_controller_string]))
                                             @if ($version)
                                                 <td class="d-none d-md-table-cell">{{ $element->created_at }}</td>
                                             @endif
                                         @endif
                                         <td>
-                                            @if (auth()->user()->hasAccess(['update-' . $permission_controller_string]) && !$version)
+                                            @if (!config('user.use_role') || auth()->user()->hasAccess(['update-' . $permission_controller_string]) && !$version)
                                                 @php
                                                     if (isset($detail_hide) && $detail_hide) {
                                                         $button_items = [];
@@ -302,7 +302,7 @@
                                                         $button_items['items']['檢視'] = ['url' => url($uri . 'detail?' . $id_string . '=' . $element->id . '&' . $base_service->getQueryString(true, true))];
                                                     }
                                                     if ($use_duplicate) {
-                                                        if (auth()->user()->hasAccess(['create-' . $permission_controller_string])) {
+                                                        if (!config('user.use_role') || auth()->user()->hasAccess(['create-' . $permission_controller_string])) {
                                                             if (!isset($duplicate_url_suffix)) {
                                                                 $duplicate_url_suffix = '';
                                                             }
@@ -357,7 +357,7 @@
                                                         $button_items['items']['版本'] = ['url' => url($uri . 'index?' . $id_string . '=' . $element->id . '&version=true')];
                                                     }
                                                 @endphp
-                                                @component('dashboard::components.backend-list-btn-group', $button_items)
+                                                @component('dashboard::' . config('backend.template') .  '.components.backend-list-btn-group', $button_items)
                                                     @if (isset($custom_button))
                                                         @if (is_array($custom_button))
                                                             @foreach ($custom_button as $custom_button_item)
@@ -382,7 +382,7 @@
                                                     @endif
                                                 @endcomponent
                                                 
-                                                {{-- @component('dashboard::components.dropdown-toggle', $button_items)
+                                                {{-- @component('dashboard::' . config('backend.template') .  '.components.dropdown-toggle', $button_items)
                                                     @if (isset($custom_button))
                                                         @if (is_array($custom_button))
                                                             @foreach ($custom_button as $custom_button_item)
@@ -410,8 +410,8 @@
                                                         $button_items['items']['檢視'] = ['url' => url($uri . 'detail?' . $id_string . '=' . $element->id . '&origin_id=' . $element->origin_id . '&version=true')];
                                                     }
                                                 @endphp
-                                                {{-- @component('dashboard::components.dropdown-toggle', $button_items) --}}
-                                                @component('dashboard::components.backend-list-btn-group', $button_items)
+                                                {{-- @component('dashboard::' . config('backend.template') .  '.components.dropdown-toggle', $button_items) --}}
+                                                @component('dashboard::' . config('backend.template') .  '.components.backend-list-btn-group', $button_items)
                                                     @if ($version)
                                                         <a href="{{ url($uri . 'apply-version?' . $id_string . '=' . $element->origin_id . '&version_id=' . $element->id) }}" class="btn btn-outline-deep-purple waves-effect">
                                                             <i class="fas fa-code-branch"></i>@lang('dashboard::backend.使用此版本')
@@ -424,7 +424,7 @@
                                                 @endcomponent
                                             @endif
                                         </td>
-                                        @if (($use_sort ?? true) && auth()->user()->hasAccess(['update-' . $permission_controller_string]))
+                                        @if (($use_sort ?? true) && (!config('user.use_role') || auth()->user()->hasAccess(['update-' . $permission_controller_string])))
                                             @if (!$version)
                                                 @if ($use_rearrange ?? true)
                                                     <td class="d-none d-md-table-cell sort_btn">

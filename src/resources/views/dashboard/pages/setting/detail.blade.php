@@ -32,7 +32,7 @@
 @endsection
 
 @section('main_block')
-    @component('dashboard::components.backend-detail-card', $component_datas)
+    @component('dashboard::' . config('backend.template') . '.components.backend-detail-card', $component_datas)
         @include('dashboard::backend-update-input', ['form_array' => $form_array, 'form_value' => $setting ?? ''])
     @endcomponent
 @endsection

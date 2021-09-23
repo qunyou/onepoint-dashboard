@@ -6,7 +6,7 @@
             </div>
         @endif
         <div class="col-md-12 top-btn-group">
-            @component('dashboard::components.top-btn-group', $dropdown_items ?? [])
+            @component('dashboard::' . config('backend.template') .  '.components.top-btn-group', $dropdown_items ?? [])
                 {{-- {{ $button_block ?? '' }} --}}
                 {{-- @if ($back_url)
                     <a class="btn btn-outline-deep-purple waves-effect d-xs-block" href="{{ $back_url }}">

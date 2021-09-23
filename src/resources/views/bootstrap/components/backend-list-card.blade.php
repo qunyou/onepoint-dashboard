@@ -12,7 +12,7 @@
             <div class="col-7 col-md-auto">
                 @if (!$trashed && !$version)
                     @if (isset($add_url) || isset($dropdown_items) || isset($button_block))
-                        @component('dashboard::components.dropdown-toggle', $dropdown_items)
+                        @component('dashboard::' . config('backend.template') .  '.components.dropdown-toggle', $dropdown_items)
                             {{ $button_block ?? '' }}
                             @if (isset($add_url))
                                 <a class="btn btn-outline-deep-purple waves-effect" href="{{ $add_url }}">

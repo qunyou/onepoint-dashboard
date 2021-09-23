@@ -43,7 +43,7 @@
 @endsection
 
 @section('main_block')
-    @component('dashboard::components.backend-update-card')
+    @component('dashboard::' . config('backend.template') . '.components.backend-update-card')
         <div class="form-body">
             @include('dashboard::select', ['input_setting' => [
                 'display_name' => 'model',

@@ -59,7 +59,7 @@
 @endsection
 
 @section('main_block')
-    @component('dashboard::components.backend-update-card', $component_datas)
+    @component('dashboard::' . config('backend.template') . '.components.backend-update-card', $component_datas)
         <div class="form-body">
             @include('dashboard::text', ['input_setting' => [
                 'display_name' => __('dashboard::auth.群組名稱'),

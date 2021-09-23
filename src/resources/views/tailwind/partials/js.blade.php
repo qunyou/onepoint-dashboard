@@ -55,7 +55,8 @@
         // 邊欄選單展開
         app.component('button-collapse', {
             props: [
-                'item_name'
+                'item_name',
+                'url'
             ],
             data() {
                 return {
@@ -63,14 +64,21 @@
                 }
             },
             template: `
-            <a href="#" class="bg-gray-200 text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md" aria-current="page" @click.prevent="active = !active">
-                <slot name='item_name'></slot>
-            </a>
-            <div class="mt-1 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-200 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="options-menu-button" tabindex="-1" v-show="active">
-                <div class="py-1" role="none">
-                    <slot></slot>
+            <template v-if="url">
+                <a :href="url" class="bg-gray-200 text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md" aria-current="page">
+                    <slot name='item_name'></slot>
+                </a>
+            </template>
+            <template v-else>
+                <a class="bg-gray-200 text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md" aria-current="page" @click.prevent="active = !active">
+                    <slot name='item_name'></slot>
+                </a>
+                <div class="mt-1 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-200 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="options-menu-button" tabindex="-1" v-show="active">
+                    <div class="py-1" role="none">
+                        <slot></slot>
+                    </div>
                 </div>
-            </div>`
+            </template>`
         })
         app.mount('#app');
     </script>

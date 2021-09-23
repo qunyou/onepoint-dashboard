@@ -26,7 +26,7 @@
 @endsection
 
 @section('main_block')
-    @component('dashboard::components.backend-detail-card', $component_datas)
+    @component('dashboard::' . config('backend.template') . '.components.backend-detail-card', $component_datas)
         <div class="row">
             <div class="col-md-12 col-lg-5">
                 @include('dashboard::backend-update-input', ['form_array' => $form_array, 'form_value' => $role ?? ''])

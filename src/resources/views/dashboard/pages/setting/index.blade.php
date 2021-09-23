@@ -37,7 +37,7 @@
 @endsection
 
 @section('main_block')
-    @component('dashboard::components.backend-list', $component_datas)
+    @component('dashboard::' . config('backend.template') . '.components.backend-list', $component_datas)
         @slot('button_block')
             <div class="btn-group">
                 <a class="btn btn-outline-deep-purple waves-effect" href="{{ url($uri . 'update?model=' . request('model', '')) }}">新增設定</a>
