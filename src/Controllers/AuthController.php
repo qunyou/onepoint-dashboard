@@ -65,7 +65,7 @@ class AuthController extends Controller
      */
     public function postLogin()
     {
-        $credentials = request()->only('username', 'password');
+        $credentials = request()->only(config('dashboard.account_column'), 'password');
         // $credentials['status'] = '啟用';
         $credentials[config('db_status_name')] = config('db_status_true_string');
         $remember = false;
