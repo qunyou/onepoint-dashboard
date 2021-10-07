@@ -66,10 +66,9 @@ class ImageService
         $custom_path = $custom_path . '/' . $path;
         $file_path = config('frontend.upload_path') . '/' . $custom_path . $file_name;
         if (!empty($file_name)) {
-            // if (Storage::disk('public')->exists($file_path)) {
-            //     return asset('storage/' . $file_path);
-            // }
-            return asset('storage/' . $file_path);
+            if (Storage::disk('public')->exists($file_path)) {
+                return asset('storage/' . $file_path);
+            }
         }
         return false;
     }
@@ -84,7 +83,7 @@ class ImageService
         $file_path = '';
         if (!empty($file_name)) {
             $file_path = Self::getPath($path, $file_name, $custom_folder);
-            if ($file_path = Self::getPath($path, $file_name, $custom_folder)) {
+            if ($file_path) {
                 if (is_array($attribute)) {
                     $attribute = join(' ', array_map(function($key) use ($attribute) {
                         if(is_bool($attribute[$key])) {

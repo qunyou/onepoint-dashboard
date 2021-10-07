@@ -295,7 +295,7 @@
                                         @endif
                                         <td>
                                             @if (!config('user.use_role') || auth()->user()->hasAccess(['update-' . $permission_controller_string]) && !$version)
-                                                @php
+                                            @php
                                                     if (isset($detail_hide) && $detail_hide) {
                                                         $button_items = [];
                                                     } else {

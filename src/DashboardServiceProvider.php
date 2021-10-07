@@ -31,7 +31,9 @@ class DashboardServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/config/dashboard.php', 'dashboard');
         $this->loadTranslationsFrom(__DIR__.'/resources/lang', 'dashboard');
 
-        Blade::component('side-item', SideItem::class);
+        // dd(Side::class);
+        // Blade::component('side-item', SideItem::class);
+        Blade::component('side-item', 'SideItem');
 
         // $this->callAfterResolving(BladeCompiler::class, function () {
         //     Blade::component('dashboard::side-item', SideItem::class);

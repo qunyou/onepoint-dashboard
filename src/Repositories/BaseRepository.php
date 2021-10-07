@@ -9,11 +9,7 @@ use Onepoint\Dashboard\Services\FileService;
 use Onepoint\Dashboard\Services\ImageService;
 
 /**
- * 
- * 
- */
-/**
- * Repository基本可用方法
+ * 基礎 Repository
  * @method BaseRepository debug()
  * @method BaseRepository update($id = 0, $manually = false)
  * @method BaseRepository replicateUpdate($id, $manually = false)
