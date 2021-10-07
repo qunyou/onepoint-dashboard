@@ -67,7 +67,7 @@ class BackendPresenter
 
             // Query string
             if (isset($element['query_string'])) {
-                $$parent_url .= '?' . http_build_query($element['query_string']);
+                $parent_url .= '?' . http_build_query($element['query_string']);
             }
 
             // 權限
