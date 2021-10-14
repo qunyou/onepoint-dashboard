@@ -93,6 +93,8 @@ return [
     '重設查詢' => 'Reset',
     '查詢' => 'Search',
     '搜尋' => 'Search',
+    '查詢區塊' => 'Search block',
+    '關閉查詢區塊' => 'Close search block',
     '不限' => 'Unlimited',
     '多檔上傳' => 'Multi-file upload',
     '列表摘要' => 'List summary',

@@ -1,23 +1,20 @@
-<div class="card-update">
-    <div class="row justify-content-between px-3">
-        @if (isset($page_title))
-            <div class="col-12">
-                <div class="card-title">{{ $page_title }}</div>
-            </div>
-        @endif
-        <div class="col-md-12 top-btn-group">
-            @component('dashboard::' . config('backend.template') .  '.components.top-btn-group', $dropdown_items ?? [])
-                {{-- {{ $button_block ?? '' }} --}}
-                {{-- @if ($back_url)
-                    <a class="btn btn-outline-deep-purple waves-effect d-xs-block" href="{{ $back_url }}">
-                        <i class="fa fa-fw fa-arrow-left"></i>@lang('dashboard::backend.回列表')
-                    </a>
-                @endif --}}
-                {{ $top_btn ?? '' }}
-            @endcomponent
-        </div>
+@if (isset($page_title))
+<div class="container-fluid">
+    <div class="h4 py-3">
+        {!! $page_title !!}
     </div>
-    <div class="form-body">
+</div>
+@endif
+
+@if (isset($button_block))
+<div class="px-2 py-3 overflow-x">
+    {!! $button_block !!}
+</div>
+@endif
+
+<div class="card card-update">
+    <div class="card-body">
+        @component('dashboard::' . config('backend.template') .  '.components.top-btn-group', $dropdown_items ?? [])
         {{ $slot }}
     </div>
     {{-- <footer>

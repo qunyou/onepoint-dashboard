@@ -528,6 +528,9 @@ class BaseRepository
             $query = $query->limit($limit);
         }
         if ($paginate) {
+            if (!cache()->has('records_per_page')) {
+                cache(['records_per_page' => config('backend.paginate')], 6000);
+            }
 
             // 分頁設定
             $records_per_page = request('records_per_page', false);

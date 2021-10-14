@@ -121,6 +121,9 @@ trait ShareMethod
         // 是否使用拖曳排序
         $component_datas['use_drag_rearrange'] = false;
 
+        // 是否使用列表勾選功能
+        $component_datas['use_check_box'] = true;
+
         // 隱藏檢視按鈕
         $component_datas['detail_hide'] = true;
 
@@ -137,7 +140,7 @@ trait ShareMethod
         $component_datas['footer_sort_hide'] = false;
 
         // 新增資料網址
-        $component_datas['add_url'] = '';
+        // $component_datas['add_url'] = '';
 
         // 預覽網址
         $component_datas['preview_url'] = '';

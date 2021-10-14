@@ -1,4 +1,6 @@
-@inject('formPresenter', 'Onepoint\Dashboard\Presenters\FormPresenter')
+@if (!isset($formPresenter))
+    @inject('formPresenter', 'Onepoint\Dashboard\Presenters\FormPresenter')
+@endif
 
 @foreach ($form_array as $item_key => $item_value)
     @php

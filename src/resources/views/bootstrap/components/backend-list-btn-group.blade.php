@@ -1,11 +1,16 @@
-<div class="btn-group float-right">
+<div class="btn-group">
     {{-- 因為權限限制剩下一個選項時，只顯示單純按鈕，不顯示下拉選單 --}}
     @if (!empty($slot->toHtml()))
         {{ $slot }}
     @endif
     @isset($items)
         @php
-            $link_class_string = 'btn btn-outline-deep-purple text-nowrap';
+            if (isset($status)) {
+                $btn_class = $status == config('db_status_false_string') ? 'btn-secondary' : 'btn-primary';
+            } else {
+                $btn_class = 'btn-primary';
+            }
+            $link_class_string = 'btn ' . $btn_class;
         @endphp
         @foreach ($items as $key => $item)
             @switch($key)

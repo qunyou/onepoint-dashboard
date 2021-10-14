@@ -17,7 +17,7 @@ class FormPresenter
     {
         $input_setting['hidden'] = $input_setting['hidden'] ?? false;
         $input_setting['input_only'] = $input_setting['input_only'] ?? false;
-        $input_setting['header_grid_class'] = $input_setting['header_grid_class'] ?? 'col-sm-2 col-form-label';
+        // $input_setting['header_grid_class'] = $input_setting['header_grid_class'] ?? 'col-sm-2 col-form-label';
         $input_setting['input_grid_class'] = $input_setting['input_grid_class'] ?? 'col-sm-10';
         $input_setting['prepend_str'] = $input_setting['prepend_str'] ?? '';
         $input_setting['depend_str'] = $input_setting['depend_str'] ?? '';
@@ -30,16 +30,16 @@ class FormPresenter
         
         // 表單尺寸
         $input_setting['input_size_class'] = $input_setting['input_size_class'] ?? '';
-        switch ($input_setting['input_size_class']) {
-            case 'lg':
-                $input_setting['header_grid_class'] .= ' col-form-label-lg';
-                $input_setting['input_size_class'] = ' form-control-lg';
-                break;
-            case 'sm':
-                $input_setting['header_grid_class'] .= ' col-form-label-sm';
-                $input_setting['input_size_class'] = ' form-control-sm';
-                break;
-        }
+        // switch ($input_setting['input_size_class']) {
+        //     case 'lg':
+        //         $input_setting['header_grid_class'] .= ' col-form-label-lg';
+        //         $input_setting['input_size_class'] = ' form-control-lg';
+        //         break;
+        //     case 'sm':
+        //         $input_setting['header_grid_class'] .= ' col-form-label-sm';
+        //         $input_setting['input_size_class'] = ' form-control-sm';
+        //         break;
+        // }
 
         // 其他表單屬性
         $input_setting['attribute'] = $input_setting['attribute'] ?? '';
