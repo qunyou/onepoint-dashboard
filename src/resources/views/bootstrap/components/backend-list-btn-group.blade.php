@@ -68,12 +68,22 @@
                     @if (is_array($item))
                         @foreach ($item as $item_key => $item_value)
                             <a class="{{ $link_class_string }}" href="{{ $item_value['url'] }}">
-                                <i class="{{ $item_value['icon'] }}"></i>{{ $item_value['name'] }} <span class="badge badge-primary">{{ $item_value['with_count'] }}</span>
+                                <i class="{{ $item_value['icon'] }}"></i>{{ $item_value['name'] }} 
+                                {{-- <span class="badge bg-light text-dark">{{ $item_value['with_count'] }}</span> --}}
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    {{ $item_value['with_count'] }}
+                                    <span class="visually-hidden">records count</span>
+                                </span>
                             </a>
                         @endforeach
                     @else
                         <a class="{{ $link_class_string }}" href="{{ $item['url'] }}">
-                            <i class="{{ $item['icon'] }}"></i>{{ $item['name'] }} <span class="badge badge-primary">{{ $item['with_count'] }}</span>
+                            <i class="{{ $item['icon'] }}"></i>{{ $item['name'] }} 
+                            {{-- <span class="badge bg-light text-dark">{{ $item['with_count'] }}</span> --}}
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                {{ $item['with_count'] }}
+                                <span class="visually-hidden">records count</span>
+                            </span>
                         </a>
                     @endif
                     @break
