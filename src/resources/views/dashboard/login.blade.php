@@ -1,6 +1,6 @@
-<!doctype html>
-<html lang="en">
 
+<!doctype html>
+<html lang="{{ $backend_language }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -11,8 +11,7 @@
         <link rel="shortcut icon" href="{{ url(config('backend.favicon')) }}" type="image/x-icon">
         <link rel="icon" href="{{ url(config('backend.favicon')) }}" type="image/x-icon">
     @endif
-    <link rel="stylesheet" href="{{ $path_presenter::backend_assets('css/style.min.css?v=1.0.0') }}" />
-    {{-- <link rel="stylesheet" href="{{ $path_presenter::backend_assets('fontawesome/css/all.css') }}" /> --}}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <style>
         .wrapper-full-page {
             min-height: 100vh;
@@ -120,84 +119,71 @@
         <div class="full-page section-image">
             <div class="content">
                 <div class="container">
-                    <div class="col-md-8 col-lg-4 ml-auto mr-auto">
-                        
-                        {{-- 避免語參數錯誤 --}}
-                        @php
-                            $backend_language = cache('backend_language', 'zh-tw');
-                            if (!isset(config('backend.language')[$backend_language])) {
-                                $backend_language = 'zh-tw';
-                            }
-                        @endphp
-                        <form action="{{ url(config('dashboard.uri') . '/login?lang=' . $backend_language) }}" method="post">
-                            @csrf
-                            <div class="card card-login p-3">
-                                <div class="card-header ">
-                                    <h3 class="header text-center">@lang('dashboard::auth.登入')</h3>
-                                </div>
-                                <div class="card-body ">
-                                    <div class="form-group">
-                                        <label for="inputUsername">@lang('dashboard::auth.帳號')</label>
-                                        <input type="text" name="username" id="inputUsername" class="form-control form-control-lg" placeholder="@lang('dashboard::auth.帳號')" required autofocus>
+                    <div class="row">
+                        <div class="col-md-8 col-lg-4 mx-auto">
+                            <form action="{{ url(config('dashboard.uri') . '/login?lang=' . $backend_language) }}" method="post">
+                                @csrf
+                                <div class="card card-login p-3">
+                                    <div class="card-header ">
+                                        <div class="header h-4 text-center">{{ config('app.name') }}</div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="inputPassword">@lang('dashboard::auth.密碼')</label>
-                                        <input type="password" name="password" id="inputPassword" class="form-control form-control-lg" placeholder="@lang('dashboard::auth.密碼')" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox" name="remember" value="remember-me"> @lang('dashboard::auth.讓我保持登入')
-                                            </label>
-                                            <p><small class="help text-danger">@lang('dashboard::auth.公用電腦請勿勾選')</small></p>
+                                    <div class="card-body ">
+                                        <div class="form-group mb-4">
+                                            <label for="inputUsername">@lang('dashboard::auth.帳號')</label>
+                                            <input type="text" name="username" id="inputUsername" class="form-control mt-1" placeholder="@lang('dashboard::auth.帳號')" required autofocus>
+                                        </div>
+                                        <div class="form-group mb-4">
+                                            <label for="inputPassword">@lang('dashboard::auth.密碼')</label>
+                                            <input type="password" name="password" id="inputPassword" class="form-control mt-1" placeholder="@lang('dashboard::auth.密碼')" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="remember" value="remember-me"> @lang('dashboard::auth.讓我保持登入')
+                                                </label>
+                                                <p><small class="help text-danger">@lang('dashboard::auth.公用電腦請勿勾選')</small></p>
+                                            </div>
                                         </div>
                                     </div>
-                                    {{--
-                                    <div class="form-group">
-                                        <a href="#">忘記密碼？</a>
-                                    </div> --}}
+                                    <div class="d-grid gap-2">
+                                        <button class="btn btn-primary" type="submit">@lang('dashboard::auth.登入')</button>
+                                    </div>
                                 </div>
-                                <div class="ml-auto mr-auto">
-                                    <button class="btn btn-outline-deep-purple waves-effect btn-lg" type="submit">@lang('dashboard::auth.登入')</button>
-                                </div>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="full-page-background" style="background-image: url({{ $path_presenter::backend_assets('img/login-background.jpg') }}) "></div>
+            <div class="full-page-background" style="background-image: url('assets/dashboard/img/login-background.jpg');"></div>
         </div>
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="loginMsg" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+    <div class="modal fade" id="loginMsg" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">@lang('dashboard::auth.登入訊息')</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <h5 class="modal-title" id="loginModalLabel">@lang('dashboard::auth.登入訊息')</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     {{ session('login_message', '') }}
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-deep-purple waves-effect btn-lg" data-dismiss="modal">@lang('dashboard::backend.關閉')</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">@lang('dashboard::backend.關閉')</button>
                 </div>
             </div>
         </div>
     </div>
 </body>
-<script src="{{ $path_presenter::backend_assets('js/jquery-3.3.1.min.js') }}" type="text/javascript"></script>
-<script src="{{ $path_presenter::backend_assets('js/popper.min.js') }}" type="text/javascript"></script>
-<script src="{{ $path_presenter::backend_assets('js/bootstrap.min.js') }}" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
 @if (session()->has('login_message'))
 <script>
-    $(function() {
-        $('#loginMsg').modal('show');
-    });
+    var loginMsg = new bootstrap.Modal(document.getElementById('loginMsg'), {
+        keyboard: false
+    })
+    loginMsg.show()
 </script>
 @endif
 

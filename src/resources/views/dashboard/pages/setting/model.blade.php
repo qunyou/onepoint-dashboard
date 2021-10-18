@@ -1,4 +1,4 @@
-@extends('dashboard::layouts.dashboard')
+@extends('dashboard::' . config('backend.template') . '.layouts.dashboard')
 
 @section('top-item')
     @include('base::dashboard.includes.top-item')

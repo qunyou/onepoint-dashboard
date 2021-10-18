@@ -57,6 +57,11 @@ trait ShareMethod
         if (array_key_exists(cache('backend_language', 'zh-tw'), config('backend.language', ['zh-tw' => '繁體中文']))) {
             \App::setLocale(cache('backend_language'));
         }
+        $backend_language = cache('backend_language', 'zh-tw');
+        if (!isset(config('backend.language')[$backend_language])) {
+            $backend_language = 'zh-tw';
+        }
+        $this->tpl_data['backend_language'] = $backend_language;
         
         // 判斷是否使用分站網址
         $this->backend_url_suffix = '';

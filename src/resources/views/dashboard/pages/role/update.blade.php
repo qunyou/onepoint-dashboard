@@ -1,6 +1,6 @@
 @inject('role_presenter', 'Onepoint\Dashboard\Presenters\RolePresenter')
 
-@extends('dashboard::layouts.dashboard')
+@extends('dashboard::' . config('backend.template') . '.layouts.dashboard')
 
 @section('title', config('site.name'))
 

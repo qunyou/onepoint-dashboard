@@ -19,12 +19,5 @@
         <div class="card-body">
             {{ $slot }}
         </div>
-        @if (isset($footer_hide) ? !$footer_hide : true)
-            <footer class="card-footer">
-                <button id="form-button" type="submit" class="btn btn-primary">
-                    @lang('dashboard::backend.送出')
-                </button>
-            </footer>
-        @endif
     </div>
 </form>

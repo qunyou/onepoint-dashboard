@@ -1,4 +1,4 @@
-@extends('dashboard::layouts.dashboard')
+@extends('dashboard::' . config('backend.template') . '.layouts.dashboard')
 
 @section('page-header')
     <nav aria-label="breadcrumb">

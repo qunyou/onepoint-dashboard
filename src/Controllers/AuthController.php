@@ -19,9 +19,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        // $this->middleware('guest');
         $this->share();
-        // dd(config('dashboard.uri'));
         $this->view_path = 'dashboard::' . config('dashboard.view_path') . '.';
         $this->uri = config('dashboard.uri') . '/';
     }
@@ -29,7 +27,7 @@ class AuthController extends Controller
     /**
      * 重導判斷
      */
-    public function index(PathPresenter $path_presenter)
+    public function index()
     {
         if (auth()->check()) {
             return redirect(config('dashboard.login_default_uri', 'dashboard/index'));
@@ -42,13 +40,13 @@ class AuthController extends Controller
     /**
      * 登入頁
      */
-    public function login(PathPresenter $path_presenter)
+    public function login()
     {
+        $this->share();
         if (auth()->check()) {
             return redirect(config('dashboard.login_default_uri', 'dashboard/index'));
         }
-        $tpl_data['path_presenter'] = $path_presenter;
-        return view($this->view_path . 'login', $tpl_data);
+        return view($this->view_path . 'login', $this->tpl_data);
     }
 
     /**
