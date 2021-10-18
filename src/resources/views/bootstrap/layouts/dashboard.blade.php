@@ -15,7 +15,7 @@
             {{-- <link rel="stylesheet" href="{{ $path_presenter::backend_assets('css/uikit.min.css') }}" /> --}}
             {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.7.6/dist/css/uikit.min.css" /> --}}
             {{-- <link rel="stylesheet" href="{{ $path_presenter::backend_assets('css/style.min.css?v=1.1.9') }}" /> --}}
-            <link rel="stylesheet" href="/assets/dashboard/css/style.min.css?v=1.2.02" />
+            <link rel="stylesheet" href="/assets/dashboard/css/style.min.css?v=1.2.03" />
             {{-- <link rel="stylesheet" href="{{ $path_presenter::backend_assets('fontawesome/css/all.css') }}" /> --}}
             <script src="https://kit.fontawesome.com/70e57d8a62.js"></script>
         @show
