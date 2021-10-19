@@ -17,19 +17,9 @@ class RoleController extends Controller
     /**
      * 建構子
      */
-    public function __construct(RoleRepository $role_repository)
+    public function __construct()
     {
-        $this->share();
-        $this->role_repository = $role_repository;
-
-        // 預設網址
-        $this->uri = config('dashboard.uri') . '/role/';
-        $this->tpl_data['uri'] = $this->uri;
-
-        // view 路徑
-        $this->view_path = 'dashboard::' . config('dashboard.view_path') . '.pages.role.';
-        $this->role_id = request('role_id', false);
-        $this->tpl_data['role_id'] = $this->role_id;
+        $this->share('role_id', 'role', 'pages.role', 'dashboard::dashboard.');
     }
 
     /**
@@ -37,51 +27,19 @@ class RoleController extends Controller
      */
     public function index()
     {
-        // 列表標題
-        // if (!$this->tpl_data['trashed']) {
-        //     $this->tpl_data['component_datas']['page_title'] = __('dashboard::backend.列表');
-        // } else {
-        //     $this->tpl_data['component_datas']['page_title'] = __('dashboard::backend.資源回收');
-        // }
-
         $component_datas = $this->listPrepare();
-        $permission_controller_string = get_class($this);
-        $component_datas['permission_controller_string'] = $permission_controller_string;
-        $component_datas['uri'] = $this->uri;
-        $component_datas['back_url'] = url($this->uri . 'index');
-
-        // 主資料 id query string 字串
-        $component_datas['id_string'] = 'role_id';
 
         // 表格欄位設定
         $component_datas['th'] = [
-            ['title' => __('dashboard::auth.人員群組'), 'class' => ''],
+            ['title' => __('dashboard::auth.人員群組')],
         ];
         $component_datas['column'] = [
-            ['type' => 'column', 'class' => '', 'column_name' => 'role_name'],
+            ['type' => 'column', 'column_name' => 'role_name'],
         ];
 
-        // 權限設定
-        if (auth()->user()->hasAccess(['create-' . $permission_controller_string])) {
-            $component_datas['add_url'] = url($this->uri . 'update');
-        }
-        if (auth()->user()->hasAccess(['update-' . $permission_controller_string])) {
-            if (!auth()->user()->hasAccess(['delete-' . $permission_controller_string])) {
-                $component_datas['footer_delete_hide'] = true;
-            }
-        } else {
-            $component_datas['footer_dropdown_hide'] = true;
-            $component_datas['footer_sort_hide'] = true;
-        }
-        // if (auth()->user()->hasAccess(['update-' . $this->permission_controller_string])) {
-        //     $component_datas['dropdown_items']['items']['舊版本'] = ['url' => url($this->uri . 'index?version=true')];
-        // }
-        // if (auth()->user()->hasAccess(['delete-' . $this->permission_controller_string])) {
-        //     $component_datas['dropdown_items']['items']['資源回收'] = ['url' => url($this->uri . 'index?trashed=true')];
-        // }
-
         // 列表資料查詢
-        $component_datas['list'] = $this->role_repository->getList($this->role_id, config('backend.paginate'));
+        $role_repository = new RoleRepository;
+        $component_datas['list'] = $role_repository->getList($this->role_id, config('backend.paginate'));
         $component_datas['use_sort'] = false;
         $this->tpl_data['component_datas'] = $component_datas;
         return view($this->view_path . 'index', $this->tpl_data);
@@ -92,29 +50,9 @@ class RoleController extends Controller
      */
     public function putIndex()
     {
-        return $this->batch();
-    }
-
-    /**
-     * 批次處理
-     */
-    public function batch()
-    {
-        // $settings['file_field'] = 'file_name';
-        // $settings['folder'] = 'article';
-        // $settings['image_scale'] = true;
         $settings['use_version'] = true;
-        $result = $this->article_repository->batch($settings);
-        switch ($result['batch_method']) {
-            case 'restore':
-            case 'force_delete':
-                $back_url_str = 'index?trashed=true';
-                break;
-            default:
-                $back_url_str = 'index';
-                break;
-        }
-        return redirect($this->uri . $back_url_str);
+        $role_repository = new RoleRepository;
+        return $this->batch($role_repository, $settings);
     }
 
     /**
@@ -128,19 +66,13 @@ class RoleController extends Controller
         // 權限陣列
         $this->tpl_data['role_permissions_array'] = [];
         if ($this->role_id) {
-            $page_title = __('dashboard::auth.編輯人員群組');
-            $role = $this->role_repository->getOne($this->role_id);
+            $role_repository = new RoleRepository;
+            $role = $role_repository->getOne($this->role_id);
             $this->tpl_data['role'] = $role;
             $this->tpl_data['role_permissions_array'] = $role->permissions;
         } else {
             $this->tpl_data['role'] = false;
-            $page_title = __('dashboard::auth.新增人員群組');
         }
-
-        // 樣版資料
-        $this->tpl_data['component_datas']['page_title'] = $page_title;
-        $this->tpl_data['component_datas']['back_url'] = url($this->uri . 'index');
-        $this->tpl_data['component_datas']['footer_hide'] = true;
         return view($this->view_path . 'update', $this->tpl_data);
     }
 
@@ -149,7 +81,8 @@ class RoleController extends Controller
      */
     public function putUpdate()
     {
-        $role_id = $this->role_repository->setUpdate($this->role_id);
+        $role_repository = new RoleRepository;
+        $role_id = $role_repository->setUpdate($this->role_id);
         if ($role_id) {
             session()->flash('notify.message', '資料編輯完成');
             session()->flash('notify.type', 'success');

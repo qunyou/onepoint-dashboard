@@ -15,7 +15,7 @@
             {{-- <link rel="stylesheet" href="{{ $path_presenter::backend_assets('css/uikit.min.css') }}" /> --}}
             {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.7.6/dist/css/uikit.min.css" /> --}}
             {{-- <link rel="stylesheet" href="{{ $path_presenter::backend_assets('css/style.min.css?v=1.1.9') }}" /> --}}
-            <link rel="stylesheet" href="/assets/dashboard/css/style.min.css?v=1.2.03" />
+            <link rel="stylesheet" href="/assets/dashboard/css/style.min.css?v=1.2.04" />
             {{-- <link rel="stylesheet" href="{{ $path_presenter::backend_assets('fontawesome/css/all.css') }}" /> --}}
             <script src="https://kit.fontawesome.com/70e57d8a62.js"></script>
         @show
@@ -48,7 +48,7 @@
             </div>
 
             <div class="main-panel">
-                <header class="bg-light pe-3 ps-5 py-3" color-on-scroll="500">
+                <header class="top-bar bg-light pe-3 ps-5 py-3" color-on-scroll="500">
                     <div id="menu-toggle">
                         <i class="sidebarExpand fas fa-angle-double-left"></i>
                     </div>
@@ -79,12 +79,12 @@
                                     @endif
                                     @if (config('app.url', false))
                                         <div class="col-auto">
-                                            <a href="{{ config('frontend.url') }}" class="text-decoration-none" target="_blank"><i class="fas fa-home"></i>@lang('dashboard::backend.檢視網站')</a>
+                                            <a href="{{ config('frontend.url') }}" class="text-decoration-none" target="_blank"><i class="fas fa-desktop me-1"></i>@lang('dashboard::backend.檢視網站')</a>
                                         </div>
                                     @endif
                                 @show
                                 <div class="col-auto">
-                                    <a href="{{ url(config('dashboard.uri') . '/logout') }}" class="text-decoration-none"><i class="fas fa-sign-out-alt"></i>@lang('dashboard::auth.登出')</a>
+                                    <a href="{{ url(config('dashboard.uri') . '/logout') }}" class="text-decoration-none"><i class="fas fa-sign-out-alt me-1"></i>@lang('dashboard::auth.登出')</a>
                                 </div>
                             </div>
                         </div>

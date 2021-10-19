@@ -9,7 +9,7 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item" aria-current="page">
                 <a href="{{ url(config('dashboard.uri') . '/dashboard/index') }}">
-                    Home
+                    <i class="fas fa-home"></i>
                 </a>
             </li>
             <li class="breadcrumb-item" aria-current="page">
@@ -59,7 +59,12 @@
 @endsection
 
 @section('main_block')
-    @component('dashboard::' . config('backend.template') . '.components.backend-update-card', $component_datas)
+    @component('dashboard::' . config('backend.template') . '.components.backend-update-card')
+        @slot('button_block')
+            <a class="btn btn-primary" href="{{ url($uri . 'index?' . $base_service->getQueryString(true, true, ['role_id'])) }}">
+                <i class="fa fa-fw fa-arrow-left"></i>@lang('dashboard::auth.人員群組列表')
+            </a>
+        @endslot
         <div class="form-body">
             @include('dashboard::text', ['input_setting' => [
                 'display_name' => __('dashboard::auth.群組名稱'),
@@ -93,10 +98,9 @@
             </ul>
 
             <footer class="mt-2">
-                <button id="form-button" type="submit" class="btn btn-outline-deep-purple waves-effect">
+                <button id="form-button" type="submit" class="btn btn-primary">
                     @lang('dashboard::backend.送出')
                 </button>
-                <a href="{{ url($uri . 'index?' . $base_service->getQueryString(true, true, ['role_id'])) }}" class="btn btn-outline-deep-purple waves-effect">回上頁</a>
             </footer>
         </div>
     @endcomponent

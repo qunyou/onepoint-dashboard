@@ -2,8 +2,7 @@
 
 namespace Onepoint\Dashboard\Repositories;
 
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use Onepoint\Dashboard\Repositories\BaseRepository;
 use Onepoint\Dashboard\Entities\Role;
 
@@ -63,6 +62,18 @@ class RoleRepository extends BaseRepository
      */
     public function setUpdate($role_id = 0, $datas = [])
     {
+        // 表單驗證
+        $rule_array = [
+            'role_name' => [
+                'required',
+                'max:255',
+                Rule::unique($this->model->getTable())->ignore($role_id)->whereNull('deleted_at'),
+            ]
+        ];
+        $custom_name_array = [
+            'role_name' => __('dashboard::auth.人員群組'),
+        ];
+
         // 將接收的資料設定為集合
         $collection = collect(request()->all());
         $role_datas['role_name'] = $collection->get('role_name');
@@ -99,9 +110,11 @@ class RoleRepository extends BaseRepository
         }
         $role_datas['permissions'] = $arr;
         if ($role_id) {
-            $this->append($role_datas)->replicateUpdate($role_id);
+            // $this->append($role_datas)->replicateUpdate($role_id);
+            $role_id = $this->rule($rule_array, $custom_name_array)->append($datas)->replicateUpdate($role_id);
         } else {
-            $role_id = $this->model->create($role_datas)->id;
+            // $role_id = $this->model->create($role_datas)->id;
+            $role_id = $this->rule($rule_array, $custom_name_array)->append($datas)->update();
         }
         return $role_id;
     }
