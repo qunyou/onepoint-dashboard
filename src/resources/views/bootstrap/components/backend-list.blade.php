@@ -51,7 +51,7 @@
                         @if (!config('user.use_role') || auth()->user()->hasAccess(['update-' . $permission_controller_string]))
                             @if (!$version)
                                 @if (isset($use_drag_rearrange) && $use_drag_rearrange)
-                                    <th class="check_all_width">@lang('dashboard::backend.排序')</th>
+                                    <th class="drag_width">@lang('dashboard::backend.排序')</th>
                                 @endif
                                 @if (isset($use_check_box) && $use_check_box)
                                 <th class="check_all_width">
@@ -109,7 +109,7 @@
                             @if (!config('user.use_role') || auth()->user()->hasAccess(['update-' . $permission_controller_string]))
                                 @if (!$version)
                                     @if (isset($use_drag_rearrange) && $use_drag_rearrange)
-                                        <td class="drag d-none d-md-table-cell">
+                                        <td class="text-center">
                                             <i class="fas fa-arrows-alt-v move"></i>
                                         </td>
                                     @endif
@@ -287,99 +287,11 @@
                                 @if (!$trashed)
                                     @if (!config('user.use_role') || auth()->user()->hasAccess(['update-' . $permission_controller_string]))
                                         @if ($version)
-                                            <td class="d-none d-md-table-cell">{{ $element->created_at }}</td>
+                                            <td>{{ $element->created_at }}</td>
                                         @endif
                                     @endif
                                     <td class="text-nowrap text-end">
-                                        @if (!config('user.use_role') || auth()->user()->hasAccess(['update-' . $permission_controller_string]) && !$version)
-                                            @php
-                                                $button_items['status'] = $element->{config('db_status_name')};
-                                                if (isset($detail_hide) && $detail_hide) {
-                                                    // $button_items = [];
-                                                } else {
-                                                    $button_items['items']['檢視'] = ['url' => url($uri . 'detail?' . $id_string . '=' . $element->id . '&' . $base_service->getQueryString(true, true))];
-                                                }
-                                                if ($use_duplicate) {
-                                                    if (!config('user.use_role') || auth()->user()->hasAccess(['create-' . $permission_controller_string])) {
-                                                        if (!isset($duplicate_url_suffix)) {
-                                                            $duplicate_url_suffix = '';
-                                                        }
-                                                        $button_items['items']['複製'] = ['url' => url($uri . 'duplicate?' . $id_string . '=' . $element->id . $duplicate_url_suffix)];
-                                                    }
-                                                }
-                                                if (isset($preview_url) && !empty($preview_url)) {
-                                                    $button_items['items']['預覽'] = ['url' => url($preview_url['url'] . $element->{$preview_url['column']})];
-                                                }
-                                                if (isset($with)) {
-                                                    if (is_array($with)) {
-                                                        $button_items['items']['關聯'] = [];
-                                                        foreach ($with as $with_key => $with_value) {
-                                                            $with_url = '';
-                                                            $qs = '';
-                                                            if (isset($with_value['url'])) {
-                                                                if (isset($with_value['refer_id_string'])) {
-                                                                    if (isset($with_value['refer_id_column'])) {
-                                                                        $with_value['query_string_suffix'][$with_value['refer_id_string']] = $element->{$with_value['refer_id_column']};
-                                                                    } else {
-                                                                        $with_value['query_string_suffix'][$with_value['refer_id_string']] = $element->id;
-                                                                    }
-                                                                } else {
-                                                                    $with_value['query_string_suffix'][$id_string] = $element->id;
-                                                                }
-                                                                if (isset($with_value['query_string_append']) && is_array($with_value['query_string_append'])) {
-                                                                    foreach ($with_value['query_string_append'] as $query_string_append_key => $query_string_append_value) {
-                                                                        $with_value['query_string_suffix'][$query_string_append_key] = $query_string_append_value;
-                                                                    }
-                                                                }
-                                                                $page = request('page', 0);
-                                                                if (isset($with_value['back_page_string']) && $page > 0) {
-                                                                    $with_value['query_string_suffix'][$with_value['back_page_string']] = $page;
-                                                                }
-                                                                $qs = '&' . http_build_query($with_value['query_string_suffix']);
-                                                                $with_url = url($with_value['url'] . '?' . $base_service->getQueryString(true, true, [$id_string, 'page']) . $qs);
-                                                            }
-                                                            $button_items['items']['關聯'][] = ['url' => $with_url, 'with_count' => $element->{$with_value['with_count_string']}, 'name' => $with_value['with_name'], 'icon' => $with_value['icon']];
-                                                        }
-                                                    } else {
-                                                        $button_items['items']['關聯'] = ['url' => url($preview_url . $element->id), 'with_count' => $element->$with_count_string, 'name' => $with_name, 'icon' => $icon];
-                                                    }
-                                                }
-                                                if (isset($custom_item)) {
-                                                    $button_items['items']['自訂'] = [];
-                                                    foreach ($custom_item as $custom_item_array) {
-                                                        $custom_item_array['url'] .= $element->id;
-                                                        $button_items['items']['自訂'][] = $custom_item_array;
-                                                    }
-                                                }
-                                                if ($use_version) {
-                                                    $button_items['items']['版本'] = ['url' => url($uri . 'index?' . $id_string . '=' . $element->id . '&version=true')];
-                                                }
-                                            @endphp
-                                            @component('dashboard::' . config('backend.template') .  '.components.backend-list-btn-group', $button_items)
-                                                @if (isset($custom_button))
-                                                    @if (is_array($custom_button))
-                                                        @foreach ($custom_button as $custom_button_item)
-                                                            <a class="btn btn-primary" href="{{ $custom_button_item['url'] . $element->id }}">
-                                                                <i class="{{ $custom_button_item['icon'] }}"></i>
-                                                                {{ $custom_button_item['with_name'] }}
-                                                                <span class="badge badge-primary">
-                                                                    {{ $element->{$custom_button_item['with_count_string']} }}
-                                                                </span>
-                                                            </a>
-                                                        @endforeach
-                                                    @else
-                                                    @endif
-                                                @else
-                                                    @if (isset($update_hide) && $update_hide)
-                                                    @else
-                                                        <a href="{{ url($uri . ($update_uri ?? 'update') . '?' . $id_string . '=' . $element->id . '&' . $base_service->getQueryString(true, true)) }}" class="btn {{ $element->{config('db_status_name')} == config('db_status_false_string') ? 'btn-secondary' : 'btn-primary' }}">
-                                                            <i class="fas fa-edit"></i>
-                                                            @lang('dashboard::backend.編輯')
-                                                        </a>
-                                                    @endif
-                                                @endif
-                                            @endcomponent
-                                        @else
+                                        @if ($version)
                                             @php
                                                 $button_items['status'] = $element->{config('db_status_name')};
                                                 if ($version) {
@@ -398,6 +310,96 @@
                                                     </a>
                                                 @endif
                                             @endcomponent
+                                        @else
+                                            @if (!config('user.use_role') || auth()->user()->hasAccess(['update-' . $permission_controller_string]))
+                                                @php
+                                                    $button_items['status'] = $element->{config('db_status_name')};
+                                                    if (isset($detail_hide) && $detail_hide) {
+                                                        // $button_items = [];
+                                                    } else {
+                                                        $button_items['items']['檢視'] = ['url' => url($uri . 'detail?' . $id_string . '=' . $element->id . '&' . $base_service->getQueryString(true, true))];
+                                                    }
+                                                    if ($use_duplicate) {
+                                                        if (!config('user.use_role') || auth()->user()->hasAccess(['create-' . $permission_controller_string])) {
+                                                            if (!isset($duplicate_url_suffix)) {
+                                                                $duplicate_url_suffix = '';
+                                                            }
+                                                            $button_items['items']['複製'] = ['url' => url($uri . 'duplicate?' . $id_string . '=' . $element->id . $duplicate_url_suffix)];
+                                                        }
+                                                    }
+                                                    if (isset($preview_url) && !empty($preview_url)) {
+                                                        $button_items['items']['預覽'] = ['url' => url($preview_url['url'] . $element->{$preview_url['column']})];
+                                                    }
+                                                    if (isset($with)) {
+                                                        if (is_array($with)) {
+                                                            $button_items['items']['關聯'] = [];
+                                                            foreach ($with as $with_key => $with_value) {
+                                                                $with_url = '';
+                                                                $qs = '';
+                                                                if (isset($with_value['url'])) {
+                                                                    if (isset($with_value['refer_id_string'])) {
+                                                                        if (isset($with_value['refer_id_column'])) {
+                                                                            $with_value['query_string_suffix'][$with_value['refer_id_string']] = $element->{$with_value['refer_id_column']};
+                                                                        } else {
+                                                                            $with_value['query_string_suffix'][$with_value['refer_id_string']] = $element->id;
+                                                                        }
+                                                                    } else {
+                                                                        $with_value['query_string_suffix'][$id_string] = $element->id;
+                                                                    }
+                                                                    if (isset($with_value['query_string_append']) && is_array($with_value['query_string_append'])) {
+                                                                        foreach ($with_value['query_string_append'] as $query_string_append_key => $query_string_append_value) {
+                                                                            $with_value['query_string_suffix'][$query_string_append_key] = $query_string_append_value;
+                                                                        }
+                                                                    }
+                                                                    $page = request('page', 0);
+                                                                    if (isset($with_value['back_page_string']) && $page > 0) {
+                                                                        $with_value['query_string_suffix'][$with_value['back_page_string']] = $page;
+                                                                    }
+                                                                    $qs = '&' . http_build_query($with_value['query_string_suffix']);
+                                                                    $with_url = url($with_value['url'] . '?' . $base_service->getQueryString(true, true, [$id_string, 'page']) . $qs);
+                                                                }
+                                                                $button_items['items']['關聯'][] = ['url' => $with_url, 'with_count' => $element->{$with_value['with_count_string']}, 'name' => $with_value['with_name'], 'icon' => $with_value['icon']];
+                                                            }
+                                                        } else {
+                                                            $button_items['items']['關聯'] = ['url' => url($preview_url . $element->id), 'with_count' => $element->$with_count_string, 'name' => $with_name, 'icon' => $icon];
+                                                        }
+                                                    }
+                                                    if (isset($custom_item)) {
+                                                        $button_items['items']['自訂'] = [];
+                                                        foreach ($custom_item as $custom_item_array) {
+                                                            $custom_item_array['url'] .= $element->id;
+                                                            $button_items['items']['自訂'][] = $custom_item_array;
+                                                        }
+                                                    }
+                                                    if ($use_version) {
+                                                        $button_items['items']['版本'] = ['url' => url($uri . 'index?' . $id_string . '=' . $element->id . '&version=true')];
+                                                    }
+                                                @endphp
+                                                @component('dashboard::' . config('backend.template') .  '.components.backend-list-btn-group', $button_items)
+                                                    @if (isset($custom_button))
+                                                        @if (is_array($custom_button))
+                                                            @foreach ($custom_button as $custom_button_item)
+                                                                <a class="btn btn-primary" href="{{ $custom_button_item['url'] . $element->id }}">
+                                                                    <i class="{{ $custom_button_item['icon'] }}"></i>
+                                                                    {{ $custom_button_item['with_name'] }}
+                                                                    <span class="badge badge-primary">
+                                                                        {{ $element->{$custom_button_item['with_count_string']} }}
+                                                                    </span>
+                                                                </a>
+                                                            @endforeach
+                                                        @else
+                                                        @endif
+                                                    @else
+                                                        @if (isset($update_hide) && $update_hide)
+                                                        @else
+                                                            <a href="{{ url($uri . ($update_uri ?? 'update') . '?' . $id_string . '=' . $element->id . '&' . $base_service->getQueryString(true, true)) }}" class="btn {{ $element->{config('db_status_name')} == config('db_status_false_string') ? 'btn-secondary' : 'btn-primary' }}">
+                                                                <i class="fas fa-edit"></i>
+                                                                @lang('dashboard::backend.編輯')
+                                                            </a>
+                                                        @endif
+                                                    @endif
+                                                @endcomponent
+                                            @endif
                                         @endif
                                     </td>
                                     @if (($use_sort ?? true) && (!config('user.use_role') || auth()->user()->hasAccess(['update-' . $permission_controller_string])))

@@ -69,11 +69,11 @@
                         @foreach ($item as $item_key => $item_value)
                             <a class="{{ $link_class_string }}" href="{{ $item_value['url'] }}">
                                 <i class="{{ $item_value['icon'] }}"></i>{{ $item_value['name'] }} 
-                                {{-- <span class="badge bg-light text-dark">{{ $item_value['with_count'] }}</span> --}}
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                <span class="badge bg-light text-dark">{{ $item_value['with_count'] }}</span>
+                                {{-- <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                                     {{ $item_value['with_count'] }}
                                     <span class="visually-hidden">records count</span>
-                                </span>
+                                </span> --}}
                             </a>
                         @endforeach
                     @else

@@ -9,10 +9,10 @@
             <span class="qq-upload-drop-area-text-selector"></span>
         </div>
         <div class="buttons">
-            <div class="qq-upload-button-selector qq-upload-button btn btn-outline-deep-purple waves-effect">
+            <div class="qq-upload-button-selector qq-upload-button btn btn-secondary">
                 選擇檔案
             </div>
-            <button type="button" id="trigger-upload" class="btn btn-outline-deep-purple waves-effect">
+            <button type="button" id="trigger-upload" class="btn btn-secondary">
                 <i class="icon-upload icon-white"></i> 上傳
             </button>
         </div>

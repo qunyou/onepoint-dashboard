@@ -19,5 +19,10 @@
         <div class="card-body">
             {{ $slot }}
         </div>
+        @if (isset($footer_block))
+            <div class="card-footer">
+                {!! $footer_block !!}
+            </div>
+        @endif
     </div>
 </form>
