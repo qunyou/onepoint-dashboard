@@ -11,11 +11,29 @@
             <link rel="icon" href="{{ url(config('backend.favicon')) }}" type="image/x-icon">
         @endif
         @section('css')
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+            @switch(config('backend.theme', 'default'))
+                @case('dark')
+                    <link rel="stylesheet" href="/assets/dashboard/css/bootstrap-dark.min.css" />        
+                    @break
+                @case('pulse')
+                    <link rel="stylesheet" href="/assets/dashboard/css/bootstrap-pulse.min.css" />
+                    @break
+                @case('simplex')
+                    <link rel="stylesheet" href="/assets/dashboard/css/bootstrap-simplex.min.css" />
+                    @break
+                @case('solar')
+                    <link rel="stylesheet" href="/assets/dashboard/css/bootstrap-solar.min.css" />
+                    @break
+                @case('auartz')
+                    <link rel="stylesheet" href="/assets/dashboard/css/bootstrap-auartz.min.css" />
+                    @break
+                @default
+                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+            @endswitch
             {{-- <link rel="stylesheet" href="{{ $path_presenter::backend_assets('css/uikit.min.css') }}" /> --}}
             {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.7.6/dist/css/uikit.min.css" /> --}}
             {{-- <link rel="stylesheet" href="{{ $path_presenter::backend_assets('css/style.min.css?v=1.1.9') }}" /> --}}
-            <link rel="stylesheet" href="/assets/dashboard/css/style.min.css?v=1.2.05" />
+            <link rel="stylesheet" href="/assets/dashboard/css/style.min.css?v=1.2.06" />
             {{-- <link rel="stylesheet" href="{{ $path_presenter::backend_assets('fontawesome/css/all.css') }}" /> --}}
             <script src="https://kit.fontawesome.com/70e57d8a62.js"></script>
         @show
@@ -48,7 +66,7 @@
             </div>
 
             <div class="main-panel">
-                <header class="top-bar bg-light pe-3 ps-5 py-3" color-on-scroll="500">
+                <header class="top-bar border-bottom pe-3 ps-5 py-3" color-on-scroll="500">
                     <div id="menu-toggle">
                         <i class="sidebarExpand fas fa-angle-double-left"></i>
                     </div>

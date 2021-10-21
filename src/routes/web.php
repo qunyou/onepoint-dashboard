@@ -1,4 +1,6 @@
 <?php
+use Illuminate\Support\Facades\Route;
+
 Route::prefix(config('dashboard.uri'))->namespace('Onepoint\Dashboard\Controllers')->middleware(['web'])->group(function () {
 
     // 登入頁 backend/login
