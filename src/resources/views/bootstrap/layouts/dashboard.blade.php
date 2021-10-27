@@ -11,11 +11,11 @@
             <link rel="icon" href="{{ url(config('backend.favicon')) }}" type="image/x-icon">
         @endif
         @section('css')
-            <link rel="stylesheet" href="/assets/dashboard/css/bootstrap-{{ config('backend.theme', 'default') }}.min.css" />        
+            <link rel="stylesheet" href="/assets/dashboard/css/bootstrap-{{ config('backend.theme', 'default') }}.min.css?v=1.0.0" />        
             {{-- <link rel="stylesheet" href="{{ $path_presenter::backend_assets('css/uikit.min.css') }}" /> --}}
             {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.7.6/dist/css/uikit.min.css" /> --}}
             {{-- <link rel="stylesheet" href="{{ $path_presenter::backend_assets('css/style.min.css?v=1.1.9') }}" /> --}}
-            <link rel="stylesheet" href="/assets/dashboard/css/style.min.css?v=1.2.08" />
+            <link rel="stylesheet" href="/assets/dashboard/css/style.min.css?v=1.2.09" />
             {{-- <link rel="stylesheet" href="{{ $path_presenter::backend_assets('fontawesome/css/all.css') }}" /> --}}
             <script src="https://kit.fontawesome.com/70e57d8a62.js"></script>
         @show

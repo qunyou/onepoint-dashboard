@@ -5,15 +5,9 @@
 }
 
 .card-list {
-  // border-radius: .5rem;
-  // box-shadow: 0 4px 20px 0 rgba(0,0,0,.05);
-  // .card-header,
-  // .card-footer {
-  //   background-color: #fff;
+  // .card-title {
+  //   @extend %card-title;
   // }
-  .card-title {
-    @extend %card-title;
-  }
 
   .card-body {
     padding: 0;
@@ -32,16 +26,12 @@
   .table img {
     max-width: 100px;
   }
-
-  // .btn-group.float-right {
-  //   min-width: 120px;
-  // }
 }
 
 .card-update {
-  .card-title {
-    @extend %card-title;
-  }
+  // .card-title {
+  //   @extend %card-title;
+  // }
   .form-body {
     background-color: #fff;
     border-radius: .5rem;
@@ -50,7 +40,16 @@
     margin: 1rem 0;
   }
   .form-group {
-    border-bottom: 1px solid #eee;
+    // border-bottom: 1px solid #eee;
     padding-bottom: 1rem;
+    margin-bottom: 1.6rem;
+
+    label {
+      margin-bottom: 0.4rem;
+      font-size: 0.9rem;
+    }
+    .form-control {
+      border-radius: 10px;
+    }
   }
 }

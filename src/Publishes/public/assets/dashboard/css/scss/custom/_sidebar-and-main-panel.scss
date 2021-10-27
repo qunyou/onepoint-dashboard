@@ -1,11 +1,11 @@
-@mixin icon-gradient ($top-color, $bottom-color){
+@mixin icon-gradient($top-color, $bottom-color) {
   background: $top-color;
-  background: -moz-linear-gradient(top,  $top-color 0%, $bottom-color 100%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,$top-color), color-stop(100%,$bottom-color));
-  background: -webkit-linear-gradient(top,  $top-color 0%,$bottom-color 100%);
-  background: -o-linear-gradient(top,  $top-color 0%,$bottom-color 100%);
-  background: -ms-linear-gradient(top,  $top-color 0%,$bottom-color 100%);
-  background: linear-gradient(to bottom,  $top-color 0%,$bottom-color 100%);
+  background: -moz-linear-gradient(top, $top-color 0%, $bottom-color 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, $top-color), color-stop(100%, $bottom-color));
+  background: -webkit-linear-gradient(top, $top-color 0%, $bottom-color 100%);
+  background: -o-linear-gradient(top, $top-color 0%, $bottom-color 100%);
+  background: -ms-linear-gradient(top, $top-color 0%, $bottom-color 100%);
+  background: linear-gradient(to bottom, $top-color 0%, $bottom-color 100%);
   background-size: 150% 150%;
 }
 
@@ -102,6 +102,7 @@
     }
     .main-panel {
       width: $sidebar-width;
+      overflow: hidden;
       z-index: 99;
       transition: all 0.4s ease 0s;
     }
@@ -126,7 +127,7 @@
   left: 0;
   width: 0;
   display: block;
-  z-index: 999;
+  // z-index: 999;
   color: #fff;
   font-weight: normal;
   background-size: cover;
@@ -158,24 +159,11 @@
   .logo {
     padding: $navbar-padding-a;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: center;
     a {
-      &[data-image] {
-        text-indent: -9999px;
-        min-height: 2rem;
-      }
-    }
-
-    .simple-text {
-      padding: $padding-small-vertical $padding-zero;
-      display: block;
-      font-size: $font-size-large;
-      color: $white-color;
-      text-align: center;
-      font-weight: $font-weight-normal;
-      line-height: 30px;
-      &:hover {
-        text-decoration: none;
-      }
+      font-size: 1.3rem;
+      color: #fff;
+      text-decoration: none;
     }
   }
 
@@ -264,14 +252,14 @@
   }
 
   &:before {
-    opacity: 0.33;
+    opacity: 0.2;
     background: #000000;
   }
 
   &:after {
     @include icon-gradient($black-color-top, $black-color-bottom);
     z-index: 3;
-    opacity: 1;
+    opacity: .2;
   }
 
   &[data-image]:after,
@@ -288,7 +276,7 @@
   transition: all 0.4s ease 0s;
 
   .breadcrumb {
-    padding-top: .3rem;
+    padding-top: 0.3rem;
     padding-bottom: 0;
     margin-bottom: 0;
   }
@@ -338,9 +326,9 @@
   .navbar {
     padding-bottom: 0.9rem;
     background-color: #fff;
-    margin: .5rem 0 1rem 0;
-    border-radius: .5rem;
-    box-shadow: 0 4px 20px 0 rgba(0,0,0,.05);
+    margin: 0.5rem 0 1rem 0;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
     // @include media-breakpoint-down(sm) {
     //   padding-bottom: 0;
     // }

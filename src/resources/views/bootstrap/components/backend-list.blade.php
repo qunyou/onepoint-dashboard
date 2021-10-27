@@ -51,7 +51,7 @@
                         @if (!config('user.use_role') || auth()->user()->hasAccess(['update-' . $permission_controller_string]))
                             @if (!$version)
                                 @if (isset($use_drag_rearrange) && $use_drag_rearrange)
-                                    <th class="drag_width">@lang('dashboard::backend.排序')</th>
+                                    <th class="d-none d-md-table-cell drag_width">@lang('dashboard::backend.排序')</th>
                                 @endif
                                 @if (isset($use_check_box) && $use_check_box)
                                 <th class="check_all_width">
@@ -109,7 +109,7 @@
                             @if (!config('user.use_role') || auth()->user()->hasAccess(['update-' . $permission_controller_string]))
                                 @if (!$version)
                                     @if (isset($use_drag_rearrange) && $use_drag_rearrange)
-                                        <td class="text-center">
+                                        <td class="drag d-none d-md-table-cell text-center">
                                             <i class="fas fa-arrows-alt-v move"></i>
                                         </td>
                                     @endif

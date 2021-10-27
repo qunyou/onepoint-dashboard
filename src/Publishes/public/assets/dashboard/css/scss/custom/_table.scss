@@ -1,3 +1,6 @@
+.drag_width {
+  width: 50px;
+}
 .check_all_width {
   width: 40px;
 }
@@ -44,7 +47,6 @@ tr.text-muted {
   }
   tr {
     box-shadow: rgba(0, 0, 0, 0.05) 0px 4px 20px 0px;
-    background-color: #fff;
     td:first-child {
       border-top-left-radius: .5rem;
       border-bottom-left-radius: .5rem;
@@ -56,7 +58,6 @@ tr.text-muted {
   }
   td {
     border-top: none;
-    padding: 1rem;
     vertical-align: middle;
     @include media-breakpoint-down(sm) {
       display: block;
@@ -68,7 +69,6 @@ tr.text-muted {
       box-shadow: none;
     }
     th {
-      background-color: #f8f8f8;
       border-bottom: none;
       @include media-breakpoint-down(sm) {
         display: block;
