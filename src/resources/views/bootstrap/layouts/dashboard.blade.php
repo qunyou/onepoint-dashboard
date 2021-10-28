@@ -10,8 +10,15 @@
             <link rel="shortcut icon" href="{{ url(config('backend.favicon')) }}" type="image/x-icon">
             <link rel="icon" href="{{ url(config('backend.favicon')) }}" type="image/x-icon">
         @endif
+        @php
+        $theme = request('theme', '');
+        if (!empty($theme)) {
+            session(['theme' => $theme]);
+        }
+        $theme = session('theme', config('backend.theme', 'default'));
+        @endphp
         @section('css')
-            <link rel="stylesheet" href="/assets/dashboard/css/bootstrap-{{ config('backend.theme', 'default') }}.min.css?v=1.0.0" />        
+            <link rel="stylesheet" href="/assets/dashboard/css/bootstrap-{{ $theme }}.min.css?v=1.0.0" />
             {{-- <link rel="stylesheet" href="{{ $path_presenter::backend_assets('css/uikit.min.css') }}" /> --}}
             {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.7.6/dist/css/uikit.min.css" /> --}}
             {{-- <link rel="stylesheet" href="{{ $path_presenter::backend_assets('css/style.min.css?v=1.1.9') }}" /> --}}

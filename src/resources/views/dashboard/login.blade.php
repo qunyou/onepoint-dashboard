@@ -11,7 +11,14 @@
         <link rel="shortcut icon" href="{{ url(config('backend.favicon')) }}" type="image/x-icon">
         <link rel="icon" href="{{ url(config('backend.favicon')) }}" type="image/x-icon">
     @endif
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    @php
+        $theme = request('theme', '');
+        if (!empty($theme)) {
+            session(['theme' => $theme]);
+        }
+        $theme = session('theme', config('backend.theme', 'default'));
+    @endphp
+    <link rel="stylesheet" href="/assets/dashboard/css/bootstrap-{{ $theme }}.min.css?v=1.0.0" />
     <style>
         .wrapper-full-page {
             min-height: 100vh;
@@ -24,10 +31,10 @@
             height: 100vh;
         }
 
-        .full-page:before {
+        /* .full-page:before {
             opacity: .33;
             background: #000000;
-        }
+        } */
 
         .full-page:before,
         .full-page:after {
@@ -106,7 +113,7 @@
             left: 0;
             background-size: cover;
             background-position: center center;
-            opacity: .7;
+            /* opacity: .7; */
         }
     </style>
 
@@ -124,10 +131,10 @@
                             <form action="{{ url(config('dashboard.uri') . '/login?lang=' . $backend_language) }}" method="post">
                                 @csrf
                                 <div class="card card-login p-3">
-                                    <div class="card-header ">
+                                    <div class="card-header">
                                         <div class="header h-4 text-center">{{ config('app.name') }}</div>
                                     </div>
-                                    <div class="card-body ">
+                                    <div class="card-body">
                                         <div class="form-group mb-4">
                                             <label for="inputUsername">@lang('dashboard::auth.帳號')</label>
                                             <input type="text" name="username" id="inputUsername" class="form-control mt-1" placeholder="@lang('dashboard::auth.帳號')" required autofocus>
@@ -154,7 +161,7 @@
                     </div>
                 </div>
             </div>
-            <div class="full-page-background" style="background-image: url('assets/dashboard/img/login-background.jpg');"></div>
+            <div class="full-page-background" style="background-image: url('{{ config('backend.login_background') }}');"></div>
         </div>
     </div>
 
