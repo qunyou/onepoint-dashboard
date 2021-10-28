@@ -102,7 +102,7 @@
                                     }
                                 }
                             } else {
-                                $css_class_name = $element->{config('db_status_name')} == config('db_status_false_string') ? 'table-secondary' : 'table-light';
+                                $css_class_name = $element->{config('db_status_name')} == config('db_status_false_string') ? 'table-dark' : 'table-light';
                             }
                         @endphp
                         <tr id="{{ $element->id }}" class="{{ $css_class_name }}">

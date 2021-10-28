@@ -277,6 +277,10 @@ class BaseRepository
                 $debug_str = '未輸入資料';
             }
 
+            // 清空 cache
+            // cache()->forever('cache_release', true);
+            cache()->flush();
+
             // 除錯訊息
             if ($this->debug) {
                 dd($debug_str . $id, $datas);
