@@ -2,10 +2,10 @@
     <div style="display: none">
 @endif
 @if (!$input_only)
-    <div class="form-group mb-4" {!! $row_attribute !!}>
-        <label for="{{ $input_name ?? '' }}">{!! $display_name !!}</label>
+    <div class="form-floating mb-4" {!! $row_attribute !!}>
 @endif
 {{ $slot }}
+<label for="{{ $input_name ?? '' }}">{!! $display_name !!}</label>
 @if ($error)
     <p class="text-danger">
         {!! $error !!}

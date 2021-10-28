@@ -89,7 +89,12 @@ class FormPresenter
         // textarea
         if ($input_type == 'textarea') {
             $rows = $input_setting['rows'] ?? 3;
-            $rows = 'rows="' . $rows . '"';
+
+            // bootsrap 4 以前
+            // $rows = 'rows="' . $rows . '"';
+
+            // bootsrap 5
+            $rows = 'style="height: ' . $rows. 'rem"';
             $input_setting['rows'] = $rows;
         }
 

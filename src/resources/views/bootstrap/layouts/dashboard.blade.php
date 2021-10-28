@@ -15,7 +15,7 @@
             {{-- <link rel="stylesheet" href="{{ $path_presenter::backend_assets('css/uikit.min.css') }}" /> --}}
             {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.7.6/dist/css/uikit.min.css" /> --}}
             {{-- <link rel="stylesheet" href="{{ $path_presenter::backend_assets('css/style.min.css?v=1.1.9') }}" /> --}}
-            <link rel="stylesheet" href="/assets/dashboard/css/style.min.css?v=1.2.09" />
+            <link rel="stylesheet" href="/assets/dashboard/css/style.min.css?v=1.2.13" />
             {{-- <link rel="stylesheet" href="{{ $path_presenter::backend_assets('fontawesome/css/all.css') }}" /> --}}
             <script src="https://kit.fontawesome.com/70e57d8a62.js"></script>
         @show
@@ -24,10 +24,10 @@
         <title>{{ config('backend.html_page_title') }}</title>
     </head>
     <body>
-        <div class="wrapper active" id="wrapper" data-color="{{ config('backend.sidebar.color', 'blue') }}">
+        <div class="wrapper active" id="wrapper">
 
             {{-- 邊欄背景圖 --}}
-            <div class="sidebar" data-image="{{ url(config('backend.sidebar.img', 'assets/dashboard/img/sidebar-1.jpg')) }}">
+            <div class="sidebar bg-primary" style="{!! config('backend.sidebar.img', '') !!}">
                 <div class="sidebar-wrapper">
 
                     {{-- 邊欄標題 --}}
@@ -49,7 +49,7 @@
 
             <div class="main-panel">
                 <header class="top-bar border-bottom pe-3 ps-5 py-3" color-on-scroll="500">
-                    <div id="menu-toggle">
+                    <div id="menu-toggle" class="bg-primary">
                         <i class="sidebarExpand fas fa-angle-double-left"></i>
                     </div>
                     <div class="row">
@@ -94,7 +94,9 @@
 
                 <div class="content" id="app">
                     <div class="container-fluid">
-                        @yield('main_block')
+                        <div class="px-2">
+                            @yield('main_block')
+                        </div>
                     </div>
                 </div>
 
@@ -121,7 +123,7 @@
         {{-- <script src="https://cdn.jsdelivr.net/npm/uikit@3.7.6/dist/js/uikit.min.js"></script> --}}
         {{-- <script src="https://cdn.jsdelivr.net/npm/uikit@3.7.6/dist/js/uikit-icons.min.js"></script> --}}
         {{-- <script src="{{ $path_presenter::backend_assets('js/dashboard.js?v=1.0.0') }}" type="text/javascript"></script> --}}
-        <script src="/assets/dashboard/js/dashboard.js?v=1.0.0" type="text/javascript"></script>
+        <script src="/assets/dashboard/js/dashboard.js?v=1.0.01" type="text/javascript"></script>
         @if (isset($component_datas['use_drag_rearrange']) && $component_datas['use_drag_rearrange'])
             <script src="https://cdnjs.cloudflare.com/ajax/libs/TableDnD/0.9.1/jquery.tablednd.js" integrity="sha256-d3rtug+Hg1GZPB7Y/yTcRixO/wlI78+2m08tosoRn7A=" crossorigin="anonymous"></script>
         @endif

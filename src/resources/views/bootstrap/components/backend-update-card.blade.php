@@ -15,14 +15,14 @@
 <form id="form-submit" method="post" action="" enctype="multipart/form-data">
     @csrf
     @method('PUT')
-    <div class="card card-update">
-        <div class="card-body">
+    <div class="card-update">
+        {{-- <div class="card-body"> --}}
             {{ $slot }}
-        </div>
+        {{-- </div> --}}
         @if (isset($footer_block))
-            <div class="card-footer">
+            {{-- <div class="card-footer"> --}}
                 {!! $footer_block !!}
-            </div>
+            {{-- </div> --}}
         @endif
     </div>
 </form>
