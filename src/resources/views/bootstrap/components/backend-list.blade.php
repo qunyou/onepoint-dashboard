@@ -233,7 +233,7 @@
                                                         $url_string .= '/' . $element->{$slash_string};
                                                     }
                                                 @endphp
-                                                <a href="{{ $url_string }}" target="_blank">{{ $url_string }}</a>
+                                                <a href="{{ $url_string }}" class="text-dark" target="_blank">{{ $url_string }}</a>
                                                 @break
                                             @case('boolean')
                                                 @if (isset($value['option']))
