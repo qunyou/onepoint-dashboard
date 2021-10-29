@@ -10,12 +10,19 @@
             <link rel="shortcut icon" href="{{ url(config('backend.favicon')) }}" type="image/x-icon">
             <link rel="icon" href="{{ url(config('backend.favicon')) }}" type="image/x-icon">
         @endif
+        @php
+        $theme = request('theme', '');
+        if (!empty($theme)) {
+            session(['theme' => $theme]);
+        }
+        $theme = session('theme', config('backend.theme', 'default'));
+        @endphp
         @section('css')
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+            <link rel="stylesheet" href="/assets/dashboard/css/bootstrap-{{ $theme }}.min.css?v=1.0.0" />
             {{-- <link rel="stylesheet" href="{{ $path_presenter::backend_assets('css/uikit.min.css') }}" /> --}}
             {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.7.6/dist/css/uikit.min.css" /> --}}
             {{-- <link rel="stylesheet" href="{{ $path_presenter::backend_assets('css/style.min.css?v=1.1.9') }}" /> --}}
-            <link rel="stylesheet" href="/assets/dashboard/css/style.min.css?v=1.2.06" />
+            <link rel="stylesheet" href="/assets/dashboard/css/style.min.css?v=1.2.13" />
             {{-- <link rel="stylesheet" href="{{ $path_presenter::backend_assets('fontawesome/css/all.css') }}" /> --}}
             <script src="https://kit.fontawesome.com/70e57d8a62.js"></script>
         @show
@@ -24,17 +31,17 @@
         <title>{{ config('backend.html_page_title') }}</title>
     </head>
     <body>
-        <div class="wrapper active" id="wrapper" data-color="{{ config('backend.sidebar.color', 'blue') }}">
+        <div class="wrapper active" id="wrapper">
 
             {{-- 邊欄背景圖 --}}
-            <div class="sidebar" data-image="{{ url(config('backend.sidebar.img', 'assets/dashboard/img/sidebar-1.jpg')) }}">
+            <div class="sidebar bg-primary" style="{!! config('backend.sidebar.img', '') !!}">
                 <div class="sidebar-wrapper">
 
                     {{-- 邊欄標題 --}}
                     <div class="logo">
-                        <a href="{{ url(config('dashboard.uri') . '/dashboard/index') }}" class="simple-text">
+                        <a href="{{ url(config('dashboard.uri') . '/dashboard/index') }}">
                             @section('sidebar-header')
-                                @lang('dashboard::backend.網站內容管理系統')
+                                {{ config('app.name') }}
                             @show
                         </a>
                     </div>
@@ -48,8 +55,8 @@
             </div>
 
             <div class="main-panel">
-                <header class="top-bar bg-light pe-3 ps-5 py-3" color-on-scroll="500">
-                    <div id="menu-toggle">
+                <header class="top-bar border-bottom pe-3 ps-5 py-2" color-on-scroll="500">
+                    <div id="menu-toggle" class="bg-primary">
                         <i class="sidebarExpand fas fa-angle-double-left"></i>
                     </div>
                     <div class="row">
@@ -94,7 +101,9 @@
 
                 <div class="content" id="app">
                     <div class="container-fluid">
-                        @yield('main_block')
+                        <div class="px-2">
+                            @yield('main_block')
+                        </div>
                     </div>
                 </div>
 
@@ -121,7 +130,7 @@
         {{-- <script src="https://cdn.jsdelivr.net/npm/uikit@3.7.6/dist/js/uikit.min.js"></script> --}}
         {{-- <script src="https://cdn.jsdelivr.net/npm/uikit@3.7.6/dist/js/uikit-icons.min.js"></script> --}}
         {{-- <script src="{{ $path_presenter::backend_assets('js/dashboard.js?v=1.0.0') }}" type="text/javascript"></script> --}}
-        <script src="/assets/dashboard/js/dashboard.js?v=1.0.0" type="text/javascript"></script>
+        <script src="/assets/dashboard/js/dashboard.js?v=1.0.01" type="text/javascript"></script>
         @if (isset($component_datas['use_drag_rearrange']) && $component_datas['use_drag_rearrange'])
             <script src="https://cdnjs.cloudflare.com/ajax/libs/TableDnD/0.9.1/jquery.tablednd.js" integrity="sha256-d3rtug+Hg1GZPB7Y/yTcRixO/wlI78+2m08tosoRn7A=" crossorigin="anonymous"></script>
         @endif

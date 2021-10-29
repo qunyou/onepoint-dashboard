@@ -105,7 +105,7 @@ class BackendPresenter
                     $act_res = RouteService::is(config('dashboard.uri') . '/' . $controller_name . '/*');
                     if ($act_res) {
                         $parent_show = true;
-                        // $sub_active = 'active';
+                        $sub_active = 'active';
                     }
                 }
 

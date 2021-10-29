@@ -2,7 +2,7 @@
     @inject('formPresenter', 'Onepoint\Dashboard\Presenters\FormPresenter')
 @endif
 
-@component('dashboard::' . config('backend.template') . '.components.inputs', $input_array = $formPresenter->setValue($input_setting, 'select'))
+@component('dashboard::' . config('backend.template') . '.components.inputs-group', $input_array = $formPresenter->setValue($input_setting, 'select'))
     <select name="{{ $input_array['input_name'] }}" class="form-control {{ $input_array['input_size_class'] }}  @error($input_array['input_name']) is-invalid @enderror" {!! $input_array['attribute'] !!}>
         {!! $input_array['prepend_str'] !!}
         {!! $formPresenter->setOption($input_array['option'], $input_array['use_array_value'], $input_array['input_value']) !!}

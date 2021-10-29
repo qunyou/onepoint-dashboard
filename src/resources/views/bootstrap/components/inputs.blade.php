@@ -2,10 +2,8 @@
     <div style="display: none">
 @endif
 @if (!$input_only)
-    <div class="form-group" {!! $row_attribute !!}>
-        {{-- class="{{ $header_grid_class }}" --}}
+    <div class="form-group mb-4" {!! $row_attribute !!}>
         <label for="{{ $input_name ?? '' }}">{!! $display_name !!}</label>
-        {{-- <div class="{{ $input_grid_class }}"> --}}
 @endif
 {{ $slot }}
 @if ($error)
@@ -14,15 +12,16 @@
     </p>
 @endif
 @if ($help)
-    <p class="text-info">
-        {!! $help !!}
-    </p>
+    <div class="mt-1">
+        <small class="form-text">
+            {!! $help !!}
+        </small>
+    </div>
 @endif
 
 {!! $suffix ?? '' !!}
 
 @if (!$input_only)
-        {{-- </div> --}}
     </div>
 @endif
 @if ($hidden)
