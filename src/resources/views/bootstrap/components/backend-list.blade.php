@@ -40,6 +40,7 @@
     </div>
     <div class="overflow-x">
         {!! $list->appends($base_service->getQueryString())->links('dashboard::vendor.pagination.default') !!}
+        {!! $list_top_block ?? '' !!}
     </div>
     <form action="" method="post">
         @csrf
@@ -120,7 +121,24 @@
                                     @endif
                                 @endif
                                 @foreach ($column as $column_key => $value)
-                                    <td>
+                                    @php
+                                        $attribute = '';
+                                        if (isset($value['attribute'])) {
+                                            if (is_array($value['attribute'])) {
+                                                $attribute_para = $value['attribute'];
+                                                $attribute = join(' ', array_map(function($key) use ($attribute_para) {
+                                                    if(is_bool($attribute_para[$key])) {
+                                                        return $attribute_para[$key]?$key:'';
+                                                    }
+                                                    return $key.'="'.$attribute_para[$key].'"';
+                                                }, array_keys($attribute_para)));
+                                                // dd($attribute);
+                                            } else {
+                                                $attribute = $value['attribute'];
+                                            }
+                                        }
+                                    @endphp
+                                    <td {!! $attribute !!}>
                                         <span class="d-md-none">{{ $th[$column_key]['title'] }}：</span>
                                         @switch($value['type'])
                                             @case('belongsToMany')
@@ -145,9 +163,9 @@
                                             @case('belongsToManyImage')
                                                 @if ($element->{$value['with']}->count())
                                                         @if (isset($value['img_url']))
-                                                            <img src="{{ $value['img_url'] . $element->{$value['with']}->first()->{$value['column_name']} }}" alt="">
+                                                            <img src="{{ $value['img_url'] . $element->{$value['with']}->first()->{$value['column_name']} }}" alt="">a
                                                         @else
-                                                            {!! $image_service->{$value['method']}($element->{$value['with']}->first()->{$value['column_name']}, '', false, $value['folder_name']) !!}
+                                                            {!! $image_service->{$value['method']}($element->{$value['with']}->first()->{$value['column_name']}, ['class' => 'figure-img img-fluid rounded'], false, $value['folder_name']) !!}
                                                         @endif
                                                 @endif
                                                 @break

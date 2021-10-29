@@ -15,7 +15,7 @@
             {{-- <link rel="stylesheet" href="{{ $path_presenter::backend_assets('css/uikit.min.css') }}" /> --}}
             {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.7.6/dist/css/uikit.min.css" /> --}}
             {{-- <link rel="stylesheet" href="{{ $path_presenter::backend_assets('css/style.min.css?v=1.1.9') }}" /> --}}
-            <link rel="stylesheet" href="/assets/dashboard/css/style.min.css?v=1.2.05" />
+            <link rel="stylesheet" href="/assets/dashboard/css/style.min.css?v=1.2.06" />
             {{-- <link rel="stylesheet" href="{{ $path_presenter::backend_assets('fontawesome/css/all.css') }}" /> --}}
             <script src="https://kit.fontawesome.com/70e57d8a62.js"></script>
         @show
@@ -69,11 +69,11 @@
                                                 <a class="dropdown-toggle text-decoration-none" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                                                     {{ config('backend.language')[config('app.locale')] ?? 'English' }}
                                                 </a>
-                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                                     @foreach (config('backend.language') as $language_key => $language_item)
                                                         <a class="dropdown-item text-decoration-none" href="?lang={{ $language_key }}">{{ $language_item }}</a>
                                                     @endforeach
-                                                </ul>
+                                                </div>
                                             </div>
                                         </div>
                                     @endif
