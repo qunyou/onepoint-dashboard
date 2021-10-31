@@ -96,15 +96,25 @@ class BackendPresenter
                 if (isset($value['action'])) {
                     $role_controller_str = Str::after(Str::before($value['action'], '@'), '\\');
                     $url = action($value['action']);
-                    if (url()->current() == $url) {
-                        $sub_active = 'active';
-                    }
 
                     // 同一個 controller 下的方法都設定 active
                     $controller_name = Str::after(Str::kebab(Str::before(class_basename($value['action']), 'Controller@')), '\\-');
                     $act_res = RouteService::is(config('dashboard.uri') . '/' . $controller_name . '/*');
                     if ($act_res) {
                         $parent_show = true;
+                        $sub_active = 'active';
+                    }
+
+                    // 網址後綴
+                    $current_url = url()->current();
+                    if (isset($value['suffix'])) {
+                        $sub_active = '';
+                        $url .= $value['suffix'];
+                        $current_url = url()->full();
+                    }
+
+                    // 網址完全符合的項目設定 active
+                    if ($current_url == $url) {
                         $sub_active = 'active';
                     }
                 }

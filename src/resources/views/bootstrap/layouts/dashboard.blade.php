@@ -19,11 +19,7 @@
         @endphp
         @section('css')
             <link rel="stylesheet" href="/assets/dashboard/css/bootstrap-{{ $theme }}.min.css?v=1.0.0" />
-            {{-- <link rel="stylesheet" href="{{ $path_presenter::backend_assets('css/uikit.min.css') }}" /> --}}
-            {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.7.6/dist/css/uikit.min.css" /> --}}
-            {{-- <link rel="stylesheet" href="{{ $path_presenter::backend_assets('css/style.min.css?v=1.1.9') }}" /> --}}
             <link rel="stylesheet" href="/assets/dashboard/css/style.min.css?v=1.2.13" />
-            {{-- <link rel="stylesheet" href="{{ $path_presenter::backend_assets('fontawesome/css/all.css') }}" /> --}}
             <script src="https://kit.fontawesome.com/70e57d8a62.js"></script>
         @show
 
@@ -34,7 +30,7 @@
         <div class="wrapper active" id="wrapper">
 
             {{-- 邊欄背景圖 --}}
-            <div class="sidebar bg-primary" style="{!! config('backend.sidebar.img', '') !!}">
+            <div class="sidebar bg-primary" style="z-index: 999;{!! config('backend.sidebar.img', '') !!}">
                 <div class="sidebar-wrapper">
 
                     {{-- 邊欄標題 --}}
@@ -117,56 +113,43 @@
                 </footer> --}}
             </div>
         </div>
-        {{-- <script src="{{ $path_presenter::backend_assets('js/jquery-3.3.1.min.js') }}" type="text/javascript"></script> --}}
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-        {{-- <script src="{{ $path_presenter::backend_assets('js/popper.min.js') }}" type="text/javascript"></script> --}}
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
-        {{-- <script src="{{ $path_presenter::backend_assets('js/bootstrap.min.js') }}" type="text/javascript"></script> --}}
-        {{-- <script src="{{ $path_presenter::backend_assets('js/bootstrap-notify.js') }}" type="text/javascript"></script> --}}
-        <script src="/assets/dashboard/js/bootstrap-notify.js" type="text/javascript"></script>
-        {{-- <script src="{{ $path_presenter::backend_assets('js/uikit.min.js') }}" type="text/javascript"></script> --}}
-        {{-- <script src="{{ $path_presenter::backend_assets('js/uikit-icons.min.js') }}" type="text/javascript"></script> --}}
-        {{-- <script src="https://cdn.jsdelivr.net/npm/uikit@3.7.6/dist/js/uikit.min.js"></script> --}}
-        {{-- <script src="https://cdn.jsdelivr.net/npm/uikit@3.7.6/dist/js/uikit-icons.min.js"></script> --}}
-        {{-- <script src="{{ $path_presenter::backend_assets('js/dashboard.js?v=1.0.0') }}" type="text/javascript"></script> --}}
         <script src="/assets/dashboard/js/dashboard.js?v=1.0.01" type="text/javascript"></script>
         @if (isset($component_datas['use_drag_rearrange']) && $component_datas['use_drag_rearrange'])
             <script src="https://cdnjs.cloudflare.com/ajax/libs/TableDnD/0.9.1/jquery.tablednd.js" integrity="sha256-d3rtug+Hg1GZPB7Y/yTcRixO/wlI78+2m08tosoRn7A=" crossorigin="anonymous"></script>
         @endif
         <script src="/assets/dashboard/js/vue.min.js?v=2.6.10" type="text/javascript"></script>
-        {{-- <script src="/assets/dashboard/js/moment.min.js" type="text/javascript"></script> --}}
         <script src="/assets/dashboard/js/axios.min.js" type="text/javascript"></script>
         @yield('js')
         <script>
-            @if (isset($component_datas['use_drag_rearrange']) && $component_datas['use_drag_rearrange'])
-                $(document).ready(function() {
-                $("#row-table").tableDnD({
-                dragHandle: ".drag",
-                onDrop: function(table, row) {
-                var rows = table.tBodies[0].rows;
-                var new_sort = [];
-                for (var i=0; i<rows.length; i++) { new_sort[i]=rows[i].id; } axios.get('{{ url($uri . 'drag-sort') }}?new_sort=' + new_sort.toString())
-                            .then(function (response) {
-                                console.log(response.data);
-                            })
-                            .catch(function (error) {
-                                console.log(error);
-                            });
-                        },
+            $(function() {
+                @if (isset($component_datas['use_drag_rearrange']) && $component_datas['use_drag_rearrange'])
+                    $("#row-table").tableDnD({
+                        dragHandle: ".drag",
+                        onDrop: function(table, row) {
+                            var rows = table.tBodies[0].rows;
+                            var new_sort = [];
+                            for (var i=0; i<rows.length; i++) {
+                                new_sort[i]=rows[i].id;
+                            }
+                            axios.get('{{ url($uri . 'drag-sort') }}?new_sort=' + new_sort.toString())
+                                .then(function (response) {
+                                    // console.log(response.data);
+                                })
+                                .catch(function (error) {
+                                    console.log(error);
+                                });
+                        }
                     });
-                });
                 @endif
-    
-            @if (session('notify.message', false))
-                $(function(){
-                    $.notify({
-                        message: '{{ session('notify.message') }}'
-                    },{
-                        type: '{{ session('notify.type') }}'
-                    });
-                });
-            @endif
+                @if (session('notify.message', false))
+                    var toastLive = document.getElementById('liveToast')
+                    var toast = new bootstrap.Toast(toastLive)
+                    toast.show()
+                @endif
+            });
     
             const app = new Vue({
                 el: '#app',
@@ -188,6 +171,18 @@
                 }
             })
         </script>
+        @if (session('notify.message', false))
+            <div class="toast-container position-absolute top-0 end-0 p-3" style="z-index: 999;">
+                <div id="liveToast" class="toast align-items-center text-white bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            <i class="fas fa-info-circle"></i> {{ session('notify.message') }}
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+        @endif
         @yield('bottom')
     </body>
 </html>

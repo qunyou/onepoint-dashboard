@@ -62,7 +62,24 @@
                             @endif
                         @endif
                         @foreach ($th as $th_key => $element)
-                            <th class="text-nowrap">{{ $element['title'] }}</th>
+                            @php
+                                $attribute = '';
+                                if (isset($element['attribute'])) {
+                                    if (is_array($element['attribute'])) {
+                                        $attribute_para = $element['attribute'];
+                                        $attribute = join(' ', array_map(function($key) use ($attribute_para) {
+                                            if(is_bool($attribute_para[$key])) {
+                                                return $attribute_para[$key]?$key:'';
+                                            }
+                                            return $key.'="'.$attribute_para[$key].'"';
+                                        }, array_keys($attribute_para)));
+                                        // dd($attribute);
+                                    } else {
+                                        $attribute = $element['attribute'];
+                                    }
+                                }
+                            @endphp
+                            <th {!! $attribute !!}>{{ $element['title'] }}</th>
                         @endforeach
                         @if (!$trashed)
                             @if (!config('user.use_role') || auth()->user()->hasAccess(['update-' . $permission_controller_string]))
