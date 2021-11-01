@@ -19,7 +19,7 @@
         @endphp
         @section('css')
             <link rel="stylesheet" href="/assets/dashboard/css/bootstrap-{{ $theme }}.min.css?v=1.0.0" />
-            <link rel="stylesheet" href="/assets/dashboard/css/style.min.css?v=1.2.14" />
+            <link rel="stylesheet" href="/assets/dashboard/css/style.min.css?v=1.2.17" />
             <script src="https://kit.fontawesome.com/70e57d8a62.js"></script>
         @show
 
@@ -27,7 +27,7 @@
         <title>{{ config('backend.html_page_title') }}</title>
     </head>
     <body>
-        <div class="wrapper active" id="wrapper">
+        <div class="wrapper active {{ config('backend.sidebar.width_class', '') }}" id="wrapper">
 
             {{-- 邊欄背景圖 --}}
             <div class="sidebar bg-primary" style="z-index: 999;{!! config('backend.sidebar.img', '') !!}">
