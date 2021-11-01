@@ -19,7 +19,7 @@
         @endphp
         @section('css')
             <link rel="stylesheet" href="/assets/dashboard/css/bootstrap-{{ $theme }}.min.css?v=1.0.0" />
-            <link rel="stylesheet" href="/assets/dashboard/css/style.min.css?v=1.2.13" />
+            <link rel="stylesheet" href="/assets/dashboard/css/style.min.css?v=1.2.14" />
             <script src="https://kit.fontawesome.com/70e57d8a62.js"></script>
         @show
 
