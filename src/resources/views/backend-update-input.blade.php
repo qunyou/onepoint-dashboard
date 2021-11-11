@@ -32,5 +32,6 @@
         'formPresenter' => $formPresenter,
         'delete_url' => $item_value['delete_url'] ?? '',
         'include_path' => $item_value['include_path'] ?? '',
+        'use_array_value' => $item_value['use_array_value'] ?? false,
     ]])
 @endforeach
