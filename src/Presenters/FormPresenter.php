@@ -17,6 +17,7 @@ class FormPresenter
     {
         $input_setting['hidden'] = $input_setting['hidden'] ?? false;
         $input_setting['input_only'] = $input_setting['input_only'] ?? false;
+        $input_setting['required'] = $input_setting['required'] ?? false;
         // $input_setting['header_grid_class'] = $input_setting['header_grid_class'] ?? 'col-sm-2 col-form-label';
         $input_setting['input_grid_class'] = $input_setting['input_grid_class'] ?? 'col-sm-10';
         $input_setting['prepend_str'] = $input_setting['prepend_str'] ?? '';
