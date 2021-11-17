@@ -22,29 +22,66 @@
 {!! $search_block ?? '' !!}
 
 @if (isset($list) && $list)
-    <div class="mt-2 text-center p-2">
-        @lang('dashboard::pagination.共') {{ $list->lastPage() }} @lang('dashboard::pagination.頁')，
-        {{ $list->total() }} @lang('dashboard::pagination.筆資料')，
-        @lang('dashboard::pagination.目前在第') {{ $list->currentPage() }} @lang('dashboard::pagination.頁')，
-        @lang('dashboard::pagination.每頁顯示')
-        <span class="dropdown">
-            <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                {{ cache('records_per_page', '') }} @lang('dashboard::pagination.筆資料')
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                <li><a href="{{ url($uri . 'index?records_per_page=50') }}" class="dropdown-item {{ cache('records_per_page', false) == 50 ? 'active' : '' }}">@lang('dashboard::pagination.每頁顯示') 50 @lang('dashboard::pagination.筆資料')</a></li>
-                <li><a href="{{ url($uri . 'index?records_per_page=100') }}" class="dropdown-item {{ cache('records_per_page', false) == 100 ? 'active' : '' }}">@lang('dashboard::pagination.每頁顯示') 100 @lang('dashboard::pagination.筆資料')</a></li>
-                <li><a href="{{ url($uri . 'index?records_per_page=1000') }}" class="dropdown-item {{ cache('records_per_page', false) == 1000 ? 'active' : '' }}">@lang('dashboard::pagination.每頁顯示') 1000 @lang('dashboard::pagination.筆資料')</a></li>
-            </ul>
-        </span>
-    </div>
     <div class="overflow-x">
-        {!! $list->appends($base_service->getQueryString())->links('dashboard::vendor.pagination.default') !!}
         {!! $list_top_block ?? '' !!}
     </div>
     <form action="" method="post">
         @csrf
         @method('PUT')
+        <div class="row mt-3">
+            <div class="overflow-x">
+                {!! $list->appends($base_service->getQueryString())->links('dashboard::vendor.pagination.default') !!}
+                {!! $list_top_block ?? '' !!}
+            </div>
+            <div class="col-auto">
+                @if (!isset($footer_dropdown_hide) || (isset($footer_dropdown_hide) && !$footer_dropdown_hide))
+                    @if (!$version)
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownFooterMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                                @lang('dashboard::backend.選取項目')
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownFooterMenu">
+                                @if ($trashed)
+                                    @if (!isset($footer_status_hide) || (isset($footer_status_hide) && !$footer_status_hide))
+                                    <li>
+                                        <button type="submit" name="force_delete" value="force_delete" class="dropdown-item">
+                                            <i class="fa fa-trash"></i>@lang('dashboard::backend.永久刪除')
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="submit" name="restore" value="restore" class="dropdown-item">
+                                            <i class="fa fa-recycle"></i>@lang('dashboard::backend.還原')
+                                        </button>
+                                    </li>
+                                    @endif
+                                @else
+                                    @if (!isset($footer_status_hide) || (isset($footer_status_hide) && !$footer_status_hide))
+                                        <li>
+                                            <button type="submit" name="status_enable" value="status_enable" class="dropdown-item">
+                                                <i class="fas fa-eye"></i>@lang('dashboard::backend.啟用')
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button type="submit" name="status_disable" value="status_disable" class="dropdown-item">
+                                                <i class="fas fa-eye-slash"></i>@lang('dashboard::backend.停用')
+                                            </button>
+                                        </li>
+                                    @endif
+                                    @if (!isset($footer_delete_hide) || (isset($footer_delete_hide) && !$footer_delete_hide))
+                                        <li>
+                                            <button type="submit" name="delete" value="delete" class="dropdown-item">
+                                                <i class="fa fa-trash"></i>@lang('dashboard::backend.刪除')
+                                            </button>
+                                        </li>
+                                    @endif
+                                @endif
+                                {!! $footer_dropdown_item ?? '' !!}
+                            </div>
+                        </div>
+                    @endif
+                @endif
+            </div>
+        </div>
         <div class="table-responsive card-list">
             <table id="row-table" class="table table-hover">
                 <thead>
@@ -528,6 +565,25 @@
                 </div>
             </div>
         </footer>
+        <div class="overflow-x">
+            {!! $list->appends($base_service->getQueryString())->links('dashboard::vendor.pagination.default') !!}
+        </div>
+        <div class="mt-2 text-center p-2">
+            @lang('dashboard::pagination.共') {{ $list->lastPage() }} @lang('dashboard::pagination.頁')，
+            {{ $list->total() }} @lang('dashboard::pagination.筆資料')，
+            @lang('dashboard::pagination.目前在第') {{ $list->currentPage() }} @lang('dashboard::pagination.頁')，
+            @lang('dashboard::pagination.每頁顯示')
+            <span class="dropdown">
+                <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    {{ cache('records_per_page', '') }} @lang('dashboard::pagination.筆資料')
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><a href="{{ url($uri . 'index?records_per_page=50') }}" class="dropdown-item {{ cache('records_per_page', false) == 50 ? 'active' : '' }}">@lang('dashboard::pagination.每頁顯示') 50 @lang('dashboard::pagination.筆資料')</a></li>
+                    <li><a href="{{ url($uri . 'index?records_per_page=100') }}" class="dropdown-item {{ cache('records_per_page', false) == 100 ? 'active' : '' }}">@lang('dashboard::pagination.每頁顯示') 100 @lang('dashboard::pagination.筆資料')</a></li>
+                    <li><a href="{{ url($uri . 'index?records_per_page=1000') }}" class="dropdown-item {{ cache('records_per_page', false) == 1000 ? 'active' : '' }}">@lang('dashboard::pagination.每頁顯示') 1000 @lang('dashboard::pagination.筆資料')</a></li>
+                </ul>
+            </span>
+        </div>
     </form>
 @endif
 {!! $custom_block ?? '' !!}
