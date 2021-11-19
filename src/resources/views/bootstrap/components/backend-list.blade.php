@@ -1,6 +1,6 @@
 @inject('image_service', 'Onepoint\Dashboard\Services\ImageService')
 @inject('base_service', 'Onepoint\Dashboard\Services\BaseService')
-{{-- @inject('str', 'Illuminate\Support\Str') --}}
+@inject('str', 'Illuminate\Support\Str')
 
 @if (isset($page_title))
 <div class="container-fluid">
@@ -29,9 +29,11 @@
         @csrf
         @method('PUT')
         <div class="row mt-3">
-            <div class="overflow-x">
-                {!! $list->appends($base_service->getQueryString())->links('dashboard::vendor.pagination.default') !!}
-                {!! $list_top_block ?? '' !!}
+            <div class="col-12">
+                <div class="overflow-x">
+                    {!! $list->appends($base_service->getQueryString())->links('dashboard::vendor.pagination.default') !!}
+                    {!! $list_top_block ?? '' !!}
+                </div>
             </div>
             <div class="col-auto">
                 @if (!isset($footer_dropdown_hide) || (isset($footer_dropdown_hide) && !$footer_dropdown_hide))
@@ -76,7 +78,7 @@
                                     @endif
                                 @endif
                                 {!! $footer_dropdown_item ?? '' !!}
-                            </div>
+                            </ul>
                         </div>
                     @endif
                 @endif
@@ -547,7 +549,7 @@
                                         @endif
                                     @endif
                                     {!! $footer_dropdown_item ?? '' !!}
-                                </div>
+                                </ul>
                             </div>
                         @endif
                     @endif
