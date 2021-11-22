@@ -1,1 +1,0 @@
-@lang('dashboard::backend.網站內容管理系統')
