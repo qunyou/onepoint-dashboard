@@ -159,7 +159,8 @@
                                     }
                                 }
                             } else {
-                                $css_class_name = $element->{config('db_status_name')} == config('db_status_false_string') ? 'table-dark' : 'table-light';
+                                // $css_class_name = $element->{config('db_status_name')} == config('db_status_false_string') ? 'table-dark' : 'table-light';
+                                $status_badge_string = $element->{config('db_status_name')} == config('db_status_false_string') ? '<div><span class="badge bg-secondary">前台隱藏</span></div>' : '';
                             }
                         @endphp
                         <tr id="{{ $element->id }}" class="{{ $css_class_name }}">
@@ -356,6 +357,9 @@
                                                     @endif
                                                 @endif
                                         @endswitch
+                                        @if ($loop->first)
+                                            {!! $status_badge_string !!}
+                                        @endif
                                     </td>
                                 @endforeach
                                 @if (!$trashed)
