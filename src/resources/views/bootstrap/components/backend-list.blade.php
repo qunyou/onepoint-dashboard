@@ -160,7 +160,7 @@
                                 }
                             } else {
                                 // $css_class_name = $element->{config('db_status_name')} == config('db_status_false_string') ? 'table-dark' : 'table-light';
-                                $status_badge_string = $element->{config('db_status_name')} == config('db_status_false_string') ? '<div><span class="badge bg-secondary">前台隱藏</span></div>' : '';
+                                $status_badge_string = $element->{config('db_status_name')} == config('db_status_false_string') ? '<div><span class="badge bg-secondary">' . __('dashboard::backend.停用') . '</span></div>' : '';
                             }
                         @endphp
                         <tr id="{{ $element->id }}" class="{{ $css_class_name }}">
@@ -270,7 +270,7 @@
                                             @case('belongsToSelect')
                                                 <select name="{{ $value['column_name'] }}" id="{{ $value['column_name'] }}" class="form-control" v-model="{{ $value['vmodel'] . $list_key }}" {!! isset($value['onchange_function']) ? '@change="' . $value['onchange_function'] . '($event, ' . $element->id . ')"' : '' !!}>
                                                     @if (isset($value['option_vshow']))
-                                                        <option value="0">請選擇</option>
+                                                        <option value="0">@lang('dashboard::backend.請選擇')</option>
                                                     @endif
                                                     @foreach ($value['option_items'] as $option_key => $option_item)
                                                         @if (isset($value['option_vshow']))
@@ -314,7 +314,7 @@
                                                 @if (isset($value['option']))
                                                     {{ $element->{$value['column_name']} == 1 ? $value['option'][0] : $value['option'][1] }}
                                                 @else
-                                                    {{ $element->{$value['column_name']} == 1 ? '是' : '否' }}
+                                                    {{ $element->{$value['column_name']} == 1 ? __('dashboard::backend.是') : __('dashboard::backend.否') }}
                                                 @endif
                                                 @break
                                             @case('serialNumber')

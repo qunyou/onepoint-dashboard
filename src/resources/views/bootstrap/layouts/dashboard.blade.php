@@ -24,7 +24,7 @@
         @show
 
         {{-- 網頁標題 --}}
-        <title>{{ config('backend.html_page_title') }}</title>
+        <title>{{ config('backend.html_page_title') }}</title>
     </head>
     <body>
         <div class="wrapper active {{ config('backend.sidebar.width_class', '') }}" id="wrapper">
