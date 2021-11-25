@@ -76,7 +76,7 @@ class FormPresenter
             $input_setting['option'] = $input_setting['option'] ?? [];
 
             // 選單值使用 array key 或 array value
-            // $input_setting['use_array_value'] = $input_setting['use_array_value'] ?? false;
+            $input_setting['use_array_value'] = $input_setting['use_array_value'] ?? false;
         }
         if ($input_type == 'select-vue') {
             $input_setting['option'] = $input_setting['option'] ?? [];
