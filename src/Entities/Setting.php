@@ -24,6 +24,7 @@ class Setting extends Model
         'old_version',
 
         // 版本原始id
+        // ALTER TABLE `settings` ADD `origin_id` INT NULL DEFAULT '0' AFTER `old_version`;
         'origin_id',
 
         // ALTER TABLE `settings` ADD `update_user_id` INT NOT NULL DEFAULT '0' AFTER `origin_id`;
