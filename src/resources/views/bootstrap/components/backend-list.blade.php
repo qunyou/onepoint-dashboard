@@ -32,7 +32,6 @@
             <div class="col-12">
                 <div class="overflow-x">
                     {!! $list->appends($base_service->getQueryString())->links('dashboard::vendor.pagination.default') !!}
-                    {!! $list_top_block ?? '' !!}
                 </div>
             </div>
             <div class="col-auto">
@@ -83,6 +82,11 @@
                     @endif
                 @endif
             </div>
+            @if (isset($table_top_text))
+                <div class="col-auto">
+                    {{ $table_top_text }}
+                </div>
+            @endif
         </div>
         <div class="table-responsive card-list">
             <table id="row-table" class="table table-hover">

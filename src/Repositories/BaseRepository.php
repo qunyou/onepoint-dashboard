@@ -278,8 +278,9 @@ class BaseRepository
             }
 
             // 清空 cache
+            // todo 暫時沒有較好的解決方案
             // cache()->forever('cache_release', true);
-            cache()->flush();
+            // cache()->flush();
 
             // 除錯訊息
             if ($this->debug) {
