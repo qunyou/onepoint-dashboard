@@ -17,17 +17,15 @@
                     Home
                 </a>
             </li>
-            <li class="breadcrumb-item" aria-current="page">
+            <li class="breadcrumb-item active" aria-current="page">
                 <a href="{{ url(config('dashboard.uri') . '/setting/model') }}">
                     @lang('dashboard::setting.網站設定')
                 </a>
             </li>
 
             @if ($version)
-                <li class="breadcrumb-item" aria-current="page">
-                    <a href="#">
-                        @lang('dashboard::backend.版本檢視')
-                    </a>
+                <li class="breadcrumb-item active" aria-current="page">
+                    @lang('dashboard::backend.版本檢視')
                 </li>
             @endif
         </ol>
@@ -36,13 +34,6 @@
 
 @section('main_block')
     @component('dashboard::' . config('backend.template') . '.components.backend-list', $component_datas)
-        @slot('page_title')
-            @if (!$trashed)
-                @lang('dashboard::setting.設定列表')
-            @else
-                @lang('dashboard::backend.資源回收')
-            @endif
-        @endslot
         @slot('button_block')
             @if (count(config('backend.setting.model')) > 1)
                 <div class="btn-group">

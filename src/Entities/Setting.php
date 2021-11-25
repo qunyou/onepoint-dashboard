@@ -20,6 +20,7 @@ class Setting extends Model
         // 'deleted_at',
 
         // 舊版本
+        // ALTER TABLE `settings` ADD `old_version` BOOLEAN NOT NULL DEFAULT FALSE AFTER `setting_value`;
         'old_version',
 
         // 版本原始id

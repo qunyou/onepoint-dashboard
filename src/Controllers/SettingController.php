@@ -37,13 +37,6 @@ class SettingController extends Controller
     public function model()
     {
         $component_datas = $this->listPrepare();
-        $permission_controller_string = get_class($this);
-        $component_datas['permission_controller_string'] = $permission_controller_string;
-        $component_datas['uri'] = $this->uri;
-        $component_datas['back_url'] = url($this->uri . 'index');
-
-        // 主資料 id query string 字串
-        $component_datas['id_string'] = 'setting_id';
 
         // 表格欄位設定
         $component_datas['th'] = [
@@ -54,16 +47,6 @@ class SettingController extends Controller
             ['type' => 'column', 'column_name' => 'title'],
             ['type' => 'function', 'function_name' => 'Onepoint\Dashboard\Controllers\SettingController@settingValueDisplay'],
         ];
-
-        // 權限設定
-        if (auth()->user()->hasAccess(['update-' . $permission_controller_string])) {
-            if (!auth()->user()->hasAccess(['delete-' . $permission_controller_string])) {
-                $component_datas['footer_delete_hide'] = true;
-            }
-        } else {
-            $component_datas['footer_dropdown_hide'] = true;
-            $component_datas['footer_sort_hide'] = true;
-        }
         $this->tpl_data['model'] = request('model', 'global');
         $setting_repository = new SettingRepository;
         $component_datas['list'] = $setting_repository->getList($this->setting_id, config('backend.paginate'));
