@@ -348,7 +348,7 @@
                                                         @foreach ($value['column_name'] as $key => $item)
                                                             <div>
                                                                 @if (is_string($key))
-                                                                    <span class="badge badge-primary">{{ $key }}：
+                                                                    <span class="badge bg-primary">{{ $key }}：
                                                                 @endif
                                                                 {{ $element->{$item} }}
                                                                 @if (is_string($key))

@@ -11,8 +11,10 @@
             @switch($input_array['value_type'])
                 @case('image')
                 @case('file')
-                @case('raw_html')
-                    {!! $input_array['input_value'] !!}
+                @case('html')
+                    <div style="height: 300px; overflow:auto;">
+                        {!! $input_array['input_value'] !!}
+                    </div>
                     @break
                 @case('boolean')
                     {{ $input_array['input_value'] ? __('dashboard::backend.是') : __('dashboard::backend.否') }}
