@@ -43,6 +43,7 @@ return [
     '檢視' => 'View',
     '編輯' => 'Edit',
     '資料編輯完成' => 'Data editing completed',
+    '資料新增完成' => 'Data add completed',
     '資料編輯失敗' => 'Data editing failured',
     '選取項目' => 'Select item',
     '永久刪除' => 'Delete permanently',

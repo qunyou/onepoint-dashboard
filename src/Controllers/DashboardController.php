@@ -69,7 +69,7 @@ class DashboardController extends Controller
             $this->tpl_data['analytics_most_visited_pages'] = $analytics_most_visited_pages;
     
             // Top referrers
-            // url, pageViews
+            // url, pageViews
             $analytics_top_referrers = Analytics::fetchTopReferrers(Period::days(7), 10);
             $this->tpl_data['analytics_top_referrers'] = $analytics_top_referrers;
     

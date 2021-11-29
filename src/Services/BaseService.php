@@ -35,7 +35,7 @@ class BaseService
     }
 
     /**
-     * 網址文字slug處理
+     * 網址文字slug處理
      */
     public static function slug($title, $separator = '-', $language = 'en')
     {
