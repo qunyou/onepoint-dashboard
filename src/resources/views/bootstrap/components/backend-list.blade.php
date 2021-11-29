@@ -146,6 +146,7 @@
                     @foreach ($list as $list_key => $element)
                         @php
                             $css_class_name = '';
+                            $status_badge_string = '';
                             if (isset($td_color)) {
                                 if ($td_color) {
                                     if (is_array($td_color)) {
