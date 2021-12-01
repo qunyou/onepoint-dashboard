@@ -18,13 +18,13 @@
         $theme = session('theme', config('backend.theme', 'default'));
         @endphp
         @section('css')
-            <link rel="stylesheet" href="/assets/dashboard/css/bootstrap-{{ $theme }}.min.css?v=1.0.0" />
-            <link rel="stylesheet" href="/assets/dashboard/css/style.min.css?v=1.2.17" />
+            <link rel="stylesheet" href="/assets/dashboard/css/bootstrap-{{ $theme }}.min.css?v=1.0.01" />
+            <link rel="stylesheet" href="/assets/dashboard/css/style.min.css?v=1.2.18" />
             <script src="https://kit.fontawesome.com/70e57d8a62.js"></script>
         @show
 
         {{-- 網頁標題 --}}
-        <title>{{ config('backend.html_page_title') }}</title>
+        <title>{{ config('backend.html_page_title') }}</title>
     </head>
     <body>
         <div class="wrapper active {{ config('backend.sidebar.width_class', '') }}" id="wrapper">
@@ -120,7 +120,7 @@
         @if (isset($component_datas['use_drag_rearrange']) && $component_datas['use_drag_rearrange'])
             <script src="https://cdnjs.cloudflare.com/ajax/libs/TableDnD/0.9.1/jquery.tablednd.js" integrity="sha256-d3rtug+Hg1GZPB7Y/yTcRixO/wlI78+2m08tosoRn7A=" crossorigin="anonymous"></script>
         @endif
-        <script src="/assets/dashboard/js/vue.min.js?v=2.6.10" type="text/javascript"></script>
+        <script src="/assets/dashboard/js/vue.min.js?v=2.6.11" type="text/javascript"></script>
         <script src="/assets/dashboard/js/axios.min.js" type="text/javascript"></script>
         @yield('js')
         <script>
