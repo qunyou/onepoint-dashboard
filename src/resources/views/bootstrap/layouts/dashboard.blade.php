@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ $backend_language }}">
+<html lang="{{ $backend_language ?? 'zh-tw' }}">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1">

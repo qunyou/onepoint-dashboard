@@ -10,6 +10,38 @@ trait ShareMethod
     protected $base_service;
 
     /**
+     * 必要資料
+     */
+    public function base()
+    {
+        // 設定語言
+        // 如果有問題，執行清除動作
+        // cache()->flush();
+        // cache()->forget('backend_language');
+        if (request('lang', false)) {
+            cache()->forever('backend_language', request('lang'));
+        }
+        if (array_key_exists(cache('backend_language', 'zh-tw'), config('backend.language', ['zh-tw' => '繁體中文']))) {
+            \App::setLocale(cache('backend_language'));
+        }
+        $backend_language = cache('backend_language', 'zh-tw');
+        if (!isset(config('backend.language')[$backend_language])) {
+            $backend_language = 'zh-tw';
+        }
+        $this->tpl_data['backend_language'] = $backend_language;
+        
+        // 判斷是否使用分站網址
+        $this->backend_url_suffix = '';
+        if (config('backend_url_suffix', false)) {
+            $this->backend_url_suffix = config('backend_url_suffix') . '/';
+        }
+        config(['dashboard.uri' => $this->backend_url_suffix . config('dashboard.uri')]);
+        
+        // 主導覽
+        $this->tpl_data['navigation_item'] = config('backend.navigation_item');
+    }
+
+    /**
      * 基本設定資料
      * 
      * @param $id_string            int 主資料 id 字串
@@ -47,28 +79,8 @@ trait ShareMethod
             }
         }
         
-        // 設定語言
-        // 如果有問題，執行清除動作
-        // cache()->flush();
-        // cache()->forget('backend_language');
-        if (request('lang', false)) {
-            cache()->forever('backend_language', request('lang'));
-        }
-        if (array_key_exists(cache('backend_language', 'zh-tw'), config('backend.language', ['zh-tw' => '繁體中文']))) {
-            \App::setLocale(cache('backend_language'));
-        }
-        $backend_language = cache('backend_language', 'zh-tw');
-        if (!isset(config('backend.language')[$backend_language])) {
-            $backend_language = 'zh-tw';
-        }
-        $this->tpl_data['backend_language'] = $backend_language;
-        
-        // 判斷是否使用分站網址
-        $this->backend_url_suffix = '';
-        if (config('backend_url_suffix', false)) {
-            $this->backend_url_suffix = config('backend_url_suffix') . '/';
-        }
-        config(['dashboard.uri' => $this->backend_url_suffix . config('dashboard.uri')]);
+        // 必要資料
+        $this->base();
 
         // 檢視刪除資料狀態判斷
         $this->tpl_data['trashed'] = request('trashed', false);
@@ -85,8 +97,7 @@ trait ShareMethod
         // 當前分頁
         $this->tpl_data['page'] = request('page', 1);
 
-        // 主導覽
-        $this->tpl_data['navigation_item'] = config('backend.navigation_item');
+        
     }
 
     /**
