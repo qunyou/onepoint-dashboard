@@ -98,7 +98,6 @@ class SettingController extends Controller
      */
     public function modelUpdate()
     {
-        $this->tpl_data['page_title'] = __('dashboard::backend.編輯');
         $model = request('model', 'global');
         $this->tpl_data['model'] = $model;
         // $this->tpl_data['formPresenter'] = new FormPresenter;

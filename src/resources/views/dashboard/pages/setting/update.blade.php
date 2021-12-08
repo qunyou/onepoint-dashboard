@@ -13,27 +13,17 @@
                     @lang('dashboard::setting.網站設定')
                 </a>
             </li>
-            <li class="breadcrumb-item" aria-current="page">
-                <a href="#">
-                    @if ($setting_id)
-                        @if (isset($duplicate) && $duplicate)
-                            @lang('dashboard::backend.複製')
-                        @else
-                            @lang('dashboard::backend.編輯')
-                        @endif
+            <li class="breadcrumb-item active" aria-current="page">
+                @if ($setting_id)
+                    @if (isset($duplicate) && $duplicate)
+                        @lang('dashboard::backend.複製')
                     @else
-                        @lang('dashboard::backend.新增')
+                        @lang('dashboard::backend.編輯')
                     @endif
-                </a>
+                @else
+                    @lang('dashboard::backend.新增')
+                @endif
             </li>
-
-            @if ($version)
-                <li class="breadcrumb-item" aria-current="page">
-                    <a href="#">
-                        @lang('dashboard::backend.版本檢視')
-                    </a>
-                </li>
-            @endif
         </ol>
     </nav>
 @endsection
@@ -43,6 +33,8 @@
 @endsection
 
 @section('main_block')
+    <div class="px-2 py-3 overflow-x">
+    </div>
     @component('dashboard::' . config('backend.template') . '.components.backend-update-card')
         <div class="form-body">
             @include('dashboard::select', ['input_setting' => [

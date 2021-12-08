@@ -10,9 +10,11 @@
                 {!! $input_array['prepend_str'] !!}
                 {!! $input_array['image_string'] !!}
                 {!! $input_array['depend_str'] !!}
-                <a class="btn btn-primary" href="{{ $input_array['delete_url'] }}">
-                    @lang('dashboard::backend.刪除')
-                </a>
+                @if (isset($input_array['delete_url']))
+                    <a class="btn btn-primary" href="{{ $input_array['delete_url'] }}">
+                        @lang('dashboard::backend.刪除')
+                    </a>
+                @endif
             </div>
         @endslot
     @endif
