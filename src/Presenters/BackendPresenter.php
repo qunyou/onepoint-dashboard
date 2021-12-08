@@ -117,6 +117,11 @@ class BackendPresenter
                     if ($current_url == $url) {
                         $sub_active = 'active';
                     }
+
+                    // Query string
+                    if (isset($value['query_string'])) {
+                        $url .= '?' . http_build_query($value['query_string']);
+                    }
                 }
 
                 // 其他要active的功能

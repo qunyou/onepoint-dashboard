@@ -522,6 +522,11 @@ class BaseRepository
                 $query = $query->whereOldVersion(0);
             }
         }
+
+        // 封存處理
+        if (in_array('archive_at', $this->model->getFillable())) {
+            $query = $query->whereNull('archive_at');
+        }
         if (is_array($order_by)) {
             foreach ($order_by as $key => $value) {
                 $query = $query->orderBy($key, $value);
