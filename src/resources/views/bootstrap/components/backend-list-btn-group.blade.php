@@ -90,6 +90,9 @@
                 @default
                     @foreach ($item as $item_key => $item_value)
                         <a class="{{ $link_class_string }}" href="{{ $item_value['url'] }}">
+                            @if (isset($item_value['icon']))
+                                {!! $item_value['icon'] !!}
+                            @endif
                             {!! $item_value['text'] ?? '' !!}
                         </a>
                     @endforeach

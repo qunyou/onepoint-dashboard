@@ -8,6 +8,8 @@ trait ShareMethod
 {
     public $tpl = [];
     protected $base_service;
+    public $pretreatment_namespace = false;
+    public $pretreatment_method = false;
 
     /**
      * 必要資料
@@ -223,20 +225,32 @@ trait ShareMethod
         return $component_datas;
     }
 
+    // 預處理
+    public function pretreatment($pretreatment_namespace, $pretreatment_method)
+    {
+        $this->pretreatment_namespace = $pretreatment_namespace;
+        $this->pretreatment_method = $pretreatment_method;
+        return $this;
+    }
+
     /**
      * 批次處理
      */
-    public function batch($repository, $settings)
+    public function batch($repository, $settings, $back_url = 'index')
     {
         // $settings['use_version'] = true;
-        $result = $repository->batch($settings);
+        if ($this->pretreatment_namespace) {
+            $result = $repository->pretreatment($this->pretreatment_namespace, $this->pretreatment_method)->batch($settings);
+        } else {
+            $result = $repository->batch($settings);
+        }
         switch ($result['batch_method']) {
             case 'restore':
             case 'force_delete':
-                $back_url_str = 'index?' . $this->base_service->getQueryString(true, true) . '&trashed=true';
+                $back_url_str = $back_url . '?' . $this->base_service->getQueryString(true, true) . '&trashed=true';
                 break;
             default:
-                $back_url_str = 'index?' . $this->base_service->getQueryString(true, true);
+                $back_url_str = $back_url . '?' . $this->base_service->getQueryString(true, true);
                 break;
         }
         return redirect($this->uri . $back_url_str);

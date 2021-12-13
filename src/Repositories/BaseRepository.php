@@ -88,6 +88,12 @@ class BaseRepository
     // 是否使用版本功能
     public $use_version = true;
 
+    // 預處理物件
+    public $pretreatment_namespace = false;
+    
+    // 預處理物件方法
+    public $pretreatment_method = false;
+
     /**
      * 除錯模式
      *
@@ -503,7 +509,7 @@ class BaseRepository
      * @ignore  Integer         $limit      查詢筆數， 值為 0 時不限制
      * @return Object|Boolean
      */
-    public function fetchList($query, $id = 0, $paginate = 0, $order_by = 'sort', $limit = 0)
+    public function fetchList($query, $id = 0, $paginate = 0, $order_by = 'sort', $limit = 0, $archive = false)
     {
         if ($this->debug) {
             DB::enableQueryLog();
@@ -525,7 +531,11 @@ class BaseRepository
 
         // 封存處理
         if (in_array('archive_at', $this->model->getFillable())) {
-            $query = $query->whereNull('archive_at');
+            if ($archive) {
+                $query = $query->whereNotNull('archive_at');
+            } else {
+                $query = $query->whereNull('archive_at');
+            }
         }
         if (is_array($order_by)) {
             foreach ($order_by as $key => $value) {
@@ -690,6 +700,14 @@ class BaseRepository
         return $q;
     }
 
+    // 預處理
+    public function pretreatment($pretreatment_namespace, $pretreatment_method)
+    {
+        $this->pretreatment_namespace = $pretreatment_namespace;
+        $this->pretreatment_method = $pretreatment_method;
+        return $this;
+    }
+
     /**
      * 批次處理
      * @return array  ['datas_count' => '處理成功的資料筆數', 'batch_method' => '批次的方法，供導回原頁面用']
@@ -703,10 +721,12 @@ class BaseRepository
             $delete = request('delete', false);
             $force_delete = request('force_delete', false);
             $restore = request('restore', false);
-            $hide = request('hide', false);
-            $show = request('show', false);
+            // $hide = request('hide', false);
+            // $show = request('show', false);
             $status_enable = request('status_enable', false);
             $status_disable = request('status_disable', false);
+            $set_archive = request('set_archive', false);
+            $unset_archive = request('unset_archive', false);
 
             // 置頂
             $set_top = request('set_top', false);
@@ -831,6 +851,18 @@ class BaseRepository
                 ]);
             }
 
+            // 封存
+            if ($set_archive) {
+                $this->model->whereIn('id', $checked_id)->update([
+                    'archive_at' => date('Y-m-d H:i:s')
+                ]);
+            }
+            if ($unset_archive) {
+                $this->model->whereIn('id', $checked_id)->update([
+                    'archive_at' => null
+                ]);
+            }
+
             // 熱門
             if ($set_hot) {
                 $this->model->whereIn('id', $checked_id)->where(config('db_status_name'), config('db_status_true_string'))->update([
@@ -862,6 +894,14 @@ class BaseRepository
             session()->flash('notify.type', 'success');
             // $result['datas_count'] = count($set_sort);
             $result['batch_method'] = 'set_sort';
+        }
+        if ($this->pretreatment_namespace) {
+            $obj = new $this->pretreatment_namespace;
+            $obj->{$this->pretreatment_method}([
+                'checked_id' => $checked_id,
+                'set_archive' => $set_archive,
+                'unset_archive' => $unset_archive,
+            ]);
         }
         return $result;
     }
