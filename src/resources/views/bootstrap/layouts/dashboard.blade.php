@@ -114,9 +114,9 @@
             </div>
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
-        <script src="/assets/dashboard/js/dashboard.js?v=1.0.02" type="text/javascript"></script>
+        <script src="/assets/dashboard/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="/assets/dashboard/js/popper.min.js"></script>
+        <script src="/assets/dashboard/js/dashboard.js?v=1.0.01" type="text/javascript"></script>
         @if (isset($component_datas['use_drag_rearrange']) && $component_datas['use_drag_rearrange'])
             <script src="https://cdnjs.cloudflare.com/ajax/libs/TableDnD/0.9.1/jquery.tablednd.js" integrity="sha256-d3rtug+Hg1GZPB7Y/yTcRixO/wlI78+2m08tosoRn7A=" crossorigin="anonymous"></script>
         @endif
