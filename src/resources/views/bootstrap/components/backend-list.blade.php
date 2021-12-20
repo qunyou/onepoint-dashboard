@@ -37,7 +37,7 @@
             <div class="col-auto">
                 @if (!isset($footer_dropdown_hide) || (isset($footer_dropdown_hide) && !$footer_dropdown_hide))
                     @if (!$version)
-                        <div class="dropdown">
+                        <div class="dropdown d-none js-dropdown">
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownFooterMenu" data-bs-toggle="dropdown" aria-expanded="false">
                                 @lang('dashboard::backend.選取項目')
                             </button>
@@ -46,12 +46,12 @@
                                     @if (!isset($footer_status_hide) || (isset($footer_status_hide) && !$footer_status_hide))
                                     <li>
                                         <button type="submit" name="force_delete" value="force_delete" class="dropdown-item">
-                                            <i class="fa fa-trash"></i>@lang('dashboard::backend.永久刪除')
+                                            <i class="fa fa-trash me-2"></i>@lang('dashboard::backend.永久刪除')
                                         </button>
                                     </li>
                                     <li>
                                         <button type="submit" name="restore" value="restore" class="dropdown-item">
-                                            <i class="fa fa-recycle"></i>@lang('dashboard::backend.還原')
+                                            <i class="fa fa-recycle me-2"></i>@lang('dashboard::backend.還原')
                                         </button>
                                     </li>
                                     @endif
@@ -59,19 +59,31 @@
                                     @if (!isset($footer_status_hide) || (isset($footer_status_hide) && !$footer_status_hide))
                                         <li>
                                             <button type="submit" name="status_enable" value="status_enable" class="dropdown-item">
-                                                <i class="fas fa-eye"></i>@lang('dashboard::backend.啟用')
+                                                <i class="fas fa-eye me-2"></i>@lang('dashboard::backend.啟用')
                                             </button>
                                         </li>
                                         <li>
                                             <button type="submit" name="status_disable" value="status_disable" class="dropdown-item">
-                                                <i class="fas fa-eye-slash"></i>@lang('dashboard::backend.停用')
+                                                <i class="fas fa-eye-slash me-2"></i>@lang('dashboard::backend.停用')
                                             </button>
                                         </li>
                                     @endif
                                     @if (!isset($footer_delete_hide) || (isset($footer_delete_hide) && !$footer_delete_hide))
                                         <li>
                                             <button type="submit" name="delete" value="delete" class="dropdown-item">
-                                                <i class="fa fa-trash"></i>@lang('dashboard::backend.刪除')
+                                                <i class="fa fa-trash me-2"></i>@lang('dashboard::backend.刪除')
+                                            </button>
+                                        </li>
+                                    @endif
+                                    @if (isset($footer_archive_show) && $footer_archive_show)
+                                        <li>
+                                            <button type="submit" name="set_archive" value="set_archive" class="dropdown-item">
+                                                <i class="fas fa-box me-2"></i>@lang('dashboard::backend.封存')
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button type="submit" name="set_archive" value="unset_archive" class="dropdown-item">
+                                                <i class="fas fa-box-open me-2"></i>@lang('dashboard::backend.取消封存')
                                             </button>
                                         </li>
                                     @endif
@@ -99,7 +111,7 @@
                                 @endif
                                 @if (isset($use_check_box) && $use_check_box)
                                 <th class="check_all_width">
-                                    <input type="checkbox" name="select_all" id="select_all" value="" data-toggle="tooltip" data-original-title="@lang('dashboard::backend.全選')" />
+                                    <input type="checkbox" name="select_all" id="select_all" value="" data-bs-toggle="tooltip" data-bs-placement="top" title="@lang('dashboard::backend.全選')" />
                                 </th>
                                 @endif
                             @endif
@@ -518,7 +530,7 @@
                 <div class="col-auto">
                     @if (!isset($footer_dropdown_hide) || (isset($footer_dropdown_hide) && !$footer_dropdown_hide))
                         @if (!$version)
-                            <div class="dropdown">
+                            <div class="dropdown d-none js-dropdown">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownFooterMenu" data-bs-toggle="dropdown" aria-expanded="false">
                                     @lang('dashboard::backend.選取項目')
                                 </button>
@@ -527,12 +539,12 @@
                                         @if (!isset($footer_status_hide) || (isset($footer_status_hide) && !$footer_status_hide))
                                         <li>
                                             <button type="submit" name="force_delete" value="force_delete" class="dropdown-item">
-                                                <i class="fa fa-trash"></i>@lang('dashboard::backend.永久刪除')
+                                                <i class="fa fa-trash me-2"></i>@lang('dashboard::backend.永久刪除')
                                             </button>
                                         </li>
                                         <li>
                                             <button type="submit" name="restore" value="restore" class="dropdown-item">
-                                                <i class="fa fa-recycle"></i>@lang('dashboard::backend.還原')
+                                                <i class="fa fa-recycle me-2"></i>@lang('dashboard::backend.還原')
                                             </button>
                                         </li>
                                         @endif
@@ -540,19 +552,31 @@
                                         @if (!isset($footer_status_hide) || (isset($footer_status_hide) && !$footer_status_hide))
                                             <li>
                                                 <button type="submit" name="status_enable" value="status_enable" class="dropdown-item">
-                                                    <i class="fas fa-eye"></i>@lang('dashboard::backend.啟用')
+                                                    <i class="fas fa-eye me-2"></i>@lang('dashboard::backend.啟用')
                                                 </button>
                                             </li>
                                             <li>
                                                 <button type="submit" name="status_disable" value="status_disable" class="dropdown-item">
-                                                    <i class="fas fa-eye-slash"></i>@lang('dashboard::backend.停用')
+                                                    <i class="fas fa-eye-slash me-2"></i>@lang('dashboard::backend.停用')
                                                 </button>
                                             </li>
                                         @endif
                                         @if (!isset($footer_delete_hide) || (isset($footer_delete_hide) && !$footer_delete_hide))
                                             <li>
                                                 <button type="submit" name="delete" value="delete" class="dropdown-item">
-                                                    <i class="fa fa-trash"></i>@lang('dashboard::backend.刪除')
+                                                    <i class="fa fa-trash me-2"></i>@lang('dashboard::backend.刪除')
+                                                </button>
+                                            </li>
+                                        @endif
+                                        @if (isset($footer_archive_show) && $footer_archive_show)
+                                            <li>
+                                                <button type="submit" name="set_archive" value="set_archive" class="dropdown-item">
+                                                    <i class="fas fa-box me-2"></i>@lang('dashboard::backend.封存')
+                                                </button>
+                                            </li>
+                                            <li>
+                                                <button type="submit" name="set_archive" value="unset_archive" class="dropdown-item">
+                                                    <i class="fas fa-box-open me-2"></i>@lang('dashboard::backend.取消封存')
                                                 </button>
                                             </li>
                                         @endif

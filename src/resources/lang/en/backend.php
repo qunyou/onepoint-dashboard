@@ -50,6 +50,8 @@ return [
     '還原' => 'Reduction',
     '刪除' => 'Delete',
     '複製' => 'Copy',
+    '封存' => 'Archive',
+    '取消封存' => 'Unarchive',
     '設定前端顯示' => 'Setting the front display',
     '設定前端隱藏' => 'Set front-end hiding',
     '共' => 'Total',
