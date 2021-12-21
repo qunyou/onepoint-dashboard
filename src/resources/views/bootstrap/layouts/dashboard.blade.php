@@ -116,7 +116,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script src="/assets/dashboard/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="/assets/dashboard/js/popper.min.js"></script>
-        <script src="/assets/dashboard/js/dashboard.js?v=1.0.01" type="text/javascript"></script>
+        <script src="/assets/dashboard/js/dashboard.js?v=1.0.02" type="text/javascript"></script>
         @if (isset($component_datas['use_drag_rearrange']) && $component_datas['use_drag_rearrange'])
             <script src="https://cdnjs.cloudflare.com/ajax/libs/TableDnD/0.9.1/jquery.tablednd.js" integrity="sha256-d3rtug+Hg1GZPB7Y/yTcRixO/wlI78+2m08tosoRn7A=" crossorigin="anonymous"></script>
         @endif
