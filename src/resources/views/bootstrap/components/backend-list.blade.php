@@ -318,6 +318,9 @@
                                             @case('image')
                                                 {!! $image_service->{$value['method']}($element->{$value['column_name']}, '', '', $value['folder_name']) !!}
                                                 @break
+                                            @case('file')
+                                                <a href="{{ url('storage/uploads/' . config('http_host') . '/' . $value['folder_name'] . '/' . $element->{$value['file_name_column']} ) }}" target="_blank">{{ $element->{$value['column_name']} }}</a>
+                                                @break
                                             @case('url')
                                                 @php
                                                     $url_string = $value['url'];
