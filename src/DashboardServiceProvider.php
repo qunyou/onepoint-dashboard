@@ -25,19 +25,12 @@ class DashboardServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // dd(SideItem::class);
         $this->loadViewsFrom(__DIR__ . '/resources/views', 'dashboard');
         $this->loadRoutesFrom(__DIR__.'/routes/web.php');
         // $this->loadMigrationsFrom(__DIR__.'/database/migrations');
         $this->mergeConfigFrom(__DIR__.'/config/dashboard.php', 'dashboard');
         $this->loadTranslationsFrom(__DIR__.'/resources/lang', 'dashboard');
-
-        // dd(Side::class);
-        // Blade::component('side-item', SideItem::class);
-        Blade::component('side-item', 'SideItem');
-
-        // $this->callAfterResolving(BladeCompiler::class, function () {
-        //     Blade::component('dashboard::side-item', SideItem::class);
-        // });
 
         // 發佈至 public 目錄的指令
         // php artisan vendor:publish --tag=public --force
