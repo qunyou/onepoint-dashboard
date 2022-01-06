@@ -6,15 +6,14 @@
 </div>
 @endif
 
-@if (isset($button_block))
-<div class="px-2 py-3 overflow-x">
-    {!! $button_block !!}
-</div>
-@endif
-
 <form id="form-submit" method="post" action="" enctype="multipart/form-data">
     @csrf
     @method('PUT')
+    @if (isset($button_block))
+        <div class="px-2 py-3 overflow-x">
+            {!! $button_block !!}
+        </div>
+    @endif
     <div class="card-update">
         {{-- <div class="card-body"> --}}
             {{ $slot }}
