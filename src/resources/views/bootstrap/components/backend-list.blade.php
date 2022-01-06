@@ -256,7 +256,7 @@
                                                                     $value_string = $element[$value['with']];
                                                                 }
                                                                 for ($i=0; $i < $column_name_array_count; $i++) { 
-                                                                    $value_string = $value_string[$column_name_array[$i]];
+                                                                    $value_string = $value_string[$column_name_array[$i]] ?? '';
                                                                 }
                                                             } else {
                                                                 if (is_array($value['with'])) {
@@ -275,7 +275,7 @@
                                                         if ($column_name_array_count > 1) {
                                                             $value_string = $element[$value['with']];
                                                             for ($i=0; $i < $column_name_array_count; $i++) { 
-                                                                $value_string = $value_string[$column_name_array[$i]];
+                                                                $value_string = $value_string[$column_name_array[$i]] ?? '';
                                                             }
                                                         } else {
                                                             $value_string = $element->{$value['with']}->{$value['column_name']} ?? '';
