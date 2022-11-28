@@ -726,7 +726,7 @@ class BaseRepository
             $status_enable = request('status_enable', false);
             $status_disable = request('status_disable', false);
             $set_archive = request('set_archive', false);
-            $unset_archive = request('unset_archive', false);
+            // $unset_archive = request('unset_archive', false);
 
             // 置頂
             $set_top = request('set_top', false);
@@ -853,14 +853,15 @@ class BaseRepository
 
             // 封存
             if ($set_archive) {
-                $this->model->whereIn('id', $checked_id)->update([
-                    'archive_at' => date('Y-m-d H:i:s')
-                ]);
-            }
-            if ($unset_archive) {
-                $this->model->whereIn('id', $checked_id)->update([
-                    'archive_at' => null
-                ]);
+                if ($set_archive == 'unset_archive') {
+                    $this->model->whereIn('id', $checked_id)->update([
+                        'archive_at' => null
+                    ]);
+                } else {
+                    $this->model->whereIn('id', $checked_id)->update([
+                        'archive_at' => date('Y-m-d H:i:s')
+                    ]);
+                }
             }
 
             // 熱門

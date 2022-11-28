@@ -37,7 +37,8 @@
             <div class="col-auto">
                 @if (!isset($footer_dropdown_hide) || (isset($footer_dropdown_hide) && !$footer_dropdown_hide))
                     @if (!$version)
-                        <div class="dropdown d-none js-dropdown">
+                        {{-- d-none --}}
+                        <div class="dropdown js-dropdown">
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownFooterMenu" data-bs-toggle="dropdown" aria-expanded="false">
                                 @lang('dashboard::backend.選取項目')
                             </button>
@@ -279,6 +280,9 @@
                                                             }
                                                         } else {
                                                             $value_string = $element->{$value['with']}->{$value['column_name']} ?? '';
+                                                        }
+                                                        if (isset($value['not_has']) && empty($value_string)) {
+                                                            $value_string = $value['not_has'];
                                                         }
                                                     @endphp
                                                     {{ $value_string ?? '' }}
@@ -533,7 +537,7 @@
                 <div class="col-auto">
                     @if (!isset($footer_dropdown_hide) || (isset($footer_dropdown_hide) && !$footer_dropdown_hide))
                         @if (!$version)
-                            <div class="dropdown d-none js-dropdown">
+                            <div class="dropdown js-dropdown">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownFooterMenu" data-bs-toggle="dropdown" aria-expanded="false">
                                     @lang('dashboard::backend.選取項目')
                                 </button>
