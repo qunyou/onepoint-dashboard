@@ -429,6 +429,14 @@
                                                             $button_items['items']['複製'] = ['url' => url($uri . 'duplicate?' . $id_string . '=' . $element->id . $duplicate_url_suffix)];
                                                         }
                                                     }
+                                                    if ($use_delete) {
+                                                        if (!config('user.use_role') || auth()->user()->hasAccess(['delete-' . $permission_controller_string])) {
+                                                            if (!isset($delete_url_suffix)) {
+                                                                $delete_url_suffix = '';
+                                                            }
+                                                            $button_items['items']['刪除'] = ['url' => url($uri . 'delete?' . $id_string . '=' . $element->id . $delete_url_suffix)];
+                                                        }
+                                                    }
                                                     if (isset($preview_url) && !empty($preview_url)) {
                                                         $button_items['items']['預覽'] = ['url' => url($preview_url['url'] . $element->{$preview_url['column']})];
                                                     }

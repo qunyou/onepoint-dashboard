@@ -127,6 +127,9 @@ trait ShareMethod
         // 是否使用複製功能
         $component_datas['use_duplicate'] = false;
 
+        // 是否使用刪除功能
+        $component_datas['use_delete'] = false;
+
         // 是否使用版本功能
         $component_datas['use_version'] = false;
 
